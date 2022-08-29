@@ -1,0 +1,26 @@
+<section>
+  <div class="recommend  recommendSwiper recommendId {{isSwiper}}" id="{{id}}" len="{{data.goods.size}}"
+    maxlen="{{len}}">
+    {% if data.recommendName %}
+    <div class="title"><span>{{data.recommendName}}</span></div>
+    {% endif %}
+    <div class="content">
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          {% for item in data.goods limit:limit %}
+          <div class="swiper-slide animate_product">
+            {% render 'Kronosfr/pc/components/productItem_pc.liquid' isshowShopNow:isshowShopNow, item:item %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="swiper-button-next {{isshowbutton}}"></div>
+      <div class="swiper-button-prev {{isshowbutton}}"></div>
+    </div>
+  </div>
+
+</section>
+<script>
+
+  checkActiveTime()
+</script>

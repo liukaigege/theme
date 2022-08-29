@@ -1,0 +1,97 @@
+{% layout 'Athena/components/Athena_theme' name:'productList' %}
+{% assign moneyStatus = true %}
+{% block 'content' %}
+{% render 'Athena/components/pageHeader',configData: blockData.first,isMobilePhone: isMobilePhone,OBJ:data,moneyStatus:moneyStatus %}
+{% assign productList = ROWS | filterData %}
+{% assign sortRule = data.categoryData.sortModel.sortRule %}
+
+{% if ROWS != 1 %}
+{% if ROWS.picWap.size>0 %}
+<div class="categoryImg" style="background-image: url({{ROWS.picWap}})"></div>
+{% elsif ROWS.picPc.size>0 %}
+<div class="categoryImg" style="background-image: url({{ROWS.picPc}})"></div>
+{% else %}
+{% endif %}
+{% endif %}
+
+<section class="athena-productList">
+  <div class="athena-productList-title" categoryid="{{ROWS.id}}">
+    {% if ROWS == 1 %}
+    <p>
+      <span class="overflow" id="title">ALL PRODUCTS</span>
+      <span all="1" class="total" id="total"></span>
+    </p>
+    {% else %}
+    <p>
+      <span class="overflow" id="title">{{ ROWS.name }}</span>
+      <span all="0" class="total" id="total"></span>
+    </p>
+    {% endif %}
+
+  </div>
+  <div class="productListBox">
+    <div class="athena-productList-filter">
+      <ul class="clearfix athena-filter-father">
+        <li>
+          <div class="athena-changeView" id="Juxtaposition">
+            <span></span>
+            <span></span>
+          </div>
+          <div class="athena-changeView" id="notJuxtaposition">
+            <span></span>
+          </div>
+        </li>
+        <li id="Sort" open="false">
+          <span>Sort By</span>
+          <img alt="" class="triangle" src="../assets/wap/images/xiala_icon@2x.png">
+        </li>
+      </ul>
+      <ul class="athena-filter-child Sort">
+        {% for item in sortRule %}
+        {% if item[1].val == "Price" %}
+        <li class="clearfix" value="{{item[1].key}}" sortmode="0">
+          <div class="athena-filter-child-name">
+            {{item[1].val}}
+            <img alt="" src="../assets/wap/images/s_icon@2x.png">
+
+          </div>
+          <div class="athena-filter-child-check" sortrule="{{item[0]}}" sortmode="0">
+            <img alt="" src="../assets/wap/images/home_check_icon@2x.png">
+          </div>
+        </li>
+        <li class="clearfix" value="{{item[1].key}}" sortmode="1">
+          <div class="athena-filter-child-name">
+            {{item[1].val}}
+            <img alt="" src="../assets/wap/images/j_icon@2x.png">
+          </div>
+          <div class="athena-filter-child-check " sortrule="{{item[0]}}" sortmode="1">
+            <img alt="" src="../assets/wap/images/home_check_icon@2x.png">
+          </div>
+        </li>
+        {% else %}
+        <li class="clearfix" value="{{item[1].key}}" sortmode="1">
+          <div class="athena-filter-child-name">
+            {{item[1].val}}
+          </div>
+          <div class="athena-filter-child-check " sortrule="{{item[0]}}">
+            <img alt="" src="../assets/wap/images/home_check_icon@2x.png">
+          </div>
+        </li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+
+    </div>
+    <div class="athena-productList-cantainer">
+      {% render 'Athena/wap/components/product_item.liquid' %}
+
+    </div>
+  </div>
+
+  {% render 'Athena/wap/components/empty.liquid' showRecommend:false %}
+</section>
+{% render 'Athena/wap/components/load.liquid' %}
+{% if data.configData.commomCoupon[0].categoryDisplay == 1 %}
+{% render 'Athena/components/coupon.liquid' ,OBJ:data %}
+{% endif %}
+{% endblock %}

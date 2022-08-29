@@ -1,0 +1,552 @@
+{% layout 'Athena/components/Athena_theme_pc' name:'productDetail' %}
+{% assign detail = ROWS %}
+{% block 'content' %}
+<script type="application/ld+json">
+{
+"@context": "http://schema.org/",
+"@type": "Product",
+"sku":"{{detail.id}}",
+"image": "{{detail.mainImg}}",
+"name": "{{detail.goodsName}}",
+"description": "",
+"brand":"",
+"url": "",
+"offers": {
+"@type": "Offer",
+"priceCurrency": "USD",
+"price": "{{detail.defaultPrice}}",
+"itemCondition":"new",
+"availability":"https://schema.org/InStock"
+}
+}
+</script>
+<!-- 头部 -->
+{% if data.configData.commomCoupon[0].detailsDisplay == 1 %}
+{% render 'Athena/components/coupon.liquid' ,OBJ:data,isMobilePhone:0 %}
+{% endif %}
+{% render 'Athena/components/pageHeader',configData: blockData.first,isMobilePhone: 0,OBJ:data %}
+<input type="hidden" id="productId" value="{{detail.id}}">
+{% if isPreview and isPreview != '' %}
+<input type="hidden" id="isPreview" value="{{isPreview}}">
+{% endif %}
+{% assign currency = data.configData.currency %}
+{% for i in currency %}
+{% if i.mainCurrency==1%}
+{% assign currentRate = i %}
+{% break %}
+{% endif%}
+{% endfor%}
+<div class="p_width product_details">
+  <div class="crumbs m_tb_20">
+    <ul>
+      <li class="m_nav"><a href="./">Home</a></li>
+      <li class="c_title">{{detail.goodsName}}</li>
+    </ul>
+  </div>
+  <div class="product clearfix">
+    <div class="p_main fl">
+      <div class="p_swiper">
+        <div class="picFocus clearfix">
+          <div class="b_bd">
+            <div class="b_bd_inner">
+              <div class="swiper-container gallery-top">
+                <div class="swiper-wrapper">
+                  {% for item in detail.resourceList %}
+                  {% if item.type == 1 %}
+                  <div class="swiper-slide" data-src="{{item.originalUrl}}" data-exthumbimage="{{item.url}}" {% if
+                    detail.speType==3 %}data-sub-html="<img src='../assets/pc/images/3D@2x.png'>" {% endif %}>
+                    <img class="product-gallery__image" data-suffix-img="{{item.url}}" src="{{item.url}}">
+                  </div>
+                  {% elsif item.type == 2 %}
+                  <div class="videoType swiper-slide" cover="{{item.cover}}" data-poster="{{item.cover}}"
+                    data-html="#video1" video="{{item.url}}">
+                    <img class="product-gallery__image" data-src="{{item.cover}}" src="{{item.cover}}"
+                      data-suffix-img="{{item.cover}}">
+                    <img src="../assets/pc/images/play.png" class="playBtn hide">
+                    <div class="play_box pa hide"></div>
+                    <div style="display:none;" id="video1">
+                      <video class="lg-video-object lg-html5 video-js vjs-default-skin" controls preload="none">
+                        <source src="{{item.url}}" type="video/mp4">
+                        Your browser does not support HTML5 video.
+                      </video>
+                    </div>
+                  </div>
+                  {% endif %}
+                  {% endfor %}
+
+                  {% if detail.speType == 1 %}
+                  {% for val in detail.skuList %}
+                  {% if val.skuImg != '' and val.skuImg != null %}
+                  <div class="img_box hide" data-src="{{val.skuImg}}" data-skuid='{{val.id}}'><img
+                      class="childDom product-gallery__image" src="{{val.skuImg}}"></div>
+                  {% endif %}
+                  {% endfor %}
+                  {% endif %}
+
+                  {% if detail.speType == 3 or detail.speType == 2 %}
+                  {% if detail.hasOwnProperty('idAndImgs') and detail.idAndImgs.length > 0 %}
+                  {% for val in detail.idAndImgs %}
+                  <div class="img_box hide" data-src="{{val.value}}" data-skuid='{{val.id}}'>
+                    <img class="childDom product-gallery__image" src="{{val.value}}">
+                  </div>
+                  {% endfor %}
+                  {% endif %}
+                  {% endif %}
+                </div>
+                <a class="prev sBtn" href="javascript:void(0)"></a>
+                <a class="next sBtn" href="javascript:void(0)"></a>
+              </div>
+            </div>
+            {% if detail.speType==3 %}
+            <img src="../assets/pc/images/3D@2x.png" class="threeDSweiperImage"
+              style="width: 2em; position: absolute; top: 1em; right: 1em; z-index: 4;display: none;" alt="">
+            {% endif %}
+          </div>
+          <div class="h_hd">
+            <div class="h_inner">
+              <div class="swiper-container gallery-thumbs">
+                <div class="swiper-wrapper">
+                  {% for item in detail.resourceList %}
+                  {% if item.type == 1 %}
+                  <div class="swiper-slide"><img class="i_img" data-suffix-img="{{item.url}}" src="{{item.url}}"></div>
+                  {% elsif item.type == 2 %}
+                  <div class="videoType swiper-slide" cover="{{item.cover}}" video="{{item.url}}">
+                    <img class="i_img" src="{{item.cover}}" data-suffix-img="{{item.cover}}">
+                    <img src="../assets/pc/images/play.png" class="childBtn">
+                  </div>
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="zBtn_wrap">
+                <a class="next zBtn" href="javascript:void(0)"></a>
+                <a class="prev zBtn" href="javascript:void(0)"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="descr" data-description="{{detail.description}}">
+        <h3 class="d_title">DESCRIPTION</h3>
+        <div class="d_text clearfix"></div>
+      </div>
+      <div class="comment">
+        <div class="c_score">
+          <span class="c_title">COMMENTS</span>{% if detail.commentScore and detail.commentList.size>0 %}{% render
+          'Athena/pc/components/star_pc.liquid',data:
+          detail.commentScore | at_least: 1 | at_most: 5 %}{% endif %}
+        </div>
+        <div class="review m_lr_20">
+          <span class="reviewBtn">Leave a comment</span>
+          <form id="comment_form" novalidate class="review_form layui-form hide" onsubmit="return false;">
+            <h4>Leave a comment</h4>
+            <div class="layui-form-item">
+              <label class="spr-form-label" for="review_author">Name</label>
+              <input name="name" lay-verify="required|len" lay-reqtext="Enter your name" id="review_author"
+                class="c_input" type="text" value="" maxlength='100' placeholder="Enter your name">
+            </div>
+            <div class="layui-form-item">
+              <label class="spr-form-label" for="review_email">Email</label>
+              <input name="email" required="" lay-verify="required|len|newEmail" lay-reqtext="Enter your email address"
+                class="c_input" id="review_email" type="email" value="" placeholder="Enter your email address">
+            </div>
+            <div class="layui-form-item">
+              <label class="spr-form-label" for="review">Rating</label>
+              <div class="s_wrap">
+                <span class="star_wrap min"><i class="star empty"></i><i class="star empty"></i><i
+                    class="star empty"></i><i class="star empty"></i><i class="star empty"></i></span>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="spr-form-label" for="review">Comments Photo</label>
+              <ul class="addCommentItem"></ul>
+              <a href="javascript:;" class="addImgBtn">
+                <img src="../assets/wap/images/addImgBtn.png">Photo
+                <input class="addImgFile pro-file" title="select file" type="file" multiple="multiple">
+              </a>
+            </div>
+            <div class="layui-form-item">
+              <label class="spr-form-label" for="review_title">Body of Review (1500)</label>
+              <textarea lay-verify="required" lay-reqtext="Leave your comments here"
+                class="spr-form-input spr-form-input-textarea " id="review_body" name="comment" rows="10"
+                placeholder="Leave your comments here"></textarea>
+            </div>
+            <div class="layui-form-item">
+              <button type="button"
+                class="layui-btn spr-button spr-button-primary button button-primary btn btn-primary" lay-submit=""
+                lay-filter="commentBtn">Submit Review</button>
+            </div>
+          </form>
+        </div>
+        {% if detail.commentList.size > 0 %}
+        {% render 'Athena/pc/components/comList_pc.liquid',data: detail.commentList %}
+        {% endif %}
+      </div>
+    </div>
+    <div class="p_slide fr">
+      <div class="pro_details">
+        <div id="product-zoom-product-template" class="product__zoom-wrapper"></div>
+        <h3 class="title" data-goodsVersion="{{detail.goodsVersion}}" data-id="{{detail.id}}"
+          data-speType="{{detail.speType}}" data-mainImg="{{detail.mainImg}}">{{detail.goodsName}}</h3>
+        <p class="item_no">Item NO.: {{detail.goodsNum}}</p>
+        {% if detail.visitNum > 0 or detail.sales > 0 or detail.commentScore > 0 %}
+        <div class="p_views" data-views="{{detail.visitNum}}">
+          {% if detail.visitNum > 0%}{% if detail.visitNum < 9999 %}<i class="view b_icon">{{detail.visitNum}}
+            Views</i>{% else %}<i class="view b_icon">9999+ Views</i>{% endif %}{% endif %}{% if detail.sales > 0 %}{%
+            if detail.sales < 9999 %}<i class="sales b_icon">Sales({{detail.sales}})</i>{% else %}<i
+                class="sales b_icon">Sales({{9999}}+)</i>{% endif %}{% endif %}
+              {% if detail.commentScore and detail.commentList.size > 0 %}{% render
+              'Athena/pc/components/star_pc.liquid',data: detail.commentScore | at_least: 1 | at_most: 5 %}{% endif %}
+        </div>
+        {% endif %}
+        <div class="allPirce">
+          <p class="o_price hide"></p>
+          <p class="c_price hide" base-price="{{detail.defaultPrice}}"></p>
+          <div class="discount pa hide" data-start="{{detail.discountStaTime}}" data-end="{{detail.discountEndTime}}">
+            <div class="d_inner">
+              <div class="c_inner"><i class="d_num"></i>%<i class="text">OFF</i></div>
+            </div>
+          </div>
+        </div>
+        <div class="details_coupon_wrap"></div>
+      </div>
+      {% render 'Athena/pc/components/attr_pc.liquid',data: detail%}
+
+    </div>
+  </div>
+</div>
+<div id="recommend-section_swiper">
+  <div class="title"><span>you may also like </span></div>
+  <div class="swiper-container newProducts_details" id='recommend_products_swiper'>
+    <div class="newProducts_details swiper-wrapper">
+      {%assign relationListPro = detail | relationList:data.categoryData,data.detailData %}
+      {% for item in relationListPro %}
+      <div class="swiper-slide">
+        <a href="productDetail_{{item.id}}.html">
+          <div class="cover_wrap">
+            <div class="discount_wrap">
+              {%if item.freeShipping == 1%}
+              <div class="free_shipping">
+                FREE SHIPPING
+              </div>
+              {% endif %}
+              {% if item.originalPrice > item.defaultPrice %}
+              <span class="discount pa">
+                <span class="in">
+                  <em class="num"><i class="d_num">{{item.defaultPrice | offShow:item.originalPrice}}</i>%</em><em
+                    class="text">OFF</em>
+                </span>
+              </span>
+              {% endif %}
+            </div>
+            <img class="{%if item.otherImg != '' and item.otherImg != null%}mainRelationListImg{% endif %} cover" src=""
+              data-suffix-img="{{item.mainImg}}" alt="">
+            {%if item.otherImg != '' and item.otherImg != null%}
+            <img class="associateRelationListImg cover" src="" data-suffix-img="{{item.otherImg}}" alt="">
+            {% endif %}
+          </div>
+          <p class="m_title">{{item.goodsName}}</p>
+          <div class="price">
+            {% if item.originalPrice > item.defaultPrice %} <span class="old_price"
+              p-price="{{ item.originalPrice }}">{{
+              item.originalPrice |
+              switchRate:currentRate}}</span>
+            {% endif %}
+            <span class="now_price" p-price="{{ item.defaultPrice }}">{{ item.defaultPrice | switchRate:currentRate
+              }}</span>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="swiper-prev"></div>
+  <div class="swiper-next"></div>
+</div>
+<div class="threeDModal">
+  <div class="threeDModalContent">
+    <img src="../assets/pc/images/ts_icon@2x.png" class="lingdang" alt="">
+    <div class="threeDModalTipsText">Please visit the website by your mobile phone for customized products</div>
+    <div class="threeDModalCloose">OK</div>
+  </div>
+</div>
+{% raw %}
+<!-- 优惠券模板 -->
+<script id="couponTpl" type="text/html">
+    <ul class="clearfix">
+    {{#  layui.each(d, function(index, item){ }}
+      {{# if (item.activitiesRule == '0') { }}
+        {{# if (item.ruleResult == '0') { }}
+          <li data-id="{{item.id}}" data-start="{{item.start}}" data-end="{{item.end}}" data="{{item.ruleDesc}}">
+            <div class="coupon-inner">
+              <div class="top-coupon single">
+                <i class="symbol">{{ String(getSpaceMoney(item.ruleResultValue)).split(' ')[0]}}</i>
+                <i class="money">
+                  {{# 
+                    var fn = function(money){
+                      var totalMoeny = getSpaceMoney(money).split(' ')[1].split('.')[1];
+                      var preMoeny = '';
+                      if(totalMoeny == '00' || totalMoeny == '0'){
+                         preMoeny =  getSpaceMoney(money).split(' ')[1].split('.')[0];
+                      }else{
+                        if(getSpaceMoney(money).split(' ')[1].indexOf('.') != -1){
+                          var cutBefore = getSpaceMoney(money).split(' ')[1].split('.')[0],
+                              cutAfter = getSpaceMoney(money).split(' ')[1].split('.')[1].substr(0,1);
+                              if(cutAfter != 0){
+                                preMoeny =  cutBefore +'.'+ cutAfter.substr(0,1);
+                              }else{
+                                preMoeny =  cutBefore;
+                              }
+                              
+                        }else{
+                          preMoeny =  getSpaceMoney(money).split(' ')[1];
+                        }
+                      }
+                      return preMoeny;
+                    }; 
+                  }}
+                  {{ fn(item.ruleResultValue) }}
+                </i>
+              </div>
+              <div class="bottom-coupon">GET</div>
+            </div>
+          </li>
+        {{# } else if (item.ruleResult == '1') { }}
+          <li data-id="{{item.id}}" data-start="{{item.start}}" data-end="{{item.end}}" data="{{item.ruleDesc}}">
+            <div class="coupon-inner decrease">
+              <div class="top-coupon">
+                <em class="descr off">
+                  {{#
+                  var fnMoeny = function(descr){
+                    var sDescr = '';
+                    if(descr.indexOf('**') != -1){
+                      var upMoeny = descr.split('**')[1],
+                          preDecr = descr.split('**')[0];
+                          sDescr = preDecr + formatMoney(getSpaceMoney(upMoeny));
+                    }else{
+                      sDescr = descr;
+                    }
+                    return sDescr;
+                  }; 
+                }}
+                {{ fnMoeny(item.ruleDesc) }}
+              </em> 
+                <i class="money" style="left: -8px;">{{ Number(item.ruleResultValue)*10 }}</i>
+                <em class="symbol off">%</em>
+                <span>OFF</span>
+              </div>
+              <div class="bottom-coupon">
+                GET
+              </div>
+            </div>
+          </li>
+        {{# } }}
+      {{# } else if (item.activitiesRule == '1') { }}
+          {{# if (item.ruleResult == '0') { }}
+            <li data-id="{{item.id}}" data-start="{{item.start}}" data-end="{{item.end}}" data="{{item.ruleDesc}}">
+              <div class="coupon-inner">
+                <div class="top-coupon">
+                  <em class="descr off">
+                    {{#
+                        var fnMoeny = function(descr){
+                          var sDescr = '';
+                          if(descr.indexOf('**') != -1){
+                            var upMoeny = descr.split('**')[1],
+                                preDecr = descr.split('**')[0];
+                                sDescr = preDecr + formatMoney(getSpaceMoney(upMoeny));
+                          }else{
+                            sDescr = descr;
+                          }
+                          return sDescr;
+                        }; 
+                    }}
+                    {{ fnMoeny(item.ruleDesc) }}
+                  </em>
+                  <i class="symbol">{{ String(getSpaceMoney(item.ruleResultValue)).split(' ')[0]}}</i>
+                  <i class="money">
+                    {{# 
+                      var fn = function(money){
+                        var totalMoeny = getSpaceMoney(money).split(' ')[1].split('.')[1];
+                        var preMoeny = '';
+                        if(totalMoeny == '00' || totalMoeny == '0'){
+                           preMoeny =  getSpaceMoney(money).split(' ')[1].split('.')[0];
+                        }else{
+                          if(getSpaceMoney(money).split(' ')[1].indexOf('.') != -1){
+                            var cutBefore = getSpaceMoney(money).split(' ')[1].split('.')[0],
+                                cutAfter = getSpaceMoney(money).split(' ')[1].split('.')[1].substr(0,1);
+                                if(cutAfter != 0){
+                                  preMoeny =  cutBefore +'.'+ cutAfter.substr(0,1);
+                                }else{
+                                  preMoeny =  cutBefore;
+                                }
+                                
+                          }else{
+                            preMoeny =  getSpaceMoney(money).split(' ')[1];
+                          }
+                        }
+                        return preMoeny;
+                      }; 
+                    }}
+                    {{ fn(item.ruleResultValue) }}
+                  </i>
+                </div>
+                <div class="bottom-coupon">
+                  GET
+                </div>
+              </div>
+            </li>
+        {{# } else if (item.ruleResult == '1') { }}
+            <li data-id="{{item.id}}" data-start="{{item.start}}" data-end="{{item.end}}" data="{{item.ruleDesc}}">
+              <div class="coupon-inner decrease">
+                <div class="top-coupon">
+                  <em class="descr off">
+                    {{#
+                      var fnMoeny = function(descr){
+                        var sDescr = '';
+                        if(descr.indexOf('**') != -1){
+                          var upMoeny = descr.split('**')[1],
+                              preDecr = descr.split('**')[0];
+                              sDescr = preDecr + formatMoney(getSpaceMoney(upMoeny));
+                        }else{
+                          sDescr = descr;
+                        }
+                        return sDescr;
+                      }; 
+                    }}
+                    {{ fnMoeny(item.ruleDesc) }}
+                  </em> 
+                  <i class="money">{{ Number(item.ruleResultValue)*10}}</i>
+                  <em class="symbol off">%</em>
+                  <span>OFF</span>
+                </div>
+                <div class="bottom-coupon">
+                  GET
+                </div>
+              </div>
+            </li>
+        {{# } }} {{# } else if (item.activitiesRule == '2') { }}
+          {{# if (item.ruleResult == '0') { }}
+            <li data-id="{{item.id}}" data-start="{{item.start}}" data-end="{{item.end}}" data="{{item.ruleDesc}}">
+              <div class="coupon-inner">
+                <div class="top-coupon">
+                  <em class="descr off">
+                    {{#
+                      var fnMoeny = function(descr){
+                        var sDescr = '';
+                        if(descr.indexOf('**') != -1){
+                          var upMoeny = descr.split('**')[1],
+                              preDecr = descr.split('**')[0];
+                              sDescr = preDecr + formatMoney(getSpaceMoney(upMoeny).split(' ')[1]);
+                        }else{
+                          sDescr = descr;
+                        }
+                        return sDescr;
+                      }; 
+                    }}
+                    {{ fnMoeny(item.ruleDesc) }}
+                  </em> 
+                  <i class="symbol">{{ String(getSpaceMoney(item.ruleResultValue)).split(' ')[0]}}</i>
+                  <i class="money">
+                    {{# 
+                      var fn = function(money){
+                        var totalMoeny = getSpaceMoney(money).split(' ')[1].split('.')[1];
+                        var preMoeny = '';
+                        if(totalMoeny == '00' || totalMoeny == '0'){
+                           preMoeny =  getSpaceMoney(money).split(' ')[1].split('.')[0];
+                        }else{
+                          if(getSpaceMoney(money).split(' ')[1].indexOf('.') != -1){
+                            var cutBefore = getSpaceMoney(money).split(' ')[1].split('.')[0],
+                                cutAfter = getSpaceMoney(money).split(' ')[1].split('.')[1].substr(0,1);
+                                if(cutAfter != 0){
+                                  preMoeny =  cutBefore +'.'+ cutAfter.substr(0,1);
+                                }else{
+                                  preMoeny =  cutBefore;
+                                }
+                                
+                          }else{
+                            preMoeny =  getSpaceMoney(money).split(' ')[1];
+                          }
+                        }
+                        return preMoeny;
+                      }; 
+                    }}
+                    {{ fn(item.ruleResultValue) }}
+                  </i>
+                </div>
+                <div class="bottom-coupon">
+                  GET
+                </div>
+              </div>
+            </li>
+        {{# } else if (item.ruleResult == '1') { }}
+            <li data-id="{{item.id}}" data-start="{{item.start}}" data-end="{{item.end}}" data="{{item.ruleDesc}}">
+              <div class="coupon-inner decrease">
+                <div class="top-coupon">
+                  <em class="descr off">
+                    {{#
+                      var fnMoeny = function(descr){
+                        var sDescr = '';
+                        if(descr.indexOf('**') != -1){
+                          var upMoeny = descr.split('**')[1],
+                              preDecr = descr.split('**')[0];
+                              sDescr = preDecr + formatMoney(getSpaceMoney(upMoeny));
+                        }else{
+                          sDescr = descr;
+                        }
+                        return sDescr;
+                      }; 
+                    }}
+                    {{ fnMoeny(item.ruleDesc) }}
+                  </em>
+                  <i class="money">{{ Number(item.ruleResultValue)*10 }}</i>
+                  <em class="symbol off">%</em>
+                  <span>OFF</span>
+                </div>
+                <div class="bottom-coupon">
+                  GET
+                </div>
+              </div>
+            </li>
+        {{# } }}
+      {{# } }}
+    {{#  }); }}
+    </ul>
+  </script>
+<script>
+  $(document).on('click', '.currencyExtend li', function () {
+    location.reload()
+  })
+</script>
+{% endraw %}
+
+<!-- 返回顶部 -->
+{% render 'Athena/pc/components/backTop_pc.liquid' %}
+<div {% if isPreview and isPreview !='' %} style="margin-bottom:80px" {%endif%}>
+  {% render 'Athena/components/pageFooter' ,configData: blockData.last ,isMobilePhone:
+  isMobilePhone,OBJ:data,isPreview:isPreview
+  %}
+</div>
+
+{% if isPreview and isPreview != '' %}
+<div class="previewTip">
+  本页面仅供PC端预览商品信息，用户无法下单购买，请勿直接或分享给他人进行投放。
+</div>
+
+<style>
+  .previewTip {
+    width: 100%;
+    height: 80px;
+    line-height: 80px;
+    background: #FCE8EF;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    font-size: 20px;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: #000000;
+    z-index: 1000;
+  }
+</style>
+{% endif %}
+{% endblock %}

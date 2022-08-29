@@ -1,0 +1,213 @@
+<script>
+	function createHtml(val, isMobile) {
+		let hearderHtml = '',
+			paymentType,
+			paymentClass;
+		switch (val.paymentStatus) {
+			case 2:
+				paymentType = 'Payment Successful'
+				paymentClass = 'payment_icon_success'
+				break;
+			case 3: case 1:
+				paymentType = 'Awaiting Payment'
+				paymentClass = 'payment_icon_awaiting'
+				break;
+			case 4:
+				paymentType = 'Payment Failed'
+				paymentClass = 'payment_icon_pending'
+				break;
+			case 5:
+				paymentType = 'Pending…'
+				paymentClass = 'payment_icon_failed'
+				break;
+		}
+		hearderHtml = `
+		<div class="items_click">
+			<div class="itemPaystatus">
+				<div class="payment_status_show">
+					<div class="payment_icon ${paymentClass}"></div>
+					<div class="payment_status pay_awaitingPayment"> ${paymentType}</div>
+				</div>
+				<div class="curreny">${val.currency}  ${val.totalPrice}</div>
+			</div>
+			<div class="pay_time grayColor">
+				<div>${val.createTime}</div>
+				<div class="iconfont icon-arrow-down"></div>
+			</div>
+			<a type="button" href="payment.html?ordersId=${val.id}" class="content_btn ${((val.paymentStatus == 1 || val.paymentStatus == 3) && val.cod != 1) ? '' : 'hide'}">
+				<span>${dateTrans(val.createTime)} (${window.i18n.deadline})</span>
+				<span>${window.i18n.complete_your_purchase}</span>
+			</a>
+		</div>
+        <div class="status-items">
+					<div class="order-time-container ">${val.createTime}</div>
+					{{val.paymentStatus}}
+					<div class="order-time-container  ${((val.paymentStatus == 1 || val.paymentStatus == 3) && val.cod != 1) ? '' : 'hide'}">${dateTrans(val.createTime)} (${window.i18n.deadline})</div>
+			<div class="s_status l_status">
+						<a type="button" href="payment.html?ordersId=${val.id}" class="content-pc_btn  ${((val.paymentStatus == 1 || val.paymentStatus == 3) && val.cod != 1) ? '' : 'hide'}">
+				            <span>${window.i18n.complete_your_purchase}</span>
+							<span>${val.currency} ${val.totalPrice}</span>
+		            	</a>
+						<div class="${!((val.paymentStatus == 1 || val.paymentStatus == 3) && val.cod != 1) ? '' : 'hide'}">${window.i18n.total_amount} </div>
+						<div class="${!((val.paymentStatus == 1 || val.paymentStatus == 3) && val.cod != 1) ? '' : 'hide'}">${val.currency} ${val.totalPrice}</div>
+						<div class="iconfont  icon-arrow-down"></div>
+					</div>
+				</div> `
+
+
+
+		const html = `
+			<div class="success">
+				${hearderHtml}
+		<div class="open-content">
+			${tableHtml(val, isMobile)}
+			<div class="line"></div>
+			<div class="info">
+				<p><span class="info_weight">${window.i18n.consignee_info}</span></p>
+				<p><span class="info_weight">${window.i18n.name}:</span>${val.name}</p>
+				<p><span class="info_weight">${window.i18n.address}:</span>
+					${val.address?.street1},
+					${val.address?.street2? val.address.street2+ ",": ""}
+					${val.address?.city},
+					${val.address?.state},
+					${val.address?.country}
+				</p>
+			</div>
+			<div class="line"></div>
+			<div class="info">
+				<p>${window.i18n.total}:${val.currency} ${val.totalItemPrice}</p>
+				<p>${window.i18n.discount}: ${val.currency} ${val.totalDiscount}</p>
+				<p>${window.i18n.shipping_Cost}: ${val.currency} ${val.totalShippingPrice}</p>
+				<p>${window.i18n.actual_payment}: ${val.currency} ${val.totalPrice}</p>
+				<p>${window.i18n.tax}: ${val.currency} ${val.taxRatePrice || 0}</p>
+			</div>
+			<div class="line"></div>
+			<div class="info">
+				<p>${window.i18n.order_number}:${val.id}</p>
+				<p>${window.i18n.transcation_number}:${val?.transcationId || ' -'}</p>
+			</div>
+			<div class="line"></div>
+			<div class="info">
+				<p>${window.i18n.order_Time}:${val.createTime}</p>
+				<p>${window.i18n.payment_time}:${val?.paymentTime || ' -'}</p>
+			</div>
+			<div class="line"></div>
+			<div class="info">
+				<p class="shipping">${window.i18n.shipping_info}:${val.shippingsName}</p>
+			</div>
+		</div>
+			</div> `
+		return html
+
+	}
+
+	function tableHtml(val, isMobile) {
+		let html = ''
+		if (isMobile) {
+			val.ordersItems.forEach(item => {
+				html += `<div class="pict_info">
+		<div class="picture">
+			<a class="n-title" href="productDetail_92439.html">
+				<img src="${!!item.mainImg ? returnSuffixName(item.mainImg) : ''}" alt="${item.goodsName}">
+			</a>
+		</div>
+		<div class="order_info">
+			<span class="order_info_title">${item.goodsName} </span>
+			<span><ol>${speCustomHtml(item)}</ol></span>
+		</div>
+	</div>
+			<div class="order_info_price">
+				<span>${val.currency}${item.discountPrice}</span>
+				<span>X${item.quantity}</span>
+				<span>${val.currency}${item.totalPrice}</span>
+			</div>`
+			})
+		} else {
+			let trHtml = ''
+			val.ordersItems.forEach(item => {
+				trHtml += `
+				<tr>
+	    <td class="td_content">
+		   <div class="image">
+                 <a class="n-title" href="productDetail_${item.goodsId}.html">
+				 <img src="${!!item.mainImg ? returnSuffixName(item.mainImg) : ''}" alt="${item.goodsName}" class="click-box showsavatar"></a>
+            </div>
+            <div class="descrip">
+                 <p>${item.goodsName}</p>
+	     	     <ol>${speCustomHtml(item)}</ol>
+            </div>
+         </td>
+         <td>${val.currency} ${item.discountPrice}</td>
+         <td>${item.quantity}</td>
+         <td>${val.currency} ${item.totalPrice}</td>
+    </tr> `
+			})
+			html = `
+			<table>
+			<tr>
+				<th>${window.i18n.product_name}</th>
+				<th>${window.i18n.unit_price}</th>
+				<th>${window.i18n.Qty}</th>
+				<th>${window.i18n.subtotal}</th>
+			</tr>
+			${trHtml}
+		</table> `
+		}
+
+
+		return html
+	}
+
+
+
+
+	function speCustomHtml(item) {
+		let html = ''
+		if (item.customization != '1') {
+			const skuValue = JSON.parse(item.skuValue)
+			if (item.customization != '1' && !!item.skuValue && skuValue.length) {
+				console.log('skuValue', skuValue)
+				skuValue.forEach(element => {
+					html += !!element.speValmainImg ? `<li> ${element.spe} :
+		<span class="iconfont icon-img cart-icon-img--event" data-src="${returnSuffixName(element.speValmainImg)}"></span></li> `
+						: `<li> ${element.spe} : ${element.speVal}</li> `
+				});
+			}
+		} else {
+			const customValue = JSON.parse(item.customValue)
+			customValue?.forEach(item => {
+				html += fnzz(item.type, item)
+			})
+			function fnzz(type, { name, value }) {
+				let imgHtml = '';
+				if (type == 2) {
+					imgHtml = `<span class="iconfont icon-img cart-icon-img--event" data - src="${returnSuffixName(value)}"></span> `;
+				} else if (type == 4) {
+					imgHtml = `<span data-img="${value}" data - zoom="zoomImg" class="skuValImg"></span> `;
+				} else {
+					imgHtml = value;
+				}
+				return `<li> ${name} : ${imgHtml}</li>`;
+			}
+		}
+		return html
+	}
+	//时间戳转化为时间格式 yyyy-MM-dd HH:mm:ss
+	function dateTrans(date) {
+		let _date = new Date(date.replace(/-/g, '/'));
+		_date.setDate(_date.getDate() + 7);
+		let y = _date.getFullYear();
+		let m = _date.getMonth() + 1;
+		m = m < 10 ? ('0' + m) : m;
+		let d = _date.getDate();
+		d = d < 10 ? ('0' + d) : d;
+		let h = _date.getHours();
+		h = h < 10 ? ('0' + h) : h;
+		let minute = _date.getMinutes();
+		let second = _date.getSeconds();
+		minute = minute < 10 ? ('0' + minute) : minute;
+		second = second < 10 ? ('0' + second) : second;
+		let dates = String(y) + '-' + String(m) + '-' + String(d) + ' ' + String(h) + ':' + String(minute) + ':' + String(second);
+		return dates;
+	};
+</script>

@@ -1,0 +1,132 @@
+{% for item in childCustListOption%}
+{% if item.type == 1 %}
+
+<div class="a_item children_item hide" data-dynamicParentId="{{item.dynamicParentId | default : ''}}"
+  data-privateId="{{item.id}}" data-type="{{item.type}}" data-field="{{item.field}}"
+  data-parentOptionMapId="{{item.parentOptionMapId | default : ''}}">
+  <div class="a_title_wrap ">
+    <h3 class="a_title">{{item.field | capitalize}}{% if item.need == 1 %}<i class="required">*</i>{% endif %}:
+    </h3>
+    {% if item.need == 1%}
+    <p class="error hide">* Oops! You forget to personalize it!</p>
+    {% endif %}
+  </div>
+  {% if item.optionList and item.optionList.length > 0%}
+  {% if item.pattern == 1%}
+  <ul class="z_select" param-id="{{item.id}}" data-need="{{item.need}}" param-name="{{item.field}}"
+    param-required="{{item.need}}" param-type="{{item.type}}">
+    <li class="item_select">
+      <div class="a_select" data-need="{{item.need}}">
+        <div class="vshop-form-select">
+          <div class="vshop-select-title"><input type="text" placeholder="-- Select --" value="" readonly=""
+              class="select-input"><i class="layui-edge"></i></div>
+          <ul class="vshop-anim-upbit">
+            {% for val in item.optionList%}
+            <li data-need="{{item.need}}" data-selfId="{{val.id}}" {% if val.value.length> 50%} title="{{val.value}}" {%
+              endif %}
+              param-child-id="{{val.id}}" param-child-price="{{val.price}}" vshop-select-value="{{val.value}}">
+              {{val.value | slice: 0, 50}} {% if val.value.length> 50%} ... {% endif %}
+              {% if val.price != 0%} (+<span p-price={{val.price}}>{{val.price}}</span>){% endif %}
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </li>
+  </ul>
+  {% else %}
+  <ul class="z_inner" param-id="{{item.id}}" data-need="{{item.need}}" param-name="{{item.field}}"
+    param-required="{{item.need}}" param-type="{{item.type}}">
+    {% for val in item.optionList%}
+    {% if val.childCustList and val.childCustList.length > 0%}
+    <li data-selfId="{{val.id}}" data-need="{{item.need}}" param-child-id="{{val.id}}" param-child-price="{{val.price}}"
+      class="item_text" {% if val.value.length> 50%} title="{{val.value}}" {%
+      endif %}>{{val.value}}</li>
+    {% else %}
+    <li param-child-id="{{val.id}}" data-need="{{item.need}}" {% if val.value.length> 50%} title="{{val.value}}"
+      {%
+      endif %}
+      param-child-price="{{val.price}}" class="item_text">{{val.value}}</li>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+  </ul>
+  {% endif %}
+</div>
+{% elsif item.type == 2%}
+
+<div class="a_item  children_item hide" data-field="{{item.field}}" data-type="{{item.type}}"
+  data-parentOptionMapId="{{item.parentOptionMapId | default : ''}}"
+  data-dynamicParentId="{{item.dynamicParentId | default : '' }}" data-privateId="{{item.id}}">
+  <div class="a_title_wrap ">
+    <h3 class="a_title">{{item.field | capitalize}}{% if item.need == 1 %}<i class="required">*</i>{% endif %}:<p></p>
+    </h3>
+    {% if item.need == 1%}
+    <p class="error hide">* Oops! You forget to personalize it!</p>
+    {% endif %}
+  </div>
+  {% if item.optionList and item.optionList.length > 0%}
+  <ul class="z_inner" data-need="{{item.need}}" param-id="{{item.id}}" param-name="{{item.field}}"
+    param-required="{{item.need}}" param-type="{{item.type}}">
+    {% for val in item.optionList%}
+    {% if val.childCustList and val.childCustList.length > 0%}
+    <li class="item_img" data-need="{{item.need}}" data-enlarge="{{item.enlarge}}" data-selfId="{{val.id}}"
+      title="{{val.tips  | default : ''}}">
+      <img class="a_img" param-child-id="{{val.id}}" param-child-price="{{val.price}}"
+        data-suffix-img="{{ val.value }}">
+    </li>
+    {% else %}
+    <li class="item_img" data-need="{{item.need}}" data-enlarge="{{item.enlarge}}" title="{{val.tips  | default : ''}}">
+      <img class="a_img" param-child-id="{{val.id}}" param-child-price="{{val.price}}" data-suffix-img="{{ val.value}}">
+    </li>
+    {% endif %}
+    {% endfor %}
+    <div class='imgTitle'></div>
+  </ul>
+  {% endif %}
+</div>
+{% elsif item.type == 3%}
+
+<div class="a_item hide" data-parentOptionMapId="{{item.parentOptionMapId | default : ''}}" data-privateId="{{item.id}}"
+  data-dynamicParentId="{{item.dynamicParentId | default : ''}}" data-type="{{item.type}}" data-field="{{item.field}}">
+  <div class="a_title_wrap ">
+    <h3 class="a_title">{{item.field | capitalize}}{% if item.need == 1 %}<i class="required">*</i>{% endif %}:
+    </h3>
+    {% if item.need == 1%}
+    <p class="error hide">* Oops! You forget to personalize it!</p>
+    {% endif %}
+  </div>
+  <ul class="z_inner">
+    <li class="item_input">
+      <input param-price="{{item.price}}" param-id="{{item.id}}" param-name="{{item.field}}"
+        param-required="{{item.need}}" param-type="{{item.type}}" type="text" class="a_input"
+        maxlength="{{item.maxLength}}" placeholder="Up to {{item.maxLength}}  characters" data-need="{{item.need}}">
+    </li>
+  </ul>
+</div>
+
+{% else %}
+
+<div class="a_item uploadImg hide" data-parentOptionMapId="{{item.parentOptionMapId | default : ''}}"
+  data-dynamicParentId="{{item.dynamicParentId | default : ''}}" data-privateId="{{item.id}}" data-type="{{item.type}}"
+  data-field="{{item.field}}">
+  <div class="a_title_wrap ">
+    <h3 class="a_title">{{item.field | capitalize}}<i class="s_title">(Document Size Limits 10MB)</i>{% if item.need ==
+      1
+      %}<i class="required">*</i>{% endif %}:</h3>
+    {% if item.need == 1%}
+    <p class="error hide">* Oops! You forget to personalize it!</p>
+    {% endif %}
+  </div>
+  <ul class="i_ul z_inner">
+    <a href="javascript:;" class="uploadFile"><i class="uploadText">UPLOAD YOUR IMAGE</i><input
+        class="uploadImgBtn pro-file" title="select file" type="file" /></a>
+    <ul class="uploadImgWrap paramItem hide" param-price="{{item.price}}" param-id="{{item.id}}"
+      param-name="{{item.field}}" param-required="{{item.need}}" param-type="{{item.type}}">
+    </ul>
+    <p class="imgText">If your photo has sideways or other problems, we will adjust it,please don't worry.</p>
+  </ul>
+</div>
+
+{% endif %}
+{% endfor %}

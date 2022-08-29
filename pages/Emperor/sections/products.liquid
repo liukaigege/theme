@@ -1,0 +1,21 @@
+{% assign section = configData.config %}
+{% assign goodsNum = section.goodsNum | default: 8 %}
+{% comment %}分类数据,如果返回为空时，处理空数据以占位{% endcomment %}
+{% if section.goodList.size > 0 %}
+{% assign goodList = section.goodList | arrSlice: 0, goodsNum %}
+{% else %}
+{% assign goodList = section.perLineNum | createGoodList %}
+{% endif %}
+<div class="products container">
+	{% if section.title.size>0 %}
+	<h2 class="section-title row mb-3 plate-title-font" goodsNum="{{goodsNum}}">{{section.title}}</h2>
+	{% endif %}
+	{% case section.interactive %}
+	{% comment %}积木名称：平铺展示{% endcomment %}
+	{% when 0 %}
+	{%render 'products-unfold.liquid',perLineNum:section.perLineNum,goodList:goodList,displaysty:section.displaysty,id:id,lang:lang,prePath:prePath %}
+	{% comment %}积木名称：滑动展示{% endcomment %}
+	{% when 1 %}
+	{%render 'products-swiper.liquid',perLineNum:section.perLineNum,goodList:goodList,displaysty:section.displaysty,id:id,lang:lang,prePath:prePath %}
+	{%endcase%}
+</div>

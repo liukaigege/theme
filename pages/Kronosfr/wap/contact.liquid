@@ -1,0 +1,101 @@
+{% layout 'Kronosfr/components/Kronosfr_theme' name:'contact' %}
+{% block 'content' %}
+{% render 'Kronosfr/components/pageHeader',configData: blockData.first,isMobilePhone: isMobilePhone,OBJ:data %}
+<div class="contact_main">
+  <div class="contact_header">
+    <h1>Contactez - nous</h1>
+    <p>Vous voulez nous contacter?<br>Il suffit de remplir le formulaire ci - dessous et nous vous répondrons dès que
+      possible.
+    </p>
+  </div>
+  <div class="layout">
+    <div class="layout__section">
+      <form id="contact_form" class="form layui-form">
+        <div class="form__header">
+          <h2 class="heading h3">Laissez un message.</h2>
+        </div>
+        <div class="form__input-row">
+          <div class="form__input-wrapper form__input-wrapper--labelled layui-form-item">
+            <label for="contact-form-name" class="form__floating-label">Your name</label>
+            <input id="contact-form-name" lay-verify="required" lay-reqtext="Votre nom" value="" type="text"
+              class="form__field form__field--text" name="name">
+          </div>
+          <div class="form__input-wrapper form__input-wrapper--labelled layui-form-item">
+            <input id="contact-form-email" type="email" lay-verify="required|len|newEmail" value=""
+              lay-reqtext="Saisissez votre adresse e-mail" class="form__field form__field--text" name="email">
+            <label for="contact-form-email" class="form__floating-label">Votre email</label>
+          </div>
+        </div>
+        <div class="form__input-wrapper form__input-wrapper--labelled layui-form-item">
+          <input id="contact-form-your-phone-optional" type="text" value=""
+            lay-reqtext="Entrez votre numéro de téléphone" class="form__field form__field--text" name="phone">
+          <label for="contact-form-your-phone-optional" class="form__floating-label">Numéro de téléphone
+            (facultatif)</label>
+        </div>
+        <div class="form__input-wrapper form__input-wrapper--labelled layui-form-item form__textarea-wrapper">
+          <textarea id="contact-form-message" value="" lay-verify="required" lay-reqtext="Saisissez votre message"
+            name="message" rows="8" class="form__field form__field--textarea"></textarea>
+          <label for="contact-form-message" class="form__floating-label">Votre message</label>
+        </div>
+        <div class="layui-form-item">
+          <button type="button" lay-submit="" lay-filter="commentBtn"
+            class=" button contactBtn button--primary button--min-width">Envoyer un message</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script src="../assets/wap/js/layui/layui.js"></script>
+<script>
+  $(function () {
+    layui.config({
+      version: true,
+      base: '/layui'
+    }).use(['jquery', 'layer', 'form'], function () {
+      var $ = layui.jquery,
+        layer = layui.layer,
+        form = layui.form;
+
+      form.verify({
+        len: function (value) {
+          if (value.length > 60) {
+            return 'Boîte aux lettres plus longue que 60';
+          }
+        },
+        newEmail: function (value) {
+          if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9])+$/.test(value)) {
+            return 'Saisissez une adresse électronique valide';
+          }
+        },
+        newPhone: function (value) {
+          if (!/^[0-9\+\-\(\)\#\s]{1,30}$/g.test(value)) {
+            return 'Veuillez saisir un numéro de téléphone valide';
+          }
+        },
+      });
+      form.on('submit(commentBtn)', function (data) {
+        var submitIndex = layer.load(2);
+        $.req({
+          url: '/api/v1/user/message',
+          type: 'post',
+          contentType: 'application/json;charset=UTF-8',
+          data: JSON.stringify(data.field),
+          success(res) {
+            layer.close(submitIndex);
+            layer.msg(res.msg, {
+              time: 1000,
+              icon: 6
+            }, function () {
+              $('.successText').removeClass('hide');
+              $('.container--medium').addClass('hide');
+            });
+          }
+        });
+        return false;
+      });
+    });
+  });
+</script>
+<!-- footer -->
+{% render 'Kronosfr/components/pageFooter' ,configData: blockData.last ,isMobilePhone: isMobilePhone,OBJ:data %}
+{% endblock %}

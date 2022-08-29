@@ -1,0 +1,26 @@
+index                首页
+
+collections        商品分类页
+
+productList       商品列表页
+
+productSearch  商品搜索页
+
+productSearchRestult  商品搜索结果页
+
+productDetail   商品详情页
+
+cart                 购物车页
+
+order              订单查询入口页
+
+orderResult     订单查询结果页
+
+information    订单信息填写页
+
+payment         结算页
+
+paymentResult         结算结果页
+
+
+前缀 Athena

@@ -1,0 +1,41 @@
+{% layout 'Athena/components/Athena_theme' name:'static' %}
+{% assign staticData = data.staticData %}
+
+{% block 'content' %}
+{% render 'Athena/components/pageHeader',configData: blockData.first,isMobilePhone: isMobilePhone,OBJ:data %}
+
+<div class="staticPageHtml clearfix">
+
+</div>
+<style>
+    .staticPageHtml {
+        padding: 0.16rem;
+        overflow: hidden;
+    }
+
+    .staticPageHtml * {
+        max-width: 100% !important;
+    }
+</style>
+<script>
+    layui.config({
+        version: true,
+        base: '/layui'
+    }).use(['jquery', 'layer'], function () {
+        let $ = layui.jquery,
+            layer = layui.layer,
+            pageId = unescape(getUrlVars(window.location.href).pageid);
+        if (pageId) {
+            $(".staticPageHtml").load('/static-page' + pageId + '?version=' + new Date().getTime(), '',
+                function () { });
+        } else {
+            layer.msg('pageId is no', {
+                icon: 5,
+                time: 1500
+            });
+        }
+    });
+</script>
+<!-- footer -->
+{% render 'Athena/components/pageFooter' ,configData: blockData.last ,isMobilePhone: isMobilePhone,OBJ:data %}
+{% endblock %}

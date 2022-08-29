@@ -1,0 +1,22 @@
+<section>
+  <style>
+    /* 海报 */
+    .poster {
+      padding: 0 160px;
+      text-align: center;
+      margin: 20px 0;
+      /* height: 878px;
+      line-height: 878px; */
+    }
+
+    .poster img {
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%
+    }
+  </style>
+  <div class="poster">
+    <a href="{{data | setPoaterLink}}"><img src="{{data.posterImg}}"></a>
+  </div>
+</section>

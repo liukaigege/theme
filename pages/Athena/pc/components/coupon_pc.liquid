@@ -1,0 +1,322 @@
+{% assign isshow = data.start | compareTime:data.end %}
+{% if isshow == true %}
+<style>
+  .couponMadal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 9998;
+    display: none;
+  }
+
+  .couponMadal .coupon {
+    width: 477px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #ffffff;
+  }
+
+  .couponMadal .coupon-top {
+    width: 100%;
+    background-image: url("../assets/pc/images/couponbg@2x.png");
+    background-size: cover;
+    padding-bottom: 20px;
+  }
+
+  .couponMadal .close {
+    position: absolute;
+    top: 26px;
+    right: 26px;
+    width: 21px;
+    height: 21px;
+    background-image: url('../assets/pc/images/btn_close@2x.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+    z-index: 99999;
+  }
+
+
+
+  .couponMadal .coupon-top h3 {
+    font-size: 36px;
+    font-family: Aileron-Black, Aileron;
+    font-weight: 900;
+    color: #FFFFFF;
+    padding-top: 64px;
+    text-align: center;
+  }
+
+  .couponMadal .content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    text-align: center;
+    /* width: 369px; */
+    margin: 0 auto;
+    padding-top: 46px;
+    max-height: 50vh;
+    overflow: auto;
+  }
+
+  .couponMadal .coupon-Item {
+    width: 172px;
+    height: 80%;
+    overflow: hidden;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 3%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url("../assets/pc/images/couponItem.png");
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+
+
+
+  .couponMadal .coupon-Item-text {
+    color: #DF0052;
+  }
+
+  .couponMadal .coupon-Item-text p {
+    font-size: 14px;
+
+  }
+
+
+
+  .couponMadal .coupon-Item-text .num {
+    font-size: 30px;
+    font-weight: 700;
+    padding: 0 5px;
+
+  }
+
+  .couponMadal .coupon-Item-text .unit,
+  .couponMadal .coupon-Item-text .unit_off {
+    font-size: 18px;
+    position: absolute;
+  }
+
+  .couponMadal .coupon-Item-text .unit {
+    top: 20%;
+  }
+
+  .couponMadal .coupon-Item-text .unit_off {
+    top: 40%;
+  }
+
+  .couponMadal .coupon-Item-text .noRule .unit {
+    top: 26%;
+  }
+
+  .couponMadal .coupon-Item-text .noRule .unit_off {
+    top: 46%;
+  }
+
+  .couponMadal .lessPrice p {
+    margin-top: 40px;
+  }
+
+  .couponMadal .lessPrice .num {
+    position: absolute;
+    top: 25%;
+    left: 25%;
+  }
+
+  .couponMadal .noRule .num {
+    top: 30%;
+  }
+
+  .coupon-Item::before {
+    content: '';
+    padding-top: 65%;
+    float: left;
+  }
+
+  .coupon-Item::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+
+  .rule {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .rulenum {
+    font-weight: 700;
+    font-size: 30px;
+  }
+
+  .ruleunit {}
+
+
+  .coupon-bottom {
+    height: 160px;
+    background: #fff;
+    position: relative;
+  }
+
+  .collectBox {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .couponMadal .collect {
+    width: 368px;
+    height: 45px;
+    line-height: 45px;
+    background: #DF0052;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 16px;
+    font-family: Aileron-SemiBold, Aileron;
+    font-weight: 600;
+    color: #FFFFFF;
+    cursor: pointer;
+  }
+
+  .couponMadal .coupon-bottom .text {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+    height: 15px;
+    font-size: 13px;
+    font-family: Aileron-Regular, Aileron;
+    color: #9B9B9B;
+
+
+  }
+</style>
+<div class="couponMadal">
+  <div class="coupon" id="coupon" triggerTime="{{data.triggerTime}}" frequency="{{data.frequency}}">
+    <div class="close" id="closeCoupon"></div>
+    <div class="coupon-top">
+      <h3>{{data.title}}</h3>
+      <ul class="content">
+        {% for item in data.list %}
+        <li class="coupon-Item" coupon-id="{{item.id}}" start="{{item.couponStart}}" end="{{item.couponEnd}}">
+          {{item.ruleResult | couponRender:item}}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="coupon-bottom">
+      <div class="collectBox">
+        <div class="collect" id="collect">{{data.buttonContent}}</div>
+        <p class="text">{{data.activityDescription}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% render 'Athena/pc/components/receivedCoupon_pc.liquid' %}
+<script>
+  $(document).ready(function () {
+    
+    checkActiveTime()
+    // 关闭弹框
+    $('#closeCoupon').on('click', function () {
+      $('.couponMadal').fadeOut(300)
+      //设置已经领取优惠券标识
+      setSessionStorage('isGetCoupon', true);
+    })
+    // 点击领取
+    var getCouponStatus=true;
+    $('#collect').on('click', function () {
+      if(getCouponStatus){
+        getCouponStatus=false
+        setTimeout(function(){getCouponStatus=true;},3000)
+        getCoupon()
+      }
+    })
+    function checkActiveTime(start, end) { // 检验优惠是否失效
+      var now = new Date().getTime()
+      var start = new Date($('#coupon').attr('start')).getTime() //弹框开始时间
+      var end = new Date($('#coupon').attr('end')).getTime() //弹框结束时间
+      var triggerTime = $('#coupon').attr('triggerTime')//进入页面后几秒触发
+      var num = 0 // 有效的优惠数量
+      if (!getSessionStorage('isGetCoupon')) {
+        setTimeout(() => {
+          $('.couponMadal').fadeIn(300)
+          $("#coupon .coupon-Item").each(function (index) {
+            var couponStart = new Date($(this).attr('start')).getTime()
+            var couponEnd = new Date($(this).attr('end')).getTime()
+            if (now >= couponStart && now <= couponEnd) {
+              num++
+              $(this).show()
+            } else {
+              $(this).hide()
+            }
+          })
+          if (num > 4) {
+            $('#coupon .content').css('grid-template-columns', 'repeat(4, 1fr)')
+            $('.coupon').css('width', '800px')
+            $('.coupon .coupon-top').css('background-image', 'url(../assets/pc/images/couponbg@3x.png)')
+          }
+        }, triggerTime * 1000);
+      } else {
+        $('.couponMadal').hide()
+      }
+      $currency.changePrice(isRound = true)
+    }
+
+    // 领取优惠券
+    
+    function getCoupon() {
+      let couponIds = getCouponId()
+      getToken(function () {
+        $.req({
+          url: '/api/v1/goods/coupon',
+          type: 'get',
+          data: {
+            couponId: couponIds,
+            type: '1'
+          },
+          success(res) {
+            if (res.code == 0) {
+              $('.couponMadal').fadeOut(100)
+              $('.received').fadeIn(300)
+              //设置已经领取优惠券标识
+              setSessionStorage('isGetCoupon', true);
+            } else {
+
+            }
+          }
+        });
+      });
+    }
+
+    // 获取符合条件的优惠券id (过滤掉失效的优惠券)
+    function getCouponId() {
+      var arr = []
+      var index = 0
+      var l = $('#coupon .coupon-Item').length
+      $('#coupon .coupon-Item').each(function (i) {
+        let start = new Date($(this).attr('start')).getTime()
+        let end = new Date($(this).attr('end')).getTime()
+        if ($now >= start && $now <= end) {
+          arr.push($(this).attr('coupon-id'))
+        }
+        index++
+      })
+      if (index === l) {
+        return arr.join(',')
+      }
+    }
+  })
+
+</script>
+{% endif %}

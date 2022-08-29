@@ -1,0 +1,133 @@
+{% comment %}
+主题： Athena-雅典娜;
+积木名称：移动端搜索界面;
+{% endcomment %}
+{% comment %}积木id{% endcomment %}
+{% assign sectionId = configData.sectionId %}
+{% comment %}配置数据{% endcomment %}
+{% assign configList = configData.config %}
+{% comment %}热词{% endcomment %}
+{% assign searchData = configList.search %}
+
+{% assign hotWords = searchData.words | split:',' %}
+
+{% comment %}当前汇率{% endcomment %}
+{% for currency in OBJ.configData.currency %}
+{% if currency.mainCurrency == 1 %}
+{% assign currentRate = currency %}
+{% break %}
+{% endif %}
+{% endfor %}
+
+{% render 'Kronos/components/pageHeader',configData:configData,isMobilePhone:isMobilePhone%}
+<div class="search" id="{{ sectionId }}">
+  <div class="searchHeader">
+    <div class="backHome bg" onclick="routerJump('index.html')"></div>
+    <div class="inputBox">
+      <input placeholder="search ......" type="text" id="search">
+      <div class="searchSubmit alginCenter" id="searchSubmit">
+        <img src="../assets/wap/images/search/icon-search.png">
+      </div>
+    </div>
+  </div>
+  {% if searchData.showSearchWord == 1 and searchData.words.size>0 %}
+  <ul>
+    {% for word in hotWords %}
+    <li onclick="routerJump('productList.html?keyword={{word}}')">
+      <span class="hotWord overflow_1">{{ word }}</span>
+      {%- if forloop.first == true -%}
+      <img class="hotIcon" src="../assets/wap/images/search/icon-hot.png">
+      {%- endif %}
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  <div id="pageSearchAlsoLike" class="you-may-also-like">
+        <div class="title">
+          <div class="title-line"></div>
+          <div class="title-real">You May Also Like</div>
+          <div class="title-line"></div>
+        </div>
+        <div class="you-may-also-like-swiper">
+          <div class="swiper-container newProducts_details" id='pageSearchAlsoLikeSwiper'>
+            <div class="newProducts_details swiper-wrapper">
+              {%assign relationListPro = searchData.goods %}
+              {% for item in relationListPro %}
+              <div class="swiper-slide">
+                <a class="goods-info-wrap" href="productDetail_{{item.id}}.html">
+                  <div class="img-box cover_wrap">
+                    {%if item.freeShipping == 1%}
+                    <div class="discount-shipping">Free Shipping</div>
+                    {% endif %}
+                    {% if item.originalPrice > item.defaultPrice %}
+                    <div class="discount-percent">
+                      <div>{{item.defaultPrice | offShow:item.originalPrice}}%</div>
+                      <div class="discount-off">OFF</div>
+                    </div>
+                    {% endif %}
+                    <img class="goods-img {%if item.otherImg != '' and item.otherImg != null%}mainRelationListImg{% endif %}" src="" data-suffix-img="{{item.mainImg | IMGURL}}" alt="">
+                    {%if item.otherImg != '' and item.otherImg != null%}
+                    <img class="associateRelationListImg goods-img" src="" data-suffix-img="{{item.otherImg | IMGURL}}" alt="">
+                    {% endif %}
+                  </div>
+                  <div class="goods-name">{{item.name}}</div>
+                  <div class="price-info">
+                    {% if item.originalPrice > item.defaultPrice %}
+                    <div class="original-price" p-price="{{ item.originalPrice }}">{{ item.originalPrice | switchRate:currentRate}}</div>
+                    {% endif %}
+                    <div class="current-price" p-price="{{ item.defaultPrice }}">{{ item.defaultPrice | switchRate:currentRate }}</div>
+                  </div>
+                </a>
+                {% comment %} <a href="productDetail_{{item.id}}.html">
+                  <div class="cover_wrap">
+                    <div class="discount_wrap">
+                      {%if item.freeShipping == 1%}
+                      <div class="free_shipping">
+                        FREE SHIPPING
+                      </div>
+                      {% endif %}
+                      {% if item.originalPrice > item.defaultPrice %}
+                      <span class="discount pa">
+                        <span class="in">
+                          <em class="num"><i class="d_num">{{item.defaultPrice | offShow:item.originalPrice}}</i>%</em><em
+                            class="text">OFF</em>
+                        </span>
+                      </span>
+                      {% endif %}
+                    </div>
+                    <img class="{%if item.otherImg != '' and item.otherImg != null%}mainRelationListImg{% endif %} cover" src=""
+                      data-suffix-img="{{item.mainImg}}" alt="">
+                    {%if item.otherImg != '' and item.otherImg != null%}
+                    <img class="associateRelationListImg cover" src="" data-suffix-img="{{item.otherImg}}" alt="">
+                    {% endif %}
+                  </div>
+                  <p class="m_title">{{item.goodsName}}</p>
+                  <div class="price">
+                    {% if item.originalPrice > item.defaultPrice %} <span class="old_price" p-price="{{ item.originalPrice }}">{{
+                      item.originalPrice |
+                      switchRate:currentRate}}</span>
+                    {% endif %}
+                    <span class="now_price" p-price="{{ item.defaultPrice }}">{{ item.defaultPrice | switchRate:currentRate
+                      }}</span>
+                  </div>
+                </a> {% endcomment %}
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% comment %} <div class="like-swiper-prev swiper-prev"></div>
+          <div class="like-swiper-next swiper-next"></div> {% endcomment %}
+        </div>
+      </div>
+</div>
+
+<script>
+    var recommend_products_swiper = new Swiper(
+        '#pageSearchAlsoLikeSwiper',
+        {
+          slidesPerView: 'auto',
+          spaceBetween: 15,
+        }
+      )
+
+</script>

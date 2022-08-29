@@ -1,0 +1,259 @@
+<style>
+  #recommend-section_swiper h3 span {
+    font-size: 30px;
+    font-family: Floane-Regular, Floane;
+    font-weight: 400;
+    color: #363636;
+    text-align: center;
+    display: inline-block;
+    padding: 0 16px;
+    position: relative;
+    z-index: 9;
+    background-color: #fff;
+  }
+
+  #recommend-section_swiper h3 {
+    position: relative;
+    margin-bottom: 45px;
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  #recommend-section_swiper h3:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #000000;
+    transform: translateY(-3px);
+  }
+
+  #recommend_products_swiper .swiper-slide {
+    text-align: center;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.07);
+    border-radius: 1px;
+  }
+
+  #recommend_products_swiper .cover_wrap {
+    width: 100%;
+    padding-bottom: 100% !important;
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  #recommend_products_swiper .cover {
+    -o-object-fit: contain;
+    object-fit: contain;
+    position: absolute;
+    width: auto;
+    height: auto;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  #recommend_products_swiper .m_title {
+    font-size: 16px;
+    font-family: "Floane-Regular";
+    color: #303133;
+    padding: 0px 10px;
+    line-height: 2;
+    padding-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  #recommend_products_swiper .price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    line-height: 1;
+    padding-bottom: 5px;
+    height: 30px;
+  }
+
+  #recommend_products_swiper .now_price {
+    font-size: 14px;
+    font-family: "Aileron-SemiBold, Aileron";
+    font-weight: 600;
+    color: #000000;
+    padding: 0 10px;
+    line-height: 1;
+  }
+
+  #recommend_products_swiper .old_price {
+    font-size: 12px;
+    font-family: "Aileron-Regular, Aileron";
+    font-weight: 400;
+    color: #9B9B9B;
+    line-height: 1;
+    text-decoration: line-through;
+    position: relative;
+    top: -2px;
+  }
+
+  #recommend_products_swiper .old_price+.now_price {
+    padding-left: 5px !important;
+
+  }
+
+  #recommend_products_swiper .swiper-container {
+    padding-bottom: 16px;
+  }
+
+  .product_red.row .m_title {
+    font-size: 2px;
+  }
+
+  .product_red.row .old_price,
+  .product_red.row .now_price {
+    font-size: 0.2;
+  }
+
+  .product_red.row .now_price .hide {
+    display: none;
+  }
+
+  #recommend_products_swiper .free_shipping {
+    font-size: 18px;
+    padding: 6px 25px;
+  }
+
+  #recommend_products_swiper .off {
+    width: 68px;
+    height: 68px;
+    top: 4px;
+    right: 4px;
+  }
+
+  #recommend_products_swiper .off em:first-child {
+    font-size: 14px;
+    top: 40px;
+  }
+
+  #recommend_products_swiper .off em:last-child {
+    font-size: 24px;
+    top: 11px;
+  }
+
+  #recommend_products_swiper {
+    position: relative;
+  }
+
+  #recommend_products_swiper .swiper-next,
+  #recommend_products_swiper .swiper-prev {
+    width: 58px;
+    height: 58px;
+    background-size: 100% 100%;
+    position: absolute;
+    top: 50%;
+    cursor: pointer;
+    outline: none;
+  }
+
+  #recommend_products_swiper .swiper-next {
+    right: -80px;
+    background-image: url(../assets/pc/images/btn_crsl_right@2x.png);
+  }
+
+  #recommend_products_swiper .swiper-prev {
+    left: -80px;
+    background-image: url(../assets/pc/images/btn_crsl_left@2x.png);
+  }
+
+  #recommend_products_swiper .swiper-button-disabled {
+    opacity: .35;
+    cursor: auto;
+    pointer-events: none;
+  }
+</style>
+<div id="recommend-section_swiper">
+  {% if isShow %}
+  <h3>you may also like </h3>
+  {% endif %}
+  <div class="swiper-container newProducts_details" id='recommend_products_swiper'>
+    <div class="newProducts_details swiper-wrapper">
+      {% for item in data %}
+      {% if forloop.index < 13 %} <div class="swiper-slide">
+        <a href="productDetail_{{item.id}}.html">
+          <div class="cover_wrap">
+            {% if item.discount and item.discount != 10 %}
+            <span class="discount pa hide" data-discount="{{item.discount}}" data-start="{{item.discountStaTime}}"
+              data-end="{{item.discountEndTime}}">
+              <em class="num"><i class="d_num"></i>%</em><em class="text">OFF</em>
+            </span>
+            {% endif %}
+            {% if item.freeShipping != 0 %}
+            <div class="free_shipping">
+              Free Shipping
+            </div>
+            {% endif %}
+            <img class="cover" data-suffix-img="{{item.mainImg}}" src="{{item.mainImg}}">
+          </div>
+          <p class="m_title">{{item.goodsName}}</p>
+          <div class="price" data-price="{{item.defaultPrice}}">
+            <span class="now_price"></span>
+            <span class="old_price hide"></span>
+          </div>
+        </a>
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+  <div class="swiper-prev"></div>
+  <div class="swiper-next"></div>
+</div>
+</div>
+<script>
+  function recommendSwiper() {
+    // newProducts 下的轮播图
+    var recommend_products_swiper = new Swiper('#recommend_products_swiper', {
+      spaceBetween: 30,
+      slidesPerView: 3,
+      speed: 1000,
+      navigation: {
+        nextEl: '#recommend-section_layui_swiper .swiper-next',
+        prevEl: '#recommend-section_layui_swiper .swiper-prev',
+      },
+    })
+
+    let allprice = $("#recommend_products_swiper [p-price]")
+    allprice.each(function (index) {
+      $(this).text(getMoney($(this).attr('p-price')))
+    });
+  }
+  recommendSwiper();
+  let swiperSlideDom = $('#recommend-section_swiper .swiper-slide')
+  swiperSlideDom.each(function (index, item) {
+    relationCount($(item))
+  });
+  /* 计算价格 */
+  function relationCount($this) {
+    let start = $this.find('[data-start]').attr('data-start'),
+      end = $this.find('[data-end]').attr('data-end'),
+      $defaultPrice = $this.find('[data-price]').attr('data-price'),
+      $discount = Number($this.find('[data-discount]').attr('data-discount'));
+    if ($discount && $discount != '' && Number($discount) != 10 && Object.prototype.toString.call($discount).slice(8, -1) != 'Null') {
+      if (contrastTime(true, end, start)) {
+        $this.find('.now_price').addClass('main_color').html(getMoney($defaultPrice * ($discount / 10)));
+        $this.find('.old_price').removeClass('hide').html(getMoney($defaultPrice));
+        $this.find('.d_num').html((10 - $discount) * 10);
+        $this.find('[data-discount]').removeClass('hide');
+      } else {
+        $this.find('.now_price').html(getMoney($defaultPrice))
+      }
+    } else {
+      $this.find('.now_price').html(getMoney($defaultPrice))
+    }
+  }
+</script>

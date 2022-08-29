@@ -1,0 +1,186 @@
+<style>
+	.contact .contact-header {
+		background-color: #F7F7F7;
+		text-align: center;
+		padding: 50px 0;
+	}
+
+	.contact .contact-header p {
+		font-size: 12px;
+		color: #545454;
+	}
+
+	.contact .contact-header h1 {
+		font-size: 36px;
+		line-height: 1.4;
+		font-weight: bold;
+		margin-bottom: 10px;
+	}
+
+	.contact .contact-from {
+		padding: 30px 0;
+	}
+
+	.contact .contact-from button {
+		color: var(--button-text-color);
+		background-color: var(--button-bg);
+		font-size:var(--button-font-size);
+		padding: 14px 36px;
+		border-radius: 4px;
+		margin-top: 40px;
+	}
+
+	@media (max-width:992px) {
+		.contact .contact-from button {
+			display: block;
+			margin: 0 auto;
+		}
+
+		.contact .contact-from {
+			padding: 30px 15px;
+		}
+	}
+	@media (max-width:768px) {
+		.contact .contact-from button {
+			font-size:var(--button-wap-font-size);
+			padding: 8px 25px;
+		}
+	}
+
+
+
+	.contact .contact-from-item {
+		width: 100%;
+		height: 48px;
+		position: relative;
+		margin-bottom: 20px;
+		background-color:var(--normal-bg)
+	}
+
+	.contact .contact-from-item .err-msg {
+		left: 5px;
+
+	}
+
+	.contact .contact-from-item label {
+		position: absolute;
+		top: 5px;
+		left: 18px;
+		font-size: 12px;
+		color: #9B9B9B;
+		margin-bottom: 0;
+	}
+
+	.contact .contact-from-item.textarea {
+		height: 200px;
+	}
+
+	.contact .contact-from-item input,
+	.contact .contact-from-item textarea {
+		display: block;
+		width: 100%;
+		height: 100%;
+		font-size: 14px;
+		padding: 20px 14px 0;
+		box-sizing: border-box;
+		border: #eee solid 1px;
+	}
+
+
+	.contact .contact-from-item.textarea label {
+		padding-top: 5px;
+		top: 1px;
+		width: calc(100% - 60px);
+		background: #fff;
+	}
+
+	.contact .contact-from-item.textarea textarea {
+		padding-top: 22px;
+	}
+
+	.success-text {
+		font-size: 18px;
+		padding-top: 40px;
+		color: #df0052;
+		text-align: center;
+		margin-bottom: 10vh;
+	}
+</style>
+
+{% assign page_title = 'i18n.contact_us.page_title' | t: lang , shop_name: shopName %}
+{% layout 'theme',showHeader: true,showFooter: true %}
+{% block 'content' %}
+<div class="contact">
+	<div class="contact-header">
+		<h1>{{'i18n.contact_us.subheading' | t: lang }}</h1>
+		<p>{{'i18n.contact_us.subheading_up' | t: lang }}<br>{{'i18n.contact_us.subheading_down' | t: lang }}
+		</p>
+	</div>
+	<div class="success-text hide">{{'i18n.contact_us.success_text' | t: lang }}</div>
+	<form class="contact-from  container" novalidate>
+		<div class="form-row">
+			<div class="contact-from-item col-lg-6">
+				<label for="validationCustom1">{{'i18n.contact_us.your_name' | t: lang}}</label>
+				<input type="text" name="name" data-required data-msg="{{'i18n.contact_us.error_name_msg' | t: lang }}" data-prompt="{{'i18n.contact_us.error_name_prompt' | t: lang }}" data-reg="^[^<>《》?*@$={}]+$" class="form-control"
+					id="validationCustom1">
+			</div>
+			<div class="contact-from-item col-lg-6">
+				<label for="validationCustom2">{{'i18n.contact_us.your_email' | t: lang}}</label>
+				<input type="text" name="email" data-required data-msg="{{'i18n.contact_us.error_email_prompt' | t: lang}}" data-prompt="{{'i18n.contact_us.error_email_prompt' | t: lang}}"
+					data-reg="^[a-zA-Z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$" class="form-control" id="validationCustom2">
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="contact-from-item col-lg-12">
+				<label>{{'i18n.contact_us.phone_number' | t: lang}}</label>
+				<input type="text" name="phone" class="form-control">
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="contact-from-item textarea col-lg-12">
+				<label for="validationCustom3">{{'i18n.contact_us.your_message' | t: lang}}</label>
+				<textarea type="text" class="form-control" id="validationCustom3" rows="8" name="message" data-prompt="{{'i18n.contact_us.error_message_prompt' | t: lang}}" data-reg="^[^<>《》*@$={}]+$" data-required
+					data-msg="{{'i18n.contact_us.error_message_msg' | t: lang}}"></textarea>
+			</div>
+		</div>
+		<button class="button-font" id="contactInfoSubmit" type="button">{{'i18n.contact_us.button_text' | t: lang}}</button>
+	</form>
+</div>
+<script>
+	$(document).ready(function () {
+		$('#contactInfoSubmit').on('click', $.debounce(function () {
+			let orderParams = {}
+			// 校验form表单
+			if ($(".contact .contact-from").validate()) {
+				// 序列化
+				orderParams = $(".contact .contact-from").serializeToObj()
+				getToken(function () {
+					$.req({
+						url: '/api/v1/user/message',
+						type: 'post',
+						contentType: 'application/json;charset=UTF-8',
+						data: JSON.stringify(orderParams),
+						success(res) {
+							if (res.code === 0) {
+								$('.success-text').removeClass('hide')
+								$('.contact-from').addClass('hide')
+								$.alert('success', res.msg)
+							} else {
+								$.alert('danger', res.msg)
+							}
+						}
+					})
+				})
+			} else {
+				// 滚动到可视区域
+				$("html,body").animate({
+					scrollTop: $(".validate-failed").parent().offset().top - window.innerHeight * 0.3
+				}, 500)
+
+			}
+		}))
+	})
+
+</script>
+
+{%endblock%}

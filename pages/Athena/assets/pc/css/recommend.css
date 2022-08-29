@@ -1,0 +1,207 @@
+/* 推荐 */
+.recommend {
+  padding: 0 160px;
+  font-family: 'Floane-Regular';
+}
+
+.recommend .title {
+  margin: 60px 0 40px 0;
+  height: 1px;
+  border-top: 1px solid #ddd;
+  text-align: center;
+  position: relative;
+}
+
+.recommend .title span {
+  transform: translateY(-45%);
+  display: inline-block;
+  font-size: 30px;
+  font-weight: 400;
+  color: #303133;
+  background: #ffffff;
+  padding: 0 22px;
+}
+
+.recommend a {
+  display: inline-block;
+  text-align: center;
+}
+
+.recommend img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* 推荐一 */
+
+.recommend .swiper-container {
+  width: 100%;
+  height: 100%;
+}
+
+.recommend .content {
+  position: relative;
+}
+
+.recommend .swiper-slide {
+  text-align: center;
+  background: #fff;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.07);
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+
+.recommend a {
+  position: relative;
+}
+.recommend a img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.recommend .swiper-slide a {
+  height: 0px;
+  padding-bottom: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.recommend .swiper-button-next {
+  right: -80px;
+  width: 41px;
+  height: 41px;
+  background-image: url('../images/btn_crsl_right@2x.png');
+  background-size: contain;
+}
+
+.recommend .swiper-button-prev {
+  left: -80px;
+  width: 41px;
+  height: 41px;
+  background-image: url('../images/btn_crsl_left@2x.png');
+  background-size: contain;
+}
+
+.recommend .swiper-slide p {
+  font-weight: 400;
+  color: #303133;
+  margin: 16px;
+  font-size: 20px;
+}
+
+.recommend .swiper-slide .shopNow a {
+  display: inline-block;
+  color: #ffffff;
+  width: 100%;
+  height: 100%;
+}
+
+/* #recommend-1 p {
+  width: 400px;
+} */
+
+/* 推荐二 */
+
+.recommend-2 .content {
+  display: flex;
+}
+
+.recommend-2 .recommendItem {
+  flex: 1;
+  width: 50%;
+  text-align: center;
+  border: 1px solid #ededed;
+}
+
+.recommend-2 .recommendItem:first-child {
+  margin-right: 18px;
+}
+
+.recommend-2 a {
+  /* width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center; */
+  display: block;
+  height: 0px;
+  padding-bottom: 100%;
+}
+
+/* .recommend-2 img {
+  width: auto;
+  height: 785px;
+} */
+
+/* .recommend-2 .product-item .productName {
+  margin: 10px auto;
+} */
+
+/* .recommend-2 p {
+  font-size: 24px;
+  font-weight: 400;
+  max-width: 700px;
+} */
+
+.recommend-2 .oldPrice {
+  font-size: 20px;
+}
+
+.recommend-2 .newPrice {
+  font-size: 24px;
+}
+
+/* 推荐三 */
+/* #recommend-3 .product-item {
+  height: 468px;
+} */
+
+#recommend-3 .content {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+/* .recommend-3 .content .recommendItem::after {
+  content: "";
+  width: 378px;
+} */
+
+#recommend-3 .content .recommendItem {
+  width: 378px;
+  text-align: center;
+}
+
+#recommend-3 .swiper-slide a {
+  height: 0px;
+  padding-bottom: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#recommend-3 p {
+  font-size: 16px;
+  font-weight: 400;
+  color: #303133;
+}
+
+#recommend-3 .price {
+  padding-top: 0;
+}
+
+#recommend-3 .newPrice {
+  color: #df0052;
+}

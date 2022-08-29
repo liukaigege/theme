@@ -1,0 +1,110 @@
+{% comment %}
+主题： Athena-雅典娜;
+积木名称：section_poster-海报;
+{% endcomment %}
+{% comment %}积木id{% endcomment %}
+{% assign sectionId = configData.sectionId %}
+{% comment %}配置数据{% endcomment %}
+{% assign configList = configData.config %}
+{% comment %}海报类型（0图片海报/1图文海报/2文本海报） 默认0{% endcomment %}
+{% assign type = configList.type %}
+
+{% if type == 0 %}
+{% comment %} 图片海报 {% endcomment %}
+{% assign posters = configList.poster.picPoster %}
+<div type-block="block" class="posterStyle posterStyle1" id="{{sectionId}}">
+  {% if posters.displaysty == 1 %}
+  <a class="imgBox1"
+    onclick="routerJump('{{ posters.posterData[0].linkUrl | LINKURL:posters.posterData[0].linkStatus }}')">
+    <img class="lazyload" src="{{posters.posterData[0].pic | IMGURL:'../assets/pc/images/poster_preloader.png'}}" {% if
+      isLocal==1%}src="{{posters.posterData[0].pic | IMGURL:'../assets/pc/images/poster_preloader.png'}}" {%endif%}>
+  </a>
+  {% elsif posters.displaysty == 2 %}
+  <div class="imgBox3">
+    <a class="imgBox3-item bg posterPreloader lazyload"
+      onclick="routerJump('{{ posters.posterData[0].linkUrl | LINKURL:posters.posterData[0].linkStatus }}')"
+      class="lazyload" data-original="{{posters.posterData[0].pic | IMGURL:'../assets/pc/images/one_bg@2x.png'}}" {% if
+      isLocal==1%}style="background-image:url({{posters.posterData[0].pic | IMGURL:'../assets/pc/images/one_bg@2x.png'}})"
+      {%endif%}></a>
+    <a class="imgBox3-item bg posterPreloader lazyload"
+      onclick="routerJump('{{ posters.posterData[1].linkUrl | LINKURL:posters.posterData[1].linkStatus }}')"
+      class="lazyload" data-original="{{posters.posterData[1].pic | IMGURL:'../assets/pc/images/one_bg@2x.png'}}" {% if
+      isLocal==1%}style="background-image:url({{posters.posterData[1].pic | IMGURL:'../assets/pc/images/one_bg@2x.png'}})"
+      {%endif%}></a>
+  </div>
+  {% elsif posters.displaysty == 3 %}
+  <div class="imgBox3">
+    <a class="imgBox3-item bg posterPreloader lazyload"
+      onclick="routerJump('{{ posters.posterData[0].linkUrl | LINKURL:posters.posterData[0].linkStatus }}')"
+      class="lazyload" data-original="{{posters.posterData[0].pic | IMGURL:'../assets/pc/images/poster1.png'}}" {% if
+      isLocal==1%}style="background-image:url({{posters.posterData[0].pic | IMGURL:'../assets/pc/images/poster1.png'}})"
+      {%endif%}></a>
+    <div class="imgBox3-item imgBox3-right">
+      <a class="imgItem bg posterPreloader lazyload"
+        onclick="routerJump('{{ posters.posterData[1].linkUrl | LINKURL:posters.posterData[1].linkStatus }}')"
+        class="lazyload" data-original="{{posters.posterData[1].pic | IMGURL:'../assets/pc/images/poster1.png'}}" {% if
+        isLocal==1%}style="background-image:url({{posters.posterData[1].pic | IMGURL:'../assets/pc/images/poster1.png'}})"
+        {%endif%}></a>
+      <a class="imgItem bg posterPreloader lazyload"
+        onclick="routerJump('{{ posters.posterData[2].linkUrl | LINKURL:posters.posterData[2].linkStatus }}')"
+        class="lazyload" data-original="{{posters.posterData[2].pic | IMGURL:'../assets/pc/images/poster1.png'}}" {% if
+        isLocal==1%}style="background-image:url({{posters.posterData[2].pic | IMGURL:'../assets/pc/images/poster1.png'}})"
+        {%endif%}></a>
+    </div>
+  </div>
+
+  {% endif %}
+
+</div>
+{% elsif type == 1 %}
+{% comment %} 图文海报 {% endcomment %}
+{% assign posters = configList.poster.picTextPoster %}
+<div type-block="block" id="{{sectionId}}" class="posterStyle posterStyle2 clearfix" {{ posters.text.backgroundcolor |
+  stylesheetTag:'background-color'}}>
+  <div class="posterText {% if isMobilePhone==0 %}alginCenter{% endif %}" {% if isMobilePhone==0 %} {% if
+    posters.position==0 %}{{ 'left' | stylesheetTag:'float'}}{%else posters.position==1 %}{{ 'right' |
+    stylesheetTag:'float'}}{% endif %}{% endif %}>
+    <div class="posterText-content">
+      <h1 class="overflow_1" {{ posters.text.titleColor | stylesheetTag:'color'}}>{{ posters.text.title | OR:'Heading'
+        }}</h1>
+      <div class="content">{{ posters.text.content | OR:'Use this text to share information about your brand with your
+        customers. Describe a product,share announcements,or welcome customers to your store.' }}</div>
+      {% if posters.button.switch == 1 %}
+      {% assign arr1 = posters.button.color | SplicingString: posters.button.textColor | split: "," %}
+      {% assign arr2 = 'background-color,color' | split: "," %}
+      <button class="alginCenter overflow_1"
+        onclick="routerJump('{{posters.button.linkUrl | LINKURL:posters.button.linkStatus}}')" {{ arr1 |
+        stylesheetTag:arr2,3}}>{{
+        posters.button.copywriting | truncate: 20 }}
+      </button>
+      {% endif %}
+    </div>
+  </div>
+  <div class="posterPicture" {% if isMobilePhone==0 %} {% if posters.position==1 %}{{ 'left' |
+    stylesheetTag:'float'}}{%else posters.position==1 %}{{ 'right' | stylesheetTag:'float'}}{% endif %}{% endif %}>
+    <a onclick="routerJump('{{ posters.linkUrl | LINKURL:posters.linkStatus }}')">
+      <img class="imgCover lazyload" data-original="{{posters.pic | IMGURL:'../assets/pc/images/poster1.png'}}" {% if
+        isLocal==1%}src="{{posters.pic | IMGURL:'../assets/pc/images/poster1.png'}}" {%endif%}>
+    </a>
+  </div>
+</div>
+{% elsif type == 2 %}
+{% comment %} 文本海报 {% endcomment %}
+{% assign posters = configList.poster.textPoster %}
+<div type-block="block" id="{{sectionId}}" class="posterStyle posterStyle3" {{ posters.text.backgroundcolor |
+  stylesheetTag:'background-color'}}>
+  <h1 class="overflow_1" {{ posters.text.titleColor | stylesheetTag:'color'}}>{{ posters.text.title | OR:'Talk about
+    your brand' }}</h1>
+  <div class="content">{{ posters.text.content |OR:'Use this text to share information about your brand with
+    your customers. Describe a product,share announcements,or welcome customers to your store.' }}</div>
+  {% if posters.button.switch == 1 %}
+  {% assign arr1 = posters.button.color | SplicingString: posters.button.textColor | split: "," %}
+  {% assign arr2 = 'background-color,color' | split: "," %}
+  <button class="alginCenter overflow_1"
+    onclick="routerJump('{{posters.button.linkUrl | LINKURL:posters.button.linkStatus}}')" {{ arr1 |
+    stylesheetTag:arr2,3}}>{{
+    posters.button.copywriting | truncate: 20 }}
+  </button>
+  {% endif %}
+</div>
+{% endif %}

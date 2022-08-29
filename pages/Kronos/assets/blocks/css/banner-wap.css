@@ -1,0 +1,39 @@
+.banner {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  margin-bottom: 0.3rem;
+}
+.banner .banner_empty_img_hide{
+  display: none;
+}
+.banner img {
+  width: auto;
+  height: 100%;
+}
+.banner .oneImages{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+}
+@media screen and (min-width: 414px) {
+  .banner {
+    height: 309px;
+  }
+}
+
+@media screen and (min-width: 758px) {
+  .banner {
+    height: 565px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .banner {
+    height: 764px;
+  }
+}
+.banner>img{
+  height: 100%;
+}

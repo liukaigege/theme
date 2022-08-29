@@ -1,0 +1,63 @@
+{% assign page_title = 'i18n.information.page_title' | t: lang , shop_name: shopName %}
+{% layout 'theme' %}
+{% block content %}
+{% assign footetData = blockData | last %}
+{% assign configData = data.configData %}
+<script>
+	var i18n = {
+		business_failed_msg: "{{ 'i18n.information.business_failed_msg' | t: lang }}",
+		cart_expired: "{{ 'i18n.information.cart_expired' | t: lang }}",
+		refresh_update: "{{ 'i18n.information.refresh_update' | t: lang }}",
+		product_removed: "{{ 'i18n.information.product_removed' | t: lang }}"
+	}
+</script>
+<div class="information-info container">
+	{% render 'payment-header', activeName: 'information',headerData: headerData,lang: lang  %}
+	<div class="information-info-content row">
+		{% render 'payment-summary' ,activeName: 'information',lang: lang%}
+		<div class="info-box col-lg">
+			<div>
+				<div class="information-methods">
+					<div class="content__title">{{ 'i18n.payment.payment_method' | t: lang }}</div>
+					<!-- paypal  -->
+					{% render 'information-paypal-tpl',lang: lang %}
+				</div>
+				<div class="information-methods--line"></div>
+			</div>
+			<div class="shipping-address__warpper">
+				<div class="content__title">
+					<i class="circle-icon">1</i>
+					<span>{{ 'i18n.payment.shipping_address' | t: lang }}</span>
+				</div>
+				<div class="shipping-address-form--event active">
+					{% render 'payment-form', settingData: settingData,type: 'shopping',lang: lang %}
+				</div>
+			</div>
+			<!-- 物流选择 -->
+			{% render 'information-logistics_tpl',lang: lang %}
+			<div class="shipping-billing-address__warpper">
+				<div class="content__title affter--line">
+					<i class="circle-icon circle-icon--event">3</i>
+					<span>{{ 'i18n.payment.billing_address' | t: lang }}</span>
+					<p class="choice-tips">{{ 'i18n.information.choice_tip' | t: lang }}</p>
+				</div>
+				<div class="billing-address__item billing-address__item--event" >
+					<div class="custom-control custom-radio">
+						<input type="radio" id="sameAsShippingAdd" checked name="addressType" data-type="1" class="custom-control-input">
+						<label class="custom-control-label" for="sameAsShippingAdd">{{ 'i18n.information.same_as_shipping_add' | t: lang }}</label>
+					</div>
+					<div class="custom-control custom-radio custom-radio--top">
+						<input type="radio" id="differentAddress" name="addressType" data-type="2" class="custom-control-input">
+						<label class="custom-control-label" for="differentAddress">{{ 'i18n.information.use_a_different_billing_address' | t: lang }}</label>
+					</div>
+				</div>
+				<div class="billing-address-form__box billing-address-form--event">
+					{% render 'payment-form' , settingData: settingData, type: 'billing',lang: lang %}
+				</div>
+				<button type="button" id="paymentInfoSubmit" class="btn btn-primary  button-general-font btn--width">{{ 'i18n.general.checkout' | t: lang }}</button>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+

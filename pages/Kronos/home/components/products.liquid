@@ -1,0 +1,73 @@
+{% comment %}
+主题： Athena-雅典娜;
+积木名称：推荐商品;
+{% endcomment %}
+{% comment %}积木id{% endcomment %}
+{% assign sectionId = configData.sectionId %}
+{% comment %}配置数据{% endcomment %}
+{% assign configList = configData.config %}
+{% comment %}推荐分类板块标题{% endcomment %}
+{% assign title = configList.title %}
+{% comment %}推荐分类展示样式{% endcomment %}
+{% assign displaysty = configList.displaysty %}
+{% comment %}交互形式（0换行平铺/1左右滑动） 默认0{% endcomment %}
+{% assign interactive = configList.interactive %}
+{% comment %}分类数据{% endcomment %}
+{% if configList.goodList.size>0 and configList.type == 0 %}
+{% assign goodList = configList.goodList | get: configList.goodsNum %}
+{% elsif configList.goodList.size>0 and configList.type == 1 %}
+{% assign goodList = configList.goodList %}
+
+{% else %}
+{% assign goodList = configList.perLineNum | CREATEDGOODSLIST %}
+{%endif%}
+
+{% comment %}当前汇率{% endcomment %}
+{% if isLocal == 1 %}
+{% assign currentRate = configData.currentRate %}
+{% else %}
+{% for currency in OBJ.configData.currency %}
+{% if currency.mainCurrency == 1 %}
+{% assign currentRate = currency %}
+{% break %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if isMobilePhone == 0 %}
+{% comment %}每行分类数{% endcomment %}
+{% assign perLineNum = configList.perLineNum %}
+{% else %}
+{% comment %}每行分类数,在移动端的时候，每行最多展示两个{% endcomment %}
+{% if configList.perLineNum>1 and interactive == 0 %}
+{% if configList.goodList.size > 5 %}
+{% assign perLineNum = 2 %}
+{% else %}
+{% assign perLineNum = configList.perLineNum | modulo: 2 %}
+{% endif %}
+{% else %}
+{% assign perLineNum = configList.perLineNum %}
+{% endif %}
+{% endif %}
+<div type-block="block" class="recommendProducts" id="{{sectionId}}">
+  {% if title.size>0%}
+  <div class="{% if isMobilePhone == 0 %}vshop-title-pc{%else%} vshop-title-wap {% endif %}">
+    <span>{{ title }}</span>
+  </div>
+  {% endif %}
+
+
+  {% comment %}平铺展示{% endcomment %}
+  {% if interactive == 0 %}
+
+  {% render
+  'Kronos/home/components/recommendUnfold',goodList:goodList,displaysty:displaysty,isMobilePhone:isMobilePhone,currentRate:currentRate,perLineNum:perLineNum,isLocal:isLocal
+  %}
+  {% comment %}滑动展示{% endcomment %}
+  {% else %}
+
+  {% render
+  'Kronos/home/components/recommendSlide',goodList:goodList,displaysty:displaysty,isMobilePhone:isMobilePhone,currentRate:currentRate,perLineNum:perLineNum,sectionId:sectionId,isLocal:isLocal
+  %}
+  {% endif %}
+
+</div>

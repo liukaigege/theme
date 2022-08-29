@@ -1,0 +1,26 @@
+<div class="swiper-container category-swiper-wap" perLineNum="{{perLineNum}}" id="swiper-wap-{{id}}">
+	<div class="swiper-wrapper">
+		{% for item in categoryList %}
+		<div class="swiper-slide" {% if categoryList.size==2 %} style="width:45%;margin:14px" {% elsif categoryList.size==1 %} style="width:100%" {%else%} style="width:40%;margin:10px" {%endif%}>
+			{% render'category-item-style1',data:item,isSwiper:1,prePath:prePath %}
+		</div>
+		{% endfor %}
+	</div>
+</div>
+<script>
+	$(document).ready(function () {
+		// 初始化swiper轮播图
+		new Swiper('.category-swiper-wap', {
+			observer: true, //修改swiper自己或子元素时，自动初始化swiper
+			observeParents: true, //修改swiper的父元素时，自动初始化swiper
+			slidesPerView: 2.3,
+			watchSlidesProgress: true,
+			watchSlidesVisibility: true,
+			spaceBetween: 15,
+			lazy: {
+				loadPrevNext: true,
+			}
+		})
+	})
+
+</script>

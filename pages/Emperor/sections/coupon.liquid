@@ -1,0 +1,98 @@
+{% comment %}
+主题： Athena-雅典娜;
+积木名称：优惠券弹框;
+{% endcomment %}
+{% assign btnClose = prePath | append: 'assets/images/btn_close@2x.png' %}
+{% assign couponData = configData.commomCoupon[0] %}
+{% comment %}货币数据{% endcomment %}
+{% assign currency = configData.currency %}
+{% for i in currency %}
+{% if i.mainCurrency==1 %}
+{% assign currentRate = i %}
+{% break %}
+{% endif%}
+{% endfor%}
+{% comment %} 2022年3月28日重构优惠券弹框模块 Start {% endcomment %}
+<div class="coupon-modal">
+	{% comment %} 蒙层 maker {% endcomment %}
+	<div class="coupon-modal_maker"></div>
+	{% comment %} 弹框的主题内容 content pc端优惠券少于5个时，弹框宽度变窄=>通过类名coupon-modal_content--less控制 {% endcomment %}
+	<div class="coupon-modal_content container {% if couponData.list.length < 5 %} coupon-modal_content--less less {% endif %}">
+		{% comment %} 弹框头部和优惠券列表容器 {% endcomment %}
+		<div class="coupon-modal_container--title">{{ couponData.title }}</div>
+		<ul class="coupon-modal_coupon--ul row
+        {% if couponData.list.length == 1 %}
+           only-one
+        {% elsif  couponData.list.length == 2 %}
+           only-two
+        {% endif %}">
+			{% comment %} 优惠券列表 {% endcomment %}
+			{% for item in couponData.list %}
+			{% comment %} item.ruleResult 0=>满立减优惠券 1=>折扣优惠券 {% endcomment %}
+			{% comment %} item.activitiesRule 0=>优惠券使用不需要条件 1=>优惠券使用订单需要满足一定金额 2=>优惠券使用订单需要满足一定件数 {% endcomment %}
+			<li class="coupon-modal_couponlist {% if couponData.list.length == 1 %} col-12 {% elsif couponData.list.length>1 and couponData.list.length<5 %} col-6 {%else%} col-sm-6 col-lg-3 {% endif %}">
+				<div class="coupon-modal_couponlist--bg" style="position: relative;">
+					<div class="coupon-modal_list--content {% if item.ruleDesc and item.activitiesRule != '0' %}hastips{%endif%}">
+						<div class="coupon-modal_list--main">
+							<div class="coupon-modal_list--price">
+								{% comment %} {% if item.ruleResult == '0' %}
+									<span class="coupon-modal_dollar">{{currentRate.symbol}}</span>
+								{% endif %} {% endcomment %}
+								{%if item.ruleResult == '0' %}
+									{% assign ruleResultValue = item.ruleResultValue | calculationPrice: currentRate %}
+								<span class="coupon-modal_price" p-price="{{ item.ruleResultValue }}">{{ ruleResultValue }}</span>
+								{% else %}
+									{% assign ruleResultValue = item.ruleResultValue | times: 10 %}
+								<span class="coupon-modal_price">{{ ruleResultValue }}</span>
+								{% endif %}
+							</div>
+							{% if item.ruleResult == '1' %}
+							<div class="coupon-modal_coupon--per">
+								<p>%</p>
+								<p>{{'i18n.coupons.symbol' | t:lang }}</p>
+							</div>
+							{% endif %}
+						</div>
+						{% if item.ruleDesc and item.activitiesRule != '0' %}
+						<div class="coupon-modal_coupon--tips"">
+						{% case item.releType %}
+							{% when "1" %}
+								{% assign ruleDesc = item.ruleDesc | split:"**" %}
+								{% assign descValue = "<i p-price='"| append: ruleDesc[1] | append:"'></i>"%}
+								<i>{{ 'i18n.coupons.rule_desc_type_one' | t: lang, desc_value: descValue}}</i>
+							{% when "2" %}
+								{% assign ruleDesc = item.ruleDesc | split:" " %}
+							<i>{{ 'i18n.coupons.rule_desc_type_two' | t: lang, desc_value: ruleDesc[1] }}</i>
+							{% when "3" %}
+								{% assign ruleDesc = item.ruleDesc | split:" " %}
+							<i>{{ 'i18n.coupons.rule_desc_type_three' | t: lang, desc_value: ruleDesc[1] }}</i>
+						{% endcase %}
+						</div>
+						{% endif %}
+					</div>
+				</div>
+			</li>
+			{% endfor %}
+		</ul>
+		{% comment %} 弹框的底部，按钮和提示的容器 {% endcomment %}
+		<div class="coupon-modal_options">
+			<div class="coupon-modal_options--btn">{{couponData.buttonContent}}</div>
+			<div class="coupon-modal_options--tips">{{couponData.activityDescription}}</div>
+		</div>
+		{% comment %} 弹框关闭按钮 {% endcomment %}
+		<img src="{{ btnClose }}" class="coupon-modal_close--pc" alt="">
+	</div>
+	{% comment %} 点击获取优惠券成功后的弹框 {% endcomment %}
+	<div class="coupon-modal_success container {% if couponData.list.length < 5 %} coupon-modal_content--less less{% endif %}">
+		<div class="coupon-modal_success--container">
+			<div class="coupon-modal_success--title">{{'i18n.coupons.success_title' | t: lang }}</div>
+			<div class="coupon-modal_success--tips">{{'i18n.coupons.success_tips' | t: lang }}</div>
+		</div>
+		<div class="coupon-modal_success--bottom">
+			<div class="coupon-modal_success--btn">{{'i18n.coupons.success_button_text' | t: lang }}</div>
+			<div class="coupon-modal_success--desc">{{couponData.activityDescription}}</div>
+			<img src="{{ btnClose }}" class="coupon-modal_close--pc" alt="">
+		</div>
+	</div>
+</div>
+{% comment %} 2021年6月21日重构优惠券弹框模块 End {% endcomment %}

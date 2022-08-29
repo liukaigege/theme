@@ -1,0 +1,179 @@
+.posterStyle {
+  width: 1600px;
+  margin: 60px auto;
+  overflow: hidden;
+}
+
+.posterStyle a {
+  display: block;
+}
+
+/* 图片海报样式 */
+.posterStyle img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.posterStyle1 .imgBox1 {
+  width: 1600px;
+  margin: 0 auto;
+  text-align: center;
+}
+.posterStyle .imgBox1 img {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  max-height: 878px;
+}
+.posterStyle1 .imgBox3 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  height: 878px;
+  width: 100%;
+}
+
+.posterStyle1 .imgBox3 .imgBox3-right {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 15px 0;
+}
+
+/* 图文海报样式 */
+.posterStyle2 {
+  height: 576px;
+}
+
+.posterStyle2 .posterPicture,
+.posterStyle2 .posterText {
+  width: 50%;
+  height: 100%;
+}
+
+.posterStyle2 .posterPicture a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.posterStyle2 .posterText .posterText-content {
+  width: 100%;
+  padding: 25px;
+  font-size: 16px;
+}
+
+.posterStyle2 .posterText .posterText-content h1 {
+  font-size: 50px;
+  font-family: Helvetica;
+  line-height: 68px;
+}
+.posterStyle3 .content,
+.posterStyle2 .posterText .posterText-content .content {
+  margin: 30px 0;
+  font-size: 16px;
+  max-height: 200px;
+  overflow: hidden;
+}
+.posterStyle3 .content em {
+  font-style: oblique;
+}
+.posterStyle2 .posterText .posterText-content button {
+  width: 370px;
+  height: 60px;
+  line-height: 60px;
+  border-radius: 4px;
+  font-size: 24px;
+  font-family: Helvetica;
+  cursor: pointer;
+}
+
+/* 文本海报样式 */
+.posterStyle3 {
+  border-radius: 3px;
+  padding: 137px 240px;
+}
+
+.posterStyle3 h1 {
+  font-size: 120px;
+  font-family: PingFangSC-Semibold, PingFang SC;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.posterStyle3 button {
+  width: 370px;
+  height: 72px;
+  border-radius: 36px;
+  font-size: 24px;
+  font-family: Helvetica;
+  color: #000000;
+  cursor: pointer;
+  padding: 0 10px;
+}
+@media screen and (max-width: 1600px) {
+  .posterStyle {
+    margin: 0.3rem auto;
+    width: 16rem;
+  }
+
+  .posterStyle1 .imgBox1 {
+    width: 16rem;
+  }
+
+  .posterStyle1 .imgBox3 {
+    height: 8.78rem;
+  }
+
+  .posterStyle1 .imgBox3 .imgBox3-right {
+    grid-gap: 0.15rem 0;
+  }
+
+  /* 图文海报样式 */
+  .posterStyle2 {
+    height: 5.76rem;
+  }
+
+  .posterStyle2 .posterText .posterText-content {
+    padding: 0.25rem;
+    font-size: 0.16rem;
+  }
+
+  .posterStyle2 .posterText .posterText-content h1 {
+    font-size: 0.5rem;
+    line-height: 0.68rem;
+  }
+  .posterStyle3 .content,
+  .posterStyle2 .posterText .posterText-content .content {
+    margin: 0.3rem 0;
+    font-size: 0.16rem;
+    max-height: 2rem;
+  }
+
+  .posterStyle2 .posterText .posterText-content button {
+    min-width: 3.7rem;
+    height: 0.6rem;
+    line-height: 0.6rem;
+    font-size: 0.24rem;
+  }
+
+  /* 文本海报样式 */
+  .posterStyle3 {
+    border-radius: 3px;
+    padding: 1.37rem 2.4rem;
+  }
+
+  .posterStyle3 h1 {
+    font-size: 0.7rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .posterStyle3 button {
+    min-width: 3.7rem;
+    height: 0.72rem;
+    border-radius: 0.36rem;
+    font-size: 0.24rem;
+    padding: 0 0.1rem;
+  }
+}

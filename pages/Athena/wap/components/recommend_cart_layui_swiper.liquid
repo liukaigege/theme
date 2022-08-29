@@ -1,0 +1,54 @@
+<div id="recommend-section_cart_layui_swiper">
+  {% if isShow %}
+  <h3>you may also like </h3>
+  {% endif %}
+  <div class="swiper-container newProducts_details" id='recommend_cart_layui_swiper'>
+
+  </div>
+</div>
+{% raw %}
+<script id='recommend_cart_template' type="text/html">
+    <div class="swiper-wrapper">
+      {{#  layui.each(d, function(index, item){ }}
+      <div class="swiper-slide">
+        <a href="productDetail_{{item.id}}.html">
+          <div class="cover_wrap">
+            <div class="discount_wrap">
+{{# if(item.freeShipping != 0){ }}
+<div class="free_shipping">
+  FREE SHIPPING
+</div>
+{{# } }}
+{{# if(item.defaultPrice && item.defaultPrice < item.originalPrice){ }} <div class="off">
+  <em><i></i>%</em>
+  <em>OFF</em>
+  </div>
+{{# } }}
+            </div>
+            
+            
+            <img class="cover" data-suffix-img="{{item.mainImg}}">
+          </div>
+          <p class="m_title">{{item.goodsName}}</p>
+          <div class="price" data-price="{{item.defaultPrice}}" data-originalPrice='{{item.originalPrice}}'>
+            <span class="old_price hide"></span>
+            <span class="now_price"></span>
+          </div>
+        </a>
+        {{# if (item.speType==3) { }}
+        <div class="wrapContainer">
+            <div class="cube">
+                <div class="cubeList front">3</div>
+                <div class="cubeList back">3</div>
+                <div class="cubeList top">3</div>
+                <div class="cubeList bottom">D</div>
+                <div class="cubeList left">D</div>
+                <div class="cubeList right">D</div>
+            </div>
+        </div>
+        {{# } }}
+      </div>
+      {{# }) }}
+    </div>
+</script>
+{% endraw %}

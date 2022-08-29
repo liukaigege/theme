@@ -1,0 +1,125 @@
+<style>
+	.alipay-content-warpper {
+		border: 0;
+		box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+		padding: 5px 15px 15px 15px;
+		vertical-align: top;
+		transition: all 0.15s ease-in-out;
+		border-radius: 10px 10px 10px 10px;
+		margin-top: 20px;
+	}
+
+	.alipay-title {
+		font-size: 12px;
+		line-height: 40px;
+		border-bottom: 1px solid #e6e6e6;
+	}
+
+	.wallet-content {
+		display: flex;
+		flex-wrap: wrap;
+		margin-top: 15px;
+	}
+
+	.wallet-item {
+		flex-grow: 1;
+		height: 30px;
+		margin-bottom: 15px;
+		filter: grayscale(100%);
+		opacity: 0.5;
+		transition: all 0.3s ease-in-out;
+	}
+
+	.wallet-item:hover, .wallet-item.active{
+		filter: grayscale(0%);
+		opacity: 1;
+	}
+
+	.wallet-item.selecting {
+		filter: grayscale(0%);
+		opacity: 1;
+	}
+
+	.wallet-item>img {
+		object-fit: contain;
+		border-radius: 15px;
+		cursor: pointer;
+	}
+
+	.card-item {
+		font-size: 12px;
+		display: none;
+	}
+	.card-item-title {
+		border-bottom: 1px solid #e6e6e6;
+		line-height: 40px;
+		margin-bottom: 15px;
+	}
+	.card-item.active {
+		display: block;
+	}
+	.alipay-box {
+		display: flex;
+		justify-content: space-between;
+		margin: 15px 0;
+	}
+	.btn-width {
+		width: 100%;
+	}
+	.content-center {
+		display: flex;
+		justify-content: center;
+	}
+</style>
+
+
+<div class="alipay-partner-box">
+	<div class="alipay-content-warpper">
+		<div class="alipay-title">
+			{{ 'i18n.payment.select_a_wallet_for_payment' | t: lang }}:
+		</div>
+		<div class="wallet-content container-lg wallet-content--event">
+			<div class="wallet-item col-6 active" data-type='1' data-wallet='gcash' data-key='PHP'>
+				<img src="../assets/images/GCASH.png">
+			</div>
+			<div class="wallet-item col-6" data-type='3' data-wallet='kakaopay' data-key='KRW'>
+				<img src="../assets/images/KAKAOPAY.png">
+			</div>
+			<div class="wallet-item col-6" data-type='2' data-wallet='dana' data-key='IDR'>
+				<img src="../assets/images/DANA.png">
+			</div>
+			<div class="wallet-item col-6" data-type='4' data-wallet='AlipayHK' data-key='HKD'>
+				<img src="../assets/images/ALIPAY_HK.png">
+			</div>
+		</div>
+	</div>
+	<div class="alipay-content-warpper">
+		<div class='card-item gcash active'>
+			<div class="card-item-title">{{ 'i18n.payment.php_tip' | t: lang }}</div>
+			<div>1 USD ≈ <i data-key="PHP"></i> PHP</div>
+		</div>
+		<div class='card-item kakaopay'>
+			<div class="card-item-title">{{ 'i18n.payment.idr_tip' | t: lang }}</div>
+			<div>1 USD ≈ <i data-key='KRW'></i> IDR</div>
+		</div>
+		<div class='card-item dana'>
+			<div class="card-item-title">{{ 'i18n.payment.krw_tip' | t: lang }}</div>
+			<div>1 USD ≈ <i data-key='IDR'></i> KRW</div>
+		</div>
+		<div class='card-item AlipayHK'>
+			<div class="card-item-title">{{ 'i18n.payment.hkd_tip' | t: lang }}</div>
+			<div>1 USD ≈ <i data-key='HKD'></i> HKD</div>
+		</div>
+
+	</div>
+	<div class="alipay-content-warpper content-center">
+		<div class="col-10">
+			<div class="alipay-box">
+				<div>{{ 'i18n.payment.total' | t: lang }}</div>
+				<div id='alipayTotal'></div>
+			</div>
+			<button type="button" class="btn button-general-font button-general-font btn-width" id="alipayBtn">{{ 'i18n.payment.place_order' | t: lang }}</button>
+		</div>
+	</div>
+</div>
+

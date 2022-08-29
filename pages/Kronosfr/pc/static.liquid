@@ -1,0 +1,40 @@
+{% layout 'Kronosfr/components/Kronosfr_theme_pc' name:'static' %}
+{% block 'content' %}
+{% render 'Kronosfr/components/pageHeader',configData: blockData.first,isMobilePhone: isMobilePhone,OBJ:data %}
+
+<div class="staticPageHtml clearfix">
+
+</div>
+<style>
+    .staticPageHtml {
+        padding: 30px 160px;
+        min-height: 300px;
+    }
+
+    .staticPageHtml * {
+        max-width: 100% !important;
+    }
+</style>
+<script>
+    const pageId = unescape(getUrlVars(window.location.href).pageid)
+    $(".staticPageHtml").load('/static-page' + pageId + '?version=' + new Date().getTime(), '', function () { });
+    // layui.config({
+    //     version: true,
+    //     base: '/layui'
+    // }).use(['jquery', 'layer'], function () {
+    //     let $ = layui.jquery,
+    //         layer = layui.layer,
+    //         pageId = getUrlVars(window.location.href).pageid;
+    //     if (pageId) {
+    //         $(".staticPageHtml").load('/static-page' + pageId + '?version=' + new Date().getTime(), '',
+    //             function () { });
+    //     } else {
+    //         layer.msg('pageId is no', {
+    //             icon: 5,
+    //             time: 1500
+    //         });
+    //     }
+    // });
+</script>
+{% render 'Kronosfr/components/pageFooter' ,configData: blockData.last ,isMobilePhone: isMobilePhone,OBJ:data %}
+{% endblock %}

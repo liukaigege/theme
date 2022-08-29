@@ -1,0 +1,91 @@
+.content {
+    display: inline-block;
+    width: 100%;
+    height: 100vh;
+    /* background: url(../image/bg_order.png) no-repeat; */
+    background: url(../images/bg_order@2x.png) no-repeat;
+    background-size: cover;
+    text-align: center;
+}
+
+.content .title {
+    font-size: 0.48rem;
+    font-family: Roboto-Medium, Roboto;
+    font-weight: 600;
+    color: #FFFFFF;
+    line-height: 1;
+    text-align: center;
+    padding: 0.56rem 0;
+}
+
+.content input {
+    width: 3.43rem;
+    background: #FFFFFF;
+    border-radius: 2px;
+    border: 1px solid #9B9B9B;
+    font-size: 0.12rem;
+    
+    font-weight: 400;
+    color: #9B9B9B;
+    line-height: 1;
+    text-align: center;
+    padding: 0.14rem 0 0.11rem;
+    width: 92%;
+    margin: 0 auto;
+}
+
+.content input::-webkit-input-placeholder {
+    color: #9B9B9B;
+    font-size: 0.12rem;
+}
+
+.content input::-moz-placeholder {
+    color: #9B9B9B;
+    font-size: 0.14rem;
+}
+
+.content input:-ms-input-placeholder {
+    color: #9B9B9B;
+    font-size: 0.14rem;
+}
+
+.content .content_btn {
+    background: #6A2117;
+    border-radius: 2px;
+    font-size: 0.16rem;
+font-family: Roboto-Regular, Roboto;
+    font-weight: 600;
+    color: #FFFFFF;
+    width: 92%;
+    margin: 0.3rem auto 0;
+    padding: 0.125rem 0;
+}
+
+.content .content_descrip {
+    font-size: 0.12rem;
+    font-family:Roboto-Regular,Roboto;
+    font-weight: 400;
+    color: #FFFFFF;
+    line-height: 2;
+    padding: 0 0.37rem;
+    text-align: center;
+    margin-top: 0.30rem;
+}
+
+
+/* 如果设备像素大于等于2，则用2倍图 */
+
+@media screen and (-webkit-min-device-pixel-ratio: 2) {
+    .content {
+        background: url(../images/bg_order@2x.png) no-repeat;
+        background-size: cover;
+    }
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 3),
+screen and (min--moz-device-pixel-ratio: 3) {
+    .content {
+        background: url(../images/bg_order@2x.png) no-repeat;
+        background-size: cover;
+    }
+}

@@ -1,0 +1,533 @@
+{% layout 'Kronosfr/components/Kronosfr_theme_pc' name:'productDetail' %}
+{% assign detail = ROWS %}
+{% block 'content' %}
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org/",
+    "@type": "Product",
+    "sku": "{{detail.id}}",
+    "image": "{{detail.mainImg}}",
+    "name": "{{detail.goodsName}}",
+    "description": "",
+    "brand": "",
+    "url": "",
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "USD",
+      "price": "{{detail.defaultPrice}}",
+      "itemCondition": "new",
+      "availability": "https://schema.org/InStock"
+    }
+  }
+</script>
+<!-- 头部 -->
+{% if data.configData.commomCoupon[0].detailsDisplay == 1 %}
+{% render 'Kronosfr/components/coupon.liquid' ,OBJ:data,isMobilePhone:0 %}
+{% endif %}
+{% render 'Kronosfr/components/pageHeader',configData: blockData.first,isMobilePhone: 0,OBJ:data %}
+<input type="hidden" id="productId" value="{{detail.id}}">
+{% if isPreview and isPreview != '' %}
+<input type="hidden" id="isPreview" value="{{isPreview}}">
+{% endif %}
+{% assign currency = data.configData.currency %}
+{% for i in currency %}
+{% if i.mainCurrency==1%}
+{% assign currentRate = i %}
+{% break %}
+{% endif%}
+{% endfor%}
+<div class="p_width product_details">
+  <div class="crumbs"><span>Accueil&nbsp;/&nbsp;</span><span class="c_title">{{detail.goodsName}}</span></div>
+  <div class="product">
+    <div class="p_swiper">
+      <div class="b_bd">
+        <div class="swiper-container gallery-top">
+          <div class="swiper-wrapper">
+            {% for item in detail.resourceList %}
+            {% if item.type == 1 %}
+            <div class="swiper-slide" data-src="{{item.originalUrl}}" data-exthumbimage="{{item.url}}" {% if
+              detail.speType==3 %}data-sub-html="<img src='../assets/pc/images/3D@2x.png'>" {% endif %}>
+              <img class="product-gallery__image" data-suffix-img="{{item.url}}" src="{{item.url}}">
+            </div>
+            {% elsif item.type == 2 %}
+            <div class="videoType swiper-slide" cover="{{item.cover}}" data-poster="{{item.cover}}"
+              data-html="#video1" video="{{item.url}}">
+              <img class="product-gallery__image" data-src="{{item.cover}}" src="{{item.cover}}"
+                data-suffix-img="{{item.cover}}">
+              <img src="../assets/pc/images/play.png" class="playBtn hide">
+              <div class="play_box pa hide"></div>
+              <div style="display:none;" id="video1">
+                <video class="lg-video-object lg-html5 video-js vjs-default-skin" controls preload="none">
+                  <source src="{{item.url}}" type="video/mp4">
+                  Votre navigateur ne prend pas en charge la vidéo HTML5.
+                </video>
+              </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+
+            {% if detail.speType == 1 %}
+            {% for val in detail.skuList %}
+            {% if val.skuImg != '' and val.skuImg != null %}
+            <div class="img_box hide" data-src="{{val.skuImg}}" data-skuid='{{val.id}}'><img
+                class="childDom product-gallery__image" src="{{val.skuImg}}"></div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+
+            {% if detail.speType == 3 or detail.speType == 2 %}
+            {% if detail.hasOwnProperty('idAndImgs') and detail.idAndImgs.length > 0 %}
+            {% for val in detail.idAndImgs %}
+            <div class="img_box hide" data-src="{{val.value}}" data-skuid='{{val.id}}'>
+              <img class="childDom product-gallery__image" src="{{val.value}}">
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endif %}
+          </div>
+        </div>
+        {% if detail.speType==3 %}
+        <img src="../assets/pc/images/3D@2x.png" class="threeDSweiperImage"
+          style="width: 2em; position: absolute; top: 1em; right: 1em; z-index: 4;display: none;" alt="">
+        {% endif %}
+      </div>
+      <div class="h_hd">
+        <div class="swiper-container gallery-thumbs">
+          <div class="swiper-wrapper">
+            {% for item in detail.resourceList %}
+            {% if item.type == 1 %}
+            <div class="swiper-slide"><img class="i_img" data-suffix-img="{{item.url}}" src="{{item.url}}"></div>
+            {% elsif item.type == 2 %}
+            <div class="videoType swiper-slide" cover="{{item.cover}}" video="{{item.url}}">
+              <img class="i_img" src="{{item.cover}}" data-suffix-img="{{item.cover}}">
+              <img src="../assets/pc/images/play.png" class="childBtn">
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        <a class="next zBtn" href="javascript:void(0)"></a>
+        <a class="prev zBtn" href="javascript:void(0)"></a>
+      </div>
+    </div>
+    <div class="p_slide">
+      <div class="pro_details">
+        <div id="product-zoom-product-template" class="product__zoom-wrapper"></div>
+        <h3 class="title" data-goodsVersion="{{detail.goodsVersion}}" data-id="{{detail.id}}"
+          data-speType="{{detail.speType}}" data-mainImg="{{detail.mainImg}}">{{detail.goodsName}}</h3>
+        <p class="item_no">Objet NON.: {{detail.goodsNum}}</p>
+        {% if detail.visitNum > 0 or detail.sales > 0 or detail.commentScore > 0 %}
+        <div class="p_views" data-views="{{detail.visitNum}}">
+          {% if detail.visitNum > 0%}{% if detail.visitNum < 9999 %}<i class="view b_icon">{{detail.visitNum}}
+            Vues</i>{% else %}<i class="view b_icon">9999+ Vues</i>{% endif %}{% endif %}{% if detail.sales > 0 %}{%
+            if detail.sales < 9999 %}<i class="sales b_icon">Ventes({{detail.sales}})</i>{% else %}<i
+            class="sales b_icon">Ventes({{9999}}+)</i>{% endif %}{% endif %}
+          {% if detail.commentScore and detail.commentList.size > 0 %}{% render
+              'Kronosfr/pc/components/star_pc.liquid',data: detail.commentScore | at_least: 1 | at_most: 5 %}{% endif %}
+        </div>
+        {% endif %}
+        <div class="details_coupon_wrap">
+        </div>
+        <div class="allPirce">
+          <div class="discount-tag discountTag hide" data-start="{{detail.discountStaTime}}" data-end="{{detail.discountEndTime}}">
+            <div class="d_inner">
+              <div class="c_inner"><i class="d_num"></i>%<i class="text">RABAIS</i></div>
+            </div>
+          </div>
+          {% if detail.freeShipping != 0 %}
+          <div class="discount-ship">Livraison Gratuite</div>
+          {% endif %}
+          <div class="price-container">
+            <div class="c_price hide" base-price="{{detail.defaultPrice}}"></div>
+            <div class="o_price hide"></div>
+          </div>
+        </div>
+      </div>
+      {% render 'Kronosfr/pc/components/attr_pc.liquid',data: detail%}
+
+    </div>
+  </div>
+</div>
+<div class="descr-comment-tabs">
+  <div class="dctab-item active" data-page="descr">Décris<i class="dctab-arrow"></i></div>
+  <div class="dctab-item" data-page="comment">Commenter({{detail.commentList.size}})<i class="dctab-arrow"></i></div>
+</div>
+<div class="descr-comment-container">
+  <div class="descr" data-description="{{detail.description}}">
+    <div class="d_text clearfix"></div>
+  </div>
+  <div class="comment hide">
+    <div class="comment-title-wrap">
+      <div class="c_score">
+        {% if detail.commentScore and detail.commentList.size>0 %}{% render
+        'Kronosfr/pc/components/star_pc.liquid',data:
+        detail.commentScore | at_least: 1 | at_most: 5 %}{% endif %}
+      </div>
+      <div class="review-button review-btn reviewBtn">
+        <div class="review-edit-icon"></div>
+        <div>Écrire une critique</div>
+      </div>
+    </div>
+    <form id="comment_form" novalidate class="review_form layui-form hide" onsubmit="return false;">
+        <h4>Écrire une critique</h4>
+        <div class="layui-form-item">
+          <label class="spr-form-label" for="review_author">Nom</label>
+          <input name="name" lay-verify="required|len" lay-reqtext="Entrez votre nom" id="review_author"
+            class="c_input" type="text" value="" maxlength='100' placeholder="Entrez votre nom">
+        </div>
+        <div class="layui-form-item">
+          <label class="spr-form-label" for="review_email">E-mail</label>
+          <input name="email" required="" lay-verify="required|len|newEmail" lay-reqtext="Enter your email address"
+            class="c_input" id="review_email" type="email" value="" placeholder="Entrez votre adresse email">
+        </div>
+        <div class="layui-form-item">
+          <label class="spr-form-label" for="review">Évaluation</label>
+          <div class="s_wrap">
+            <span class="star_wrap"><i class="star empty"></i><i class="star empty"></i><i
+                class="star empty"></i><i class="star empty"></i><i class="star empty"></i></span>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="spr-form-label" for="review">Commentaires Photo</label>
+          <ul class="addCommentItem"></ul>
+          <a href="javascript:;" class="addImgBtn">
+            <img src="../assets/wap/images/addImgBtn.png">Photo
+            <input class="addImgFile pro-file" title="choisir le dossier" type="file" multiple="multiple">
+          </a>
+        </div>
+        <div class="layui-form-item">
+          <label class="spr-form-label" for="review_title">Corps de l'examen (1500)</label>
+          <textarea lay-verify="required" lay-reqtext="Laissez vos commentaires ici"
+            class="spr-form-input spr-form-input-textarea " id="review_body" name="comment" rows="10"
+            placeholder="Laissez vos commentaires ici"></textarea>
+        </div>
+        <div class="layui-form-item">
+          <button type="button"
+            class="layui-btn spr-button spr-button-primary button button-primary btn btn-primary" lay-submit=""
+            lay-filter="commentBtn">Poster le commentaire</button>
+        </div>
+      </form>
+    {% if detail.commentList.size > 0 %}
+    {% render 'Kronosfr/pc/components/comList_pc.liquid',data: detail.commentList %}
+    {% endif %}
+  </div>
+</div>
+<div id="recommend-section_swiper" class="you-may-also-like">
+  <div class="title">
+    <div class="title-line"></div>
+    <div class="title-real">Tu pourrais aussi aimer</div>
+    <div class="title-line"></div>
+  </div>
+  <div class="you-may-also-like-swiper">
+    <div class="swiper-container newProducts_details" id='recommend_products_swiper'>
+      <div class="newProducts_details swiper-wrapper">
+        {%assign relationListPro = detail | relationList:data.categoryData,data.detailData %}
+        {% for item in relationListPro %}
+        <div class="swiper-slide">
+          <a class="goods-info-wrap" href="productDetail_{{item.id}}.html">
+            <div class="img-box cover_wrap">
+              <div class="quick-shop">Achetez Maintenant</div>
+              {%if item.freeShipping == 1%}
+              <div class="discount-shipping">Livraison Gratuite</div>
+              {% endif %}
+              {% if item.originalPrice > item.defaultPrice %}
+              <div class="discount-percent">
+                <div>{{item.defaultPrice | offShow:item.originalPrice}}%</div>
+                <div class="discount-off">RABAIS</div>
+              </div>
+              {% endif %}
+              <img class="goods-img {%if item.otherImg != '' and item.otherImg != null%}mainRelationListImg{% endif %}" src="" data-suffix-img="{{item.mainImg}}" alt="">
+              {%if item.otherImg != '' and item.otherImg != null%}
+              <img class="associateRelationListImg goods-img" src="" data-suffix-img="{{item.otherImg}}" alt="">
+              {% endif %}
+            </div>
+            <div class="goods-name">{{item.goodsName}}</div>
+            <div class="price-info">
+              {% if item.originalPrice > item.defaultPrice %}
+              <div class="original-price" p-price="{{ item.originalPrice }}">{{ item.originalPrice | switchRate:currentRate}}</div>
+              {% endif %}
+              <div class="current-price" p-price="{{ item.defaultPrice }}">{{ item.defaultPrice | switchRate:currentRate }}</div>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="like-swiper-prev swiper-prev"></div>
+    <div class="like-swiper-next swiper-next"></div>
+  </div>
+</div>
+<div class="threeDModal">
+  <div class="threeDModalContent">
+    <img src="../assets/pc/images/ts_icon@2x.png" class="lingdang" alt="">
+    <div class="threeDModalTipsText">Veuillez visiter le site Web à partir de votre téléphone mobile pour des produits personnalisés</div>
+    <div class="threeDModalCloose">D'ACCORD</div>
+  </div>
+</div>
+{% raw %}
+<!-- 优惠券模板 -->
+<script id="couponTpl" type="text/html">
+  {{#  layui.each(d, function(index, item){ }}
+  {{# if (item.activitiesRule == '0') { }}
+  {{# if (item.ruleResult == '0') { }}
+  <div class="coupon-item-tag couponItem" data-id="{{item.id}}" data-start="{{item.start}}" data-end="{{item.end}}" data="{{item.ruleDesc}}">
+    <div class="coupon-item">
+      <div class="coupon-item-top">
+        <span class="small-font">{{ String(getSpaceMoney(item.ruleResultValue)).split(' ')[0]}}</span>
+        <span class="big-font">
+          {{# 
+              var fn = function(money){
+                var totalMoeny = getSpaceMoney(money).split(' ')[1].split('.')[1];
+                var preMoeny = '';
+                if(totalMoeny == '00' || totalMoeny == '0'){
+                    preMoeny =  getSpaceMoney(money).split(' ')[1].split('.')[0];
+                }else{
+                  if(getSpaceMoney(money).split(' ')[1].indexOf('.') != -1){
+                    var cutBefore = getSpaceMoney(money).split(' ')[1].split('.')[0],
+                        cutAfter = getSpaceMoney(money).split(' ')[1].split('.')[1].substr(0,1);
+                        if(cutAfter != 0){
+                          preMoeny =  cutBefore +'.'+ cutAfter.substr(0,1);
+                        }else{
+                          preMoeny =  cutBefore;
+                        }
+                        
+                  }else{
+                    preMoeny =  getSpaceMoney(money).split(' ')[1];
+                  }
+                }
+                return preMoeny;
+              }; 
+            }}
+            {{ fn(item.ruleResultValue) }}
+        </span>
+      </div>
+    </div>
+    <div class="coupon-item-btn">AVOIR</div>
+  </div>
+  {{# } else if (item.ruleResult == '1') { }}
+  <div class="coupon-item-tag couponItem" data-id="{{item.id}}" data-start="{{item.start}}" data-end="{{item.end}}" data="{{item.ruleDesc}}">
+    <div class="coupon-item">
+      <div class="coupon-item-top">
+        <span class="big-font">{{ Number(item.ruleResultValue)*10 }}</span>
+        <span class="small-font">%</span>
+        <span class="small-font">RABAIS</span>
+      </div>
+      <div class="coupon-item-down">
+        {{#
+            var fnMoeny = function(descr){
+              var sDescr = '';
+              if(descr.indexOf('**') != -1){
+                var upMoeny = descr.split('**')[1],
+                    preDecr = descr.split('**')[0];
+                    sDescr = preDecr + formatMoney(getSpaceMoney(upMoeny));
+              }else{
+                sDescr = descr;
+              }
+              return sDescr;
+            }; 
+          }}
+        {{ fnMoeny(item.ruleDesc) }}
+      </div>
+    </div>
+    <div class="coupon-item-btn">AVOIR</div>
+  </div>
+  {{# } }}
+  {{# } else if (item.activitiesRule == '1') { }}
+  {{# if (item.ruleResult == '0') { }}
+  <div class="coupon-item-tag couponItem" data-id="{{item.id}}" data-start="{{item.start}}" data-end="{{item.end}}" data="{{item.ruleDesc}}">
+    <div class="coupon-item">
+      <div class="coupon-item-top">
+        <span class="small-font">{{ String(getSpaceMoney(item.ruleResultValue)).split(' ')[0]}}</span>
+        <span class="big-font">
+          {{# 
+              var fn = function(money){
+                var totalMoeny = getSpaceMoney(money).split(' ')[1].split('.')[1];
+                var preMoeny = '';
+                if(totalMoeny == '00' || totalMoeny == '0'){
+                    preMoeny =  getSpaceMoney(money).split(' ')[1].split('.')[0];
+                }else{
+                  if(getSpaceMoney(money).split(' ')[1].indexOf('.') != -1){
+                    var cutBefore = getSpaceMoney(money).split(' ')[1].split('.')[0],
+                        cutAfter = getSpaceMoney(money).split(' ')[1].split('.')[1].substr(0,1);
+                        if(cutAfter != 0){
+                          preMoeny =  cutBefore +'.'+ cutAfter.substr(0,1);
+                        }else{
+                          preMoeny =  cutBefore;
+                        }
+                        
+                  }else{
+                    preMoeny =  getSpaceMoney(money).split(' ')[1];
+                  }
+                }
+                return preMoeny;
+              }; 
+            }}
+            {{ fn(item.ruleResultValue) }}
+        </span>
+      </div>
+      <div class="coupon-item-down">
+        {{#
+            var fnMoeny = function(descr){
+              var sDescr = '';
+              if(descr.indexOf('**') != -1){
+                var upMoeny = descr.split('**')[1],
+                    preDecr = descr.split('**')[0];
+                    sDescr = preDecr + formatMoney(getSpaceMoney(upMoeny));
+              }else{
+                sDescr = descr;
+              }
+              return sDescr;
+            }; 
+        }}
+        {{ fnMoeny(item.ruleDesc) }}
+      </div>
+    </div>
+    <div class="coupon-item-btn">AVOIR</div>
+  </div>
+  {{# } else if (item.ruleResult == '1') { }}
+  <div class="coupon-item-tag couponItem" data-id="{{item.id}}" data-start="{{item.start}}" data-end="{{item.end}}" data="{{item.ruleDesc}}">
+    <div class="coupon-item">
+      <div class="coupon-item-top">
+        <span class="big-font">{{ Number(item.ruleResultValue)*10}}</span>
+        <span class="small-font">%</span>
+        <span class="small-font">RABAIS</span>
+      </div>
+      <div class="coupon-item-down">
+        {{#
+            var fnMoeny = function(descr){
+              var sDescr = '';
+              if(descr.indexOf('**') != -1){
+                var upMoeny = descr.split('**')[1],
+                    preDecr = descr.split('**')[0];
+                    sDescr = preDecr + formatMoney(getSpaceMoney(upMoeny));
+              }else{
+                sDescr = descr;
+              }
+              return sDescr;
+            }; 
+          }}
+          {{ fnMoeny(item.ruleDesc) }}
+      </div>
+    </div>
+    <div class="coupon-item-btn">AVOIR</div>
+  </div>
+  {{# } }} {{# } else if (item.activitiesRule == '2') { }}
+  {{# if (item.ruleResult == '0') { }}
+  <div class="coupon-item-tag couponItem" data-id="{{item.id}}" data-start="{{item.start}}" data-end="{{item.end}}" data="{{item.ruleDesc}}">
+    <div class="coupon-item">
+      <div class="coupon-item-top">
+        <span class="small-font">{{ String(getSpaceMoney(item.ruleResultValue)).split(' ')[0]}}</span>
+        <span class="big-font">
+        {{# 
+            var fn = function(money){
+              var totalMoeny = getSpaceMoney(money).split(' ')[1].split('.')[1];
+              var preMoeny = '';
+              if(totalMoeny == '00' || totalMoeny == '0'){
+                  preMoeny =  getSpaceMoney(money).split(' ')[1].split('.')[0];
+              }else{
+                if(getSpaceMoney(money).split(' ')[1].indexOf('.') != -1){
+                  var cutBefore = getSpaceMoney(money).split(' ')[1].split('.')[0],
+                      cutAfter = getSpaceMoney(money).split(' ')[1].split('.')[1].substr(0,1);
+                      if(cutAfter != 0){
+                        preMoeny =  cutBefore +'.'+ cutAfter.substr(0,1);
+                      }else{
+                        preMoeny =  cutBefore;
+                      }
+                      
+                }else{
+                  preMoeny =  getSpaceMoney(money).split(' ')[1];
+                }
+              }
+              return preMoeny;
+            }; 
+          }}
+          {{ fn(item.ruleResultValue) }}
+        </span>
+      </div>
+      <div class="coupon-item-down">
+        {{#
+            var fnMoeny = function(descr){
+              var sDescr = '';
+              if(descr.indexOf('**') != -1){
+                var upMoeny = descr.split('**')[1],
+                    preDecr = descr.split('**')[0];
+                    sDescr = preDecr + formatMoney(getSpaceMoney(upMoeny).split(' ')[1]);
+              }else{
+                sDescr = descr;
+              }
+              return sDescr;
+            }; 
+          }}
+          {{ fnMoeny(item.ruleDesc) }}
+      </div>
+    </div>
+    <div class="coupon-item-btn">AVOIR</div>
+  </div>
+  {{# } else if (item.ruleResult == '1') { }}
+  <div class="coupon-item-tag couponItem" data-id="{{item.id}}" data-start="{{item.start}}" data-end="{{item.end}}" data="{{item.ruleDesc}}">
+    <div class="coupon-item">
+      <div class="coupon-item-top">
+        <span class="big-font">{{ Number(item.ruleResultValue)*10 }}</span>
+        <span class="small-font">%</span>
+        <span class="small-font">RABAIS</span>
+      </div>
+      <div class="coupon-item-down">
+        {{#
+            var fnMoeny = function(descr){
+              var sDescr = '';
+              if(descr.indexOf('**') != -1){
+                var upMoeny = descr.split('**')[1],
+                    preDecr = descr.split('**')[0];
+                    sDescr = preDecr + formatMoney(getSpaceMoney(upMoeny));
+              }else{
+                sDescr = descr;
+              }
+              return sDescr;
+            }; 
+          }}
+          {{ fnMoeny(item.ruleDesc) }}
+      </div>
+    </div>
+    <div class="coupon-item-btn">AVOIR</div>
+  </div>
+  {{# } }}
+  {{# } }}
+  {{#  }); }}
+</script>
+<script>
+  $(document).on('click', '.currencyExtend li', function () {
+    location.reload()
+  })
+</script>
+{% endraw %}
+
+<!-- 返回顶部 -->
+{% render 'Kronosfr/pc/components/backTop_pc.liquid' %}
+<div {% if isPreview and isPreview !='' %} style="margin-bottom:80px" {%endif%}>
+  {% render 'Kronosfr/components/pageFooter' ,configData: blockData.last ,isMobilePhone: isMobilePhone,OBJ:data,isPreview:isPreview
+  %}
+</div>
+
+{% if isPreview and isPreview != '' %}
+<div class="previewTip">
+  本页面仅供PC端预览商品信息，用户无法下单购买，请勿直接或分享给他人进行投放。
+</div>
+
+<style>
+  .previewTip {
+    width: 100%;
+    height: 80px;
+    line-height: 80px;
+    background: #FCE8EF;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    font-size: 20px;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: #000000;
+    z-index: 1000;
+  }
+</style>
+{% endif %}
+{% endblock %}

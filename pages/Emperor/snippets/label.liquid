@@ -1,0 +1,12 @@
+{% comment %}
+积木名称：免邮标签;
+{% endcomment %}
+
+{% if type==0 %}
+<label class="discount-label">
+  <p>{{discount}}%</p>
+  <p>{{ 'i18n.coupons.symbol' | t: lang }}</p>
+</label>
+{% elsif type==1 %}
+<label class="free-label{%if isDiscount != 1 %} no-discount{%endif%}"><p>{{ 'i18n.product_list.product_free_shipping' | t: lang }}</p></label>
+{% endif %}

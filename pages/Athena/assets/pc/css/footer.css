@@ -1,0 +1,99 @@
+.serve {
+  width: 100%;
+  background: #ededed;
+  font-family: Aileron-Regular, Aileron;
+}
+
+.serve ul {
+  display: flex;
+  padding: 45px 160px;
+}
+
+.serve ul li {
+  flex: 1;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  border-right: 1px solid #b8b8b8;
+  padding: 0 50px;
+}
+
+.serve ul li:last-child {
+  border-right: none;
+  padding-right: 0;
+}
+
+.serve ul li:first-child {
+  padding-left: 0;
+}
+
+.serve li img {
+  width: 70px;
+  height: auto;
+}
+
+.serve li div {
+  margin-left: 20px;
+  font-size: 14px;
+  font-family: Helvetica;
+  color: #000000;
+}
+
+.about_US {
+  width: 100%;
+  background: #ffffff;
+  margin: 50px 0;
+}
+
+.aboutBox {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0 160px;
+}
+
+.oboutItem {
+  float: left;
+  display: flex;
+}
+
+.oboutItem ul li {
+  font-size: 13px;
+  font-weight: 400;
+  color: #000000;
+  line-height: 30px;
+  margin: 0 15px;
+}
+
+.oboutItem ul li:first-child,
+.follow_payment ul li {
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.follow_payment .followUs,
+.follow_payment .payment {
+  display: flex;
+}
+
+.follow_payment .followUs a,
+.follow_payment .payment a {
+  float: left;
+  margin-right: 10px;
+}
+
+.follow_payment img {
+  width: auto;
+  height: 30px;
+}
+
+/* 版权 */
+.copyright {
+  background: #f4f4f4;
+  text-align: center;
+  line-height: 53px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #4a4a4a;
+}

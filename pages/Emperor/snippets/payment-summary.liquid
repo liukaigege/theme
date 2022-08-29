@@ -1,0 +1,296 @@
+<div class="information-summary-warpper col-lg" id="informationSummary"></div>
+<script>
+	function renderOrderSummaryTpl(data) {
+		console.log(data);
+		let orderInfoTpl = ''
+		data.goodsList.forEach((item, index) => {
+			let skus = ''
+			let skuItems = ''
+			if (item.speType == 1) {
+				skus = JSON.parse(item.skuVal)
+				skus.forEach(sku => {
+					let skuItem = ''
+					if (sku.speValmainImg) {
+						skuItem =
+							`
+								<li>
+									<span>${sku.spe} : </span>
+									<span class="iconfont icon-img cart-icon-img--event" data-src="${returnSuffixName(sku.speValmainImg)}"></span>
+								</li>
+
+							`
+					} else {
+						skuItem = `<li>${sku.spe} : ${sku.speVal}</li>`
+					}
+					skuItems = skuItems + skuItem
+				})
+			} else if (item.speType == 2) {
+				skus = JSON.parse(item.customVal)
+				skus.forEach(sku => {
+					let skuItem = ''
+					if (sku.type === '2' || sku.type === '4') {
+						skuItem =
+							`
+								<li>
+									<span>${sku.name} : </span>
+									<span class="iconfont icon-img cart-icon-img--event" data-src="${item.type === '2' ? returnSuffixName(sku.value) : sku.value}"></span>
+								</li>
+
+							`
+					} else {
+						skuItem = `<li>${sku.name} : ${sku.value}</li>`
+					}
+					skuItems = skuItems + skuItem
+					if (sku.childList) {
+						sku.childList.forEach(child => {
+							if (child.type === '2' || child.type === '4') {
+								skuItem =
+									`
+								<li>
+									<span>${child.name} : </span>
+									<span class="iconfont icon-img cart-icon-img--event" data-src="${child.type === '2' ? returnSuffixName(child.value) : child.value}"></span>
+								</li>
+
+							`
+							} else {
+								skuItem = `<li>${child.name} : ${child.value}</li>`
+							}
+							skuItems = skuItems + skuItem
+						})
+					}
+				})
+			}
+
+			let itemPriceTpl = `<li class="discount-price" data-money=${item.discountPrice}>${getMoney(item.discountPrice)}</li>`
+			if (item.sellingPrice) {
+				itemPriceTpl =
+					`
+						<li class="original-price" data-money=${item.sellingPrice}>${getMoney(item.sellingPrice)}</li>
+						<li class="discount-price" data-money=${item.discountPrice}>${getMoney(item.discountPrice)}</li>
+					`
+			}
+			let itemTpl =
+				`
+					<div class="information-summary__content">
+						<div class="order-info__box">
+							<div class="order-img" data-quantity="${item.quantity}">
+								<img src="${returnSuffixName(item.mainImg)}" alt="${item.goodsName}">
+							</div>
+							<div class="order-spe__content">
+								<div class="order-title">${item.goodsName}</div>
+								<ul class="order-spe">
+									${skuItems}
+								</ul>
+							</div>
+						</div>
+						<ul class="order-price">
+							${itemPriceTpl}
+						</ul>
+					</div>
+				`
+			orderInfoTpl = orderInfoTpl + itemTpl
+		})
+
+		let discountTpl = ''
+		if (data.totalDiscount > 0) {
+			discountTpl =
+				`
+					<div class="total__item">
+						<label>{{ 'i18n.payment.discount' | t: lang }}:  </label>
+						<span>${getMoney(data.totalDiscount)}</span>
+					</div>
+				`
+		}
+		let tpl =
+			`
+			<div class="content__title">{{ 'i18n.payment.summary' | t: lang }}</div>
+			<div class="summary-content--event">
+				${orderInfoTpl}
+				<div class="information-summary__total">
+					<div class="total__item">
+						<label>{{ 'i18n.payment.product_price' | t: lang }}:  </label>
+						<span data-o-money=${data.productPrice}>${getMoney(data.productPrice)}</span>
+					</div>
+					${discountTpl}
+					<div class="total__item">
+						<label>{{ 'i18n.payment.shipping_cost' | t: lang }}:  </label>
+						<span id='shippingPrice' data-money='${data.totalShippingPrice || 0}'>${getMoney(data.totalShippingPrice)}</span>
+					</div>
+					<div class="total__item tax--event" ${data.taxRatePrice > 0 ? '' : 'hidden'}>
+						<label>{{ 'i18n.order_detail.tax' | t: lang }}: </label>
+						<span data-tax="${data.taxRatePrice || 0}" id='tax'>${getMoney(data.taxRatePrice)}</span>
+					</div>
+					<div class="total__price">
+						<label>{{ 'i18n.payment.total' | t: lang }}:  </label>
+						<span id='totalPrice' data-money="${data.totalPrice}" data-dicount=${data.afterDicountTotal}>${getMoney(data.totalPrice)}</span>
+					</div>
+				</div>
+			</div>
+			{% if activeName != 'payment' %}
+			<div class="information-back">
+				<i class="iconfont icon-arrow-left"></i>
+				<a href= {{ 'cart' | fmtUrl }}><span>{{ 'i18n.payment.back_to_cart' | t: lang }}</span></a>
+			</div>
+			{% endif%}
+		`
+		$('#informationSummary').html(tpl)
+		// 订单商品列表下拉
+		$('#informationSummary .content__title').click(function () {
+			$('.summary-content--event').slideToggle(300)
+		})
+	}
+
+</script>
+
+<style>
+	.information-info-content>.information-summary-warpper {
+		order: 1;
+		box-shadow: 0px 3px 32px 0px rgb(0 0 0 / 7%);
+		padding-top: 15px;
+		margin-left: 35px;
+	}
+
+	@media(max-width: 992px) {
+		.information-info-content>.information-summary-warpper {
+			order: 0;
+			margin-left: 0;
+		}
+	}
+
+	.information-summary__content {
+		position: relative;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 10px 0;
+		margin-bottom: 30px;
+	}
+
+	.information-summary__content::after {
+		display: block;
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: -20px;
+		content: '';
+		border-top: 1px solid #E9E9E9;
+	}
+
+	.order-info__box {
+		display: flex;
+		align-items: center;
+		margin: 0 20px;
+	}
+
+	.order-info__box>.order-img {
+		position: relative;
+		width: 80px;
+		height: 100%;
+		flex-shrink: 0;
+		object-fit: contain;
+	}
+
+	.order-img::before {
+		display: block;
+		position: absolute;
+		top: 0;
+		right: 0;
+		min-width: 18px;
+		height: 18px;
+		padding: 3px 5px;
+		font-size: 14px;
+		line-height: 1;
+		color: #fff;
+		border-radius: 10px;
+		text-align: center;
+		background-color: #666;
+		transform: translate(50%, -50%);
+		content: attr(data-quantity);
+
+	}
+
+	.order-info__box>.order-spe__content {
+		margin-left: 15px;
+	}
+
+	.order-spe__content>.order-spe {
+		margin-top: 10px;
+		font-size: 12px;
+
+		font-weight: 400;
+		color: #666666;
+	}
+
+	.order-spe__content>.order-title {
+		font-size: 14px;
+		font-family: Roboto-Regular, Roboto;
+		font-weight: 400;
+		color: #202020;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+
+	.order-price>.original-price {
+		font-size: 14px;
+		color: #9B9B9B;
+		text-decoration: line-through;
+	}
+
+	.order-price>.discount-price {
+		font-size: 16px;
+		font-family: Roboto-Regular, Roboto;
+		font-weight: 400;
+		color: #000000;
+	}
+
+	.information-summary__total {
+		margin-top: 15px;
+	}
+
+	.information-summary__total>.total__item,
+	.information-summary__total>.total__price {
+		display: flex;
+		justify-content: space-between;
+		line-height: 2;
+		font-size: 16px;
+		font-family: Roboto-Regular, Roboto;
+		font-weight: 400;
+		color: #202020;
+
+	}
+
+	.information-summary__total>.total__price {
+		font-size: 20px;
+		font-weight: bold;
+		color: var(--vshop-primary-color);
+	}
+
+	.information-summary-warpper>.information-back {
+		line-height: 45px;
+		font-size: 14px;
+		font-family: Roboto-Regular, Roboto;
+		font-weight: 400;
+		color: #202020;
+
+	}
+
+	.information-summary-warpper>.information-back::before {
+		display: block;
+		content: '';
+		height: 1px;
+		border-top: 1px solid #E9E9E9;
+
+	}
+
+	.information-back>span:hover {
+		color: #DF0052;
+	}
+
+	.information-back>span {
+		margin-left: 15px;
+		cursor: pointer;
+	}
+</style>

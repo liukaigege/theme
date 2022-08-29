@@ -1,0 +1,314 @@
+.rotate {
+  transition: 0.3s;
+  transform: rotate(45deg);
+}
+
+.footer .serve-container-box {
+  display: flex;
+  justify-content: space-between;
+  background: #F6F6F6;
+}
+
+.footer .serve-container-box .serve-inner {
+  padding-bottom: 0.2rem;
+  width: 50%;
+}
+
+.footer .serve-container-box .serve-inner p {
+  padding: 0 0.2rem;
+  text-align: center;
+  font-size: 0.14rem;
+  color: #202020;
+  line-height: 0.16rem;
+}
+
+.footer .serve-container-box .serve-icon {
+  margin: 0.12rem auto;
+  width: 0.4rem;
+  height: 0.4rem;
+}
+
+.footer .serve-container-box .serve-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+.link {
+  background: #1d1d1d;
+  color: #ffffff;
+  font-size: 0.1rem;
+}
+
+.link .link-item {
+  border-bottom: 1px solid #5a5a5a;
+}
+
+
+
+.link .link-item p {
+  padding: 0.19rem 0.16rem;
+  font-size: 0.14rem;
+  font-family: Roboto-Medium, Roboto;
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 1;
+}
+
+.link .link-item .menuExtend li {
+  padding-top: 0;
+}
+
+.link .link-item .menuExtend p {
+  font-size: 0.12rem;
+  color: #999;
+  padding: 0;
+  line-height: 0.2rem;
+}
+
+.link .link-item ul {
+  display: none;
+}
+
+.link .link-item li {
+  color: #bbbbbb;
+  padding: 0.08rem 0.14rem;
+  display: block;
+}
+
+.link li a {
+  color: #bbbbbb;
+}
+
+.link .link-item .link-icon {
+  width: 0.16rem;
+  height: 0.16rem;
+  float: right;
+  background-image: url('../../wap/images/ic_plus@2x.png');
+}
+
+.link .link-item li.link-sub {
+  display: flex;
+}
+
+.link .link-item input {
+  flex: 1;
+  height: 0.4rem;
+  background: #fff;
+  color: #bbbbbb;
+  padding: 0 0.09rem;
+  font-size: 0.13rem;
+  border-radius: 0.02rem 0 0 0.02rem;
+}
+
+
+.link .link-item .emailList {
+  padding: 0 0 0.1rem 0;
+}
+
+.link .link-item .emailList li {
+  padding-top: 0;
+}
+
+.link .foot-emial button {
+  width: 0.7rem;
+  height: 0.4rem;
+  padding: 0 0.09rem;
+  border-left: none;
+  border-radius: 0 0.02rem 0.02rem 0;
+  background: #6A2117;
+}
+
+.link .foot-emial ul {
+  display: block;
+}
+
+.payment {
+  background: #1d1d1d;
+  color: #ffffff;
+}
+
+.payment .currency {
+  padding: 0.14rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.payment .currency span {
+  margin: 0 0.05rem;
+}
+
+.payment .currency .currency-icon {
+  width: 0.25rem;
+  height: 0.25rem;
+}
+
+.payment .fb-simple {
+  text-align: center;
+}
+
+.payment .fb-simple a {
+  display: inline-block;
+  width: 0.25rem;
+  height: 0.25rem;
+  margin: 0 0.05rem;
+}
+
+.payment .pay_icon {
+  height: 0.25rem;
+  max-width: 2.4rem;
+  margin: 0 auto;
+  margin-top: 0.16rem;
+}
+
+.payment .pay_icon a {
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  margin: 0 0.05rem;
+  text-align: center;
+}
+
+.payment .fb-simple img,
+.payment .pay_icon img {
+  width: auto;
+  height: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.record {
+  background: #1d1d1d;
+  color: #ffffff;
+  text-align: center;
+  padding: 0.16rem 0;
+  color: #999999;
+  overflow: hidden;
+}
+
+.currencyBox {
+  position: fixed;
+  height: 70%;
+  width: 100%;
+  bottom: -100%;
+  background: #ffffff;
+  z-index: 10000;
+}
+
+.currencyBox .currency-head {
+  padding: 0.16rem;
+  border-bottom: 1px solid #9b9b9b;
+}
+
+.currencyBox .currency-head strong {
+  float: left;
+  font-size: 0.16rem;
+}
+
+.currencyBox .currency-head .currency-close {
+  float: right;
+  width: 0.13rem;
+  height: 0.13rem;
+  background-image: url(../../wap/images/m_close.png);
+}
+
+.currencyBox ul {
+  padding: 0.16rem;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.currencyBox ul li {
+  display: flex;
+  align-items: center;
+  margin: 0.2rem 0;
+  position: relative;
+}
+
+.currencyBox ul li img {
+  width: 0.35rem;
+  height: 0.35rem;
+  margin-right: 0.15rem;
+}
+
+.currencyBox ul li .choose_image {
+  width: 0.2rem;
+  height: 0.2rem;
+  position: absolute;
+  right: 0.1em;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
+}
+
+.currencyBox ul li strong {
+  font-size: 0.14rem;
+}
+
+.wap_block_footer {
+  margin-top: 0.15rem;
+}
+
+.wap_block_footer .serve-container {
+  margin: 0.3rem 0;
+}
+
+.foot-notice {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  height: 0.24rem;
+  line-height: 0.24rem;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.foot-empty {
+  height: 0.24rem;
+}
+
+.foot-notice .footImgBox * {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 0.3rem;
+  font-size: 0.12rem;
+  font-weight: normal;
+}
+
+.foot-notice a {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.foot-notice img {
+  width: 100%;
+  height: 100%;
+  padding: 0 !important;
+  margin: 0 auto;
+}
+
+.foot-notice .active-close {
+  position: absolute;
+  top: 50%;
+  right: 0.2rem;
+  transform: translateY(-50%);
+  width: 0.1rem;
+  height: 0.1rem;
+  cursor: pointer;
+}
+
+.foot-notice em {
+  font-style: oblique;
+}
+
+.footImgBox {
+  width: 100%;
+  height: 100%;
+}

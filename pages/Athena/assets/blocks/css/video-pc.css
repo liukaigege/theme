@@ -1,0 +1,173 @@
+.videBlcok {
+  margin: 60px 0;
+}
+
+.videBlcok video {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.videoStyle1 {
+  width: 1600px;
+  height: 907px;
+  margin: 0 auto;
+}
+
+.videoStyle1 .videoBox {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.videoStyle1 .videoBox #play,
+.videoStyle1 .videoBox img,
+.videoStyle1 .videoBox video,
+.videoStyle2 .videoBox #play,
+.videoStyle2 .videoBox video,
+.videoStyle2 .videoBox img,
+.videoStyle2 .videoBox video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.videoStyle2 .videoBox img,
+.videoStyle1 .videoBox img {
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  z-index: 101;
+}
+
+.videoStyle2 {
+  width: 1600px;
+  height: 567px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 0 auto;
+}
+
+.videoStyle2 .videoContent,
+.videoStyle2 .videoText {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.videoStyle2 .videoContent {
+  width: 800px;
+}
+
+.videoStyle2 .videoText {
+  width: 800px;
+  padding-left: 10px;
+}
+
+.videoStyle2 .videoText-content {
+  max-width: 700px;
+  position: relative;
+  padding: 0 25px;
+  font-size: 16px;
+}
+
+.videoStyle2 .videoText-content .content {
+  max-height: 200px;
+  overflow: hidden;
+  max-width: 450px;
+  font-size: 14px;
+  font-family: Roboto-Regular, Roboto;
+  font-weight: 400;
+  color: #666666;
+  line-height: 21px;
+}
+
+.videoStyle2 .videoText h1 {
+  font-size: 50px;
+  font-family: Helvetica;
+  color: #000000;
+  margin-bottom: 20px;
+}
+
+.videoStyle2 button {
+  width: 370px;
+  height: 60px;
+  line-height: 60px;
+  background: #df0052;
+  border-radius: 4px;
+  font-size: 24px;
+  font-family: Helvetica;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+#play {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background-color: #cccccc;
+  z-index: 102;
+  background-image: url(../../wap/images/bf_icon@2x.png);
+}
+
+@media screen and (max-width: 1600px) {
+  .videBlcok {
+    margin: 0.6rem 0;
+  }
+
+  .videoStyle1 {
+    width: 16rem;
+    height: 9.07rem;
+    margin: 0 auto;
+  }
+
+  .videoStyle2 {
+    width: 16rem;
+    height: 5.67rem;
+  }
+
+  .videoStyle2 .videoContent {
+    width: 8rem;
+  }
+
+  .videoStyle2 .videoText {
+    width: 8rem;
+    padding-left: 0.1rem;
+  }
+
+  .videoStyle2 .videoText-content {
+    max-width: 7rem;
+    padding: 0 0.25rem;
+    font-size: 0.16rem;
+  }
+
+  .videoStyle2 .videoText-content .content {
+    max-height: 2rem;
+  }
+
+  .videoStyle2 .videoText h1 {
+    font-size: 0.5rem;
+    font-family: Helvetica;
+    color: #000000;
+    margin-bottom: 0.2rem;
+    width: 6.7rem;
+  }
+
+  .videoStyle2 button {
+    width: 3.7rem;
+    height: 0.6rem;
+    line-height: 0.6rem;
+    border-radius: 0.04rem;
+    font-size: 0.24rem;
+  }
+
+  #play {
+    width: 0.76rem;
+    height: 0.76rem;
+  }
+}

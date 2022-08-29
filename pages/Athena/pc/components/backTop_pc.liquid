@@ -1,0 +1,40 @@
+<style>
+  /* 返回顶部 */
+  .backTop {
+    display: none;
+    position: fixed;
+    bottom: 200px;
+    right: 55px;
+    width: 52px;
+    height: 52px;
+    background-image: url(../assets/pc/images/sprite.png);
+    background-position: -130px -105px;
+    background-size: 276px 218px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    z-index: 100;
+  }
+</style>
+<div class="backTop" id="backTop"></div>
+<script>
+  // 当网页向下滑动 20px 出现"返回顶部" 按钮
+  scrollFunction()
+  $('#backTop').on('click', topFunction)
+  // 点击按钮，返回顶部
+  function topFunction() {
+    $("body,html").animate({
+      scrollTop: 0
+    }, 500)
+  }
+  function scrollFunction() {
+    $(window).scroll(function () {
+      if ($(this).scrollTop() >= 200) {
+        $("#backTop").fadeIn();
+      }
+      if ($(this).scrollTop() < 200) {
+        $("#backTop").fadeOut();
+      }
+    });
+  }
+
+</script>

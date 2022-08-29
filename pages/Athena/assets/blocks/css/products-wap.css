@@ -1,0 +1,17 @@
+.recommendProducts {
+  margin: 0.15rem 0;
+}
+.recommendProducts .swiper-slide {
+  padding: 2px 0;
+}
+.items-warp {
+  /* display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 0.1rem;
+  padding: 0.1rem 0.1rem 0; */
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 0 1.4%;
+  margin-top: 0.1rem;
+}

@@ -1,0 +1,11 @@
+<div class="currency-select" id="currencySelect">
+	{% for item in currencyList %}
+	<div class="currency-list" data-currency="{{item.currency}}">
+		<div class="currency-list-left">
+			<img class="currency-list-img" src="{{item.pic}}" />
+		</div>
+		<div class="currency-list-unit">{{item.currency}}</div>
+		<i class="currency-list-select iconfont icon-correct"></i>
+	</div>
+	{% endfor %}
+</div>

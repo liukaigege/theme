@@ -1,0 +1,40 @@
+{% comment %} 下拉框 {% endcomment %}
+<div class="product-info__variants_select">
+	<div class="vshop-form-select">
+		<div class="vshop-select-title">
+			<input type="text" placeholder="-- Select --" value="" readonly="" class="select-input">
+			<i class="layui-edge"></i>
+		</div>
+		<ul class="vshop-anim-upbit" param-id="{{data.id}}">
+			{% if type == 'mlpSpe'%}
+			{% for val in data.valList %}
+			<li param-name="{{data.spe}}" data-need="1" data-selfId="{{val.id}}" vshop-select-value="{{val.speVal}}" {%
+				if val.speVal.length>50
+				%}title="{{val.speVal}}" {% endif %}
+				data-optionalIds="{{val.optionalIds}}" class="mlpSpe-item">
+				{{val.speVal | slice: 0,50}}{% if val.speVal.length>50 %}...{% endif %}
+				<span class="hide">{{val.speVal}}</span>
+				<i class="currency-check iconfont icon-correct"></i>
+			</li>
+			{% endfor %}
+			{%else%}
+			{% for val in data.optionList %}
+			<li class="customization-item" data-need="1" data-selfId="{{val.id}}" data-need="{{data.need}}"
+			{% if val.value.length>	50 %}	title="{{val.value}}" {% endif %}
+				data-selfId="{{val.id}}" param-price="{{val.price}}" vshop-select-value="{{val.value}}"
+				data-childLength = '{{val.childCustList | size}}' data-parentId='{{data.id}}' >
+				<p>
+				<span class="hide">{{val.value}}</span>
+				{{val.value | slice: 0, 50}}
+			    {% if val.value.length> 50%} ... {% endif %}
+				{% if val.price != 0%}
+					(+<span p-price={{val.price}}>{{val.price}}</span>)
+				{% endif %}
+				</p>
+				<i class="currency-check iconfont icon-correct"></i>
+			</li>
+			{% endfor %}
+			{%endif%}
+		</ul>
+	</div>
+</div>

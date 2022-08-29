@@ -1,0 +1,203 @@
+
+{%comment%} 全局配置-颜色相关 {%endcomment%}
+{% assign colorConfig = configData.config.colorConfig %}
+{%comment%} 全局配置-商品相关 {%endcomment%}
+{% assign goodsConfig = configData.config.goodsConfig %}
+{%comment%} 全局配置-字体相关 {%endcomment%}
+{% assign fontConfig = configData.config.fontConfig %}
+{%comment%} 全局配置-常规相关 {%endcomment%}
+{% assign routineConfig = configData.config.routineConfig %}
+<style id="globalVar">
+	/* 按照蓝湖的全局规范命名 */
+	:root {
+		/* 背景 */
+		--normal-bg: {{ colorConfig.normalBg | default: "#fff" }} ;
+		/* 主色调 */
+		--vshop-primary-color: {{ colorConfig.primaryColor | default: "#6A2117" }};
+		/* 导航菜单 */
+		--nav-bg: {{ colorConfig.navBg | default: "#fff" }};
+		/* 板块标题 */
+		--plate-title-color: {{ colorConfig.plateTitleColor | default: "#000" }};
+		/* 商品标题 */
+		--goods-title-color: {{ colorConfig.goodsTitleColor | default: "#000" }};
+		/* 现价 */
+		--current-price-color:{{ colorConfig.currentPriceColor | default: "#6A2117" }};
+		/* 原价 */
+		--prev-price-color: {{ colorConfig.prevPriceColor | default: "#666" }};
+		/* 详情标题 */
+		--detail-goods-title-color: {{ colorConfig.detailGoodsTitleColor | default: "#000"  }};
+		/* 现价 */
+		--detail-current-price-color: {{ colorConfig.detailCurrentPriceColor | default: "#6A2117" }};
+		/* 原价 */
+		--detail-prev-price-color: {{ colorConfig.detailPrevPriceColor | default: "#666" }};
+		/* 按钮背景 */
+		--button-bg: {{ colorConfig.buttonBg | default: "#6A2117" }};
+		/* 按钮文字 */
+		--button-text-color: {{ colorConfig.buttonTextColor | default: "#fff" }};
+		/* 页头背景 */
+		--page-header-bg: {{ colorConfig.pageHeaderBg | default: "#fff" }};
+		/* 店铺信息背景 */
+		--store-info-bg: {{ colorConfig.storeInfoBg | default: "#fff" }};
+		/* 店铺信息文字 */
+		--store-info-color: {{ colorConfig.storeInfoColor | default: "#000" }};
+		/* 底部菜单背景 */
+		--page-footer-menu-bg: {{ colorConfig.pageFooterMenuBg | default: "#000" }};
+		/* 底部菜单文字 */
+		--page-footer-menu-color: {{ colorConfig.pageFooterMenuColor | default: "#fff" }};
+		/* 导航字体 */
+		--nav-font-family: Roboto-Regular;
+		/* 一级导航 */
+		--primary-nav-letter-space: {{ fontConfig.primaryNavLetterSpace | default: "1" }}px;
+		--primary-nav-font-size: {{ fontConfig.primaryNavFontSize | default: "16" }}px;
+		--primary-nav-wap-font-size: {{ fontConfig.primaryNavWapFontSize | default: "12" }}px;
+		--primary-nav-line-height: {{ fontConfig.primaryNavLineHeight | default: "18" }}px;
+		/* 二级导航 */
+		--second-nav-letter-space: {{ fontConfig.secondNavLetterSpace | default: "1" }}px;
+		--second-nav-font-size: {{ fontConfig.secondNavFontSize | default: "12" }}px;
+		--second-nav-wap-font-size: {{ fontConfig.secondNavWapFontSize | default: "12" }}px;
+		--second-nav-line-height: {{ fontConfig.secondNavLineHeight | default: "18" }}px;
+		/* 板块标题 */
+		--plate-title-font-family: Roboto-Regular;
+		--plate-title-letter-space: {{ fontConfig.plateTitleLetterSpace | default: "10" }}px;
+		--plate-title-font-size: {{ fontConfig.plateTitleFontSize  | default: "16"}}px;
+		--plate-title-wap-font-size: {{ fontConfig.plateTitleWapFontSize | default: "12" }}px;
+		--plate-title-line-height: {{ fontConfig.plateTitleLineHeight | default: "16" }}px;
+		--plate-title-text-align: {{ fontConfig.plateTitleTextAlign | filterStyle: "textAlain"  | default: "left" }};
+		/* 商品标题 */
+		--goods-title-font-family: Roboto-Regular;
+		--goods-title-letter-space: {{ fontConfig.goodsTitleLetterSpace | default: "10" }}px;
+		--goods-title-font-size: {{ fontConfig.goodsTitleFontSize | default: "16" }}px;
+		--goods-title-wap-font-size: {{ fontConfig.goodsTitleWapFontSize | default: "12" }}px;
+		--goods-title-line-height: {{ fontConfig.goodsTitleLineHeight | default: "16" }}px;
+		--goods-title-text-align: {{ fontConfig.goodsTitleTextAlign | filterStyle: "textAlain" | default: "left" }};
+		/* 现价 */
+		--current-price-font-family: Roboto-Regular;
+		--current-price-font-size: {{ fontConfig.currentPriceFontSize | default: "16" }}px;
+		--current-price-wap-font-size: {{ fontConfig.currentPriceWapFontSize | default: "12" }}px;
+		/* 原价 */
+		--prev-price-font-family: Roboto-Regular;
+		--prev-price-font-size: {{ fontConfig.prevPriceFontSize | default: "16" }}px;
+		--prev-price-wap-font-size: {{ fontConfig.prevPriceWapFontSize | default: "12" }}px;
+		/* 商品详情标题 */
+		--goods-detail-title-font-family: Roboto-Regular;
+		--goods-detail-title-letter-space: {{ fontConfig.goodsDetailTitleLetterSpace | default: "10" }}px;
+		--goods-detail-title-font-size: {{ fontConfig.goodsDetailTitleFontSize | default: "16"}}px;
+		--goods-detail-title-wap-font-size: {{ fontConfig.goodsDetailTitleWapFontSize | default: "12" }}px;
+		--goods-detail-title-line-height: {{ fontConfig.goodsDetailTitleLineHeight | default: "16" }}px;
+		--goods-detail-title-text-align: {{ fontConfig.goodsDetailTitleTextAlign | filterStyle: "textAlain" | default: "left" }};
+		/* 按钮 */
+		--button-font-family: Roboto-Regular;
+		--button-font-size: {{ fontConfig.buttonFontSize | default: "14" }}px;
+		--button-wap-font-size: {{ fontConfig.buttonWapFontSize | default: "14" }}px;
+		/* 折扣 */
+		--discount-label-radius: 2px;
+		--discount-label-position-top: 0;
+		--discount-label-position-right: 0;
+		--discount-label-bg: {{ goodsConfig.discountBgColor  | default: "#6a2117" }};
+		--discount-label-text-color: {{ goodsConfig.discountTextColor | default: "#000" }};
+		/* 免邮 */
+		--ship-label-radius: 2px;
+		--ship-label-position-top: 0;
+		--ship-label-position-right: 0;
+		--ship-label-bg: {{ goodsConfig.shippingBgColor  | default: "#6a2117" }};
+		--ship-label-text-color:{{ goodsConfig.shippingTextColor  | default: "#000"  }};
+		/* 布局 */
+		--content-width: {{ routineConfig.contentWidth  | default: "1200"  }}px;
+		--pc-module-padding: {{ routineConfig.pcModulePadding  | default: "30"  }}px;
+		--mobile-module-padding: {{ routineConfig.mobileModulePadding  | default: "30"  }}px;
+		--img-style: {{ routineConfig.imgStyle | filterStyle: "radius" | default: "8px" }};
+		--button-style: {{ routineConfig.buttonStyle | filterStyle: "radius" | default: "4px" }};
+		/* 分界线 */
+		--line-color: 1px solid #DFDFDF;
+		/* 透明蒙层背景色 */
+		--modal-bg-color: rgba(0, 0, 0, 0.6);
+		/* 数量输入框边线 */
+		--num-line-color: 1px solid #000;
+		/* 浅色头部背景 */
+		--header-bg-color: #F2F2F2;
+
+	}
+
+
+	.associate-display {
+		display: {{ goodsConfig.isShowSecond | filterStyle: "imgShow" | default: "none" }}
+	}
+
+	{% comment %} 去除重复引入的字体 {% endcomment %}
+	{% assign plateFace = fontConfig.plateTitleFontFamily.font_face %}
+	{% assign navFace = fontConfig.navFontFamily.font_face %}
+	{% assign goodsTitleFace = fontConfig.goodsTitleFontFamily.font_face %}
+	{% assign currentFace = fontConfig.currentPriceFontFamily.font_face %}
+	{% assign prevFace = fontConfig.prevPriceFontFamily.font_face %}
+	{% assign goodsDetailFace = fontConfig.goodsDetailTitleFontFamily.font_face %}
+	{% assign buttonFace = fontConfig.buttonFontFamily.font_face %}
+	{% assign faceList = plateFace
+			  | concat : navFace
+			  | concat : goodsTitleFace
+			  | concat : currentFace
+			  | concat : prevFace
+			  | concat : goodsDetailFace
+			  | concat : buttonFace %}
+	{% comment %} 将处理完的字体转成字符串，字符串格式直接是引入字体 {% endcomment %}
+    {{ faceList | uniq | join: " " }}
+
+	.plate-title-font {
+		font-family:{{ fontConfig.plateTitleFontFamily.family | default: 'Roboto-Regular' }};
+		font-weight:{{ fontConfig.plateTitleFontFamily.weight | default: '400' }};
+		font-style: {{ fontConfig.plateTitleFontFamily.style | default: 'normal' }};
+	}
+
+	.nav-font {
+		font-family:{{ fontConfig.navFontFamily.family | default: 'Roboto-Regular' }};
+		font-weight:{{ fontConfig.navFontFamily.weight | default: '400' }};
+		font-style: {{ fontConfig.navFontFamily.style | default: 'normal' }};
+	}
+
+	.goods-title-font {
+		font-family:{{ fontConfig.goodsTitleFontFamily.family | default: 'Roboto-Regular' }};
+		font-weight:{{ fontConfig.goodsTitleFontFamily.weight | default: '400' }};
+		font-style: {{ fontConfig.goodsTitleFontFamily.style | default: 'normal' }};
+	}
+
+	.current-price-font {
+		font-family:{{ fontConfig.currentPriceFontFamily.family | default: 'Roboto-Regular' }};
+		font-weight:{{ fontConfig.currentPriceFontFamily.weight | default: '400' }};
+		font-style: {{ fontConfig.currentPriceFontFamily.style | default: 'normal' }};
+	}
+
+	.prev-price-font {
+		font-family:{{ fontConfig.prevPriceFontFamily.family  | default: 'Roboto-Regular' }};
+		font-weight:{{ fontConfig.prevPriceFontFamily.weight | default: '400' }};
+		font-style: {{ fontConfig.prevPriceFontFamily.style | default: 'normal' }};
+	}
+
+	.goods-detail-font {
+		font-family:{{ fontConfig.goodsDetailTitleFontFamily.family | default: 'Roboto-Regular' }};
+		font-weight:{{ fontConfig.goodsDetailTitleFontFamily.weight | default: '400' }};
+		font-style: {{ fontConfig.goodsDetailTitleFontFamily.style | default: 'normal' }};
+	}
+
+	.button-font {
+		font-family:{{ fontConfig.buttonFontFamily.family | default: 'Roboto-Regular' }};
+		font-weight:{{ fontConfig.buttonFontFamily.weight | default: '400' }};
+		font-style: {{ fontConfig.buttonFontFamily.style | default: 'normal' }};
+		border-radius:{{ routineConfig.buttonStyle | filterStyle: "radius" | default: "4px" }}
+	}
+	.button-general-font {
+		font-family:{{ fontConfig.buttonFontFamily.family | default: 'Roboto-Regular' }};
+		font-weight:{{ fontConfig.buttonFontFamily.weight | default: '400' }};
+		font-style: {{ fontConfig.buttonFontFamily.style | default: 'normal' }};
+		font-size: var(--button-font-size) !important;
+	}
+	@media(max-width: 768px) {
+		.button-general-font {
+			font-size: var(--button-wap-font-size) !important;
+		}
+	}
+
+</style>
+{% assign shippingPostionClass = goodsConfig.shippingLabelStyle | concat: goodsConfig.discountLabelPosition | concat: '-' | concat: goodsConfig.shippingLabelPosition | join:"" | default: "specialleft-right" %}
+{% assign discountPostionClass = goodsConfig.discountLabelStyle | concat: goodsConfig.discountLabelPosition | concat: '-' | concat: goodsConfig.shippingLabelPosition | join:"" | default: "circleleft-right" %}
+{%assign pictureSize =  goodsConfig.pictureSize | default: "1" %}
+{%assign titleStyle =  goodsConfig.titleStyle | default: "1" %}
+<input id="discountInput" data-ship="{{shippingPostionClass}}" data-discount="{{discountPostionClass}}" data-switchd="{{goodsConfig.discountSwitch}}" data-switchs="{{goodsConfig.shippingSwitch}}" data-picturesize="{{pictureSize}}" data-titlestyle="{{titleStyle}}" type="hidden"></input>

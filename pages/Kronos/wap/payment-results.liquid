@@ -1,0 +1,263 @@
+{% layout 'Kronos/components/Kronos_theme' name:'payment_results' %}
+{% block 'content' %}
+{% render 'Kronos/components/pageHeader',configData: blockData.first,isMobilePhone: isMobilePhone,OBJ:data %}
+{% assign configList = blockData.last.config.bottom %}
+<script>
+  var url = window.location.href;
+  var theRequest = {};
+  customVal(url, theRequest);
+  function customVal(str, obj) {
+    if (str.indexOf("?") === -1) {
+      return obj;
+    }
+    var arrStr = str.split('?')[1];
+    if (arrStr && arrStr.indexOf("&") !== -1) {
+      var arr = arrStr.split('&');
+      arr.forEach(element => {
+        element.split('=')[0] !== '' ? obj[element.split('=')[0]] = element.split('=')[1] : 0;
+      });
+    } else if (arrStr.indexOf("&") === -1) {
+      obj[arrStr.split('=')[0]] = arrStr.split('=')[1];
+    }
+    return obj;
+  }
+  // pinterest 埋点数据 ~~~~~Start~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  function pinterestFns(data) {
+    let {
+      pinterestEventType,
+      pinterestData,
+    } = data,
+      pinterestYOUR_TAG_ID = data.pinterestYOUR_TAG_ID || BASEDATA.textInfo.codePrinterest,
+      pinterestImgId = 'pinterest' + pinterestEventType,//DOM元素的ID，每种类型的数据只有一个DOM结构
+      pinterestDataString = '';
+    if (pinterestYOUR_TAG_ID) {
+      for (let pinterestKey in pinterestData) {
+        pinterestDataString += `
+        &ed[${pinterestKey}]=${pinterestData[pinterestKey]}
+      `
+      }
+      let pinterestImgString = `
+      <img 
+        id="${pinterestImgId}"
+        height="1" 
+        width="1" 
+        style="display:none;" 
+        alt="" 
+        src="https://ct.pinterest.com/v3/?tid=${pinterestYOUR_TAG_ID}&event=${pinterestEventType}${pinterestDataString}&noscript=1"
+      />
+    `
+      $('#' + pinterestImgId).remove()
+      $('body').append(pinterestImgString)
+    }
+  }
+  // pinterest 埋点数据 ~~~~~End~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  if ((theRequest.status == '1' || theRequest.status == 'PAIED' || theRequest.status == 'PS' || theRequest.status == 'SUCCESS' || theRequest.status == 'cod') && localStorage.getItem('transcationId') != theRequest.transcationId) {
+    let $facebookId_val = $('#facebookId').val();
+    if ($facebookId_val && $facebookId_val != '' && Object.prototype.toString.call($facebookId_val).slice(8, -1) != 'Null') {
+      const eventID = getRandomString(5)
+      fbq('track', 'Purchase', {
+        value: theRequest.amount,
+        currency: theRequest.currency.toUpperCase(),
+      }, { eventID });
+      // facebook api数据转化
+      const custom_data = {
+        "value": theRequest.amount,
+        "currency": theRequest.currency.toUpperCase(),
+        "content_type": "product"
+      }
+      var data = facebookApiParam(custom_data, 'Purchase', eventID)
+      const facebookIdArr = $facebookId_val.split(',')
+      facebookIdArr.forEach(item => {
+        facebookApi(item, data)
+      })
+      let fackBookData = {
+        "localStorageId": getStorage('oldDynamicId'),
+        "transcationId": theRequest.transcationId,
+        "totalPrice": parseFloat(theRequest.amount),
+        "currency": theRequest.currency.toUpperCase()
+      }
+      getToken(function () {
+        $.req({
+          url: '/api/v1/orders/saveFaceBookData',
+          type: 'post',
+          data: JSON.stringify(fackBookData),
+          dataType: 'json',
+          contentType: 'application/json',
+          success(res) { }
+        })
+      })
+    }
+    let tiktokParam = JSON.parse(localStorage.getItem('TiktokParam'))
+    // tiktok像素埋点
+    let $Tiktok_val = $('#Tiktok').val();
+    let $tiktok_status = $('#Tiktok').attr('data-show')
+    if ($Tiktok_val && $Tiktok_val != '' && Object.prototype.toString.call($Tiktok_val).slice(8, -1) != 'Null' && $tiktok_status == 'true') {
+      ttq.track('Purchase', tiktokParam)
+    }
+    // pinterest 埋点数据
+    var pinterestSetData = {
+      pinterestYOUR_TAG_ID: '',
+      pinterestEventType: 'checkout',
+      pinterestData: {
+        value: parseFloat(theRequest.amount),
+        order_quantity: 1,
+        currency: $('.coutriesMoney').text() || 'USD'
+      }
+    }
+    pinterestFns(pinterestSetData)
+    //ga 像素埋点
+    const $googleId = $('#googleId').val()
+    if ($googleId && $googleId != '' && Object.prototype.toString.call($googleId).slice(8, -1) != 'Null') {
+      const productData = JSON.parse(localStorage.getItem('productData'))
+      ga('create', $googleId);
+      ga('require', 'ec');
+
+      checkout(productData.goodsList)
+      function checkout(cart) {
+        cart.forEach(item => {
+          ga('ec:addProduct', {
+            'id': item.goodsId,
+            'name': item.goodsName,
+            'price': item.discountPrice,
+            'quantity': item.quantity
+          });
+        })
+      }
+      ga('ec:setAction', 'purchase', {
+        'id': theRequest.transcationId,
+        'revenue': Math.round(productData.shippingMoney * 100 + productData.afterDicountTotal * 100) / 100,
+        'shipping': productData.shippingMoney,
+        // 'coupon': 'SUMMER2013'
+      });
+
+      ga('send', 'event', 'purchase', 'view', 'Checkout complete');
+    }
+    localStorage.removeItem('TiktokParam');
+    localStorage.removeItem('productData');
+    localStorage.removeItem('shipping');
+    $('.header .home_cart i').text(0)
+  }
+  localStorage.setItem('transcationId', theRequest.transcationId);
+
+  // 去除卷码
+  if (theRequest.status == '1' || theRequest.status == 'PAIED' || theRequest.status == 'PS' || theRequest.status == 'SUCCESS' || theRequest.status == 'cod') {
+    if (getStorage('queryCartParam')) {
+      let cart_param = JSON.parse(getStorage('queryCartParam'))
+      if (cart_param.hasOwnProperty('couponCode')) {
+        let history_list = JSON.parse(getStorage('history_list'))
+        const newHistoryList = history_list.filter(item => { return item.code != cart_param.couponCode })
+        setStorage('history_list', JSON.stringify(newHistoryList))
+      }
+    }
+  }
+
+</script>
+<div id="results"></div>
+{% raw %}
+<script id="resultsDemo" type="text/html">
+{{# if(d.status === '1' || d.status === 'PAIED' || d.status === 'PS' || d.status === 'SUCCESS' ){ }}
+  <div id="payment_success">
+  <div class="content">
+    <div class="payment_logo"></div>
+    <div class="payment_thank">Your payment is successful !</div>
+    <div class="order_descript">Order Number: <a href="/orderDetail.html?orderId={{d.transcationId}}">{{d.transcationId}}</a></div>
+    <div class="fixed_btn">
+    <a href='productList.html' type="button" class="content_btn">CONTINUE SHOPPING</a>
+    <div>
+  </div>
+  </div>
+  {{# }else if(d.status === 'PROCESSING') { }}
+  <div id="payment_processing">
+    <div class="content">
+      <div class="payment_logo"></div>
+      <div class="payment_thank">Payment processing ...</div>
+      <div class="order_descript">We are processing your payment.Your payment is being processed, please wait. For payment status and more information about the order, you can click <a href="/orderDetail.html?{{d.transcationId}}">here</a> to track.</div>
+      <div class="fixed_btn">
+      <a href="cart.html" type="button" class="content_btn">Back to cart</a>
+      </div>
+    </div>
+  </div>
+
+  {{# }else if(d.status === 'cod') { }}     
+  <div id="payment_success">
+    <div class="content">
+      <div class="payment_logo"></div>
+      <div class="payment_thank">Thank you for your order !</div>
+      <div class="order_descript">Your order number is</div>
+      <div class="payment_order"><a href="/orderDetail.html?orderId={{d.transcationId}}">{{d.transcationId}}</a></div>
+      <div class="fixed_btn"><a href='productList.html' type="button" class="content_btn">CONTINUE SHOPPING</a></div>
+    </div>
+    </div>
+  {{# } else { }}
+  <div id="payment_faile">
+    <div class="content">
+      <div class="payment_logo"></div>
+      <div class="payment_thank">Thank you for your order !</div>
+      <div class="order_descript">We’re sorry,your payment has failed. We can't process your payment. Please try again with another payment method. For assistance, please contact us: <a href="mailto:service@arshirly.com">service@arshirly.com</a></div>
+        <div class="fixed_btn">
+      <a href="cart.html" type="button" class="content_btn">Back to cart</a>
+      </div>
+    </div>
+  </div>
+  {{# } }}
+</script>
+{% endraw %}
+<!-- 商品推荐轮播图 -->
+{% assign detail = data.detailData %}
+{% render 'Kronos/wap/components/recommend_layui_swiper.liquid' data: detail, isShow: true %}
+
+<script>
+  $(function () {
+    let currentRate = JSON.parse(localStorage.getItem('currentRate'));
+    theRequest.currentRate = currentRate.symbol
+    layui.config({
+      version: true,
+      base: '/layui'
+    }).use(['laytpl'], function () {
+      let laytpl = layui.laytpl;
+      let getTpl = resultsDemo.innerHTML,
+        view = document.getElementById('results');
+      laytpl(getTpl).render(theRequest, function (html) {
+        view.innerHTML = html;
+        if ($('#foot-notice').attr('bottomLock') == 1) {
+          $('.fixed_btn').css('margin-bottom', '.28rem')
+          $('.pageFooter').css('padding-bottom', '.28rem')
+        }
+      });
+    });
+    let allprice = $("[p-price]")
+    allprice.each(function (index) {
+      $(this).text(getMoney($(this).attr('p-price')))
+    });
+    switchWebp()
+  })
+  $(document).on('click', '#active-close', function (e) {
+    e.stopPropagation()
+    e.preventDefault()
+    $('.fixed_btn').css('margin-bottom', '0')
+    $('.pageFooter').css('padding-bottom', '0')
+
+  })
+  getToken(function () {
+    $.req({
+      url: '/api/v1/cart/cart/info',
+      type: 'get',
+      async: false,
+      success(res) {
+        if (res.code == 0) {
+          const { cartList } = res.data
+          var sum = 0
+          cartList.forEach(item => {
+            sum += item.quantity
+          })
+          localStorage.setItem('shopping_num', sum)
+          $('.home_cart i').text(sum)
+        }
+      }
+    })
+  })
+</script>
+<!-- footer -->
+{% render 'Kronos/components/pageFooter' ,configData: blockData.last ,isMobilePhone: isMobilePhone,OBJ:data %}
+{% endblock %}

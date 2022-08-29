@@ -1,0 +1,238 @@
+{% layout 'Kronosfr/components/Kronosfr_theme_pc' name:'payment_results' %}
+{% block 'content' %}
+{% render 'Kronosfr/components/pageHeader',configData: blockData.first,isMobilePhone: isMobilePhone,OBJ:data %}
+
+<script>
+  var url = window.location.href;
+  var theRequest = {};
+  customVal(url, theRequest);
+  function customVal(str, obj) {
+    if (str.indexOf("?") === -1) {
+      return obj;
+    }
+    var arrStr = str.split('?')[1];
+    if (arrStr && arrStr.indexOf("&") !== -1) {
+      var arr = arrStr.split('&');
+      arr.forEach(element => {
+        element.split('=')[0] !== '' ? obj[element.split('=')[0]] = element.split('=')[1] : 0;
+      });
+    } else if (arrStr.indexOf("&") === -1) {
+      obj[arrStr.split('=')[0]] = arrStr.split('=')[1];
+    }
+    return obj;
+  }
+  // pinterest 埋点数据 ~~~~~Start~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  function pinterestFns(data) {
+    let {
+      pinterestEventType,
+      pinterestData,
+    } = data,
+      pinterestYOUR_TAG_ID = data.pinterestYOUR_TAG_ID || BASEDATA.textInfo.codePrinterest,
+      pinterestImgId = 'pinterest' + pinterestEventType,//DOM元素的ID，每种类型的数据只有一个DOM结构
+      pinterestDataString = '';
+    if (pinterestYOUR_TAG_ID) {
+      for (let pinterestKey in pinterestData) {
+        pinterestDataString += `
+          &ed[${pinterestKey}]=${pinterestData[pinterestKey]}
+        `
+      }
+      let pinterestImgString = `
+        <img 
+          id="${pinterestImgId}"
+          height="1" 
+          width="1" 
+          style="display:none;" 
+          alt="" 
+          src="https://ct.pinterest.com/v3/?tid=${pinterestYOUR_TAG_ID}&event=${pinterestEventType}${pinterestDataString}&noscript=1"
+        />
+      `
+      $('#' + pinterestImgId).remove()
+      console.log('pinterestImgString======>', pinterestImgString)
+      $('body').append(pinterestImgString)
+    }
+  }
+  // pinterest 埋点数据 ~~~~~End~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  if ((theRequest.status == '1' || theRequest.status == 'PAIED' || theRequest.status == 'PS' || theRequest.status == 'SUCCESS' || theRequest.status == 'cod') && localStorage.getItem('transcationId') != theRequest.transcationId) {
+    let $facebookId_val = $('#facebookId').val();
+    if ($facebookId_val && $facebookId_val != '' && Object.prototype.toString.call($facebookId_val).slice(8, -1) != 'Null') {
+      const eventID = getRandomString(5)
+      fbq('track', 'Purchase', {
+        value: theRequest.amount,
+        currency: theRequest.currency.toUpperCase(),
+      }, { eventID });
+      // facebook api数据转化
+      const custom_data = {
+        "value": theRequest.amount,
+        "currency": theRequest.currency.toUpperCase(),
+        "content_type": "product"
+      }
+      var data = facebookApiParam(custom_data, 'Purchase', eventID)
+      const facebookIdArr = $facebookId_val.split(',')
+      facebookIdArr.forEach(item => {
+        facebookApi(item, data)
+      })
+      let fackBookData = {
+        "localStorageId": getStorage('oldDynamicId'),
+        "transcationId": theRequest.transcationId,
+        "totalPrice": parseFloat(theRequest.amount),
+        "currency": theRequest.currency.toUpperCase()
+      }
+      getToken(function () {
+        $.req({
+          url: '/api/v1/orders/saveFaceBookData',
+          type: 'post',
+          data: JSON.stringify(fackBookData),
+          dataType: 'json',
+          contentType: 'application/json',
+          success(res) { }
+        })
+      })
+    }
+    let tiktokParam = JSON.parse(localStorage.getItem('TiktokParam'))
+    // tiktok像素埋点
+    let $Tiktok_val = $('#Tiktok').val();
+    let $tiktok_status = $('#Tiktok').attr('data-show')
+    if ($Tiktok_val && $Tiktok_val != '' && Object.prototype.toString.call($Tiktok_val).slice(8, -1) != 'Null' && $tiktok_status == 'true') {
+      console.log(tiktokParam)
+      ttq.track('Purchase', tiktokParam)
+    }
+    // pinterest 埋点数据
+    var pinterestSetData = {
+      pinterestYOUR_TAG_ID: '',
+      pinterestEventType: 'checkout',
+      pinterestData: {
+        value: parseFloat(theRequest.amount),
+        order_quantity: 1,
+        currency: $('.header .currencyActive-name').text() || 'USD'
+      }
+    }
+    pinterestFns(pinterestSetData)
+    //ga 像素埋点
+    const $googleId = $('#googleId').val()
+    if ($googleId && $googleId != '' && Object.prototype.toString.call($googleId).slice(8, -1) != 'Null') {
+      const productData = JSON.parse(localStorage.getItem('productData'))
+      ga('create', $googleId);
+      ga('require', 'ec');
+
+      checkout(productData.goodsList)
+      function checkout(cart) {
+        cart.forEach(item => {
+          ga('ec:addProduct', {
+            'id': item.goodsId,
+            'name': item.goodsName,
+            'price': item.discountPrice,
+            'quantity': item.quantity
+          });
+        })
+      }
+      ga('ec:setAction', 'purchase', {
+        'id': theRequest.transcationId,
+        'revenue': Math.round(productData.shippingMoney * 100 + productData.afterDicountTotal * 100) / 100,
+        'shipping': productData.shippingMoney,
+        // 'coupon': 'SUMMER2013'
+      });
+
+      ga('send', 'event', 'purchase', 'view', 'Checkout complete');
+    }
+    localStorage.removeItem('TiktokParam');
+    localStorage.removeItem('productData');
+    localStorage.removeItem('shipping');
+    $('.home_bag i').text(0)
+  }
+  localStorage.setItem('transcationId', theRequest.transcationId);
+
+  // 去除卷码
+  if (theRequest.status == '1' || theRequest.status == 'PAIED' || theRequest.status == 'PS' || theRequest.status == 'SUCCESS' || theRequest.status == 'cod') {
+    if (getStorage('queryCartParam')) {
+      let cart_param = JSON.parse(getStorage('queryCartParam'))
+      if (cart_param.hasOwnProperty('couponCode')) {
+        let history_list = JSON.parse(getStorage('history_list'))
+        const newHistoryList = history_list.filter(item => { return item.code != cart_param.couponCode })
+        setStorage('history_list', JSON.stringify(newHistoryList))
+      }
+    }
+
+  }
+</script>
+<div id="results"></div>
+{% raw %}
+<script id="resultsDemo" type="text/html">
+  <div class="content">
+{{# if(d.status === '1' || d.status === 'PAIED' || d.status === 'PS' || d.status === 'SUCCESS' ){ }}
+         <div class="success">
+            <div class="logo"></div>
+            <div class="payment_status">Merci pour votre commande. !</div>
+            <p>Votre paiement a été effectué avec succès et votre commande est invalide</p>
+            <a class="order_number" href="/orderDetail.html?orderId={{d.transcationId}}">{{d.transcationId}}</a>
+            <a href='productList.html' type="button" class="content_btn">Continuez à faire du shopping.</a>
+        </div>  
+  {{# }else if(d.status === 'PROCESSING') { }}
+  <div class="success">
+            <div class="waiting"></div>
+            <div class="payment_status">Traitement des paiements...</div>
+            <p>Nous traitons votre paiement. Veuillez patienter pendant que votre paiement est en cours de traitement.</p>
+            <p>Pour plus d'informations sur l'état des paiements et les commandes, cliquez ici pour suivre.</p>
+            <a href="cart.html" type="button" class="content_btn">Retour au panier</a>
+        </div>
+  {{# }else if(d.status === 'cod') { }}     
+    <div class="success">
+      <div class="logo"></div>
+      <div class="payment_status">Soumis avec succès!</div>
+      <p>Votre manque de discipline est <a class="order_number" style="color:red;" href="./orderDetail.html?orderId={{d.transcationId}}">{{d.transcationId}}</a></p>
+      
+      <a href='productList.html' type="button" class="content_btn">Continuez à faire du shopping.</a>
+  </div> 
+  {{# } else { }}
+  <div class="success">
+            <div class="failed"></div>
+            <div class="payment_status">Échec du paiement</div>
+            <p>Désolé, votre paiement a échoué.</p>
+            <p>Nous ne pouvons pas traiter votre paiement. Veuillez réessayer en utilisant un autre mode de paiement.</p>
+            <p>Pour obtenir de l'aide, veuillez nous contacter: <a href="mailto:service@arshirly.com">service@arshirly.com</a></p>
+            <a href="cart.html" type="button" class="content_btn">Retour au panier</a>
+        </div>
+  {{# } }}
+    </div>
+</script>
+{% endraw %}
+<!-- 商品推荐轮播图 -->
+{% assign detail = data.detailData %}
+{% render 'Kronosfr/pc/components/recommend_layui_swiper_pc.liquid' data: detail, isShow: true %}
+<script>
+  let currentRateJson = JSON.parse(localStorage.getItem('currentRate'));
+  theRequest.currentRate = currentRateJson.symbol
+  layui.config({
+    version: true,
+    base: '/layui'
+  }).use(['laytpl'], function () {
+    let laytpl = layui.laytpl;
+    let getTpl = resultsDemo.innerHTML,
+      view = document.getElementById('results');
+    laytpl(getTpl).render(theRequest, function (html) {
+      view.innerHTML = html;
+    });
+  });
+  getToken(function () {
+    $.req({
+      url: '/api/v1/cart/cart/info',
+      type: 'get',
+      async: false,
+      success(res) {
+        if (res.code == 0) {
+          const { cartList } = res.data
+          var sum = 0
+          cartList.forEach(item => {
+            sum += item.quantity
+          })
+          localStorage.setItem('shopping_num', sum)
+          $('.home_bag i').text(sum)
+        }
+      }
+    })
+  })
+</script>
+<!-- footer -->
+
+{% render 'Kronosfr/components/pageFooter' ,configData: blockData.last ,isMobilePhone: isMobilePhone,OBJ:data %}
+{% endblock %}

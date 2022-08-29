@@ -1,0 +1,200 @@
+{% layout 'Kronosfr/components/Kronosfr_theme_pc' name:'orderDetail' %}
+{% block 'content' %}
+{% render 'Kronosfr/components/pageHeader',configData: blockData.first,isMobilePhone: isMobilePhone,OBJ:data %}
+<div class="main orderContent">
+    <div id="order-content">
+        <div class="orderContentHeader">Mes ordres.（<span>0</span>）</div>
+        <ul class="orderListHeader">
+            <li class="active" data-id="1">
+                <div class="payment_successful_icon payment_icon"></div>Paiement réussi
+            </li>
+            <li data-id="2">
+                <div class="payment_awaiting_icon payment_icon"></div>En attente de paiement
+            </li>
+            <li data-id="3">
+                <div class="payment_pending_icon payment_icon"></div>À déterminer...
+            </li>
+            <li data-id="4">
+                <div class="payment_failed_icon payment_icon"></div>Échec du paiement
+            </li>
+        </ul>
+        <div id='order'> </div>
+    </div>
+    <div id="order-empty" class="hide">
+        <div class="emptyContainer ">
+            <img src="../assets/pc/images/icon/empty@2x.png" />
+            <p>Votre invité n'a rien commandé.</p>
+            <a href="productList.html" class="button">Continuez à faire du shopping.</a>
+        </div>
+    </div>
+</div>
+
+{% comment %} 2021-12-23新样式 {% endcomment %}
+{% raw %}
+<script id="orderTpl" type="text/html">
+    <div class="emptyContainer {{d.length?'hide':''}}" >
+        <img src="../assets/pc/images/icon/empty@2x.png"/>
+        <p>Il n'y a pas d'ordre correspondant ici</p>
+        <button>Continuez à faire du shopping.</button>
+    </div>
+    <div class="{{d.length?'':'hide'}}">
+    {{# layui.each(d, function(index, item){ }}
+        <div class="success">
+            <div class="status_items">
+                <div class="order_time_container">{{ item.createTime }}</div>
+                <div class="s_status l_status">
+                    <div>Montant total： </div>
+                    <div>{{item.currency}} {{ item.totalPrice }}</div>
+                    <div class="down_open"></div>
+                </div>
+            </div>
+            {{# if(item.ordersItems && item.ordersItems.length){}}
+            <div class="open_content">
+                <table>
+                    <tr>
+                        <th>Nom du produit</th>
+                        <!-- <th>Sku</th> -->
+                        <th>Prix unitaire</th>
+                        <th>Nombre</th>
+                        <th>Total partiel</th>
+                    </tr>
+                    {{# layui.each(item.ordersItems, function (key, val) { }}
+                    <tr>
+                        <td class="td_content">
+                            <div class="image">
+                                {{# if(val.mainImg && val.mainImg != '' &&
+                                Object.prototype.toString.call(val.mainImg).slice(8, -1)
+                                !='Null') {}}
+                                <a class="n-title" href="productDetail_{{val.goodsId}}.html"> <img
+                                        src="{{ returnSuffixName(val.mainImg) }}" alt="{{val.goodsName}}"
+                                        class="click-box showsavatar"></a>
+                                {{# } else {}}
+                                <a class="n-title" href="productDetail_{{val.goodsId}}.html"><img src=""
+                                        alt="{{val.goodsName}}" class="click-box showsavatar"></a>
+                                {{# }}}
+                            </div>
+                            <div class="descrip">
+                              <p>{{ val.goodsName }}</p>
+                                {{# if(val.customization != '1') {}}
+                                {{# if(val.skuValue && JSON.parse(val.skuValue).length){}}
+                                <ol>
+                                    {{# layui.each(JSON.parse(val.skuValue), function (zKey, zVal) { }}
+                                    {{# if(zVal.speVal && zVal.speVal != '' &&
+                                    Object.prototype.toString.call(zVal.speVal).slice(8, -1) !=
+                                    'Null'){}}
+                                    {{# if(Object.keys(zVal).indexOf('speValmainImg') === 1 && zVal.speValmainImg !='' &&
+                                    Object.prototype.toString.call(zVal.speValmainImg).slice(8, -1) != 'Null' ){ }}
+                                    <li>{{ zVal.spe }} : <span data-img="{{returnSuffixName(zVal.speValmainImg)}}"
+                                            data-zoom="zoomImg" class="skuValImg"></span></li>
+                                    {{# }else{}}
+                                    <li>{{ zVal.spe }} : {{ zVal.speVal }}</li>
+                                    {{# }}}
+                                    {{# }}}
+                                    {{# }); }}
+                                </ol>
+                                {{# }}}
+                                {{# } else {}}
+                                <ol>
+                                    {{# if(val.customValue && JSON.parse(val.customValue).length){}}
+                                    {{# var fnzz = function (type, zVal) {
+                                    var imgHtml = '';
+                                    if (type == 2) {
+                                    imgHtml = `<span data-img="${returnSuffixName(zVal)}" data-zoom="zoomImg"
+                                        class="skuValImg"></span>`;
+                                    } else if (type == 4) {
+                                    imgHtml = `<span data-img="${zVal}" data-zoom="zoomImg"
+                                        class="skuValImg"></span>`;
+                                    } else {
+                                    imgHtml = zVal;
+                                    }
+                                    return imgHtml;
+                                    };
+                                    }}
+                                    {{# layui.each(JSON.parse(val.customValue), function (xKey, xVal) { }}
+                                    {{# if(xVal.value && xVal.value != '' &&
+                                    Object.prototype.toString.call(xVal.value).slice(8, -1) !=
+                                    'Null'){}}
+                                    <li>{{ xVal.name }} : {{ fnzz(xVal.type, xVal.value) }}</li>
+                                    {{# }}}
+                                    {{# if(xVal.childList && xVal.childList.length) {}}
+                                    {{# layui.each(xVal.childList, function (mKey, mVal) { }}
+                                    {{# if(mVal.value && mVal.value != '' &&
+                                    Object.prototype.toString.call(mVal.value).slice(8, -1) !=
+                                    'Null'){}}
+                                    <li>{{ mVal.name }} : {{ fnzz(mVal.type, mVal.value) }}</li>
+                                    {{# }}}
+                                    {{# }); }}
+                                    {{# }}}
+                                    {{# }); }}
+                                    {{# }}}
+                                </ol>
+                                {{# }}}
+                            </div>
+                        </td>
+                        <!-- <td>{{val.sku}}</td> -->
+                        <td>{{item.currency}} {{ val.discountPrice }}</td>
+                        <td>{{ val.quantity }}</td>
+                        <td>{{item.currency}} {{ val.totalPrice }}</td>
+                    </tr>
+                    {{# }) }} 
+                </table>
+                <div class="line"></div>
+                <div class="info">
+                    <p><span class="info_weight">Consignee Info</span></p>
+                    <p><span class="info_weight">Nom:</span>{{ item.name }}</p>
+                    <p><span class="info_weight">Adresse:</span>
+                        {{# if(item.address.street1 && Object.prototype.toString.call(item.address.street1).slice(8, -1) !='Null'){}}
+                        {{ item.address.street1 }},
+                        {{# }}}
+                        {{# if(item.address.street2 && Object.prototype.toString.call(item.address.street2).slice(8, -1) !='Null'){}}
+                        {{ item.address.street2 }},
+                        {{# }}}
+                        {{# if(item.address.city && Object.prototype.toString.call(item.address.city).slice(8, -1) != 'Null'){}}
+                        {{ item.address.city }},
+                        {{# }}}
+                        {{# if(item.address.country && Object.prototype.toString.call(item.address.country).slice(8, -1) !='Null'){}}
+                        {{ item.address.country }}
+                        {{# }}} </p>
+                </div>
+                <div class="line"></div>
+                <div class="info">
+                    <p>Total:1</p>
+                    <p>Discount: {{item.currency}} {{ item.totalDiscount }}</p>
+                    <p>Frais de transport: {{item.currency}} {{ item.totalShippingPrice }}</p>
+                    <p>Actual Payment: {{item.currency}} {{ item.totalPrice }}</p>
+                    <p>Fiscalité: {{item.currency}} {{ item.taxRatePrice }}</p>
+                </div>
+                <div class="line"></div>
+                <div class="info">
+                    <p>Order Number:{{ item.id }}</p>
+                    {{# if(item.transcationId && item.transcationId != '' && Object.prototype.toString.call(item.transcationId).slice(8,
+                    -1) != 'Null') {}}
+                    <p>Transcation Number:{{ item.transcationId }}</p>
+                    {{# }}}
+                </div>
+                <div class="line"></div>
+                <div class="info">
+                    <p>Temps de commande:{{ item.createTime }}</p>
+                    {{# if(item.paymentTime && Object.prototype.toString.call(item.paymentTime).slice(8, -1) != 'Null'){}}
+                    <p>Délai de paiement:{{ item.paymentTime }}</p>
+                    {{# }}}
+                </div>
+                <div class="line"></div>
+                <div class="info">
+                    <p class="shipping">Informations sur l'expédition:{{ item.shippingsName }}</p>
+                </div>
+            </div>
+            {{# }}}
+        </div>
+    {{# }) }}
+    </div>
+</script>
+{% endraw %}
+
+
+
+
+
+<!-- footer -->
+{% render 'Kronosfr/components/pageFooter' ,configData: blockData.last ,isMobilePhone: isMobilePhone,OBJ:data %}
+{% endblock %}

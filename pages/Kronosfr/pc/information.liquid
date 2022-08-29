@@ -1,0 +1,867 @@
+{% layout 'Kronosfr/components/Kronosfr_theme_pc' name:'information' %}
+{% block 'content' %}
+<script type="application/json" data-county-json>
+{"États - Unis d & apos; Amérique":"USA","Canada":"CAN","Royaume - Uni de Grande - Bretagne et d & apos;\n                    Irlande du Nord\n                  ":"GBR","Australie":"AUS","Nouvelle - Zélande":"NZL","Allemagne":"DEU","France":"FRA","Angola":"AGO","Inde":"IND","Émirats arabes unis":"ARE","Afghanistan":"AFG","Anguilla":"AIA","Andorre":"AND","Arménie":"ARM","Argentine":"ARG","Autriche":"AUT","Azerbaïdjan":"AZE","Bangladesh":"BGD","Belgique":"BEL","Burkina Faso":"BFA","Bulgarie":"BGR","Bahreïn":"BHR","Burundi":"BDI","Bénin":"BEN","Brésil":"BRA","Bélarus":"BLR","République centrafricaine":"CAF","Congo":"COG","Suisse":"CHE","Cooks.":"COK","Cameroun":"CMR","Colombie":"COL","Chypre":"CYP","République tchèque":"CZE","Djibouti":"DJI","Danemark":"DNK","Estonie":"EST","Égypte":"EGY","Espagne":"ESP","Éthiopie":"ETH","Finlande":"FIN","Fidji":"FJI","Gabon":"GAB","Grenade":"GRD","Georgia":"GEO","Guyane française":"GUF","Ghana":"GHA","Gibraltar":"GIB","Gambie":"GMB","Guinée - Bissau":"GIN","Grèce":"GRC","Hong Kong":"HKG","Hongrie":"HUN","Indonésie":"IDN","Irlande":"IRL","Israël":"ISR","Iraq":"IRQ","Iran":"IRN","République islamique d '":"ISL","Islande":"ITA","Italie":"JOR","Jordan.":"JPN","Japon":"KEN","Kenya":"KGZ","Kirghizistan":"KHM","Cambodge":"PRK","Corée du Nord":"PRK","République de Côte d'Ivoire":"CIV","Koweït":"KWT","Kazakhstan":"KAZ","Liechtenstein":"LIE","Libéria":"LBR","Lesotho":"LSO","Lituanie":"LTU","Luxembourg":"LUX","Lettonie":"LVA","Libye":"LBY","Maroc":"MAR","Monaco":"MCO","Madagascar":"MDG","Mali":"MLI","Myanmar":"MMR","Macao":"MAC","Montserrat":"MSR","Malte":"MLT","Maurice":"MUS","Malawi":"MWI","Mexique":"MEX","Malaisie":"MYS","Mozambique":"MOZ","Namibie":"NAM","Nigéria":"NGA","Pays - Bas":"NLD","Norvège":"NOR","Nauru":"NRU","Oman":"OMN","Pérou":"PER","Polynésie française":"PYF","Philippines":"PHL","Pakistan":"PAK","Pologne":"POL","Porto Rico":"PRI","Portugal":"PRT","Qatar":"QAT","Roumanie":"ROU","Russie":"RUS","Arabie saoudite":"SAU","Salomon Nice":"SLB","Soudan":"SDN","Suède":"SWE","Singapour":"SGP","Slovénie":"SVN","Slovaquie":"SVK","Saint - Marin":"SMR","Sénégal":"SEN","Somali":"SOM","Suriname":"SUR","Saint-Domingue-de-plincipe":"STP","République arabe syrienne":"SYR","Chad.":"TCD","Togo":"TGO","Thaïlande":"THA","Turquie":"TUR","Tonga":"TON","Taiwan":"TWN","République - Unie de Tanzanie":"TZA","Ukraine":"UKR","Ouganda":"UGA","Uruguay":"URY","Ouzbékistan":"UZB","Viet Nam":"VNM","Yougoslavie":"null","Afrique du Sud":"ZAF","Zambie":"ZMB","Zaïre":"COD","Zimbabwe":"ZWE","Îles Féroé":"FRO","Groenland":"GRL","Guadeloupe":"GLP","Chine":"CHN"}</script>
+{% assign footetData = blockData | last %}
+{% assign configData = data.configData %}
+{% if configData.payMethod.paypal %}
+{% assign paypalClientId = configData.payMethod.paypal.clientId%}
+{% else %}
+{% assign paypalClientId = ''%}
+{% endif %}
+<input type="hidden" id='paypal_clientId' data-clientId='{{paypalClientId}}'>
+{% assign payMethod = configData.payMethod.creditCard | first %}
+<input type="hidden" id='pay_method' data-type='
+    {% if configData.payMethod.creditCard.size > 0 %}
+    {% case payMethod.type %}{% when 0 %}oceanpayment{% when 1 %}stripe{% when 2 %}cnp{% when 3 %}lianlian{% when 4 %}pingpong{% endcase %}
+    {% endif %}
+    '>
+
+<div class="p_width">
+  <div class="logo-height">
+    <div class="logo"><img src="{{blockData.first.config.logo | IMGURL:'.../assets/pc/images/followUs-preloader.png'}}"
+        alt=""></div>
+    <div class="crumbs">
+      <ul>
+        <li class="m_nav">Chariot</li>
+        <li class="c_nav active">Information</li>
+        <li class="c_title">Paiement</li>
+      </ul>
+    </div>
+  </div>
+  <div class="main ">
+    <div id='inforamtion'>
+      <!-- paypal  -->
+      <section>
+        {% if paypalClientId != '' %}
+        <h3 class="information_title">Sélectionnez votre coupon</h3>
+        <div class="paypal_btn">
+          <div class="dynamic-checkout dynamic-checkout--loading">
+            <div class="dynamic-checkout__skeleton">
+              <div class="placeholder-line placeholder-line--animated"></div>
+              <div class="placeholder-line placeholder-line--animated"></div>
+            </div>
+            <div class='dynamic-checkout__buttons'>
+              <div id="paypal-button-container"></div>
+            </div>
+          </div>
+        </div>
+        <div class="shopcart-or"><span>OR</span></div>
+        {% endif %}
+        <!-- 订单地址 -->
+        <div>
+          <h3 class="information_title number"><i>1</i>ADRESSE DE LIVRAISON</h3>
+          <form id="shipping_address_form">
+            <ul class="address_form--ul active">
+              <li>
+                <input class="form__field form__field--text" type="email" name="email" id="checkout_shipping_email">
+                <label class="form__floating-label" for="checkout_shipping_email">Email</label>
+                <p class='msg'>Saisissez une adresse électronique valide</p>
+              </li>
+              <li class="cro_list">
+                <input id="contact-form-first-name" type="text" class="form__field form__field--text" name="firstName">
+                <label for="contact-form-first-name" class="form__floating-label">Nom</label>
+                <p class='msg'>Entrez votre nom</p>
+              </li>
+              <li class="cro_list">
+                <input id="contact-form-last-name" type="text" class="form__field form__field--text" name="lastName">
+                <label for="contact-form-last-name" class="form__floating-label">Nom de famille</label>
+                <p class='msg'>Entrez votre nom de famille</p>
+              </li>
+              <li>
+                <input class="form__field form__field--text" type="text" name="street1"
+                  id="checkout_shipping_address_address">
+                <label class="form__floating-label" for="checkout_shipping_address_address">Address</label>
+                <p class='msg'>Saisissez l'adresse</p>
+              </li>
+              <li>
+                <input class="form__field form__field--text" type="text" name="street2"
+                  id="checkout_shipping_address_Street">
+                <label class="form__floating-label" for="checkout_shipping_address_Street">Appartements, Suites, etc.
+                  (facultatif)</label>
+              </li>
+              <li>
+                <input type="text" name="city" class="form__field form__field--text"
+                  id="checkout_shipping_address_city">
+                <label class="form__floating-label" for="checkout_shipping_address_city">Sidi.</label>
+                <p class='msg'>En ville</p>
+              </li>
+              <li class="cro_list--3">
+                <i class="order_select_icon"></i>
+                <select size="1" autocomplete="billing country"
+                  class="field__input field__input--select address_country" aria-required="true" name="country"
+                  id="checkout_billing_address_country" data-country-code="checkout_shipping_address_code"
+                  data-address="shipping_province_box">
+                  <option value="default" disabled="" selected="" hidden=""></option>
+                  <option data-code="USA" value="United States">États - Unis d &amp; apos; Amérique</option>
+                  <option data-code="CAN" value="Canada">Canada</option>
+                  <option data-code="GBR" value="United Kingdom">Royaume - Uni de Grande - Bretagne et d &amp; apos;
+                    Irlande du Nord
+                  </option>
+                  <option data-code="AUS" value="Australia">Australie</option>
+                  <option data-code="NZL" value="New Zealand">Nouvelle - Zélande</option>
+                  <option data-code="DEU" value="Germany">Allemagne</option>
+                  <option data-code="FRA" value="France">France</option>
+                  <option data-code="AGO" value="Angola">Angola</option>
+                  <option data-code="IND" value="India">Inde</option>
+                  <option data-code="ARE" value="United Arab Emirates">Émirats arabes unis</option>
+                  <option data-code="AFG" value="Afghanistan">Afghanistan</option>
+                  <option data-code="AIA" value="Anguilla">Anguilla</option>
+                  <option data-code="AND" value="Andorra">Andorre</option>
+                  <option data-code="ARM" value="Armenia">Arménie</option>
+                  <option data-code="ARG" value="Argentina">Argentine</option>
+                  <option data-code="AUT" value="Austria">Autriche</option>
+                  <option data-code="AZE" value="Azerbaijan">Azerbaïdjan</option>
+                  <option data-code="BGD" value="Bangladesh">Bangladesh</option>
+                  <option data-code="BEL" value="Belgium">Belgique</option>
+                  <option data-code="BFA" value="Burkina-faso">Burkina Faso</option>
+                  <option data-code="BGR" value="Bulgaria">Bulgarie</option>
+                  <option data-code="BHR" value="Bahrain">Bahreïn</option>
+                  <option data-code="BDI" value="Burundi">Burundi</option>
+                  <option data-code="BEN" value="Benin">Bénin</option>
+                  <option data-code="BRA" value="Brazil">Brésil</option>
+                  <option data-code="BLR" value="Belarus">Bélarus</option>
+                  <option data-code="CAF" value="Central African Republic">République centrafricaine</option>
+                  <option data-code="COG" value="Congo">Congo</option>
+                  <option data-code="CHE" value="Switzerland">Suisse</option>
+                  <option data-code="COK" value="CookIs.">Cooks.</option>
+                  <option data-code="CMR" value="Cameroon">Cameroun</option>
+                  <option data-code="COL" value="Colombia">Colombie</option>
+                  <option data-code="CYP" value="Cyprus">Chypre</option>
+                  <option data-code="CZE" value="Czech Republic">République tchèque</option>
+                  <option data-code="DJI" value="Djibouti">Djibouti</option>
+                  <option data-code="DNK" value="Denmark">Danemark</option>
+                  <option data-code="EST" value="Estonia">Estonie</option>
+                  <option data-code="EGY" value="Egypt">Égypte</option>
+                  <option data-code="ESP" value="Spain">Espagne</option>
+                  <option data-code="ETH" value="Ethiopia">Éthiopie</option>
+                  <option data-code="FIN" value="Finland">Finlande</option>
+                  <option data-code="FJI" value="Fiji">Fidji</option>
+                  <option data-code="GAB" value="Gabon">Gabon</option>
+                  <option data-code="GRD" value="Grenada">Grenade</option>
+                  <option data-code="GEO" value="Georgia">Georgia</option>
+                  <option data-code="GUF" value="FrenchGuiana">Guyane française</option>
+                  <option data-code="GHA" value="Ghana">Ghana</option>
+                  <option data-code="GIB" value="Gibraltar">Gibraltar</option>
+                  <option data-code="GMB" value="Gambia">Gambie</option>
+                  <option data-code="GIN" value="Guinea">Guinée - Bissau</option>
+                  <option data-code="GRC" value="Greece">Grèce</option>
+                  <option data-code="HKG" value="Hongkong">Hong Kong</option>
+                  <option data-code="HUN" value="Hungary">Hongrie</option>
+                  <option data-code="IDN" value="Indonesia">Indonésie</option>
+                  <option data-code="IRL" value="Ireland">Irlande</option>
+                  <option data-code="ISR" value="Israel">Israël</option>
+                  <option data-code="IRQ" value="Iraq">Iraq</option>
+                  <option data-code="IRN" value="Iran">Iran</option>
+                  <option data-code="ISL" value="Iceland">République islamique d '</option>
+                  <option data-code="ITA" value="Italy">Islande</option>
+                  <option data-code="JOR" value="Jordan">Italie</option>
+                  <option data-code="JPN" value="Japan">Jordan.</option>
+                  <option data-code="KEN" value="Kenya">Japon</option>
+                  <option data-code="KGZ" value="Kyrgyzstan">Kenya</option>
+                  <option data-code="KHM" value="Cambodia">Kirghizistan</option>
+                  <option data-code="PRK" value="NorthKorea">Cambodge</option>
+                  <option data-code="PRK" value="Korea">Corée du Nord</option>
+                  <option data-code="CIV" value="Republic of Ivory Coast">République de Côte d'Ivoire</option>
+                  <option data-code="KWT" value="Kuwait">Koweït</option>
+                  <option data-code="KAZ" value="Kazakstan">Kazakhstan</option>
+                  <option data-code="LIE" value="Liechtenstein">Liechtenstein</option>
+                  <option data-code="LBR" value="Liberia">Libéria</option>
+                  <option data-code="LSO" value="Lesotho">Lesotho</option>
+                  <option data-code="LTU" value="Lithuania">Lituanie</option>
+                  <option data-code="LUX" value="Luxembourg">Luxembourg</option>
+                  <option data-code="LVA" value="Latvia">Lettonie</option>
+                  <option data-code="LBY" value="Libya">Libye</option>
+                  <option data-code="MAR" value="Morocco">Maroc</option>
+                  <option data-code="MCO" value="Monaco">Monaco</option>
+                  <option data-code="MDG" value="Madagascar">Madagascar</option>
+                  <option data-code="MLI" value="Mali">Mali</option>
+                  <option data-code="MMR" value="Burma">Myanmar</option>
+                  <option data-code="MAC" value="Macao">Macao</option>
+                  <option data-code="MSR" value="Montserrat Is">Montserrat</option>
+                  <option data-code="MLT" value="Malta">Malte</option>
+                  <option data-code="MUS" value="Mauritius">Maurice</option>
+                  <option data-code="MWI" value="Malawi">Malawi</option>
+                  <option data-code="MEX" value="Mexico">Mexique</option>
+                  <option data-code="MYS" value="Malaysia">Malaisie</option>
+                  <option data-code="MOZ" value="Mozambique">Mozambique</option>
+                  <option data-code="NAM" value="Namibia">Namibie</option>
+                  <option data-code="NGA" value="Nigeria">Nigéria</option>
+                  <option data-code="NLD" value="Netherlands">Pays - Bas</option>
+                  <option data-code="NOR" value="Norway">Norvège</option>
+                  <option data-code="NRU" value="Nauru">Nauru</option>
+                  <option data-code="OMN" value="Oman">Oman</option>
+                  <option data-code="PER" value="Peru">Pérou</option>
+                  <option data-code="PYF" value="French Polynesia">Polynésie française</option>
+                  <option data-code="PHL" value="Philippines">Philippines</option>
+                  <option data-code="PAK" value="Pakistan">Pakistan</option>
+                  <option data-code="POL" value="Poland">Pologne</option>
+                  <option data-code="PRI" value="PuertoRico">Porto Rico</option>
+                  <option data-code="PRT" value="Portugal">Portugal</option>
+                  <option data-code="QAT" value="Qatar">Qatar</option>
+                  <option data-code="ROU" value="Romania">Roumanie</option>
+                  <option data-code="RUS" value="Russia">Russie</option>
+                  <option data-code="SAU" value="SaudiArabia">Arabie saoudite</option>
+                  <option data-code="SLB" value="SolomonIs">Salomon Nice</option>
+                  <option data-code="SDN" value="Sudan">Soudan</option>
+                  <option data-code="SWE" value="Sweden">Suède</option>
+                  <option data-code="SGP" value="Singapore">Singapour</option>
+                  <option data-code="SVN" value="Slovenia">Slovénie</option>
+                  <option data-code="SVK" value="Slovakia">Slovaquie</option>
+                  <option data-code="SMR" value="SanMarino">Saint - Marin</option>
+                  <option data-code="SEN" value="Senegal">Sénégal</option>
+                  <option data-code="SOM" value="Somali">Somali</option>
+                  <option data-code="SUR" value="Suriname">Suriname</option>
+                  <option data-code="STP" value="SaoTomeandPrincipe">Saint-Domingue-de-plincipe</option>
+                  <option data-code="SYR" value="Syria">République arabe syrienne</option>
+                  <option data-code="TCD" value="Chad">Chad.</option>
+                  <option data-code="TGO" value="Togo">Togo</option>
+                  <option data-code="THA" value="Thailand">Thaïlande</option>
+                  <option data-code="TKM" value="Turkmenistan">Turquie</option>
+                  <option data-code="TON" value="Tonga">Tonga</option>
+                  <option data-code="TUR" value="Turkey">Turquie</option>
+                  <option data-code="TWN" value="Taiwan">Taiwan</option>
+                  <option data-code="TZA" value="Tanzania">République - Unie de Tanzanie</option>
+                  <option data-code="UKR" value="Ukraine">Ukraine</option>
+                  <option data-code="UGA" value="Uganda">Ouganda</option>
+                  <option data-code="URY" value="Uruguay">Uruguay</option>
+                  <option data-code="UZB" value="Uzbekistan">Ouzbékistan</option>
+                  <option data-code="VNM" value="Vietnam">Viet Nam</option>
+                  <option data-code="null" value="Yugoslavia">Yougoslavie</option>
+                  <option data-code="ZAF" value="South Africa">Afrique du Sud</option>
+                  <option data-code="ZMB" value="Zambia">Zambie</option>
+                  <option data-code="COD" value="Zaire">Zaïre</option>
+                  <option data-code="ZWE" value="Zimbabwe">Zimbabwe</option>
+                  <option data-code="FRO" value="Faroe Islands">Îles Féroé</option>
+                  <option data-code="GRL" value="Greenland">Groenland</option>
+                  <option data-code="GLP" value="Guadeloupe">Guadeloupe</option>
+                  <option data-code="CHN" value="China">Chine</option>
+                </select>
+                <label class="field__label form__floating-label--select" for="checkout_billing_address_country">
+                  Pays / région
+                </label>
+                <p class='msg'>Select a Pays / région</p>
+              </li>
+              <li id="shipping_province_box">
+                <div class="province-cell active province-input">
+                  <input class="form__field form__field--text field__input" type="text" name="state"
+                    id="checkout_shipping_address_stata">
+                  <label class="form__floating-label" for="checkout_shipping_address_stata">État / Province</label>
+                  <p class='msg'>Entrez votre État / Province</p>
+                </div>
+                <div class="province-cell" data-stata="USA">
+                  <i class="order_select_icon"></i>
+                  <select name="state" id="checkout_billing_address_us_stata"
+                    class="field__input field__input--select province-select"
+                    title="Please select State,Provice or Region">
+                    <option value="default" disabled selected hidden></option>
+                    <option value="AL">Alabama</option>
+                    <option value="AK">Alaska</option>
+                    <option value="AS">Samoa américaines</option>
+                    <option value="AZ">Arizona</option>
+                    <option value="AR">Arkansas</option>
+                    <option value="CA">Californie</option>
+                    <option value="CO">Colorado</option>
+                    <option value="CT">Connecticut</option>
+                    <option value="DE">Delaware</option>
+                    <option value="DC">District de Columbia</option>
+                    <option value="FM">États fédérés de Micronésie</option>
+                    <option value="FL">Florida</option>
+                    <option value="GA">Géorgie</option>
+                    <option value="GU">Guam</option>
+                    <option value="HI">Hawaï</option>
+                    <option value="ID">Idaho</option>
+                    <option value="IL">Illinois</option>
+                    <option value="IN">Indiana</option>
+                    <option value="IA">Iowa</option>
+                    <option value="KS">Kansas</option>
+                    <option value="KY">Kentucky</option>
+                    <option value="LA">Louisiane</option>
+                    <option value="ME">Maine</option>
+                    <option value="MH">Îles Marshall</option>
+                    <option value="MD">Maryland</option>
+                    <option value="MA">Massachusetts</option>
+                    <option value="MI">Michigan</option>
+                    <option value="MN">Minnesota</option>
+                    <option value="MS">Mississippi</option>
+                    <option value="MO">Missouri</option>
+                    <option value="MT">Montana</option>
+                    <option value="NE">Nebraska</option>
+                    <option value="NV">Nevada</option>
+                    <option value="NH">New Hampshire</option>
+                    <option value="NJ">New Jersey</option>
+                    <option value="NM">Nouveau - Mexique</option>
+                    <option value="NY">New York</option>
+                    <option value="NC">North Carolina</option>
+                    <option value="ND">Dakota du Nord</option>
+                    <option value="MP">Îles Mariannes du Nord</option>
+                    <option value="OH">Ohio</option>
+                    <option value="OK">Oklahoma</option>
+                    <option value="OR">Oregon</option>
+                    <option value="PW">Palau</option>
+                    <option value="PA">Pennsylvania</option>
+                    <option value="PR">Porto Rico</option>
+                    <option value="RI">Rhode Island</option>
+                    <option value="SC">South Carolina</option>
+                    <option value="SD">Dakota du Sud</option>
+                    <option value="TN">Tennessee</option>
+                    <option value="TX">Texas</option>
+                    <option value="UT">Utah</option>
+                    <option value="VT">Vermont</option>
+                    <option value="VI">Îles Vierges</option>
+                    <option value="VA">Virginia</option>
+                    <option value="WA">Washington</option>
+                    <option value="WV">West Virginia</option>
+                    <option value="WI">Wisconsin</option>
+                    <option value="WY">Wyoming</option>
+                  </select>
+                  <label class="field__label  form__floating-label--select" for="checkout_billing_address_us_stata">
+                    État / Province
+                  </label>
+                  <p class='msg'>Sélectionner l'État / Province</p>
+                </div>
+                <div class="province-cell" data-stata="CAN">
+                  <i class="order_select_icon"></i>
+                  <select name="state" id="checkout_billing_address_can_stata"
+                    class="field__input field__input--select province-select"
+                    title="Please select State,Provice or Region">
+                    <option value="default" disabled selected hidden></option>
+                    <option value="AB">Alberta</option>
+                    <option value="BC">British Columbia</option>
+                    <option value="MB">Manitoba</option>
+                    <option value="NB">Nouveau - Brunswick</option>
+                    <option value="NL">terre - Neuve - et - Labrador </option>
+                    <option value="NT">Territoires du Nord - Ouest</option>
+                    <option value="NS">Nouvelle - Écosse</option>
+                    <option value="NU">Nunavut</option>
+                    <option value="ON">Ontario</option>
+                    <option value="PE">Île - du - Prince - Édouard</option>
+                    <option value="QC">Québec</option>
+                    <option value="SK">Saskatchewan</option>
+                    <option value="TY">yukon</option>
+                  </select>
+                  <label class="field__label form__floating-label--select" for="checkout_billing_address_can_stata">
+                    État / Province
+                  </label>
+                  <p class='msg'>Sélectionner l'État / Province</p>
+                </div>
+              </li>
+              <li class="cro_list--3">
+                <input type="text" class="form__field form__field--text" name="postcode"
+                  id="checkout_shipping_post_code">
+                <label class="form__floating-label" for="checkout_shipping_post_code">Code Postal</label>
+                <p class='msg'>Entrez le Code Postal</p>
+              </li>
+              <li>
+                <input class="form__field form__field--text" type="text" name="phone" id="checkout_shipping_phone">
+                <label class="form__floating-label" for="checkout_shipping_phone">Téléphone number</label>
+                <p class='msg'>Veuillez saisir un numéro de téléphone valide</p>
+              </li>
+            </ul>
+          </form>
+        </div>
+      </section>
+      <!-- 邮费 -->
+      <section id='shipping'></section>
+      <section class="billing-address">
+        <h3 class="information_title number"><i id="billing_num">3</i>Adresse de facturation<p class="information_tip">
+            Sélection
+            L'adresse est
+            Correspond à votre carte ou à votre mode de paiement.</p>
+        </h3>
+        <ul class="radio-ul billing-address-ul">
+          <li class="radio-wrapper active" data-type='shipping_address'>
+            <label class="radio__label" for="shipping_address">
+              <div class="radio__input">
+                <input class="input-radio" checked type="radio" value="false" id="shipping_address">
+              </div>
+              <span>Identique à ADRESSE DE LIVRAISON</span>
+            </label>
+          </li>
+          <li class="radio-wrapper" data-type='billing-address'>
+            <label class="radio__label" for="billing-address">
+              <div class="radio__input">
+                <input class="input-radio" type="radio" value="false" id="billing-address">
+              </div>
+              <span>Utiliser une autre adresse de facturation</span>
+            </label>
+          </li>
+        </ul>
+        <form id="billing_address_form">
+          <ul class="address_form--ul">
+            <li>
+              <input class="form__field form__field--text" type="email" name="email" id="checkout-order_shipping_email">
+              <label class="form__floating-label" for="checkout-order_shipping_email">Email</label>
+              <p class='msg'>Saisissez une adresse électronique valide</p>
+            </li>
+            <li class="cro_list">
+              <input id="contact-form-order-first-name" type="text" class="form__field form__field--text"
+                name="firstName">
+              <label for="contact-form-order-first-name" class="form__floating-label">Nom</label>
+              <p class='msg'>Entrez votre nom</p>
+            </li>
+            <li class="cro_list">
+              <input id="contact-form-order-last-name" type="text" class="form__field form__field--text" name="lastName"
+                aria-label="Your email" required="">
+              <label for="contact-form-order-last-name" class="form__floating-label">Nom de famille</label>
+              <p class='msg'>Entrez votre nom de famille</p>
+            </li>
+            <li>
+              <input class="form__field form__field--text" type="text" name="street1"
+                id="checkout-order_shipping_address_address">
+              <label class="form__floating-label" for="checkout-order_shipping_address_address">Address</label>
+              <p class='msg'>Saisissez l'adresse</p>
+            </li>
+            <li>
+              <input class="form__field form__field--text" type="text" name="street2"
+                id="checkout_shipping_address-order_Street">
+              <label class="form__floating-label" for="checkout_shipping_address-order_Street">Apartment, suite,
+                etc. (optional)</label>
+            </li>
+            <li>
+              <input type="text" name="city" class="form__field form__field--text"
+                id="checkout_shipping_address-order_city">
+              <label class="form__floating-label" for="checkout_shipping_address-order_city">Sidi.</label>
+              <p class='msg'>En ville</p>
+            </li>
+            <li class="cro_list--3">
+              <i class="order_select_icon"></i>
+              <select size="1" autocomplete="billing country" class="field__input field__input--select address_country"
+                aria-required="true" name="country" id="checkout_billing_address_order_country"
+                data-country-code='checkout_shipping_address_code' data-address='billing_province_box'>
+                <option value="default" disabled="" selected="" hidden=""></option>
+                <option data-code="USA" value="United States">États - Unis d &amp; apos; Amérique</option>
+                <option data-code="CAN" value="Canada">Canada</option>
+                <option data-code="GBR" value="United Kingdom">Royaume - Uni de Grande - Bretagne et d &amp; apos;
+                  Irlande du Nord
+                </option>
+                <option data-code="AUS" value="Australia">Australie</option>
+                <option data-code="NZL" value="New Zealand">Nouvelle - Zélande</option>
+                <option data-code="DEU" value="Germany">Allemagne</option>
+                <option data-code="FRA" value="France">France</option>
+                <option data-code="AGO" value="Angola">Angola</option>
+                <option data-code="IND" value="India">Inde</option>
+                <option data-code="ARE" value="United Arab Emirates">Émirats arabes unis</option>
+                <option data-code="AFG" value="Afghanistan">Afghanistan</option>
+                <option data-code="AIA" value="Anguilla">Anguilla</option>
+                <option data-code="AND" value="Andorra">Andorre</option>
+                <option data-code="ARM" value="Armenia">Arménie</option>
+                <option data-code="ARG" value="Argentina">Argentine</option>
+                <option data-code="AUT" value="Austria">Autriche</option>
+                <option data-code="AZE" value="Azerbaijan">Azerbaïdjan</option>
+                <option data-code="BGD" value="Bangladesh">Bangladesh</option>
+                <option data-code="BEL" value="Belgium">Belgique</option>
+                <option data-code="BFA" value="Burkina-faso">Burkina Faso</option>
+                <option data-code="BGR" value="Bulgaria">Bulgarie</option>
+                <option data-code="BHR" value="Bahrain">Bahreïn</option>
+                <option data-code="BDI" value="Burundi">Burundi</option>
+                <option data-code="BEN" value="Benin">Bénin</option>
+                <option data-code="BRA" value="Brazil">Brésil</option>
+                <option data-code="BLR" value="Belarus">Bélarus</option>
+                <option data-code="CAF" value="Central African Republic">République centrafricaine</option>
+                <option data-code="COG" value="Congo">Congo</option>
+                <option data-code="CHE" value="Switzerland">Suisse</option>
+                <option data-code="COK" value="CookIs.">Cooks.</option>
+                <option data-code="CMR" value="Cameroon">Cameroun</option>
+                <option data-code="COL" value="Colombia">Colombie</option>
+                <option data-code="CYP" value="Cyprus">Chypre</option>
+                <option data-code="CZE" value="Czech Republic">République tchèque</option>
+                <option data-code="DJI" value="Djibouti">Djibouti</option>
+                <option data-code="DNK" value="Denmark">Danemark</option>
+                <option data-code="EST" value="Estonia">Estonie</option>
+                <option data-code="EGY" value="Egypt">Égypte</option>
+                <option data-code="ESP" value="Spain">Espagne</option>
+                <option data-code="ETH" value="Ethiopia">Éthiopie</option>
+                <option data-code="FIN" value="Finland">Finlande</option>
+                <option data-code="FJI" value="Fiji">Fidji</option>
+                <option data-code="GAB" value="Gabon">Gabon</option>
+                <option data-code="GRD" value="Grenada">Grenade</option>
+                <option data-code="GEO" value="Georgia">Georgia</option>
+                <option data-code="GUF" value="FrenchGuiana">Guyane française</option>
+                <option data-code="GHA" value="Ghana">Ghana</option>
+                <option data-code="GIB" value="Gibraltar">Gibraltar</option>
+                <option data-code="GMB" value="Gambia">Gambie</option>
+                <option data-code="GIN" value="Guinea">Guinée - Bissau</option>
+                <option data-code="GRC" value="Greece">Grèce</option>
+                <option data-code="HKG" value="Hongkong">Hong Kong</option>
+                <option data-code="HUN" value="Hungary">Hongrie</option>
+                <option data-code="IDN" value="Indonesia">Indonésie</option>
+                <option data-code="IRL" value="Ireland">Irlande</option>
+                <option data-code="ISR" value="Israel">Israël</option>
+                <option data-code="IRQ" value="Iraq">Iraq</option>
+                <option data-code="IRN" value="Iran">Iran</option>
+                <option data-code="ISL" value="Iceland">République islamique d '</option>
+                <option data-code="ITA" value="Italy">Islande</option>
+                <option data-code="JOR" value="Jordan">Italie</option>
+                <option data-code="JPN" value="Japan">Jordan.</option>
+                <option data-code="KEN" value="Kenya">Japon</option>
+                <option data-code="KGZ" value="Kyrgyzstan">Kenya</option>
+                <option data-code="KHM" value="Cambodia">Kirghizistan</option>
+                <option data-code="PRK" value="NorthKorea">Cambodge</option>
+                <option data-code="PRK" value="Korea">Corée du Nord</option>
+                <option data-code="CIV" value="Republic of Ivory Coast">République de Côte d'Ivoire</option>
+                <option data-code="KWT" value="Kuwait">Koweït</option>
+                <option data-code="KAZ" value="Kazakstan">Kazakhstan</option>
+                <option data-code="LIE" value="Liechtenstein">Liechtenstein</option>
+                <option data-code="LBR" value="Liberia">Libéria</option>
+                <option data-code="LSO" value="Lesotho">Lesotho</option>
+                <option data-code="LTU" value="Lithuania">Lituanie</option>
+                <option data-code="LUX" value="Luxembourg">Luxembourg</option>
+                <option data-code="LVA" value="Latvia">Lettonie</option>
+                <option data-code="LBY" value="Libya">Libye</option>
+                <option data-code="MAR" value="Morocco">Maroc</option>
+                <option data-code="MCO" value="Monaco">Monaco</option>
+                <option data-code="MDG" value="Madagascar">Madagascar</option>
+                <option data-code="MLI" value="Mali">Mali</option>
+                <option data-code="MMR" value="Burma">Myanmar</option>
+                <option data-code="MAC" value="Macao">Macao</option>
+                <option data-code="MSR" value="Montserrat Is">Montserrat</option>
+                <option data-code="MLT" value="Malta">Malte</option>
+                <option data-code="MUS" value="Mauritius">Maurice</option>
+                <option data-code="MWI" value="Malawi">Malawi</option>
+                <option data-code="MEX" value="Mexico">Mexique</option>
+                <option data-code="MYS" value="Malaysia">Malaisie</option>
+                <option data-code="MOZ" value="Mozambique">Mozambique</option>
+                <option data-code="NAM" value="Namibia">Namibie</option>
+                <option data-code="NGA" value="Nigeria">Nigéria</option>
+                <option data-code="NLD" value="Netherlands">Pays - Bas</option>
+                <option data-code="NOR" value="Norway">Norvège</option>
+                <option data-code="NRU" value="Nauru">Nauru</option>
+                <option data-code="OMN" value="Oman">Oman</option>
+                <option data-code="PER" value="Peru">Pérou</option>
+                <option data-code="PYF" value="French Polynesia">Polynésie française</option>
+                <option data-code="PHL" value="Philippines">Philippines</option>
+                <option data-code="PAK" value="Pakistan">Pakistan</option>
+                <option data-code="POL" value="Poland">Pologne</option>
+                <option data-code="PRI" value="PuertoRico">Porto Rico</option>
+                <option data-code="PRT" value="Portugal">Portugal</option>
+                <option data-code="QAT" value="Qatar">Qatar</option>
+                <option data-code="ROU" value="Romania">Roumanie</option>
+                <option data-code="RUS" value="Russia">Russie</option>
+                <option data-code="SAU" value="SaudiArabia">Arabie saoudite</option>
+                <option data-code="SLB" value="SolomonIs">Salomon Nice</option>
+                <option data-code="SDN" value="Sudan">Soudan</option>
+                <option data-code="SWE" value="Sweden">Suède</option>
+                <option data-code="SGP" value="Singapore">Singapour</option>
+                <option data-code="SVN" value="Slovenia">Slovénie</option>
+                <option data-code="SVK" value="Slovakia">Slovaquie</option>
+                <option data-code="SMR" value="SanMarino">Saint - Marin</option>
+                <option data-code="SEN" value="Senegal">Sénégal</option>
+                <option data-code="SOM" value="Somali">Somali</option>
+                <option data-code="SUR" value="Suriname">Suriname</option>
+                <option data-code="STP" value="SaoTomeandPrincipe">Saint-Domingue-de-plincipe</option>
+                <option data-code="SYR" value="Syria">République arabe syrienne</option>
+                <option data-code="TCD" value="Chad">Chad.</option>
+                <option data-code="TGO" value="Togo">Togo</option>
+                <option data-code="THA" value="Thailand">Thaïlande</option>
+                <option data-code="TKM" value="Turkmenistan">Turquie</option>
+                <option data-code="TON" value="Tonga">Tonga</option>
+                <option data-code="TUR" value="Turkey">Turquie</option>
+                <option data-code="TWN" value="Taiwan">Taiwan</option>
+                <option data-code="TZA" value="Tanzania">République - Unie de Tanzanie</option>
+                <option data-code="UKR" value="Ukraine">Ukraine</option>
+                <option data-code="UGA" value="Uganda">Ouganda</option>
+                <option data-code="URY" value="Uruguay">Uruguay</option>
+                <option data-code="UZB" value="Uzbekistan">Ouzbékistan</option>
+                <option data-code="VNM" value="Vietnam">Viet Nam</option>
+                <option data-code="null" value="Yugoslavia">Yougoslavie</option>
+                <option data-code="ZAF" value="South Africa">Afrique du Sud</option>
+                <option data-code="ZMB" value="Zambia">Zambie</option>
+                <option data-code="COD" value="Zaire">Zaïre</option>
+                <option data-code="ZWE" value="Zimbabwe">Zimbabwe</option>
+                <option data-code="FRO" value="Faroe Islands">Îles Féroé</option>
+                <option data-code="GRL" value="Greenland">Groenland</option>
+                <option data-code="GLP" value="Guadeloupe">Guadeloupe</option>
+                <option data-code="CHN" value="China">Chine</option>
+              </select>
+              <label class="field__label form__floating-label--select" for="checkout_billing_address_order_country">
+                Pays / région
+              </label>
+              <p class='msg'>Select a Pays / région</p>
+            </li>
+            <li id="billing_province_box">
+              <div class="province-cell active province-input">
+                <input class="form__field field__input form__field--text" type="text" name="state"
+                  id="checkout_billing_address-order_usa_province">
+                <label class="form__floating-label" for="checkout_billing_address-order_usa_province">Pays /
+                  région</label>
+                <p class='msg'>Entrez votre État / Province</p>
+              </div>
+              <div class="province-cell" data-stata="USA">
+                <i class="order_select_icon"></i>
+                <select name="state" id="checkout_billing_address-order_province"
+                  class="field__input field__input--select province-select"
+                  title="Please select State,Provice or Region">
+                  <option value="default" disabled selected hidden></option>
+                  <option value="AL">Alabama</option>
+                  <option value="AK">Alaska</option>
+                  <option value="AS">Samoa américaines</option>
+                  <option value="AZ">Arizona</option>
+                  <option value="AR">Arkansas</option>
+                  <option value="CA">Californie</option>
+                  <option value="CO">Colorado</option>
+                  <option value="CT">Connecticut</option>
+                  <option value="DE">Delaware</option>
+                  <option value="DC">District de Columbia</option>
+                  <option value="FM">États fédérés de Micronésie</option>
+                  <option value="FL">Florida</option>
+                  <option value="GA">Géorgie</option>
+                  <option value="GU">Guam</option>
+                  <option value="HI">Hawaï</option>
+                  <option value="ID">Idaho</option>
+                  <option value="IL">Illinois</option>
+                  <option value="IN">Indiana</option>
+                  <option value="IA">Iowa</option>
+                  <option value="KS">Kansas</option>
+                  <option value="KY">Kentucky</option>
+                  <option value="LA">Louisiane</option>
+                  <option value="ME">Maine</option>
+                  <option value="MH">Îles Marshall</option>
+                  <option value="MD">Maryland</option>
+                  <option value="MA">Massachusetts</option>
+                  <option value="MI">Michigan</option>
+                  <option value="MN">Minnesota</option>
+                  <option value="MS">Mississippi</option>
+                  <option value="MO">Missouri</option>
+                  <option value="MT">Montana</option>
+                  <option value="NE">Nebraska</option>
+                  <option value="NV">Nevada</option>
+                  <option value="NH">New Hampshire</option>
+                  <option value="NJ">New Jersey</option>
+                  <option value="NM">Nouveau - Mexique</option>
+                  <option value="NY">New York</option>
+                  <option value="NC">North Carolina</option>
+                  <option value="ND">Dakota du Nord</option>
+                  <option value="MP">Îles Mariannes du Nord</option>
+                  <option value="OH">Ohio</option>
+                  <option value="OK">Oklahoma</option>
+                  <option value="OR">Oregon</option>
+                  <option value="PW">Palau</option>
+                  <option value="PA">Pennsylvania</option>
+                  <option value="PR">Porto Rico</option>
+                  <option value="RI">Rhode Island</option>
+                  <option value="SC">South Carolina</option>
+                  <option value="SD">Dakota du Sud</option>
+                  <option value="TN">Tennessee</option>
+                  <option value="TX">Texas</option>
+                  <option value="UT">Utah</option>
+                  <option value="VT">Vermont</option>
+                  <option value="VI">Îles Vierges</option>
+                  <option value="VA">Virginia</option>
+                  <option value="WA">Washington</option>
+                  <option value="WV">West Virginia</option>
+                  <option value="WI">Wisconsin</option>
+                  <option value="WY">Wyoming</option>
+                </select>
+                <label class="field__label field__input  form__floating-label--select"
+                  for="checkout_billing_address-order_province">
+                  État / Province
+                </label>
+                <p class='msg'>Sélectionner l'État / Province</p>
+              </div>
+              <div class="province-cell" data-stata="CAN">
+                <i class="order_select_icon"></i>
+                <select name="state" id="checkout_billing_address-order_can_province"
+                  class="field__input field__input--select province-select"
+                  title="Please select State,Provice or Region">
+                  <option value="default" disabled selected hidden></option>
+                  <option value="AB">Alberta</option>
+                  <option value="BC">British Columbia</option>
+                  <option value="MB">Manitoba</option>
+                  <option value="NB">Nouveau - Brunswick</option>
+                  <option value="NL">terre - Neuve - et - Labrador </option>
+                  <option value="NT">Territoires du Nord - Ouest</option>
+                  <option value="NS">Nouvelle - Écosse</option>
+                  <option value="NU">Nunavut</option>
+                  <option value="ON">Ontario</option>
+                  <option value="PE">Île - du - Prince - Édouard</option>
+                  <option value="QC">Québec</option>
+                  <option value="SK">Saskatchewan</option>
+                  <option value="TY">yukon</option>
+                </select>
+                <label class="field__label form__floating-label--select"
+                  for="checkout_billing_address-order_can_province">
+                  État / Province
+                </label>
+                <p class='msg'>Sélectionner l'État / Province</p>
+              </div>
+            </li>
+            <li class="cro_list--3">
+              <input type="text" class="form__field form__field--text" name="postcode"
+                id="checkout-order_shipping_post_code">
+              <label class="form__floating-label" for="checkout-order_shipping_post_code">Code Postal</label>
+              <p class='msg'>Entrez le Code Postal</p>
+            </li>
+            <li>
+              <input class="form__field form__field--text" type="text" name="phone" id="checkout-order_shipping_phone">
+              <label class="form__floating-label" for="checkout-order_shipping_phone">Téléphone</label>
+              <p class='msg'>Veuillez saisir un numéro de téléphone valide</p>
+            </li>
+          </ul>
+        </form>
+        {% assign isCardPayPayment = configData.payMethod.creditCard | isCardPay%}
+        {% if isCardPayPayment == true%}
+        {%assign pageListDetail = blockData.last.config%}
+        {%assign linkData = pageListDetail | pageList%}
+        <div class="order-checkbox">
+          <div id="order_checkout--checkbox"></div>
+          <div for="order_checkout--checkbox">Je suis d'accord et j'accepte <a {%if linkData==''
+              %}href="javascript:void(0)" {%else%}href="static.html?pageid={{linkData}}" target="_blank"
+              {%endif%}>T&C</a>
+          </div>
+        </div>
+        {% endif %}
+        <div class="order_checkout">
+          <button type="button" id="order_checkout" {%if isCardPayPayment==true%}disabled{%endif%}>Check - out
+            sécurisé</button>
+        </div>
+
+      </section>
+    </div>
+    <div id="order-info"></div>
+  </div>
+</div>
+{% render 'Kronosfr/components/pageFooter',configData: footetData,isMobilePhone: isMobilePhone,OBJ:
+data,htmlName:'productList' %}
+{% raw %}
+<!-- 运费 -->
+<script id="shipping_template" type="text/html">
+    {{# if(d.length){ }}
+    <section class="shippingMethod">
+        <h3 class="information_title number"><i>2</i>Mode de transport</h3>
+        <ul class="shippingMethod-ul radio-ul">
+        {{# layui.each(d, function(index, item){ }}
+          <li class="radio-wrapper" data-method-money='{{item.money}}' data-id={{item.id}}  data-name="{{item.name}}">
+            <label class="radio__label" for="shippingMethod-list-{{index}}">
+              <div class="radio__input">
+                <input class="input-radio"  type="radio" value="false" id="shippingMethod-list-{{index}}">
+              </div>
+              <span>
+              {{item.name}}
+              {{# if(item.displayPage && item.displayPage.indexOf("1") !== -1 && item.deliveryTime !=''){ }}
+                ({{item.deliveryTime}}) 
+              {{#} }}</span>
+            </label>
+            <div class="shippingCost" data-money='{{item.money}}'>{{item.money}}</div>
+          </li>
+        {{# }); }}
+        </ul>
+    </section>
+    {{# } }}
+    </script>
+<!-- 订单信息 -->
+<script id="order_info_tempalte" type="text/html">
+             <div class="order-info">
+  <h3 class="information_title">Résumé <span></span></h3>
+  <div class="order-info--content">
+    <ul class="product-list">
+      {{# layui.each(d.goodsList, function(index, item){ }}
+      <li>
+        <div class='product-list--img'>
+          <div class='cart_quantity'>{{item.quantity}}</div>
+          {{# if (item.mainImg && item.mainImg != '' && Object.prototype.toString.call(item.mainImg).slice(8,-1) !=
+          'Null') { }}
+          <img alt="{{item.goodsName}}" class="product-thumbnail__image" src="{{returnSuffixName(item.mainImg)}}">
+          {{# } else { }}
+          <img alt="{{item.goodsName}}" class="product-thumbnail__image" src="">
+          {{# } }}
+        </div>
+        <div class="product-info">
+          <h3 class="font_overhide">{{item.goodsName}}</h3>
+          <div class="cart_product--skuVal">
+            {{# if(item.speType == 1 ){ }}
+            <div class='skuVal'>
+              {{# layui.each(JSON.parse(item.skuVal), function(index, element){ }}
+            {{# if(element.hasOwnProperty('speValmainImg') && element.speValmainImg !='' &&
+            Object.prototype.toString.call(element.speValmainImg).slice(8, -1) != 'Null' ){ }}
+              <p><span>{{element.spe}}</span> <i>:</i><span data-img="{{returnSuffixName(element.speValmainImg)}}"
+                  data-zoom="zoomImg" class="skuValImg"></span></p>
+              {{# }else{ }}
+              <p><span>{{element.spe}}</span><i>:</i><span>{{element.speVal}}</span></p>
+              {{# } }}
+              {{# }) }}
+            </div>
+            {{# }else if(item.speType == 2 ){ }}
+            <div class='skuVal'>
+                                    {{# layui.each(JSON.parse(item.customVal), function(index, element){ }}
+                                         {{# if(element.type === '2' || element.type === '4'){ }}
+                                             {{# if(element.value != '' &&  element.value != null){ }}
+                                                 {{# if(item.type === '2') { }}
+                                                    <p><span>{{element.name}}</span> <i>:</i><span data-img="{{returnSuffixName(element.value)}}" data-zoom="zoomImg" class="skuValImg"></span></p>
+                                                 {{# }else{ }} 
+                                                    <p><span>{{element.name}}</span> <i>:</i><span data-img="{{element.value}}" data-zoom="zoomImg" class="skuValImg"></span></p>
+                                                 {{# } }}  
+                                             {{# } }}
+                                         {{# }else{ }}
+                                         <p><span>{{element.name}}</span><i>:</i><span>{{element.value}}</span></p>
+                                         {{# } }}
+                                         {{# if(element.hasOwnProperty("childList")) {}} 
+                                             {{# layui.each(element.childList, function(index, item){}}
+                                                {{# if(item.type === '2' || item.type === '4'){ }}
+                                                    {{# if(item.value != '' &&  item.value != null ){}}
+                                                         {{# if(item.type === '2') { }}
+                                                              <p><span>{{item.name}}</span> <i>:</i><span data-img="{{returnSuffixName(item.value)}}" data-zoom="zoomImg" class="skuValImg"></span></p>
+                                                         {{# }else{ }} 
+                                                              <p><span>{{item.name}}</span> <i>:</i><span data-img="{{item.value}}" data-zoom="zoomImg" class="skuValImg"></span></p>
+                                                         {{# } }} 
+                                                   {{# } }} 
+                                                {{# }else{ }}
+                                                 <p><span>{{item.name}}</span><i>:</i><span>{{item.value}}</span></p>
+                                                {{# } }}  
+                                             {{# }) }}
+                                          {{# } }}
+                                    {{# }) }}
+                                  </div>
+            {{# }}}
+          </div>
+        </div>
+        
+        <div class="cart_price">
+          {{# if (item.sellingPrice && item.sellingPrice != '' && Object.prototype.toString.call(item.sellingPrice).slice(8, -1)
+          != 'Null' && Number(item.sellingPrice) > Number(item.discountPrice) ) { }}
+          <span class="cart_price--compare" data-money="{{item.sellingPrice}}"></span>
+          <span class="cart_price--discountPrice" data-money='{{item.discountPrice}}'></span>
+          {{# } else { }}
+          <span class="cart_price--discountPrice" data-money='{{item.discountPrice}}'></span>
+          {{# } }}
+        </div>
+      </li>
+      {{# }) }}
+    </ul>
+    <!-- <div class="remark">
+      <div>Remark:</div>
+      <div>{{d.remark}}</div>
+    </div> -->
+    <ul class="discount">
+      <li>
+        <span>Prix des produits:</span>
+        <span data-o-money={{d.productPrice}}>{{d.symbol}}{{d.productPrice}}</span>
+      </li>
+      {{# if(d.dicountTotal > 0) {}}
+      <li>
+        <span>Offres:</span>
+        <span data-money='{{(d.promotionDiscount * 100 + d.couponDiscount * 100) / 100}}'></span>
+      </li>
+      {{# } }}
+      <li>
+        <span>Shipping Cost:</span>
+        <span id='shipping_price' data-money='{{d.shipping || 0}}'></span>
+      </li>
+      <li class="tax hide">
+        <span>Fiscalité:</span>
+        <span id='tax' data-money=''></span>
+      </li>
+      <li class="total">
+    <span id="total">Total général:</span>
+    <span id='total_price' data-o-money="{{d.total}}" data-tax-money="{{d.total}}"  data-d-money="{{d.afterDicountTotal}}">{{d.symbol}}{{d.total}}</span>
+      </li>
+    </ul>
+  </div>
+  <div id="back">
+    <i></i>
+    <a href="cart.html">Retournez dans la voiture.</a>
+  </div>
+</div>
+      </script>
+{% endraw %}
+{% endblock %}

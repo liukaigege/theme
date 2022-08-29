@@ -1,0 +1,67 @@
+<script>
+	/*
+	* 全场活动 renderPromotion
+	*/
+	function renderPromotion(queryCartParam) {
+		const promotion_arr = []
+		const promotionList = CONFIGDATA.activities.find(item => {
+			return contrastTsimes(true, item.end, item.start) && item.status == 1
+		})
+		if (typeof (promotionList) != 'undefined') {
+			$('.cart-discount-content--event').show().prev('.modal-footer-title--event').show()
+			let discountStr = ''
+			const tempList = [promotionList, {
+				id: null,
+				name: window.i18n.No_Thanks,
+				start: '',
+				end: '',
+				addFoldUp: 1
+			}]
+			tempList.forEach(item => {
+				discountStr += `
+					<li class="cart-discount-list cart-discount-list--event ${!!item.id ? 'active': ''}" data-id="${item.id}" data-exclude='${item.addFoldUp}'>
+						<div class="checked-content">
+							<span class="iconfont ${!!item.id ? 'icon-checked' : 'icon-unchecked'}" ></span>
+						</div>
+						<div class="discount-content">${item.name}${!!item.start && !!item.end ? `( <em class='promotion_start'>${item.start.split(' ')[0]}</em><em class='promotion_end'>${item.end.split(' ')[0]}</em>)` : ''}</div>
+					</li>
+				`
+			})
+			$('.cart-discount-list-container--event').html(discountStr)
+			// 查询购物车
+			queryCartParam.activityId = promotionList.id
+			getCartInfo(queryCartParam)
+		} else {
+			// 查询购物车
+			getCartInfo(queryCartParam)
+			$('.promotion-discount').hide()
+		}
+
+
+		function contrastTsimes(isChange, endTime, startTime) {
+			let now = new Date().getTime()
+			if (isChange) {
+				let sTime = new Date(startTime).getTime()
+				let eTime = new Date(endTime).getTime()
+				if (
+					(sTime && eTime && now >= sTime && now <= eTime) ||
+					(sTime && now >= sTime && !eTime)
+				) {
+					return true
+				} else {
+					return false
+				}
+			} else {
+				if (
+					(startTime && endTime && now > startTime && now < endTime) ||
+					(startTime && now > startTime && !endTime)
+				) {
+					return true
+				} else {
+					return false
+				}
+			}
+		}
+	}
+
+</script>

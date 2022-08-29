@@ -1,0 +1,222 @@
+.content {
+    text-align: center;
+}
+
+.content .payment_logo {
+    display: inline-block;
+    width: 0.40rem;
+    height: 0.40rem;
+    background: url(../images/success_icon_pay.png) no-repeat;
+    background-size: contain;
+    margin-top: 0.37rem;
+    
+}
+.content .payment_thank {
+    font-size: 0.14rem;
+    font-family: "Aileron-SemiBold, Aileron";
+    font-weight: 600;
+    color: #000000;
+    margin-top: 0.25rem;
+}
+
+#payment_success .content .payment_info {
+    font-size: 0.12rem;
+    font-family: "Aileron-Regular, Aileron";
+    font-weight: 400;
+    color: #545454;
+    padding-top: 0.15rem;
+}
+
+#payment_success .content .payment_order a{
+    color: #DF0052;
+    font-size: 0.12rem;
+    font-family: "Aileron-Regular, Aileron";
+    font-weight: 400;
+    padding-top: 0.08rem;
+    text-align: center;
+    display: block;
+}
+.fixed_btn{
+    padding: 0.12rem 0.16rem;
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    z-index: 99;
+}
+.content .content_btn {
+    display: block;
+    background: #DF0052;
+    border-radius: 2px;
+    font-size: 0.16rem;
+    font-family: "Aileron-SemiBold, Aileron";
+    font-weight: 600;
+    color: #FFFFFF;
+    width: 100%;
+    height: .42rem;
+    line-height: .42rem;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 2) {
+    #payment_success .content .payment_logo {
+        background: url(../images/success_icon_pay@2x.png) no-repeat;
+        background-size: contain;
+    }
+}
+
+#payment_faile .content .payment_logo {
+    background: url(../images/failed_icon_pay.png) no-repeat;
+}
+
+
+
+.content .order_descript {
+    font-size: 0.14rem;
+    font-family: "Aileron-Regular, Aileron";
+    font-weight: 700;
+    color: #000;
+    padding: 0.1rem 0.37rem 0rem;
+    text-align: center;
+    line-height: 1.8;
+}
+
+
+@media screen and (-webkit-min-device-pixel-ratio: 2) {
+    #payment_faile .content .payment_logo {
+        background: url(../images/failed_icon_pay@2x.png ) no-repeat;
+        background-size: contain;
+    }
+}
+
+#payment_processing .payment_logo {
+        background-image: url(../images/icon/process_icon_pay@2x.png ) no-repeat;
+    }
+.order_descript a{
+        color:#DF0052; 
+        font-family: Aileron-SemiBold, Aileron;
+    }
+.recommend_3d{
+background: #F6F6F6;
+padding-top: .15rem;
+}
+.recommend_3d>div{
+    padding: 0 .16rem;
+    background: #fff;
+}
+#payment_success{
+    padding-bottom: .15rem;
+}
+.recommend_3d .recommend_block{
+ background-color: #fff;
+    padding: .24rem;
+    text-align: center;
+}
+.recommend_block i{
+     background: url(../images/icon/gf_icon@2x.png ) no-repeat;
+     background-size: cover;
+     display: inline-block;
+     width: .3rem;
+     height: .3rem;
+}
+ .recommend_block h3{
+font-size: .16rem;
+font-family: Aileron-SemiBold, Aileron;
+font-weight: 600;
+color: #000000;
+line-height: .2rem;
+margin: .15rem 0 .13rem;
+ }
+  .recommend_block p{
+font-size: .14rem;
+font-family: Aileron-Regular, Aileron;
+font-weight: 400;
+color: #666666;
+  }
+  .recommend_3d--list {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      /* margin-top: .15rem; */
+  }
+  .recommend_3d--list li{
+      width: calc(50% - .075rem);
+      flex-basis: calc(50% - 0.075rem );
+      background: #fff;
+      margin-bottom: .15rem;
+      box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.07);
+  }
+  .recommend_3d--list li>a{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+ .recommend_3d--list li a img{
+     max-width: 100%;
+     max-height: 100%;
+     display: block;
+ }
+ .recommend_3d--list li .rem_title{
+     font-size: .1rem;
+     text-align: center;
+     color: #303133;
+     /* font-family: Floane-Regular; */
+     font-family: Arial;
+     overflow: hidden; 
+  text-overflow: ellipsis; 
+  white-space: nowrap;
+ }
+ .rem_content{
+     padding: .1rem .15rem;
+     background: #fff;
+     text-align: center;
+ }
+ .rem_content>a{
+font-size: .14rem;
+font-family: Aileron-Regular, Aileron;
+font-weight: 400;
+color: #FFFFFF;
+line-height: .2rem;
+width: .94rem;
+height: .2rem;
+background: #000000;
+border-radius: 2px;
+border: 1px solid #000000;
+display: inline-block;
+ }
+ .rem_price{
+     margin: .08rem 0 .12rem;
+ }
+.rem_content .rem_price--now {
+    font-size: .12rem;
+    font-family: "Aileron-SemiBold";
+    font-weight: 600;
+    color: #000;
+    padding: 0 0 .04rem;
+    line-height: 1;
+}
+.rem_content .rem_price--old {
+    font-size: .1rem;
+    font-family: "Aileron-Regular";
+    font-weight: 400;
+    color: #9b9b9b;
+    line-height: 1;
+    text-decoration: line-through;
+    position: relative;
+    margin-right: .05rem;
+}
+.payment_p {
+    font-size: .12rem;
+    color: #666666;
+    line-height: .21rem;
+    padding: .15rem 0;
+    /* padding: 0 0.37rem; */
+}
+body{
+    margin-bottom: .66rem;
+}
+
+.pageFooter{
+    margin-bottom: .66rem;
+}

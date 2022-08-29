@@ -1,0 +1,72 @@
+@import url(information_block.css);
+.main {
+	font-family:Roboto-Regular,Roboto;
+}
+.input-checkbox:checked,.input-radio:checked {
+	border:1px #6A2117 solid;
+}
+.input-checkbox:checked:after,.input-radio:checked:after{
+	background-color:#6A2117;
+}
+.cart_price .cart_price--discountPrice {
+	color:#6A2117;
+}
+.total span:last-child {
+	color:#6A2117;
+}
+.order_checkout button{
+	background:#6A2117
+}
+.product-list li h3{
+	font-family: Roboto-Medium, Roboto;
+}
+.codPayBtn,.payssionPay {
+	font-family:Roboto-Medium,Roboto;
+}
+.crumbs{
+	font-family: Roboto-Regular, Roboto;
+}
+.crumbs .active{
+	font-family: Roboto-Medium, Roboto;
+	color:#6A2117;
+}
+#back a {
+	font-family: Roboto-Regular, Roboto;
+}
+.radio-ul li.active span,.radio-ul li.active .shippingCost {
+	color:#6A2117
+}
+.form-group p {
+	color:#6A2117FF
+}
+#order_checkout--checkbox.active {
+	border-color:#6A2117;
+}
+.addressTable li>.review-block__link button {
+	color:#6A2117FF
+}
+.adress_btn {
+	background:#6a2117;
+}
+#oceanpayment_buynow {
+	background-color:#6A2117;
+}
+.codPayBtn,.payssionPay {
+	background-color:#6A2117;
+}
+.showPayssionType{
+	border:1px solid #6A2117;
+}
+.payssionList.active {
+	border:1px solid #6A2117;
+}
+.payssionContentHeader {
+	border-bottom:1px solid #6A2117;
+	background-color:#6A2117;
+}
+.COT.active .box i:after {
+	border:2px solid #6A2117;
+}
+.order-checkbox a {
+	color:#6A2117;
+}

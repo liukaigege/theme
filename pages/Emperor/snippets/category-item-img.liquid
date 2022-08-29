@@ -1,0 +1,16 @@
+{% if data.pic.size > 0 %}
+{% assign pic = data.pic %}
+{% else %}
+{% assign pic = data.picGoods %}
+{% endif %}
+
+{% assign preloader = prePath | append: "assets/images/preloader.png" %}
+
+{% if data.linkStatus != 0 %}
+{% assign href = 'productList' | SplicingString: data.id,3 %}
+{% else %}
+{% assign href = 'javascript:void(0)' %}
+{% endif %}
+<a class="category-item-img w-100" href="{{href}}">
+	<img {% if isSwiper==1 %} class="swiper-lazy" data-src="{{pic | IMGURL: preloader }}" {% else %} class="lazy-img" data-url="{{pic | IMGURL: preloader }}" {% endif %} alt="category-img" />
+</a>

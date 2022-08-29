@@ -1,0 +1,55 @@
+<div class="product-info__body">
+	{% if data.speType == 1 and data.speList.size > 0 %}
+	<div id="mlpSpe" class="product-info__variants">
+		{% for item in data.speList %}
+		<div class="product-info__variants_items" param-id="{{item.id}}" param-name="{{item.spe}}"
+			data-type="{{item.type}}">
+			<h3 class="product-info__variants_title">{{item.spe | downcase}}<i class="required">*</i>:<p></p>
+			</h3>
+			<p class="error hide">{{'i18n.product_detail.error_tip' | t: lang}}</p>
+			{% if item.valList.size > 0%}
+			{% if item.pattern == 1 %}
+			{% render 'product-select',data:item,type: 'mlpSpe',lang:lang %}
+			{% else %}
+			{% render 'product-text_img',data:item,type: 'mlpSpe',lang:lang%}
+			{% endif %}
+		</div>
+		{% endif %}
+		{% endfor %}
+	</div>
+	{% elsif data.speType == 2 %}
+	<div id="customization">
+		{% for item in data.custList%}
+		<div class="product-info__variants_items" data-type="{{item.type}}" data-pattern="{{item.pattern}}"
+			param-id="{{item.id}}" param-name="{{item.field}}">
+			<h3 class="product-info__variants_title">{{item.field | downcase}}{% if item.need == 1 %}<i
+					class="required">*</i>{% endif %}:<p></p>
+			</h3>
+			{% if item.need == 1%}
+			<p class="error hide">{{'i18n.product_detail.error_tip' | t: lang}}</p>
+			{% endif %}
+			{% if item.type == 1 %}
+			{% if item.pattern == 1 %}
+				{% render 'product-select',data:item ,type: 'customization',lang:lang%}
+			{% else %}
+				{% render 'product-text_img.liquid',data:item ,type: 'customization',lang:lang%}
+			{% endif %}
+			{% elsif item.type == 2 %}
+				{% render 'product-text_img.liquid',data:item ,type: 'customization',lang:lang%}
+			{% elsif item.type == 3 %}
+				{% render 'product-input.liquid',data:item,lang:lang%}
+			{% else %}
+				{% render 'product-uploadImg.liquid',data:item,lang:lang%}
+			{% endif %}
+			{% if item.optionList.length %}
+				{% assign childCustListOption = item.optionList | optionFilter %}
+			    {% render 'product-childOption', data:childCustListOption,lang:lang,pattern:item.pattern %}
+			{% endif %}
+		</div>
+		{% endfor %}
+	</div>
+	{% endif %}
+	{% if data.wholesaleList.size > 0%}
+	{% render 'product-wholesale',wholesaleList:data.wholesaleList,lang:lang%}
+	{% endif %}
+</div>

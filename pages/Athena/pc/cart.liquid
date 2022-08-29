@@ -1,0 +1,411 @@
+{% layout 'Athena/components/Athena_theme_pc' name:'cart' %}
+{% block 'content' %}
+{% render 'Athena/components/pageHeader',configData: blockData.first,isMobilePhone: isMobilePhone,OBJ:data,isShow:true
+%}
+{% assign configData = data.configData %}
+{% if configData.payMethod.paypal %}
+{% assign paypalClientId = configData.payMethod.paypal.clientId%}
+{% else %}
+{% assign paypalClientId = ''%}
+{% endif %}
+<input type="hidden" id='paypal_clientId' data-clientId='{{paypalClientId}}'>
+<section id="cart_box">
+  <!-- 空购物车 -->
+  <div id="cart-empty">
+    <div class="section">
+      <div class="cart_empty">
+        <img src="../assets/pc/images/icon/icn_basket.png" alt="">
+        <p>Your Cart Is Empty.</p>
+      </div>
+    </div>
+
+    <div class="cart_checkout">
+      <a href="productList.html" type="button" id="cart_checkout">CONTINUE SHOPPING</a>
+    </div>
+    {% assign detail = data.detailData %}
+    {% render 'Athena/pc/components/recommend_layui_swiper_pc.liquid' data: detail, isShow: true %}
+  </div>
+  <!-- 非空购物车 -->
+  <div id="cart" class="clearfix p_width">
+    <div id="cart-content">
+      <div class="cart_head">
+        <span></span>
+        <a href="productList.html" class="cart_icon--close">Buy More</a>
+      </div>
+      <div id='cart_table' class="cart-section">
+        <ul class="cart_list" id='cart_list'>
+          <li>
+            <div class="cart_del"></div>
+            <div class="cart_img">
+              <div class="cart_img--mask"></div>
+            </div>
+            <div class="cart_info">
+              <div class="cart_info--mask"></div>
+              <p class="cart_info--mask-01"></p>
+              <p class="cart_info--mask-02"></p>
+              <p class="cart_info--mask-03"></p>
+            </div>
+            <div class="cart_price">
+              <div class="cart_price--mask"></div>
+            </div>
+            <div class="quantity-selector">
+              <div class="quantity-selector--mask"></div>
+            </div>
+            <div class="cart_total--price">
+              <div class="cart_total--mask"></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="cart_container">
+        <!-- 优惠券和券码 -->
+        <div class="coupon_box cart-section">
+          <div class="cart-section--title" data-action="toggle-collapsible" disabled>
+            <span>COUPON</span>
+            <i></i>
+          </div>
+          <div class="cart-content">
+            <!-- 优惠卷 -->
+            <div id="coupon"> </div>
+            <!-- 优惠卷码 -->
+            <div class="cart-code">
+              <div class="cart-section--title" data-action="toggle-collapsible" disabled>
+                <span>HAVE A DISCOUNT CODE?</span>
+                <i></i>
+              </div>
+              <div class="cart-section--content">
+                <div class="discount_code">
+                  <input type="text" id="discount_code--input" placeholder="Code">
+                  <button type="button" id="discount_code--btn" data-apply="discount_code">APPLY</button>
+                </div>
+                <div class="history_list">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 全场活动 -->
+        <div id="promotion"> </div>
+
+        <!-- 运费 -->
+        <div id="shipping"></div>
+      </div>
+    </div>
+    <!-- 订单详情 -->
+    <div class="cart-section summary">
+      <div class="cart-section--title" data-action="toggle-collapsible" disabled> <span>SUMMARY</span> <i></i>
+      </div>
+      <div class="cart-section--content shopcart-box" disabled="">
+        <div id="totalList">
+
+        </div>
+        <!-- <div id="note">
+          <button type="button">
+            <span>Order description</span>
+          </button>
+          <div class="cart-recap__note-inner">
+            <textarea name="cart_note" class="form__field--textarea" rows="3" autofocus=""
+              id="order-note--textarea"></textarea>
+          </div>
+        </div> -->
+        {% if paypalClientId != '' %}
+        <div class="dynamic-checkout dynamic-checkout--loading">
+          <div class="dynamic-checkout__skeleton">
+            <div class="placeholder-line placeholder-line--animated"></div>
+            <div class="placeholder-line placeholder-line--animated"></div>
+          </div>
+          <div class='dynamic-checkout__buttons'>
+            <div id="paypal-button-container"></div>
+          </div>
+        </div>
+        <div class="shopcart-or"><span>OR</span></div>
+        {% endif %}
+        <div class="cart_checkout">
+          <button type="button" id="cart_checkout" data-cart="cart_btn">CHECKOUT</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+{% raw %}
+<script id='cart_template' type="text/html">
+     <li id="cart_list--header">
+            <div class="product">PRODUCT</div>
+            <div class="price">PRICE</div>
+            <div class="quantity">QUANTITY</div>
+            <div class="total">TOTAL PRICE</div>
+      </li>
+      {{# layui.each(d.goodsList, function(index, item){ }}
+      <li data-customVal='{{$.base64.encode(item.customVal)}}' data-wholesale = '{{item.isWholesale}}'   data-sku='{{item.skuId}}' data-goodsId='{{item.goodsId}}' data-skuName='{{item.sku}}' data-goodsVersion='{{item.goodsVersion}}'>
+        <div class="cart_del" data-line-id="{{item.skuId}}"></div>
+       {{# if (item.mainImg && item.mainImg != "" && Object.prototype.toString.call(item.mainImg).slice(8,-1) != 'Null') { }}
+            <div data-img="{{returnSuffixName(item.mainImg)}}" data-zoom="zoomImg" class="cart_img" >
+                <img src="{{returnSuffixName(item.mainImg)}}" alt="{{item.goodsName}}" >
+            </div>
+        {{# } else { }}
+             <div class="cart_img">
+                <img src="" alt="{{item.goodsName}}" >
+             </div>
+       {{# } }}         
+        <div class="cart_info">
+          <a href="productDetail_{{item.goodsId}}.html"  class="cart_product--name font_overhide" >{{item.goodsName}}</a>
+          <div class="cart_product--skuVal">
+            {{# if(item.speType == 1 ){ }}
+                                    <div class='skuVal'>
+                                       {{# layui.each(JSON.parse(item.skuVal), function(index, element){ }}
+                                            {{# if(element.hasOwnProperty('speValmainImg') && element.speValmainImg !='' &&
+                                            Object.prototype.toString.call(element.speValmainImg).slice(8, -1) != 'Null' ){ }}
+                                            <p><span>{{element.spe}}</span> <i>:</i><span data-img="{{returnSuffixName(element.speValmainImg)}}" data-zoom="zoomImg" class="skuValImg"></span></p>
+                                            {{# }else{ }}
+                                            <p><span>{{element.spe}}</span><i>:</i><span>{{element.speVal}}</span></p>
+                                            {{# } }}
+                                       {{# }) }}
+                                    </div>
+            {{# }else if(item.speType == 2||item.speType == 3 ){ }}
+                                  <div class='skuVal'>
+                                    {{# layui.each(JSON.parse(item.customVal), function(index, element){ }}
+                                         {{# if(element.type == '2' || element.type == '4'){ }}
+                                             {{# if(element.value != '' &&  element.value != null){ }}
+                                                 {{# if(item.type == '2') { }}
+                                                    <p><span>{{element.name}}</span> <i>:</i><span data-img="{{returnSuffixName(element.value)}}" data-zoom="zoomImg" class="skuValImg"></span></p>
+                                                 {{# }else{ }} 
+                                                    <p><span>{{element.name}}</span> <i>:</i><span data-img="{{element.value}}" data-zoom="zoomImg" class="skuValImg"></span></p>
+                                                 {{# } }}  
+                                             {{# } }}
+                                         {{# }else{ }}
+                                         <p><span>{{element.name}}</span><i>:</i><span>{{element.value}}</span></p>
+                                         {{# } }}
+                                         {{# if(element.hasOwnProperty("childList")) {}} 
+                                             {{# layui.each(element.childList, function(index, item){}}
+                                                {{# if(item.type == '2' || item.type == '4'){ }}
+                                                    {{# if(item.value != '' &&  item.value != null ){}}
+                                                         {{# if(item.type == '2') { }}
+                                                              <p><span>{{item.name}}</span> <i>:</i><span data-img="{{returnSuffixName(item.value)}}" data-zoom="zoomImg" class="skuValImg"></span></p>
+                                                         {{# }else{ }} 
+                                                              <p><span>{{item.name}}</span> <i>:</i><span data-img="{{item.value}}" data-zoom="zoomImg" class="skuValImg"></span></p>
+                                                         {{# } }} 
+                                                   {{# } }} 
+                                                {{# }else{ }}
+                                                 <p><span>{{item.name}}</span><i>:</i><span>{{item.value}}</span></p>
+                                                {{# } }}  
+                                             {{# }) }}
+                                          {{# } }}
+                                    {{# }) }}
+                                  </div>
+                                  {{# }}}
+          </div>
+        </div>
+          <div class="cart_price">
+            {{# if (item.sellingPrice && item.sellingPrice != '' && Object.prototype.toString.call(item.sellingPrice).slice(8, -1)
+            != 'Null' && Number(item.sellingPrice) > Number(item.discountPrice) ) { }}
+            <span class="cart_price--compare" data="{{item.speType}}" data-money="{{item.sellingPrice}}"></span>
+            <span class="cart_price--discountPrice" data-money='{{item.discountPrice}}'></span>
+            {{# } else {  }}
+            <span class="cart_price--discountPrice" data-money='{{item.discountPrice}}'></span>
+            {{# } }}
+            <p class="{{#  if (item.sellingPrice && item.sellingPrice != '' && Object.prototype.toString.call(item.sellingPrice).slice(8, -1)
+            != 'Null' && Number(item.sellingPrice) > Number(item.discountPrice) ) { }} show {{# } }}">Save Us <em class="discountPrice">
+                {{d.symbol}}{{ Math.round((getMoneyrate(item.sellingPrice) - getMoneyrate(item.discountPrice)) * item.quantity *
+                100)/100}}
+              </em></p>
+          </div>
+         <div class="quantity-selector">
+                <button type="button" class="quantity-selector__button" data-action="decrease-quantity"
+                  title="Decrease quantity by 1"></button>
+                <input class="quantity-selector__value" pattern="[0-9]*" value="{{item.quantity}}" size="2" data-id="{{item.speType}}" data-line-id="{{item.skuId}}">
+                <button type="button" class="quantity-selector__button " data-action="increase-quantity"
+                  title="Increase quantity by 1"></button>
+          </div>
+           <div class="cart_total--price" data-total-price="{{# if (!item.discountPrice || item.discountPrice == '' || item.discountPrice == item.discountPrice) { }}
+                    {{ cellTotal(getMoneyrate(item.discountPrice),item.quantity) }}
+                        {{# }else {}}
+                    {{ cellTotal(getMoneyrate(item.discountPrice),item.quantity) }}{{# }}}">
+              <span>
+                    {{# if (!item.discountPrice || item.discountPrice == '' || item.discountPrice == item.discountPrice) { }}
+                        {{cellTotal(getMoneyrate(item.discountPrice),item.quantity)}}
+                    {{# }else {}}
+                        {{cellTotal(getMoneyrate(item.discountPrice),item.quantity) }}
+                    {{# }}}
+              </span>
+      </div>
+      </li>
+      {{# }) }}
+      {{# if(d.invalidGoodsList.length){ }}
+      {{# layui.each(d.invalidGoodsList, function(index, item){ }}
+     <li class="expired"  data-customVal='{{$.base64.encode(item.customVal)}}'  data-sku='{{item.skuId}}' data-id="{{item.speType}}" data-goodsId='{{item.goodsId}}' data-goodsVersion='{{item.goodsVersion}}' >
+        <div class="cart_del"></div>
+        <div class="cart_img" data-img="{{returnSuffixName(item.mainImg)}}" >
+                <img src="{{returnSuffixName(item.mainImg)}}" alt="{{item.goodsName}}" >
+        </div>
+        <input class="quantity-selector__value" type='hidden'  value="{{item.quantity}}" size="2" data-id="{{item.speType}}" data-line-id="{{item.skuId}}">
+        <div class="cart_info">
+          <div class="cart_product--name font_overhide">{{item.goodsName}}</div>
+          
+        </div>
+      </li>
+      {{# }) }}
+      {{# } }}
+</script>
+<!-- 运费 -->
+<script id="shipping_template" type="text/html">
+    {{# if(d.length){ }}
+    <div class="cart-section">
+      <div class="cart-section--title" data-action="toggle-collapsible" disabled>
+        <span>SHIPPING METHOD</span>
+        <i></i>
+      </div>
+      <div class="cart-section--content">
+    <ul class="shippingMethod-ul radio-ul">
+      {{# layui.each(d, function(index, item){ }}
+    <li class="radio-wrapper" data-id={{item.id}} data-name={{item.name}} >
+      <label class="radio__label" for="shippingMethod-list-{{index}}">
+        <div class="radio__input">
+          <input class="input-radio"  type="radio" value="false" id="shippingMethod-list-{{index}}">
+        </div>
+        <span>
+        {{item.name}}
+        {{# if(item.displayPage && item.displayPage.indexOf("0") !== -1 && item.deliveryTime !=''){ }}
+          ({{item.deliveryTime}})
+        {{#} }}</span>
+      </label>
+      <div class="shippingCost" data-money='{{item.money}}'></div>
+    </li>
+    {{# }); }}
+  </ul>
+        <div id='shipping'></div>
+      </div>
+    </div>
+        {{# } }}
+</script>
+<!-- 费用明细 -->
+<script id='total_template' type="text/html">
+    <ul>
+  <li>
+    <span>Product Price:</span>
+    <span data-o-money='{{d.productPrice}}'>{{d.symbol}}{{d.productPrice}}</span>
+  </li>
+  {{# if(d.dicountTotal > 0) {}}
+  <li>
+    <span>Discount:</span>
+    <span data-money='{{ (d.promotionDiscount * 100 + d.couponDiscount * 100) / 100}}'></span>
+  </li>
+  {{# }}}
+  <li>
+      <span>Shipping Cost:</span>
+      <span id='shipping_price'></span>
+    </li>
+    <li class="total">
+      <span>Total:</span>
+      <span id="total_price" data-o-money="{{d.total}}" data-d-money="{{d.total}}">{{d.symbol}}{{d.total}}</span>
+    </li>
+</ul>
+  </script>
+<!-- 优惠卷 -->
+<script id="coupon_tempalte" type="text/html">
+  {{# if(d.couponList.length){ }}
+    <div>
+      <div class="cart-section--title" data-action="toggle-collapsible" disabled>
+        <span>Select Your Coupon</span>
+        <i></i>
+      </div>
+      <div class="cart-section--content">
+        <ul class="cart_coupon">
+    {{# layui.each(d.couponList, function(index, item){ }}
+    {{# if(item.isValid == '0'){ }}
+    <li class="cart_coupon--cell" data-discount-id='{{item.id}}' data-exclude='{{item.addFoldUp}}'>
+      {{# if(item.ruleResult == '1'){ }}
+      <div>
+        <span>{{item.ruleDesc}}</span>
+        <p>OFF</p>
+      </div>
+      {{# }else if(item.ruleResult == '0') { }}
+      <div>
+        <!-- <i>{{d.symbol}}</i> -->
+        <span class='minus'>- </span>
+        <span data-money='{{item.ruleDesc}}'></span>
+      </div>
+      {{# }}}
+    </li>
+    {{# }else if(item.difference > 0){ }}
+    <li class='discount-gray_cell' data-discount-id='{{item.id}}'>
+      <div>
+        {{# if(item.ruleResult == '1'){ }}
+        <div class='discountCard'>
+          <span>{{item.ruleDesc}}</span>
+          <p>OFF</p>
+        </div>
+        {{# }else if(item.ruleResult == '0') { }}
+        <div class='discountCard'>
+          <!-- <i>{{d.symbol}}</i> -->
+          <span class='minus'>- </span>
+          <span data-money='{{item.ruleDesc}}'></span>
+        </div>
+        {{# }}}
+        <div class='cart-progress'>
+          {{# if(item.activitiesRule == '2'){ }}
+          <span>{{item.difference}} PCS more</span>
+          {{# }else{}}
+          <span> <i data-money='{{item.difference}}'></i>
+            <!-- {{d.symbol}} -->
+             more</span>
+          {{# }}}
+          <div class="layui-progress">
+            <div class="layui-progress-bar" style="width:{{item.proportion}};background:#EFC892"></div>
+          </div>
+        </div>
+      </div>
+    </li>
+    {{# }}}
+    {{# }); }}
+        </ul>
+      </div>
+    </div>
+    <div class="shopcart-or"><span>OR</span></div>
+    {{# }}}
+  </script>
+<!-- 全场活动 -->
+<script id="promotionTpl" type="text/html">
+         {{# if(d.length){ }}
+        <div class="cart-section">
+            <div class="cart-section--title" data-action="toggle-collapsible" disabled>
+              <span>PROMOTION DISCOUNT</span>
+              <i></i>
+            </div>
+            <div class="cart-section--content">
+              <ul class="promotion-ul radio-ul">
+                {{# layui.each(d, function(index, item){  }}
+            <li class="radio-wrapper "  data-id="{{item.id}}" data-exclude='{{item.addFoldUp}}'>
+                  <label class="radio__label" for="promotion-list-01">
+                    <div class="radio__input">
+                      <input class="input-radio" type="radio" value="false" id="promotion-list-{{index}}">
+                </div>
+                      <span>{{ item.name }}
+                        {{# if(item.start != null && item.end != null){ }}
+                         ( <em class='promotion_start'>{{item.start.split(' ')[0]}}</em><em class='promotion_end'>{{item.end.split(' ')[0]}}</em> )
+                         {{# } }}<span></span></span>
+              </label>
+            </li>
+                {{# }) }}
+                  <li class="radio-wrapper" data-value='0' data-id='no_promotion' data-exclude='1'>
+                    <label class="radio__label" for="promotion-list-02">
+                      <div class="radio__input">
+                        <input class="input-radio" type="radio" value="false" id="promotion-list-02">
+                </div>
+                        <span>No Thanks<span></span></span>
+              </label>
+            </li>
+          </ul>
+        </div>
+      </div>
+      {{# } }}
+      </script>
+<script>
+  $(document).on('click', '.currencyExtend li', function () {
+    location.reload()
+  })
+</script>
+{% endraw %}
+<!-- 底部 -->
+{% render 'Athena/components/pageFooter' ,configData: blockData.last ,isMobilePhone: isMobilePhone,OBJ:data %}
+{% endblock %}

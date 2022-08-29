@@ -1,0 +1,87 @@
+{% comment %} postersContent.position==1 {% endcomment %}
+<style>
+	.posters .posters-picture {
+		padding: 0;
+		align-items: center;
+		text-align: center;
+	}
+
+	.posters .posters-text .content {
+		min-height: 200px;
+	}
+
+	.posters .posters-text button {
+		min-width: 150px;
+		min-height: 35px;
+		border: none;
+		border-radius: var(--button-style);
+	}
+
+	.posters .flex-normal .posters-text {
+		padding-left: 0;
+	}
+
+	.posters .flex-reverse .posters-text {
+		padding-right: 0;
+	}
+
+	.posters .flex-reverse {
+		flex-direction: row-reverse;
+	}
+
+	@media (max-width:992px) {
+
+		.posters .posters-picture,
+		.posters .posters-text {
+			padding: 0;
+		}
+
+		.posters .posters-text button {
+			margin: 0 auto;
+			display: block;
+		}
+
+		.posters .flex-reverse {
+			flex-direction: column-reverse;
+		}
+
+		.posters .flex-reverse .posters-picture {
+			margin-bottom: 20px;
+		}
+
+		.posters .flex-normal .posters-text {
+			margin-bottom: 20px;
+		}
+	}
+
+	@media (max-width:539.98px) {
+		.posters .posters-picture,
+		.posters .posters-text {
+			padding: 0 15px !important;
+		}
+	}
+</style>
+{% assign content = 'i18n.posters.default_content' | t: lang %}
+{% assign preloader = prePath | append : "assets/images/poster1.png" %}
+<div {{ postersContent.text.backgroundcolor | stylesheetTag: 'background-color' }} data-position="{{postersContent.button.switch}}" class="row {% if postersContent.position==1 %} flex-reverse {%else%} flex-normal {%endif%}">
+	<div class="posters-text col-md-auto col-lg-6">
+		<div class="posters-text-content">
+			<div class="content-top">
+				<h3 {{ postersContent.text.titleColor | stylesheetTag: 'color' }}>{{ postersContent.text.title | default: 'i18n.posters.default_head' | t: lang }}</h3>
+				<div class="content">{{ postersContent.text.content | escapeHtml | default: content }}</div>
+			</div>
+			{% if postersContent.button.switch == 1 %}
+			{% assign arr1 = postersContent.button.color | SplicingString: postersContent.button.textColor | split: "," %}
+			{% assign arr2 = 'background-color,color' | split: "," %}
+			<button class="alginCenter overflow_1 poster-button__event" data-link="{{ postersContent.button.linkUrl }}" data-status="{{ postersContent.button.linkStatus }}" {{ arr1 | stylesheetTag: arr2,3}}>{{ postersContent.button.copywriting | truncate: 20
+				}}
+			</button>
+			{% endif %}
+		</div>
+	</div>
+	<div class="posters-picture col-md-auto col-lg-6">
+		<a href="{{ postersContent.linkUrl | LINKURL: postersContent.linkStatus | default: 'javascript:void(0)' }}">
+			<img class="lazy-img" data-url="{{postersContent.pic | IMGURL: preloader}}" alt="">
+		</a>
+	</div>
+</div>

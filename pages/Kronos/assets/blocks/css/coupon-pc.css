@@ -1,0 +1,179 @@
+.alertWindowInner-1 {
+  width: 1080px;
+}
+
+.alertWindowInner-2 {
+  width: 477px;
+}
+
+.alertWindow .close {
+  top: 26px;
+  right: 26px;
+  width: 21px;
+  height: 21px;
+  background-image: url('../../pc/images/btn_close@2x.png');
+}
+.alertWindowContent-1,
+.alertWindowContent {
+  padding: 40px 157px;
+}
+
+.alertWindowContent-2 {
+  padding: 40px 60px;
+}
+
+.alertWindowContent .title {
+  font-size: 36px;
+  margin: 36px 0;
+}
+
+.alertWindowContent .content {
+  grid-gap: 15px 0;
+}
+
+.alertWindowContent .coupon-item {
+  font-size: 12px;
+}
+
+.alertWindowContent .coupon-item .preferential strong {
+  font-size: 20px;
+}
+
+.alertWindowContent .coupon-item .preferential span i:first-child {
+  font-size: 20px;
+}
+
+.alertWindowFooter {
+  height: 155px;
+}
+
+.alertWindowFooter button {
+  width: 368px;
+  line-height: 45px;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.alertWindowFooter p {
+  font-size: 13px;
+}
+/* 领取成功 */
+.received {
+  display: none;
+  width: 507px;
+  height: 400px;
+  background: #ffffff;
+  box-shadow: 0px 33px 33px 0px rgba(0, 0, 0, 0.08);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+}
+
+.received-header {
+  width: 100%;
+  height: 288px;
+  background: #cccccc;
+  background-image: url('../../pc/images/couponbg@2x.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+}
+
+.received-header .title {
+  font-size: 41px;
+  font-family: Aileron-SemiBold, Aileron;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 59px 0;
+  text-align: center;
+}
+
+.received-header .tip {
+  font-size: 19px;
+  font-family: Aileron-Regular, Aileron;
+  font-weight: 400;
+  color: #ffffff;
+  padding: 0 145px;
+  text-align: center;
+}
+
+.received-footer .submit {
+  width: 400px;
+  height: 58px;
+  background: #df0052;
+  border-radius: 5px;
+  margin: 27px auto;
+  text-align: center;
+  line-height: 58px;
+  color: #ffffff;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1600px) {
+  .alertWindowInner-1 {
+    width: 10.8rem;
+  }
+
+  .alertWindowInner-2 {
+    width: 4.77rem;
+  }
+
+  .alertWindow .close {
+    top: 0.26rem;
+    right: 0.26rem;
+    width: 0.21rem;
+    height: 0.21rem;
+    background-image: url('../../pc/images/btn_close@2x.png');
+  }
+  .alertWindowContent-1,
+  .alertWindowContent {
+    padding: 0.4rem 1.57rem;
+  }
+
+  .alertWindowContent-2 {
+    padding: 0.4rem 0.6rem;
+  }
+
+  .alertWindowContent .title {
+    font-size: 0.36rem;
+    margin: 0.36rem 0;
+  }
+
+  .alertWindowContent .content {
+    grid-gap: 0.15rem 0;
+  }
+
+  .alertWindowContent .coupon-item {
+    font-size: 0.12rem;
+  }
+
+  .alertWindowContent .coupon-item .preferential strong {
+    font-size: 0.3rem;
+  }
+
+  .alertWindowContent .coupon-item .preferential span i:first-child {
+    font-size: 0.2rem;
+  }
+
+  .alertWindowFooter {
+    height: 1.55rem;
+  }
+
+  .alertWindowFooter button {
+    width: 3.68rem;
+    line-height: 0.45rem;
+    border-radius: 4px;
+    font-size: 0.16rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .alertWindowFooter p {
+    font-size: 0.13rem;
+  }
+}

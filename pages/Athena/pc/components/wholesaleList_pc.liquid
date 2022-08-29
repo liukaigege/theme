@@ -1,0 +1,56 @@
+<div class="wholesaleTable_box">
+    <table class="wholesaleTable">
+        <tbody>
+            <tr>
+                <td>Quantity</td>
+                <td>Discount</td>
+                <td>Price</td>
+            </tr>
+            {% for citem in data %}
+            <tr data-discount="{{citem.discount}}" data-startCount="{{citem.startCount}}" {% if citem.endCount %}
+                data-endCount="{{citem.endCount}}" {% endif %}>
+                {% if citem.endCount %}
+                <td>{{citem.startCount}}~{{citem.endCount}}</td>
+                {% else %}
+                <td>>={{citem.startCount}}</td>
+                {% endif %}
+                <td w-rate></td>
+                <td w-price></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<style>
+    .wholesaleTable_box {
+        /* padding: 0.16rem; */
+        border-top: 1px solid #eee;
+    }
+
+    .wholesaleTable td {
+        padding: 4px 0;
+        border: 1px solid #ccc;
+        color: #898989
+    }
+
+    .wholesaleTable tbody>tr:first-child td {
+        color: #000
+    }
+
+    .wholesaleTable tr.active td {
+        color: #fff
+    }
+
+    .wholesaleTable {
+        width: 100%;
+        text-align: center;
+        font-size: 16px;
+        color: #333;
+        font-weight: 100;
+    }
+
+    .wholesaleTable tr.active {
+        background: #DF0052;
+        color: #fff;
+    }
+</style>

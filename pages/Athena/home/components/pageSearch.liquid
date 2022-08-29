@@ -1,0 +1,52 @@
+{% comment %}
+主题： Athena-雅典娜;
+积木名称：移动端搜索界面;
+{% endcomment %}
+{% comment %}积木id{% endcomment %}
+{% assign sectionId = configData.sectionId %}
+{% comment %}配置数据{% endcomment %}
+{% assign configList = configData.config %}
+{% comment %}热词{% endcomment %}
+{% assign searchData = configList.search %}
+
+{% assign hotWords = searchData.words | split:',' %}
+
+{% comment %}当前汇率{% endcomment %}
+{% for currency in OBJ.configData.currency %}
+{% if currency.mainCurrency == 1 %}
+{% assign currentRate = currency %}
+{% break %}
+{% endif %}
+{% endfor %}
+
+{% render 'Athena/components/pageHeader',configData:configData,isMobilePhone:isMobilePhone%}
+<div class="search" id="{{ sectionId }}">
+  <div class="searchHeader alginCenter">
+    <div class="backHome bg" onclick="routerJump('index.html')"></div>
+    <div class="inputBox">
+      <input type="text" id="search">
+      <div class="searchSubmit alginCenter" id="searchSubmit">
+        <img src="../assets/wap/images/search_btn@2x.png">
+      </div>
+    </div>
+  </div>
+  {% if searchData.showSearchWord == 1 and searchData.words.size>0 %}
+  <ul>
+    {% for word in hotWords %}
+    <li onclick="routerJump('productList.html?keyword={{word}}')">
+      <span class="hotWord overflow_1">{{ word }}</span>
+      {%- if forloop.first == true -%}
+      <img class="hotIcon" src="../assets/wap/images/hot_icon@2x.png">
+      {%- endif %}
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  <div class="maybeLike">
+    {% render
+    'Athena/home/components/recommendUnfold.liquid',goodList:searchData.goods,displaysty:1,isMobilePhone:isMobilePhone,currentRate:currentRate,sectionId:"vshop-mabeLike-4567467",perLineNum:2
+    %}
+  </div>
+
+</div>

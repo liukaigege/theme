@@ -1,0 +1,39 @@
+<div class="shipping-method__warpper" id ="shippingMethod">
+
+</div>
+
+<script>
+	function renderLogisticsTpl(data) {
+		let itemTpls = '';
+		data.forEach((item, index) => {
+			let deliveryTime = '';
+			if (item.displayPage && item.displayPage.indexOf("1") !== -1 && item.deliveryTime != '') deliveryTime = item.deliveryTime
+			let itemTpl =
+				`
+					<li class="shipping__item" data-money='${getMoney(item.money)}' data-name= "${item.name}" data-id="${item.id}">
+						<div class="custom-control custom-radio">
+							<input type="radio" id="shoppingMethod${index}" name="shippingCost" class="custom-control-input">
+							<label class="custom-control-label" for="shoppingMethod${index}">
+								${item.name}
+								${deliveryTime}
+							</label>
+						</div>
+						<div class="shipping__item--money">${getMoney(item.money)}</div>
+					</li>
+				`
+			itemTpls = itemTpls + itemTpl
+		})
+		let tpl =
+		`
+			<div class="content__title">
+				<i class="circle-icon">2</i>
+				<span>{{ 'i18n.payment.shipping_method' | t: lang }}</span>
+			</div>
+			<ul class="shipping-method__content" >
+				${itemTpls}
+			</ul>
+
+		`
+		$("#shippingMethod").html(tpl)
+	}
+</script>

@@ -1,0 +1,131 @@
+.videBlcok {
+  margin: 15px 0;
+}
+
+.videBlcok video {
+  width: 100%;
+  /* max-width: 100%; */
+  height: auto;
+  max-height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.videoStyle2,
+.videoStyle1 {
+  padding: 0.15rem;
+}
+
+.videoStyle2 {
+  display: flex;
+  flex-direction: column;
+}
+
+.videoStyle1 .videoBox,
+.videoStyle2 .videoBox {
+  position: relative;
+  width: 100%;
+}
+
+.videoStyle1 .videoBox {
+  height: 2.62rem;
+}
+
+.videoStyle2 .videoBox {
+  height: 1.31rem
+}
+
+.videoStyle1 .videoBox #play,
+.videoStyle1 .videoBox img,
+.videoStyle1 .videoBox video,
+.videoStyle2 .videoBox #play,
+.videoStyle2 .videoBox video,
+.videoStyle2 .videoBox img,
+.videoStyle2 .videoBox video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.videoStyle2 .videoBox img,
+.videoStyle1 .videoBox img {
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  z-index: 101;
+}
+
+.videoStyle2 .videoContent,
+.videoStyle2 .videoText {
+  position: relative;
+  width: 100%;
+}
+
+.videoStyle2 .videoContent {
+  text-align: center;
+  width: 100%;
+  height: 1.31rem;
+}
+
+.videoStyle2 .videoText-content {
+  width: 100%;
+  margin-bottom: 0.3rem;
+}
+
+.videoStyle2 .videoText-content .content {
+  overflow: hidden;
+  font-size: 0.14rem;
+  font-family: Roboto-Regular, Roboto;
+  font-weight: 400;
+  color: #666666;
+  line-height: 0.21rem;
+  min-height: 2rem;
+}
+
+.videoStyle2 .videoText h1 {
+  font-size: 0.24rem;
+  font-family: Roboto-Regular, Roboto;
+  margin-bottom: 0.2rem;
+}
+
+.videoStyle2 .videoText button {
+  min-width: 1.5rem;
+  max-width: calc(100% - 0.2rem);
+  height: 0.36rem;
+  line-height: 0.36rem;
+  border-radius: 0.02rem;
+  font-size: 0.14rem;
+  font-family: Roboto-Regular, Roboto;
+  cursor: pointer;
+  overflow: hidden;
+  margin: 0.2rem auto 0;
+  padding: 0 0.2rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+
+.videoStyle2 .videoText button span {
+  height: 100%;
+}
+
+/* .videoStyle2 .videoText button img {
+  height: 0.12rem;
+  width: 0.12rem;
+  margin-left: 0.12rem;
+} */
+
+#play {
+  width: 0.25rem;
+  height: 0.25rem;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #cccccc;
+  background-image: url(../../wap/images/bf_icon@2x.png);
+  z-index: 102;
+}

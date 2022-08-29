@@ -1,0 +1,325 @@
+{% comment %}
+主题：Kronos-克罗诺斯;
+积木名称：商品列表页pageHeader-页头;
+{% endcomment %}
+{% comment %}积木id{% endcomment %}
+{% assign sectionId = configData.sectionId %}
+{% comment %}配置数据{% endcomment %}
+{% assign configList = configData.config %}
+{% comment %}网站Logo{% endcomment %}
+{% assign logo = configList.logo | IMGURL:'.../assets/pc/images/followUs-preloader.png' %}
+{% assign centerLogo = 'PPAP LOVE' %}
+{% comment %}导航菜单{% endcomment %}
+{% assign categoryData = configList.catalogue.list %}
+{% comment %}展示样式--一级目录id 0超出一行自动换行 1超出一行左右滑动切换 默认0{% endcomment %}
+{% assign isLineFeed = configList.style.displayStyleFirst %}
+{% comment %}展示样式--多级目录 0下拉单列展示 1下拉图文展示 2子菜单不足5个单列展示，超出5个图文展示 默认0{% endcomment %}
+{% assign displayStyleMultistage = configList.style.displayStyleMultistage %}
+{% comment %}顶部公告{% endcomment %}
+{% assign notice = configList.top %}
+{% comment %}货币数据{% endcomment %}
+{% assign currency = configList.currency %}
+{% comment %} 导航栏数据 {% endcomment %}
+{% assign moneyStatus = moneyStatus %}
+{% if isMobilePhone == 0 %}
+<div type-block="block" isMobilePhone={{isMobilePhone}} class="header-warp" topNotice="{{notice.topNotice}}"
+  htmlName="{{htmlName}}" topLock="{{notice.topLock}}" homeOnly="{{notice.homeOnly}}" id="{{sectionId}}"
+  isShow="{{isShow}}">
+  {% if notice.homeOnly == 1 and htmlName == 'index' %}
+  {% assign homeOnly = 1 %}
+  {% else %}
+  {% assign homeOnly = 0 %}
+  {% endif %}
+  {% if homeOnly == 1 or notice.homeOnly == 0 %}
+  {% if notice.topNotice == 1 %}
+  {% if notice.topLock ==1%}
+  {% if notice.showType==1 %}
+  {% assign arr1 = '#fff' | SplicingString: 'fixed' | split: "," %}
+  {% else %}
+  {% assign arr1=notice.backgroundColor | SplicingString: 'fixed' | split: "," %}
+  {% endif %}
+  {% else%}
+  {% if notice.showType==1 %}
+  {% assign arr1= '#fff' | SplicingString: 'relative' | split: "," %}
+  {% else %}
+  {% assign arr1= notice.backgroundColor | SplicingString: 'relative' | split: "," %}
+  {% endif %}
+  {% endif %}
+  {% assign arr2='background-color,position' | split: "," %}
+  <div class="activedBox" id="top-actived" {% if notice.topLock==1 %} {{ '0.4rem' | stylesheetTag:'height'}} {% endif
+    %}>
+    <div class="actived" {{ arr1 | stylesheetTag:arr2,3}}>
+      <div class="activedContent" onclick="routerJump('{{notice.linkUrl  | LINKURL:notice.linkStatus }}')">
+        {% if notice.showType == 1 %}
+        <img class="lazyload"
+          data-original="{{notice.picNoticePc | IMGURL:'../assets/pc/images/followUs-preloader.png',notice.picNoticeWap}}"
+          {% if isLocal==1%}
+          src="{{notice.picNoticePc | IMGURL:'../assets/pc/images/followUs-preloader.png',notice.picNoticeWap}}"
+          {%endif%}>
+        {% else %}
+        {{notice.copywriting}}
+        {% endif %}
+      </div>
+      <span class="actived-close bg" id="actived-close"
+        style="background-image: url('../assets/pc/images/btn_close@2x.png')">
+      </span>
+    </div>
+  </div>
+  {% endif %}
+  {% endif %}
+  <div class="header">
+    <div class="toolbar" id="toolbar">
+      <div class="toolbar-left">
+        {% comment %}<a href="index.html" class="logo bg" style="background-image:url({{logo}})"></a>{% endcomment %}
+        <div class="currency">
+          {% for item in currency %}
+          {% if item.mainCurrency == 1 %}
+          <span class="currency-img currencyActive-img bg" style="background-image: url({{item.pic}});"></span>
+          <span class="currency-hover">
+            <span class="currency-name currencyActive-name" style="margin-right: 0;">{{item.currency}}</span>
+            <span class="currency-rotate bg"
+              style=" background-image: url('../assets/pc/images/down@2x(1).png');"></span>
+          </span>
+          <span id="showSearchDialog" class="currency-serch bg"
+            style=" background-image: url('../assets/pc/images/heacerSerch.png');"></span>
+          {% endif %}
+          {% endfor %}
+          <ul class="currencyExtend">
+            {% for item in currency %}
+            <li currencyid="{{item.currency}}">
+              <span class="currency-img bg" style="background-image:url('{{item.pic}}')"></span>
+              <span class="currency-name">{{item.currency}}
+              </span>
+              {% if item.mainCurrency == 1 %}
+              <span class="currency-check bg"
+                style="display: block;background-image: url('../assets/pc/images/home_check_icon.png');"></span>
+              {% else %}
+              <span class="currency-check bg"
+                style="display: none;background-image: url('../assets/pc/images/home_check_icon.png')"></span>
+              {% endif %}
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      {% comment %} <div class="toolbar-center">
+        <!-- <input id="search" placeholder="search..." type="text">
+        <a class="input_icon bg" id="searchSubmit"
+          style="background-image: url(../assets/pc/images/home_search_but@2x.png);"></a>
+        <ul class="searchExtend">
+          <div id="searchResult"></div>
+          <li class="viewAll" id="viewAll">View All Results</li>
+        </ul> -->
+        <a href="index.html" class="logo bg">{{centerLogo}}</a>
+      </div>{% endcomment %}
+      <div class="toolbar-center">
+        {% comment %} <a onclick="routerJump('index.html')" class="logo bg" style="background-image:url({{logo}})"></a>
+        {% endcomment %}
+        <img onclick="routerJump('index.html')" src="{{logo}}" alt="">
+      </div>
+      <div class="toolbar-right">
+        <a class="homeChat" href="contact.html">CONTACT US</a>
+        <a class="homeOrder" href="orderSearch.html">TRACK ORDER</a>
+        <a class="homeBag home_bag">MY CART( <i>0</i> )</a>
+        {% comment %} <a class="homeOrder bg" href="orderSearch.html"
+          style=" background-image: url(../assets/pc/images/home_order_but@2x.png)"></a>
+        <a class="homeBag bg home_bag"
+          style=" background-image: url(../assets/pc/images/home_bag_but@2x.png)"><i>0</i></a>
+        <a class="homeChat bg" href="contact.html"
+          style=" background-image: url(../assets/pc/images/home_chat_but@2x.png)"></a> {% endcomment %}
+      </div>
+    </div>
+    {%if categoryData.length>0%}
+    <div class="navigation" id="navigation" displayStyle="{{displayStyleMultistage}}" {% if isLineFeed==0 %} {{ '100%' |
+      stylesheetTag:'height'}} {% endif %}>
+      <div id="header_firstMenu_container" class="menuHide">
+        <ul class="scroller
+            {% if isLineFeed==0 %}
+              scroller-style-002
+            {% else %}
+              scroller-style-001
+            {% endif %}" id="scroller" isLineFeed="{{isLineFeed}}">
+          {% for item in categoryData %}
+          <li categoryid="{{item.id}}">
+            <a onclick="routerJump('{{ item.linkUrl | LINKURL:item.linkStatus }}')">{{item.name}}</a>
+            {% if displayStyleMultistage==0 and item.childList.size> 0 %}
+            <div class="menu-warp-style-one">
+              {% for i in item.childList %}
+              <a class="overflow_1" onclick="routerJump('{{ i.linkUrl | LINKURL:i.linkStatus }}')">{{i.name}}</a>
+              {% endfor %}
+            </div>
+            {% elsif displayStyleMultistage==2 and item.childList.size < 5 and item.childList.size> 0 %}
+            <div class="menu-warp-style-one">
+              {% for i in item.childList %}
+              <a class="overflow_1" onclick="routerJump('{{ i.linkUrl | LINKURL:i.linkStatus }}')">{{i.name}}</a>
+              {% endfor %}
+            </div>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+        {% if isLineFeed==1 %}
+        <div class="left-modal">
+          <span class="bg" id="toLeft" style="background-image: url(../assets/pc/images/toLeft.png)"></span>
+        </div>
+        <div class="right-modal">
+          <span class="bg" id="toRight" style="background-image: url(../assets/pc/images/toRight.png)"></span>
+        </div>
+        {% endif %}
+      </div>
+      {% if displayStyleMultistage==1 or displayStyleMultistage==2  %}
+      <div class="menu" id="menu">
+        <div class="menu-warp clearfix">
+          <div class="menuTitle" id="menuTitle"></div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+</div>
+<div class="search-fullscreen-dialog hide" id="searchDialog">
+  <div class="search-dialog-close" id="closeSearchDialog"></div>
+  <div class="search-container">
+    <div class="search-input">
+      <input class="search-input-real" id="search" />
+      <div class="search-input-icon" id="searchSubmit"></div>
+    </div>
+    <div class="search-extend" id="searchExtend">
+      <div class="search-result" id="searchResult"></div>
+      <div class="search-view-all" id="viewAll">View All Results</div>
+    </div>
+  </div>
+</div>
+{% if isShow != true%}
+{% render 'Kronos/pc/components/cart_pc.liquid',data:OBJ %}
+{% endif %}
+{% else %}
+<div type-block="block" class="header-warp" topLock="{{notice.topLock}}" id="{{sectionId}}">
+  <div class="header">
+    {% if notice.homeOnly == 1 and htmlName == 'index' %}
+    {% assign homeOnly = 1 %}
+    {% else %}
+    {% assign homeOnly = 0 %}
+    {% endif %}
+    {% if homeOnly == 1 or notice.homeOnly == 0 %}
+    {% if notice.topNotice == 1 %}
+    {% if notice.topLock ==1%}
+    {% if notice.showType==1 %}
+    {% assign arr1 = '#fff' | SplicingString: 'fixed' | split: "," %}
+    {% else %}
+    {% assign arr1 = notice.backgroundColor | SplicingString: 'fixed' | split: "," %}
+    {% endif %}
+    {% else%}
+    {% if notice.showType==1 %}
+    {% assign arr1 = '#fff' | SplicingString: 'relative' | split: "," %}
+    {% else %}
+    {% assign arr1 = notice.backgroundColor | SplicingString: 'relative' | split: "," %}
+    {% endif %}
+    {% endif %}
+    {% assign arr2 = 'background-color,position' | split: "," %}
+    <div class="activedBox" id="top-actived" {% if notice.topLock==1 %} {{ '0.24rem' | stylesheetTag:'height'}}
+      {% endif%}>
+      <div class="actived" {{ arr1 | stylesheetTag:arr2,3}}>
+        <div class="activedContent" onclick="routerJump('{{notice.linkUrl  | LINKURL:notice.linkStatus }}')">
+          {% if notice.showType==1 %}
+          <img class="lazyload"
+            data-original="{{notice.picNoticeWap | IMGURL:'../assets/pc/images/followUs-preloader.png',notice.picNoticePc}}"
+            {% if
+            isLocal==1%}src="{{notice.picNoticeWap | IMGURL:'../assets/pc/images/followUs-preloader.png',notice.picNoticePc}}" {%endif%}>
+          {% else %}
+          {{notice.copywriting }}
+          {% endif %}
+        </div>
+        <div class="actived-close bg" id="actived-close"
+          style="background-image: url(../assets/pc/images/btn_close@2x.png);"></div>
+      </div>
+    </div>
+    {% endif %}
+    {% endif %}
+    <div class="toolbar alginCenter">
+      <div class="toolbar-left" id="toolbar-menu">
+        <div class="toolbar-menu bg" style="background-image: url(../assets/wap/images/home_more_but_new.png);"></div>
+        <a class="homeOrder" onclick="routerJump('search.html')">
+          <img src="../assets/wap/images/home_order_but_wap@2x.png">
+        </a>
+      </div>
+      <div class="toolbar-center">
+        <a onclick="routerJump('index.html')" class="logo bg" style="background-image:url({{logo}})"></a>
+      </div>
+      <div class="toolbar-right">
+        <a class="homeBag bg" onclick="routerJump('orderSearch.html')">
+          <img src="../assets/wap/images/home_search_but_wap@2x.png">
+        </a>
+        <a class="homeChat bg  home_cart">
+          <i>0</i>
+          <img src="../assets/wap/images/home_cart_but_wap@2x.png">
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay sidebar-container hide" id="sidebarContainer">
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-close" id="closesidebar"></div>
+    <div class="sidebar-title">LIST</div>
+    <div class="sidebar-menu-wrap">
+      {% for item in categoryData %}
+      <div class="sidebar-menu">
+        <div class="sidebar-submenu">
+          <a href="javascript;" onclick="routerJump('{{item.linkUrl | LINKURL:item.linkStatus }}')"
+            class="sidebar-submenu-left">
+            {% if item.picWap.size > 0 %}
+            {% assign pic = item.picWap | IMGURL %}
+            <div style="background-image:url({{pic}})" class="sidebar-submenu-img"></div>
+            {% elsif item.picPc.size > 0 %}
+            {% assign pic = item.picPc | IMGURL %}
+            <div style="background-image:url({{pic}})" class="sidebar-submenu-img"></div>
+            {% elsif item.picGoods.size > 0 %}
+            {% assign pic = item.picGoods | IMGURL %}
+            <div style="background-image:url({{pic}})" class="sidebar-submenu-img"></div>
+            {% else %}
+            <div class="sidebar-submenu-img"></div>
+            {% endif %}
+            <div class="sidebar-submenu-name">{{item.name}}</div>
+          </a>
+          {% if item.childList && item.childList.size > 0 %}
+          <div class="sidebar-submenu-icon"></div>
+          {% endif %}
+        </div>
+        {% if item.childList && item.childList.size > 0 %}
+        <div class="sidebar-menu-list">
+          {% for menuItem in item.childList %}
+          <a href="javascript;" onclick="routerJump('{{menuItem.linkUrl | LINKURL:menuItem.linkStatus }}')"
+            class="sidebar-menu-item">{{menuItem.name}}</a>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    <div class="sidebar-bottom">
+      <div class="currency-list" id="sidebarCurrency">
+        <div class="currency-list-left">
+          <img class="currency-list-img" src="https://shopvango.com/static-page/currency/USD.svg" />
+          <div>Change Currency</div>
+        </div>
+        <div class="currency-list-unit">USD</div>
+      </div>
+    </div>
+    <div class="currency-select hide" id="currencySelect" data-status="{{moneyStatus}}">
+      {% comment %} <div class="currency-list select">
+        <div class="currency-list-left">
+          <img class="currency-list-img" src="${v.pic}" />
+          <div>Change Currency</div>
+        </div>
+        <div class="currency-list-unit">${v.currency}</div>
+        <div class="currency-list-select"></div>
+      </div> {% endcomment %}
+    </div>
+  </div>
+</div>
+{% if isShow != true%}
+{% render 'Kronos/wap/components/cart.liquid',data:OBJ %}
+{% endif %}
+{% endif %}

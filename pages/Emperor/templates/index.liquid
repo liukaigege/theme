@@ -1,0 +1,15 @@
+{% assign page_title = 'i18n.index.page_title' |  t: lang , shop_name: shopName %}
+{% assign htmlName = "index" %}
+{% if isIframe == '1'%}
+{% assign prePath = "../temptheme/" %}
+{% else %}
+{% assign prePath = '../' %}
+{% endif %}
+{% layout 'theme', name:'headerData',showHeader: true,showFooter: true %}
+{% block 'content' %}
+{% for block in indexTemplateData %}
+<div class="vshop-section" section-name="{{ block.templateName }}" section-id="{{ block.sectionId }}">
+  {% render block.templateName, configData: block, lang:lang, id: block.id, globalVarData: globalVarData,prePath: prePath %}
+</div>
+{% endfor %}
+{%endblock%}

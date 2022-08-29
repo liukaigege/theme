@@ -1,0 +1,22 @@
+<style>
+	.posters .posters-text{
+		display: flex;
+        flex-direction: column;
+	}
+	.posters .posters-text-content{
+		min-height:200px
+	}
+</style>
+{% assign content = 'i18n.posters.default_content' | t: lang %}
+<div class="posters-text row" {{ postersContent.text.backgroundcolor |
+  stylesheetTag:'background-color'}}>
+  <h1 {{ postersContent.text.titleColor | stylesheetTag: 'color'}}>{{ postersContent.text.title | default: 'i18n.posters.default_head' | t: lang }}</h1>
+  <div class="posters-text-content">{{ postersContent.text.content | escapeHtml  | default: content }}</div>
+  {% if postersContent.button.switch == 1 %}
+  {% assign arr1 = postersContent.button.color | SplicingString: postersContent.button.textColor | split: "," %}
+  {% assign arr2 = 'background-color,color' | split: "," %}
+  <button class="m-auto poster-button__event" data-link="{{ postersContent.button.linkUrl }}" data-status="{{ postersContent.button.linkStatus }}" {{ arr1 |
+    stylesheetTag:arr2,3}}>{{  postersContent.button.copywriting | truncate: 20 }}
+  </button>
+  {% endif %}
+</div>

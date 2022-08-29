@@ -1,0 +1,244 @@
+{% layout 'Kronos/components/Kronos_theme' name:'orderDetail' %}
+{% block 'content' %}
+{% render 'Kronos/components/pageHeader',configData: blockData.first,isMobilePhone: isMobilePhone,OBJ:data %}
+<div class="main">
+  <div id='order'></div>
+</div>
+{% raw %}
+<script id="orderTpl" type="text/html">
+  <div class="emptyContainer {{d.length?'hide':''}}" >
+        <img src="../assets/pc/images/icon/empty@2x.png"/>
+        <p>Your have not ordered anything yet</p>
+        <a href="productList.html" class="button">CONTINUE SHOPPING</a>
+    </div>
+    <div class="{{d.length?'':'hide'}}">
+        {{# layui.each(d, function(index, item){ }}
+        <div class="items" id="items">
+            <div class="items_click">
+              <div class="itemPaystatus">
+                <div class="payment_status_show">
+                  {{# if(item.paymentStatus == 2) {}}
+            <div class="payment_icon_success"></div>
+                  {{# } else if(item.paymentStatus == 5) {}}
+            <div class="payment_icon_failed"></div>
+                  {{# } else if(item.paymentStatus == 1 || item.paymentStatus == 3) {}}
+            <div class="payment_icon_awaiting"></div>
+                  {{# }else{}}
+            <div class="payment_icon_pending"></div>
+                  {{# }}}
+            <div class="payment_status {{item.paymentStatus == 2?'pay_successful':item.paymentStatus == 5?'pay_failed':item.paymentStatus == 3||item.paymentStatus == 1?'pay_awaitingPayment':'pay_pending'}}">
+                    {{# if(item.paymentStatus == 2) {}}
+              Payment Successful
+              {{# } else if(item.paymentStatus == 5) {}}
+              Closed
+              {{# } else if((item.paymentStatus == 1 || item.paymentStatus == 3) && item.cod != 1) {}}
+              Awaiting Payment
+              {{# } else if((item.paymentStatus == 1 || item.paymentStatus == 3) && item.cod == 1) {}}
+              Awaiting fulfillment
+              {{# }else{}}
+              Pending...
+              {{# }}}
+            </div>
+                </div>
+                <div class="curreny">{{item.currency}}{{ item.totalPrice }}</div>
+              </div>
+              <div class="pay_time grayColor">
+                <div>{{ item.createTime }}</div>
+                <div class="down_open"></div>
+              </div>
+               {{# if ((item.paymentStatus == 1 || item.paymentStatus == 3) && item.cod != 1) { }} 
+                    <a type="button" href='payment.html?ordersId={{ item.id }}' class="content_btn">
+                        <span>{{ dateTrans(item.createTime)}} (Deadline)</span>
+                        <span>Complete your purchase</span>
+                    </a>
+                    {{# } }} 
+            </div>
+            <div class="down_open_content">
+        <div class="open_content">
+                <div class="open_content_padding">
+                  <div class="order_status grayColor">
+                    <span>Order Status:</span>
+                    <span>
+                      {{# if(item.paymentStatus == 2) {}}
+                Payment Successful
+                {{# } else if(item.paymentStatus == 5) {}}
+                Closed
+                {{# } else if((item.paymentStatus == 1 || item.paymentStatus == 3) && item.cod != 1) {}}
+              Awaiting Payment
+              {{# } else if((item.paymentStatus == 1 || item.paymentStatus == 3) && item.cod == 1) {}}
+              Awaiting fulfillment
+                {{# }else{}}
+                Pending...
+                {{# }}}
+              </span>
+                  </div>
+                  <div class="order_status grayColor">
+                    <span>Total Amount:</span>
+                    <span>{{item.currency}}{{ item.totalPrice }}</span>
+                  </div>
+                  <div class="line"></div>
+                  <div class="consignee">
+                    <div>Consignee Info</div>
+                    <div class="name order_status grayColor">
+                      <span>Name:</span>
+                      <span>{{ item.name }}</span>
+                    </div>
+                    <div class="address order_status grayColor">
+                      <span>Address:</span>
+                      <span>
+                        {{# if(item.address.street1 && Object.prototype.toString.call(item.address.street1).slice(8, -1) !='Null'){}}
+                                {{ item.address.street1 }},
+                        {{# }}}
+                        {{# if(item.address.street2 && Object.prototype.toString.call(item.address.street2).slice(8, -1) !='Null'){}}
+                               {{ item.address.street2 }},
+                        {{# }}}
+                        {{# if(item.address.city && Object.prototype.toString.call(item.address.city).slice(8, -1) != 'Null'){}}
+                               {{ item.address.city }},
+                        {{# }}}
+                        {{# if(item.address.country && Object.prototype.toString.call(item.address.country).slice(8, -1) !='Null'){}}
+                               {{ item.address.country }}
+                        {{# }}}
+                </span>
+                    </div>
+                  </div>
+                      <div class="line"></div>
+                       {{# if(item.ordersItems && item.ordersItems.length){}}
+            {{# layui.each(item.ordersItems, function (key, val) { }}
+                    <div class="pict_info">
+                    <div class="picture">
+                    {{# if(val.mainImg && val.mainImg != '' && Object.prototype.toString.call(val.mainImg).slice(8, -1) !='Null') {}}
+                       <a class="n-title" href="productDetail_{{val.goodsId}}.html"> <img src="{{ returnSuffixName(val.mainImg) }}" alt="{{val.goodsName}}" class="click-box showsavatar"></a>
+                    {{# } else {}}
+                        <a class="n-title" href="productDetail_{{val.goodsId}}.html"><img src="" alt="{{val.goodsName}}" class="click-box showsavatar"></a>
+                    {{# }}}
+                  </div>
+                      <div class="order_info">
+                        <span class="order_info_title">{{ val.goodsName }}
+                        </span>
+                        <span>
+                  {{# if(val.customization != '1') {}}
+                  {{# if(val.skuValue && JSON.parse(val.skuValue).length){}}
+                  <ol>
+                            {{# layui.each(JSON.parse(val.skuValue), function (zKey, zVal) { }}
+                    {{# if(zVal.speVal && zVal.speVal != '' && Object.prototype.toString.call(zVal.speVal).slice(8, -1) != 'Null'){}}
+                    {{# if(Object.keys(zVal).indexOf('speValmainImg') === 1 && zVal.speValmainImg !='' && Object.prototype.toString.call(zVal.speValmainImg).slice(8, -1) != 'Null' ){ }}
+                    <li>{{ zVal.spe }} : <span data-img="{{returnSuffixName(zVal.speValmainImg)}}" data-zoom="zoomImg" class="skuValImg"></span></li>
+                              {{# }else{}}
+                    <li>{{ zVal.spe }} : {{ zVal.speVal }}</li>
+                              {{# }}}
+                    {{# }}}
+                    {{# }); }}
+                  </ol>
+                    {{# }}}
+                  {{# } else {}}
+                  <ol>
+                  {{# if(val.customValue && JSON.parse(val.customValue).length){}}
+                              {{# var fnzz = function (type, zVal) {
+                                  var imgHtml = '';
+                                  if (type == 2) {
+                                    imgHtml = `<span data-img="${returnSuffixName(zVal)}" data-zoom="zoomImg" class="skuValImg"></span>`;
+                                  } else if (type == 4) {
+                                    imgHtml = `<span data-img="${zVal}" data-zoom="zoomImg" class="skuValImg"></span>`;
+                                  } else {
+                                    imgHtml = zVal;
+                                  }
+                                  return imgHtml;
+                                };
+                              }}
+                              {{# layui.each(JSON.parse(val.customValue), function (xKey, xVal) { }}
+                                 {{# if(xVal.value && xVal.value != '' && Object.prototype.toString.call(xVal.value).slice(8, -1) != 'Null'){}}
+                                 <li>{{ xVal.name }} : {{ fnzz(xVal.type, xVal.value) }}</li>
+                                 {{# }}}
+                                 {{# if(xVal.childList && xVal.childList.length) {}}
+                                    {{# layui.each(xVal.childList, function (mKey, mVal) { }}
+                                       {{# if(mVal.value && mVal.value != '' && Object.prototype.toString.call(mVal.value).slice(8, -1) != 'Null'){}}
+                                          <li>{{ mVal.name }} : {{ fnzz(mVal.type, mVal.value) }}</li>
+                                       {{# }}}
+                                    {{# }); }}
+                                {{# }}}
+                                {{# if(xVal.creationId){ }}
+                                  <li>Customize :<img src="{{xVal.image}}" data-id="{{xVal.creationId}}" class="toThreeD" alt=""></li>
+                                {{# } }}
+                              {{# }); }}
+                    {{# }}}
+                  </ol>
+                {{# }}}
+                </span>
+              </div>
+                      </div>
+                      <div class="order_info_price">
+                        <span>{{item.currency}}{{ val.discountPrice }}</span>
+                        <span>X{{ val.quantity }}</span>
+                        <span>{{item.currency}}{{ val.totalPrice }}</span>
+                      </div>
+                      {{# }) }}
+            {{# }}}
+                       
+                      <div class="line"></div>
+                      <div class="order_status grayColor">
+                        {{# if(item.ordersItems && item.ordersItems.length){}}
+                        <span>Total: </span>
+                        <span>
+                          {{# var fn = function (num) {
+                              var len = 0; for (let m = 0; m < num.length; m++) { len += num[m].quantity; } return len;
+                            }
+                          }} 
+                          {{ fn(item.ordersItems) }}
+                        </span>
+                        {{# }}}
+                     </div>
+                      <div class="order_status grayColor">
+                        <span>Discount:</span>
+                        <span>{{item.currency}} {{ item.totalDiscount }}</span>
+                      </div>
+                      <div class="order_status grayColor">
+                        <span>Shipping Cost:</span>
+                        <span>{{item.currency}} {{ item.totalShippingPrice }}</span>
+                      </div>
+                      <div class="order_status grayColor">
+                        <span>Actual Payment:</span>
+                        <span>{{item.currency}} {{ item.totalPrice }}</span>
+                      </div>
+                      <div class="order_status grayColor">
+                        <span>Tax:</span>
+                        <span>{{item.currency}} {{ item.taxRatePrice }}</span>
+                      </div>
+                      <div class="line"></div>
+                      <div class="order_status grayColor">
+                        <span>Order Number:</span>
+                        <span>{{ item.id }}</span>
+                      </div>
+                      <div class="order_status grayColor">
+                        {{# if(item.transcationId && item.transcationId != '' && Object.prototype.toString.call(item.transcationId).slice(8, -1)  != 'Null') {}}
+                            <span>Transcation Number:</span>
+                            <span>{{ item.transcationId }}</span>
+                        {{# }}}
+                      </div>
+                    <div class="line"></div>
+                    <div class="order_status grayColor">
+                      <span>Order Time:</span>
+                      <span>{{ item.createTime }}</span>
+                    </div>
+                    <div class="order_status grayColor">
+                      {{# if(item.paymentTime && Object.prototype.toString.call(item.paymentTime).slice(8, -1) != 'Null'){}}
+                         <span>Payment Time:</span>
+                         <span>{{ item.paymentTime }}</span>
+                      {{# }}}
+                    </div>
+                    <div class="line"></div>
+                    <div class="order_status grayColor">
+                      <span>Shipping Info:</span>
+                      <span>{{ item.shippingsName }}</span>
+                    </div>
+                  </div>
+    
+                </div>
+              </div>
+        </div>
+        {{# }) }}
+    </div>
+</script>
+{% endraw %}
+<!-- footer -->
+{% render 'Kronos/components/pageFooter' ,configData: blockData.last ,isMobilePhone: isMobilePhone,OBJ:data %}
+{% endblock %}

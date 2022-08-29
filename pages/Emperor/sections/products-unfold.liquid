@@ -1,0 +1,16 @@
+{% assign preloader = prePath | append:"assets/images/preloader.png"  %}
+<div class="products-items row">
+	{% for item in goodList %}
+	{% case displaysty %}
+	{% when 1 %}
+	{% comment %}产品类型1{% endcomment %}
+	{% render 'products-item-style1.liquid',item:item,isSwiper:0,perLineNum:perLineNum,lang:lang,preloader:preloader %}
+	{% when 2 %}
+	{% comment %}产品类型2{% endcomment %}
+	{% render 'products-item-style2.liquid',item:item,isSwiper:0,perLineNum:perLineNum,lang:lang,preloader:preloader %}
+	{% when 3 %}
+	{% comment %}产品类型3{% endcomment %}
+	{% render 'products-item-style3.liquid',item:item,isSwiper:0,perLineNum:perLineNum,lang:lang,preloader:preloader %}
+	{%endcase%}
+	{% endfor %}
+</div>

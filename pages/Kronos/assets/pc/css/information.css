@@ -1,0 +1,86 @@
+@import url(information_block.css);
+.main * {
+	box-sizing:border-box;
+	font-family:Roboto-Regular;
+}
+#back a{
+	color:#202020;
+	font-family: Roboto-Regular, Roboto;
+}
+.product-info .font_overhide {
+	font-family: Roboto-Medium, Roboto;
+}
+#total_price {
+	font-family:Roboto-Bold,Aileron;
+	color:#6A2117;
+}
+#oceanpayment_buynow {
+	font-family: 'Roboto-Bold';
+}
+.crumbs .c_title{
+  font-family: Roboto-Regular, Roboto;
+}
+.crumbs .active{
+	font-family: Roboto-Medium, Roboto;
+}
+#back a:hover{
+	color:#6A2117;
+}
+
+.radio-ul li.active label,.radio-ul li .shippingCost {
+	color:#6A2117
+}
+.input-checkbox:checked:after,.input-radio:checked:after {
+	background-color:#6A2117;
+}
+.addressTable li>.review-block__link button {
+	color:#6A2117FF
+}
+.adress_btn{
+	background:#6a2117;
+}
+#oceanpayment_buynow {
+	background-color:#6A2117;
+}
+.crumbs .active{
+  color: #711A11;
+}
+.order_checkout button {
+	background:#6A2117;
+}
+.input-checkbox:checked,.input-radio:checked {
+	border:1px #6A2117 solid;
+}
+.form-group p {
+	color:#6A2117FF
+}
+#order_checkout--checkbox.active {
+	border-color:#6A2117;
+}
+.order-checkbox a {
+	color:#6A2117;
+}
+.COT.active .box i:after {
+	border:2px solid #6A2117;
+}
+.codPay,.payssionPay {
+	background-color:#6A2117;
+}
+.showPayssionType {
+	border:1px solid #6A2117;
+}
+.payssionList.active {
+	border:1px solid #6A2117;
+}
+.payssionContentHeader{
+	border-bottom:1px solid #6A2117;
+	background-color:#6A2117;
+}
+#total {
+	font-size:20px;
+	font-family:Roboto-Bold;
+	font-weight:bold;
+	color:#000000;
+	line-height:24px;
+}
+

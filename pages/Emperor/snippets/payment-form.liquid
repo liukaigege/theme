@@ -1,0 +1,303 @@
+<form class="form--event">
+	<ul class="address-form--ul">
+		<li>
+			<input class="form-field__input" type="email" name="email" data-required data-msg="{{"i18n.information.enter_email_address" | t: lang }}" data-reg="^[a-zA-Z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"
+				id="checkout_shipping_email" />
+			<label class="input-label">
+				{{"i18n.general.email" | t: lang}}
+			</label>
+		</li>
+		<li class="list-col-2">
+			<input class="form-field__input" name="firstName" data-required data-msg="{{"i18n.information.enter_first_name" | t: lang }}" data-reg="^.{1,60}$" />
+			<label class="input-label">
+				{{"i18n.general.first_name" | t: lang}}
+			</label>
+		</li>
+		<li class="list-col-2">
+			<input class="form-field__input" name="lastName" data-required data-msg="{{"i18n.information.enter_last_name" | t: lang }}" data-reg="^.{1,60}$" />
+			<label class="input-label">
+				{{"i18n.general.last_name" | t: lang}}
+			</label>
+		</li>
+		<li>
+			<input class="form-field__input" name="street1" data-required data-msg="{{"i18n.information.enter_address" | t: lang }}" />
+			<label class="input-label">
+				{{"i18n.general.address" | t: lang}}
+			</label>
+		</li>
+		<li>
+			<input class="form-field__input" name="street2" />
+			<label class="input-label">
+				{{ "i18n.general.apartment_suite_etc" | t: lang }}
+			</label>
+		</li>
+		<li>
+			<input class="form-field__input" data-required name="city" data-msg="{{"i18n.information.enter_city" | t: lang }}" data-reg="^.{1,60}$" />
+			<label class="input-label">
+				{{"i18n.general.city" | t: lang}}
+			</label>
+		</li>
+		<li class="list-col-3">
+			<i class="order-select__icon"></i>
+			<select size="1" autocomplete="billing country" class="field__input form-field__select country--event" name="country" type="{{ type }}"
+			data-msg="{{"i18n.information.enter_country_region" | t: lang }}" data-required>
+				<option value="default" selected hidden></option>
+				{% for item in settingData.countryList %}
+				<option data-code="{{ item.code }}" value="{{ item.value }}">{{item.value}}</option>
+				{% endfor %}
+			</select>
+			<label class="form-label__select">
+				{{"i18n.general.country_region" | t: lang}}
+			</label>
+		</li>
+		<li class="list-col-3">
+			<div class="province-cell province-input active">
+				<input class="form-field__input" id="{{ type | append: 'OtherState' }}" data-required name="state"
+				data-msg="{{"i18n.information.enter_state_province" | t: lang }}" data-reg="^.{1,60}$" />
+				<label class="input-label">
+					{{"i18n.payment.state_province" | t: lang}}
+				</label>
+			</div>
+			<div class="province-cell" data-stata="USA">
+				<i class="order-select__icon"></i>
+				<select id="{{ type | append: 'USAState' }}" class="form-field__select province-select--event"
+				data-msg="{{"i18n.information.enter_country_region" | t: lang }}" data-required name="state">
+					<option value="default" selected hidden></option>
+					{% for item in settingData.stateProviceList.USA %}
+					<option value="{{ item.value }}">{{ item.value }}</option>
+					{% endfor %}
+				</select>
+				<label class="form-label__select">
+					{{"i18n.payment.state_province" | t: lang}}
+				</label>
+			</div>
+			<div class="province-cell" data-stata="CAN">
+				<i class="order-select__icon"></i>
+				<select id="{{ type | append: 'CANState' }}" class="form-field__select province-select--event" data-required name="state"
+				data-msg="{{"i18n.information.enter_state_province" | t: lang }}" data-reg="^.{1,60}$">
+					<option value="default" disabled selected hidden></option>
+					{% for item in settingData.stateProviceList.CAN %}
+					<option value="{{ item.value }}">{{ item.value }}</option>
+					{% endfor %}
+				</select>
+				<label class="form-label__select">
+					{{"i18n.payment.state_province" | t: lang}}
+				</label>
+			</div>
+		</li>
+		<li class="list-col-3">
+			<input class="form-field__input" id="addressPostCode" data-required name="postcode" data-msg="{{"i18n.information.enter_postal_code" | t: lang }}" />
+			<label class="input-label">
+				{{"i18n.general.zip_code" | t: lang}}
+			</label>
+		</li>
+		<li>
+			<input class="form-field__input" id="addressPhone" data-required name="phone" data-msg="{{"i18n.information.enter_phone_number" | t: lang }}"
+			 data-reg="^[0-9\+\-\(\)\#\s]{1,30}$" />
+			<label class="input-label">
+				{{"i18n.general.phone_number" | t: lang}}
+			</label>
+		</li>
+	</ul>
+</form>
+<script>
+	function addressShow(selector, addressData, type) {
+		for (var key in addressData) {
+			if (key === 'country') {
+				$(selector).find('[name=country]:visible').val(addressData['country']).addClass('is-change');
+				if (addressData['countryCode'] === 'CAN' || addressData['countryCode'] === 'USA') {
+					let code = addressData['countryCode']
+					$(`#${type}${code}State`).closest('.province-cell').addClass('active').siblings().removeClass('active');
+					$(`#${type}${code}State`).val(addressData['state'])
+					$(`#${type}${code}State`).addClass('is-change')
+					$(`#${type}OtherState`).val('default')
+				}
+			} else {
+				$(selector).find('input[name="' + key + '"]:visible').val(addressData[key]).addClass('is-filled');
+			}
+		}
+	}
+	// 控制表单字体大小
+	$('.form--event input').on({
+		blur: function () {
+			$(this).validateItem()
+			$.trim($(this).val()) ? $(this).addClass('is-filled') : $(this).removeClass('is-filled')
+		}
+	});
+
+	// 国家下拉
+	$(".country--event").on('change', function () {
+		let code = $(this).find("option:selected").data('code');
+		// shopping billding
+		var type = $(this).attr('type');
+		// 控制label 缩放
+		$(this).addClass('is-change')
+		$(`#${type}OtherState`).val('')
+		// 移除表单校验错误信息
+		$(this).validateItem()
+		if (code === "CAN" || code === "USA") {
+			$(`#${type}${code}State`).closest('.province-cell').addClass('active').siblings().removeClass('active');
+			// select 清空
+			$('.province-select--event').val('default')
+		} else {
+			$(`#${type}OtherState`).closest('.province-cell').addClass('active').siblings().removeClass('active');
+		};
+		if (type == 'shopping') {
+			tax($(this).find("option:selected").text())
+		}
+	});
+
+	// 省份下拉选择事件
+	$('.province-select--event').change(function () {
+		$(this).validateItem()
+		$(this).addClass('is-change')
+	})
+
+
+</script>
+
+
+<style>
+.address-form--ul li {
+	margin-bottom: 20px;
+	position: relative;
+}
+
+.address-form--ul li .form-field__input {
+	width: 100%;
+	height: 48px;
+	border-radius: 2px;
+	border: 1px solid #e0dddd;
+	display: block;
+	padding-left: 15px;
+	box-sizing: border-box;
+	padding-top: 22px;
+	padding-bottom: 5px;
+	color: #000;
+	border-radius: 7px;
+}
+
+.address-form--ul .input-label {
+	position: absolute;
+	left: 15px;
+	top: 0px;
+	line-height: 48px;
+	font-size: 16px;
+	color: #9B9B9B;
+	transform: scale(1);
+	transform-origin: left top;
+	transition: transform 0.2s ease-in-out;
+	pointer-events: none;
+}
+
+
+.form-field__input:focus+.input-label,
+.form-field__input.is-filled+.input-label {
+	transform: translateY(-6px) scale(0.8);
+}
+
+.form-field__select {
+	color: #333333;
+	border-color: #e0dddd;
+	height: 48px;
+	width: 100%;
+	padding-top: 22px;
+	padding-bottom: 5px;
+	padding-left: 15px;
+	position: relative;
+	border-radius: 7px;
+	z-index: 20;
+	background: transparent;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+.address-form--ul .form-label__select {
+	top: 10px;
+	color: #9B9B9B;
+	position: absolute;
+	left: 15px;
+	z-index: 15;
+	white-space: nowrap;
+	transition: transform 0.2s ease-in-out;
+}
+
+.address-form--ul .province-cell {
+	margin-bottom: 30px;
+	position: relative;
+	display: none;
+}
+
+.address-form--ul .province-cell.active {
+	display: block;
+}
+
+.address-form--ul {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.address-form--ul li {
+	width: 100%;
+}
+
+.address-form--ul .list-col-2 {
+	width: 49%;
+	height: 48px;
+}
+
+.address-form--ul .list-col-3 {
+	width: 32%;
+	height: 48px;
+}
+
+@media(max-width: 992px) {
+	.address-form--ul .list-col-2 {
+		width: 100%;
+	}
+
+	.address-form--ul .list-col-3 {
+		width: 100%;
+	}
+}
+
+.form-field__select.is-change+label {
+	transform: translateY(-6px) scale(0.9);
+	transform-origin: left top;
+	transition: transform 0.2s ease-in-out;
+}
+
+.address-form--ul .province-cell {
+	margin-bottom: 30px;
+	position: relative;
+	display: none;
+}
+
+.address-form--ul .province-cell.active {
+	display: block;
+}
+
+.form-field__input:focus{
+	color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+}
+
+.order-select__icon {
+	width: 0px;
+	height: 0px;
+	border-top: 6px solid #999999;
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	position: absolute;
+	right: 16px;
+	top: 50%;
+	z-index: 15;
+	transform: translateY(-50%);
+}
+
+</style>

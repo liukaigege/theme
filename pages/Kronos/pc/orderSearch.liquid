@@ -1,0 +1,40 @@
+{% layout 'Kronos/components/Kronos_theme_pc' name:'orderSearch' %}
+{% block 'content' %}
+{% render 'Kronos/components/pageHeader',configData: blockData.first,isMobilePhone: isMobilePhone,OBJ:data %}
+<div class="content">
+  <div class="title">
+    TRACK YOUR ORDER
+  </div>
+  <input placeholder="Enter Your Email Or Order ID To Track" id="orderEmail">
+  <button class="content_btn">TRACK</button>
+  <div class="content_descrip">Order with confirmed payment will be shipped out in 2 business days, while orders placed
+    on weekends will be shipped out the following Monday. Delivery time may vary depends on the destination and the
+    shipping service you choose.</div>
+</div>
+{% render 'Kronos/components/pageFooter' ,configData: blockData.last ,isMobilePhone: isMobilePhone,OBJ:data,isLocal: 1
+%}
+<script>
+  $(function () {
+    layui.config({
+      version: true,
+      base: '/layui'
+    }).use(['jquery', 'layer'], function () {
+      $('.content_btn').on('click', function (event) {
+        event.stopPropagation();
+        var strVal = $('#orderEmail').val().replace(/\s+/g, "");
+        if (($('#orderEmail').val() && !strVal) || !$('#orderEmail').val()) {
+          layer.msg('email or order id is no!', {
+            icon: 5,
+            time: 1500,
+            success() {
+              $('.layui-layer-msg').addClass('coupon_msg');
+            }
+          });
+        } else {
+          window.location.href = './orderDetail.html?orderId=' + encodeURI($('#orderEmail').val());
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}

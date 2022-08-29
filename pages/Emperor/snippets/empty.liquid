@@ -1,0 +1,68 @@
+<style>
+	.search-empty {
+		text-align: center;
+		margin-top: 30px;
+	}
+
+	.search-empty .search-empty-big {
+		font-size: 14px;
+		margin-top: 35px;
+		color: #666;
+		line-height: 14px;
+	}
+
+	.search-empty .search-empty-small {
+		font-size: 12px;
+		margin-top: 10px;
+		color: #999;
+		line-height: .11rem12px;
+	}
+	.search-empty .search-empty-img {
+		width: 250px;
+		height: 250px;
+	}
+
+	@media (max-width:992px) {
+
+		.search-empty .search-empty-big {
+			font-size: 16px;
+		}
+
+		.search-empty .search-empty-small {
+			font-size: 14px;
+		}
+
+		.search-empty .search-empty-img {
+			width: 200px;
+			height: 200px;
+		}
+	}
+
+	@media (max-width:500px) {
+
+		.search-empty .search-empty-big {
+			font-size: 14px;
+		}
+
+		.search-empty .search-empty-small {
+			font-size: 12px;
+		}
+
+		.search-empty .search-empty-img {
+			width: 150px;
+			height: 150px;
+		}
+	}
+
+
+</style>
+<div class="search-empty about-keyword">
+	<img class="search-empty-img lazy-img" data-url="../assets/images/search-nothing.png" alt="">
+	<p class="search-empty-big">{{'i18n.empty.big_tips' | t: lang}}</p>
+	<p class="search-empty-small">{{'i18n.empty.small_tips_up' | t: lang}}</p>
+	<p class="search-empty-small" style="text-indent: -0.2rem;">{{'i18n.empty.small_tips_down' | t: lang}}</p>
+</div>
+<div class="search-empty about-all">
+	<img class="search-empty-img lazy-img" data-url="../assets/images/search_no_bg@2x.png" alt="">
+	<p class="search-empty-big">{{'i18n.empty.big_tips_all' | t: lang}}</p>
+</div>

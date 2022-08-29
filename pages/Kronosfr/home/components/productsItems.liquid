@@ -1,0 +1,178 @@
+{% comment %}
+主题： Athena-雅典娜;
+积木名称：推荐分类样式;
+接收数据：
+item: 当前商品的数据
+type： 商品卡片展示的样式
+isSwiper：外框是否是以滑动展示
+currentRate： 当前汇率
+isMobilePhone：当前展示设备
+{% endcomment %}
+{% if item.linkStatus != 0 %}
+{% assign href = "productDetail_" | SplicingString:item.id,2 %}
+{% endif %}
+{% if type == 1 %}
+{% comment %}样式一{% endcomment %}
+{% if isMobilePhone == 0 %}
+<div onclick="routerJump('{{ href }}')" class="{{myClassName}} productsItems productsItemsStyle1">
+  <img
+    class="mainImg {% if item.associateImg.size > 0 and isMobilePhone == 0 %} mainImgHover  {% endif %} {% if isSwiper == 0 %} lazyload{% else %}swiper-lazy{% endif %}"
+    {% if isSwiper==0 %} data-original="
+    {{item.mainImg | IMGURL:'../assets/pc/images/preloader.png'}}" {% else %}
+    data-src="{{item.mainImg | IMGURL:'../assets/pc/images/preloader.png'}}" {% endif %} {% if isLocal==1%}src={{
+    item.mainImg | IMGURL:'../assets/pc/images/preloader.png'}} {%endif%}>
+  <div class=" introduce wideWidth">
+    <p class="overflow_1">{{ item.name }}</p>
+    <div class="price">
+      {% if item.originalPrice>item.defaultPrice %}
+      <span class="oldPrice" p-price="{{ item.originalPrice }}">{{ item.originalPrice | switchRate:currentRate }}</span>
+      <span class="newPrice" p-price="{{ item.defaultPrice }}">{{ item.defaultPrice | switchRate:currentRate }}</span>
+      {% else %}
+      <span class="defaultPrice" p-price="{{ item.defaultPrice }}">{{ item.defaultPrice | switchRate:currentRate
+        }}</span>
+      {% endif %}
+    </div>
+    <button type="submit" onclick="routerJump('{{ href }}')">Achetez Maintenant</button>
+  </div>
+  {% if item.associateImg.size > 0 and isMobilePhone == 0 %}
+  <img class="associateImg" src="{{item.associateImg | IMGURL}}">
+  {% endif %}
+  {% if item.originalPrice>item.defaultPrice %}
+  {% assign discount = item.originalPrice | calcDiscount:item.defaultPrice %}
+  {% render 'Kronosfr/home/components/label.liquid',type:0,isMobilePhone:isMobilePhone,discount:discount,freeShipping:item.freeShipping %}
+  {% endif %}
+  {% if item.freeShipping == 1 %}
+  {% render 'Kronosfr/home/components/label.liquid',type:1,isMobilePhone:isMobilePhone %}
+  {% endif %}
+</div>
+{%endif%}
+{% if isMobilePhone == 1 %}
+<div class="{{myClassName}} productsItems productsItemsStyle2 productsItemsStyle3 productsItemMobliePhone"
+  onclick="routerJump('{{ href }}')">
+  <div class="productsItemsStyle2-img">
+    {% if item.speType==3 and isMobilePhone == 1 %}
+    <div class="wrapContainer">
+      <div class="cube">
+        <div class="cubeList front">3</div>
+        <div class="cubeList back">3</div>
+        <div class="cubeList top">3</div>
+        <div class="cubeList bottom">D</div>
+        <div class="cubeList left">D</div>
+        <div class="cubeList right">D</div>
+      </div>
+    </div>
+    {% endif %}
+    <img
+      class="mainImg {% if item.associateImg.size > 0 and type == 3 and isMobilePhone == 0 %} mainImgHover  {% endif %} {% if isSwiper == 0 %} lazyload{% else %}swiper-lazy{% endif %}"
+      {% if isSwiper==0 %} data-original="
+    {{item.mainImg | IMGURL:'../assets/pc/images/preloader.png'}}" {% else %}
+      data-src="{{item.mainImg | IMGURL:'../assets/pc/images/preloader.png'}}" {% endif %} {% if isLocal==1%}src={{
+      item.mainImg | IMGURL:'../assets/pc/images/preloader.png'}} {%endif%}>
+    {% if item.associateImg.size > 0 and type == 3 and isMobilePhone == 0 %}
+    <img class="associateImg" src="{{item.associateImg | IMGURL}}">
+    {% endif %}
+    {% if item.originalPrice>item.defaultPrice %}
+    {% assign discount = item.originalPrice | calcDiscount:item.defaultPrice %}
+    {% render 'Kronosfr/home/components/label.liquid',type:0,isMobilePhone:isMobilePhone,discount:discount,freeShipping:item.freeShipping %}
+    {% endif %}
+    {% if item.freeShipping == 1 %}
+    {% render 'Kronosfr/home/components/label.liquid',type:1,isMobilePhone:isMobilePhone %}
+    {% endif %}
+    {% comment %}移动端不需要遮罩展示{% endcomment %}
+    {% if type == 2 and isMobilePhone == 0 %}
+    <div class="madal alginCenter">
+      <button onclick="routerJump('{{ href }}')">
+        <span class="bg" style="background-image: url(../assets/pc/images/home_bag_but@2x.png);"></span>
+        <span>Achetez Maintenant</span>
+      </button>
+    </div>
+    {% else %}
+    {% comment %}
+    <button class="productsItemsStyle3-button" onclick="routerJump('{{ href }}')">Achetez Maintenant</button>
+    {% endcomment %}
+    {% endif %}
+  </div>
+  <div class="introduce">
+    <p class="overflow_1">{{ item.name }}</p>
+    <div class="price">
+      {% if item.originalPrice>item.defaultPrice %}
+      <span class="oldPrice" p-price="{{ item.originalPrice }}">{{ item.originalPrice | switchRate:currentRate }}</span>
+      <span class="newPrice" p-price="{{ item.defaultPrice }}">{{ item.defaultPrice | switchRate:currentRate }}</span>
+      {% else %}
+      <span class="defaultPrice" p-price="{{ item.defaultPrice }}">{{ item.defaultPrice | switchRate:currentRate
+        }}</span>
+      {% endif %}
+    </div>
+    <button type="submit" onclick="routerJump('{{ href }}')">Achetez Maintenant</button>
+  </div>
+
+</div>
+
+{%endif%}
+{% elsif type == 2 or type == 3 %}
+{% comment %}样式二,样式三{% endcomment %}
+<div class="{{myClassName}} productsItems productsItemsStyle2 productsItemsStyle3" onclick="routerJump('{{ href }}')">
+  <div class="productsItemsStyle2-img">
+    {% if item.speType==3 and isMobilePhone == 1 %}
+    <div class="wrapContainer">
+      <div class="cube">
+        <div class="cubeList front">3</div>
+        <div class="cubeList back">3</div>
+        <div class="cubeList top">3</div>
+        <div class="cubeList bottom">D</div>
+        <div class="cubeList left">D</div>
+        <div class="cubeList right">D</div>
+      </div>
+    </div>
+    {% endif %}
+    <img
+      class="mainImg   {% if item.associateImg.size > 0 and type == 3 and isMobilePhone == 0 %} mainImgHover  {% endif %} {% if isSwiper == 0 %} lazyload{% else %}swiper-lazy{% endif %}"
+      {% if isSwiper==0 %} data-original="
+    {{item.mainImg | IMGURL:'../assets/pc/images/preloader.png'}}" {% else %}
+      data-src="{{item.mainImg | IMGURL:'../assets/pc/images/preloader.png'}}" {% endif %} {% if isLocal==1%}src={{
+      item.mainImg | IMGURL:'../assets/pc/images/preloader.png'}} {%endif%}>
+    {% if item.associateImg.size > 0 and type == 3 and isMobilePhone == 0 %}
+    <img class="associateImg" src="{{item.associateImg | IMGURL}}">
+    {% endif %}
+    {% if item.originalPrice>item.defaultPrice %}
+    {% assign discount = item.originalPrice | calcDiscount:item.defaultPrice %}
+    {% render 'Kronosfr/home/components/label.liquid',type:0,isMobilePhone:isMobilePhone,discount:discount,freeShipping:item.freeShipping %}
+    {% endif %}
+    {% if item.freeShipping == 1 %}
+    {% render 'Kronosfr/home/components/label.liquid',type:1,isMobilePhone:isMobilePhone %}
+    {% endif %}
+    {% comment %}移动端不需要遮罩展示{% endcomment %}
+    {% if type == 2 and isMobilePhone == 0 %}
+    <div class="madal alginCenter">
+      <button onclick="routerJump('{{ href }}')">
+        <span class="bg" style="background-image: url(../assets/pc/images/home_bag_but@2x.png);"></span>
+        <span>Achetez Maintenant</span>
+      </button>
+    </div>
+    {% elsif type == 3 and isMobilePhone == 0 %}
+    <div class="madal3 alginCenter">
+      <button onclick="routerJump('{{ href }}')">Achetez Maintenant</button>
+    </div>
+    {% comment %}
+    <button class="productsItemsStyle3-button" onclick="routerJump('{{ href }}')">Achetez Maintenant</button>
+    {% endcomment %}
+    {% endif %}
+  </div>
+
+  <div class="introduce">
+    <p class="overflow_1">{{ item.name }}</p>
+    <div class="price">
+      {% if item.originalPrice > item.defaultPrice %}
+      <span class="oldPrice" p-price="{{ item.originalPrice }}">{{ item.originalPrice | switchRate:currentRate }}</span>
+      <span class="newPrice" p-price="{{ item.defaultPrice }}">{{ item.defaultPrice | switchRate:currentRate }}</span>
+      {% else %}
+      <span class="defaultPrice" p-price="{{ item.defaultPrice }}">{{ item.defaultPrice | switchRate:currentRate
+        }}</span>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endif %}
+<script>
+
+</script>

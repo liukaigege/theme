@@ -1,0 +1,148 @@
+<div class="header-pc" data-domain="{{'domain' | DomainImgUrl }}">
+	<div class="header">
+		<div class="header-toolbar" id="toolbar">
+			<div class="header-toolbar-left">
+				<div class="currency">
+					{% for item in currency %}
+					{% if item.mainCurrency == 1 %}
+					<span class="currency-img currency-active bg" style="background-image: url({{item.pic}});"></span>
+					<span class="currency-hover">
+						<span class="currency-name currencyActive-name">{{item.currency}}</span>
+						<span class="currency-rotate iconfont icon-arrow-down"></span>
+					</span>
+					<span id="showSearchDialog" class="currency-serch iconfont icon-magnifier"></span>
+					{% endif %}
+					{% endfor %}
+					<ul class="currency-extend">
+						{% for item in currency %}
+						<li currencyid="{{item.currency}}" class="currency-extend_item--event">
+							<span class="currency-img bg" style="background-image:url('{{item.pic}}')"></span>
+							<span class='currency-name'>{{item.currency}}</span>
+							{% if item.mainCurrency == 1 %}
+							<span class="currency-check iconfont icon-correct" style="display: block;"></span>
+							{% else %}
+							<span class="currency-check iconfont icon-correct" style="display: none;"></span>
+							{% endif %}
+						</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+			<a href={{ 'index' | fmtUrl }}><img class="header-toolbar-center header-toolbar__center-event" src="{{logo}}" alt=""></a>
+			<div class="header-toolbar-right">
+				<a class="home-chat iconfont icon-serve" href="{{ 'contactUs' | fmtUrl }}"></a>
+				<a class="home-order iconfont icon-dingdan" href="{{ 'orderSearch' | fmtUrl }}"></a>
+				<a class="home-bag home-bag--event iconfont icon-cart-bag"><i>0</i></a>
+			</div>
+		</div>
+		{%if categoryData.length>0%}
+		<div class="header-navigation" id="navigation" displayStyle="{{displayStyleMultistage}}">
+			<div id="headerFirstMenu">
+				<ul class="scroller nav-font {% if isLineFeed==0 %}scroller-style-002 {% else %}scroller-style-001 opClass {% endif %}" id="scroller" isLineFeed="{{isLineFeed}}">
+					{% for item in categoryData %}
+					<li categoryid="{{item.id}}">
+						<a href="{{ item.linkUrl | LINKURL: item.linkStatus | default: 'javascript:void(0)'}}">{{item.name}}</a>
+					</li>
+					{% endfor %}
+				</ul>
+				{% if isLineFeed==1 %}
+				<i class="left-modal iconfont icon-double-left left-modal--event"></i>
+				<i class="right-modal iconfont icon-double-right right-modal--event"></i>
+				{% endif %}
+			</div>
+			{% comment %} {% if displayStyleMultistage==1 or displayStyleMultistage==2 %} {% endcomment %}
+			<div class="menu" id="menu">
+				<div class="menu-warp clearfix">
+					<div class="menu-title" id="menuTitle"></div>
+				</div>
+			</div>
+			{% comment %} {% endif %} {% endcomment %}
+		</div>
+		{% endif %}
+	</div>
+	<div class="search-fullscreen-dialog hide" id="searchDialog">
+		<div class="search-dialog-close" id="closeSearchDialog"></div>
+		<div class="search-container">
+			<div class="search-input">
+				<input class="search-input-real" id="search" />
+				<div class="search-input-icon iconfont icon-magnifier" id="searchSubmit"></div>
+			</div>
+			<div class="search-extend" id="searchExtend">
+				<div class="search-result" id="searchResult"></div>
+				<div class="search-view-all" id="viewAll">{{'i18n.search.view_all_results' | t: lang}}</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function renderSearch(result) {
+		var arr = result.slice(0, 3)
+		for (let i = 0; i < arr.length; i++) {
+			var item = arr[i]
+			var discountPrice = (item.defaultPrice * item.discount) / 10
+			var html = `
+          <div class="search-result-div" data-id="${item.id}">
+            <img class="search-result-img" src="${item.mainImg}">
+            <div class="search-result-info">
+            <div class="overflow_1">${item.goodsName}</div>
+            ${item.discount && item.discount != 10 && $.isEffective(item.discountStaTime, item.discountEndTime)
+					? `<div p-price="${discountPrice}">${$.returnPrice(discountPrice)}</div>`
+					: `<div p-price="${item.defaultPrice}">${$.returnPrice(item.defaultPrice)}</div>`
+				}</div></div>`
+			$('#searchResult').append(html)
+		}
+
+		// 渲染结束后绑定点击事件
+		$('#searchResult .search-result-div').each(function () {
+			$(this).routerJump(`productDetail_${$(this).data('id')}.html`)
+		})
+	}
+	function renderMenu(params) {
+		const { catalogueList, categoryId, displayStyle, eleLeft, eleBottom } = params
+		const list = catalogueList.find((item) => item.id == categoryId)
+		const pictureSize = $('#discountInput').data('picturesize')
+		// 展示样式--多级目录 0下拉单列展示 1下拉图文展示 2子菜单不足5个单列展示，超出5个图文展示 默认0
+		let len = 5
+		if (list?.childList?.length > 0) {
+			const isShowImg = displayStyle == 1 || (displayStyle == 2 && list.childList.length >= 5) // 是否展示缩略图
+			isShowImg ? $('#menu').removeClass('small-menu') : $('#menu').addClass('small-menu')
+			let html = ''
+			const arr = displayStyle != 0 ? $.chunkArr(list.childList, len) : $.chunkArr(list.childList, 100)
+			const listPic = list.pic || (list.picGoods ? list.picGoods : "")
+			for (let j = 0; j < arr.length; j++) {
+				let ht1 = `<div class="menu-title-item">`
+				for (let i = 0; i < arr[j].length; i++) {
+					const item = arr[j][i]
+					const picUrl = item.pic || item.picGoods
+					const linkUrl = item.linkStatus ? 'javascript:void(0)' : item.linkUrl
+					ht1 = ht1 + `<a class="overflow_1" onmousemove="menuHover('${picUrl}')" href="${filterProductLink(linkUrl)}">${item.name}</a>`
+				}
+				ht1 = ht1 + '</div>'
+				html = html + ht1
+			}
+			html = isShowImg ? html + `<div class="menu-title-item menu-img"><img class="background-img" data-imgsize="${pictureSize}" src="${getResultImg(listPic)}"/></div>` : html
+			$('#menuTitle').html(html)
+			$('#menu').fadeIn(300)
+			//  单列展示的时候定位根据当前触摸元素来计算
+			$('#menu').css({
+				left: isShowImg ? 0 : eleLeft - $('#menu').width() / 2 + 'px',
+				top: isShowImg ? 'calc(100% + 1px)' : eleBottom + 1 + 'px',
+			})
+		} else {
+			$('#menu').fadeOut(300)
+		}
+	}
+
+	function getResultImg(url) {
+		const domainImgUrl = $('.header-pc').data('domain')
+		// url返回的null是个字符串
+		return url != "null" && url != "undefined" && url.length ? domainImgUrl + $.returnSuffixUrl(url) : ''
+	}
+	// 筛选商品列表页面各跳转链接
+	function filterProductLink(url) {
+		if (!url.includes('productList_')) return url
+		const id = url.slice('productList_'.length, url.indexOf('.html'))
+		return 'productList.html?id=' + id
+	}
+
+</script>

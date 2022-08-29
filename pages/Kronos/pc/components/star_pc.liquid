@@ -1,0 +1,39 @@
+{% assign cempty = 0 %}
+{% assign newRemainder = 0 %}
+{% assign remainder = 0 %}
+{% assign allInteger = 0 %}
+{% assign star = 1 %}
+{% if data < 1  %}
+  {% assign star = 1 %}
+{% elsif data > 5 %}
+  {% assign star = 5 %}
+{% else %}
+  {% assign star = data %}
+{% endif %}
+
+{% assign integer = star | floor %}
+{% assign remainder = star | minus: integer %}
+{% assign newRemainder = star | str | slice: 2, 3%}
+
+{% if newRemainder > 0  %}
+  {% assign allInteger = integer | plus: 1 %}
+{% else %}
+  {% assign allInteger = integer%}
+{% endif %}
+
+{% assign cempty = 5 | minus: allInteger %}
+
+<span class="star_wrap {% if isMin %} min {% endif %}">
+  <span class="star_inner">
+    {% for i in (1..integer) %}
+      <i class="star"></i>
+    {% endfor %}
+    {% if newRemainder > 0  %}
+      <i class="star s_{{newRemainder}}" data-remainder="{{remainder}}" data-index="{{newRemainder}}"></i>
+    {% endif %}
+    {% for z in (1..cempty) %}
+      <i class="star empty"></i>
+    {% endfor %}
+  </span>
+  <em class="score {% if isShowScore %} hide {% endif %}">{{data | at_least: 1 | at_most: 5 }}</em>
+</span>

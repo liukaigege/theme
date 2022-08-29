@@ -1,0 +1,390 @@
+.footer .footer-mobile-link {
+	display: none;
+}
+
+.footer .footer-mobile-link,
+.footer .footer-link {
+	background-color: var(--page-footer-menu-bg);
+}
+
+.footer .footer-mobile-link *,
+.footer .footer-link * {
+	color: var(--page-footer-menu-color);
+}
+
+.footer .footer-mobile-link .mobile-link_item--p,
+.footer .footer-mobile-link .mobile-link_item--p *,
+.footer .footer-link .mobile-link_item--p * {
+	color: #fff;
+}
+
+
+
+@media (max-width:992px) {
+
+	.footer .footer-link {
+		display: none !important;
+	}
+
+	.footer .footer-mobile-link {
+		display: block !important;
+	}
+}
+
+
+.footer ul {
+	padding: 0;
+	margin: 0;
+}
+
+.footer .rotate {
+	transition: 0.3s;
+	transform: rotate(45deg);
+}
+
+
+.footer .footer-serve {
+	margin: 10px 0;
+	padding: 30px 15px;
+	background: var(--store-info-bg);
+}
+
+.footer .footer-serve p {
+	color: var(--store-info-color);
+}
+
+
+.footer li {
+	list-style: none;
+}
+
+.footer .footer-serve li {
+	border-right: 1px solid #b8b8b8;
+}
+
+/* @media (min-width:768px) { */
+@media (min-width:992px) {
+	.footer .footer-serve li:last-child {
+		border: none;
+	}
+}
+
+@media (max-width:992px) {
+	.footer .footer-serve li {
+		border: none;
+	}
+}
+
+.footer .footer-serve img {
+	height: 70px;
+	width: 70px;
+}
+
+.footer .footer-serve .serve-title {
+	margin: 0;
+}
+
+.footer .footer-link {
+	display: flex;
+	justify-content: space-between;
+	padding: 50px 135px;
+}
+
+@media (max-width:1600px) {
+	.footer .footer-link {
+		padding: 50px 90px;
+	}
+}
+
+@media (max-width:1200px) {
+	.footer .footer-link {
+		padding: 30px 50px;
+	}
+}
+
+.footer .link-item p,
+.footer .link-item a {
+	color: var(--page-footer-menu-color);
+}
+
+.footer .link-item li:first-child {
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom: 15px;
+	color: #fff !important;
+}
+
+.footer .followus img {
+	width: 30px;
+	height: 30px;
+}
+
+.footer .payImage img {
+	width: 280px;
+	height: 25px;
+}
+
+.footer .foot-email {
+	display: flex;
+}
+
+.footer .foot-email input {
+	flex: 1;
+	font-size: 14px;
+	height: 38px;
+	font-weight: 400;
+	background: #fff;
+	padding: 0 9px;
+	border-radius: 2px 0 0 2px;
+	outline: none;
+	color: #1d1d1d;
+}
+
+.footer .foot-email button {
+	height: 38px;
+	padding: 0 15px;
+	border-left: none;
+	border-radius: 0 2px 2px 0;
+	background-color: var(--button-bg);
+}
+
+.footer .foot-email button .iconfont {
+	font-size: 24px;
+	line-height: 38px;
+	color: var(--button-text-color);
+}
+
+.footer .footer-record {
+	min-height: 50px;
+	line-height: 50px;
+	background-color: var(--normal-bg);
+	font-size: 12px;
+	text-align: center;
+	padding: 0px 20px;
+	color: #1d1d1d;
+}
+
+@media (min-width:992px) {
+	.footer .footer-record {
+		overflow: hidden;
+	}
+}
+
+
+/** 小屏底部 */
+.footer .footer-mobile-link {
+	/* background-color: #1d1d1d;
+	color: #fff; */
+	font-size: 12px;
+}
+
+.footer .mobile-link-item {
+	border-bottom: 1px solid #5a5a5a;
+}
+
+
+.footer .mobile-link-item p {
+	padding: 19px 16px;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1;
+	display: flex;
+	justify-content: space-between;
+}
+
+.footer .mobile-link-item ul:not(.email-list) {
+	display: none;
+}
+
+.footer .mobile-link-item li {
+	display: block;
+	color: #bbb;
+	padding: 0 14px 8px;
+	line-height: 1;
+}
+
+.footer .mobile-link-item .link-icon {
+	font-size: 14px;
+	float: right;
+}
+
+.footer .mobile-link-item .email-list {
+	padding-bottom: 10px;
+}
+
+.footer .mobile-link-item .email-list-subscribe {
+	display: flex;
+}
+
+.footer .mobile-link-item input {
+	flex: 1;
+	height: 40px;
+	background: #fff;
+	color: #1d1d1d !important;
+	padding: 0 10px;
+	font-size: 13px;
+	border-radius: 2px 0 0 2px;
+}
+
+.footer .mobile-link-item button {
+	width: 70px;
+	height: 40px;
+	padding: 0 10px;
+	border-left: none;
+	border-radius: 0 2px 2px 0;
+	background: var(--button-bg);
+}
+
+.footer .mobile-link-item button .iconfont {
+	font-size: 24px;
+	color: var(--button-text-color);
+}
+
+
+.footer .mobile-link-item .menu-extend p {
+	font-size: 12px;
+	padding: 0;
+	line-height: 20px;
+}
+
+
+.footer .mobile-payment .payment-currency {
+	padding: 14px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.footer .mobile-payment span {
+	margin: 0 5px;
+}
+
+.footer .mobile-payment .payment-currency-icon {
+	width: 25px;
+	height: 25px;
+}
+
+.footer .mobile-payment .payment-pay,
+.footer .mobile-payment .payment-fb {
+	text-align: center;
+}
+
+.footer .mobile-payment .payment-fb {
+	padding-bottom: 15px;
+}
+
+.footer .mobile-payment .payment-pay {
+	height: 25px;
+	margin-top: 16px;
+}
+
+.footer .mobile-payment .payment-fb a {
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	margin: 0 5px;
+}
+
+
+.footer .mobile-currency {
+	position: fixed;
+	height: 70%;
+	width: 100%;
+	bottom: -100%;
+	background: #fff;
+	z-index: 10000;
+}
+
+.footer .mobile-currency .currency-head {
+	padding: 16px;
+	border-bottom: 1px solid #9b9b9b;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.footer .mobile-currency .currency-head strong {
+	font-size: 16px;
+	color: #1d1d1d;
+}
+
+.footer .mobile-currency .currency-head .currency-close {
+	width: 13px;
+	height: 13px;
+	background-image: url('../images/m_close.png');
+}
+
+.footer .mobile-currency .currency-select {
+	position: static;
+	box-shadow: none;
+}
+
+.footer .mobile-currency .currency-select .currency-list .currency-list-unit {
+	height: auto;
+	font-size: 14px;
+	font-weight: bold;
+	color: #000;
+}
+
+.footer .mobile-currency .currency-select .currency-list.select * {
+	color: var(--vshop-primary-color);
+}
+
+.footer .mobile-currency img {
+	width: 35px;
+	height: 35px;
+	object-fit: contain;
+}
+
+.footer .foot-notice {
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+	height: 40px;
+	line-height: 40px;
+	z-index: 999;
+	position: relative;
+	cursor: pointer;
+	overflow: hidden;
+}
+
+.footer .foot-notice .foot-notice-img {
+	width: 100%;
+	height: 100%;
+}
+
+.footer .foot-notice .foot-notice-img img {
+	border-radius: 0;
+}
+
+@media (max-width:992px) {
+	.footer .foot-notice .foot-notice-img .notice-img-pc {
+		display: none;
+	}
+}
+
+@media (min-width:992px) {
+	.footer .foot-notice .foot-notice-img .notice-img-wap {
+		display: none;
+	}
+}
+
+.footer .foot-notice .foot-notice-img p {
+	padding: 0 40px;
+	font-size: 12px;
+	font-weight: normal;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.footer .foot-notice .actived-close {
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	transform: translateY(-50%);
+	font-size: 15px;
+	color: #ccc;
+	cursor: pointer;
+	width: 40px;
+}

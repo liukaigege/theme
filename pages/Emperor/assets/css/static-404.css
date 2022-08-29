@@ -1,0 +1,20 @@
+.static-404-html{
+  height: 100vh;
+}
+.static-404-html a{
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+@media (min-width:1201px){
+  .static-404-html a{
+    background: url(../images/404_pc.jpg) 0 0 / 100% 100% no-repeat;
+  }
+}
+
+@media (max-width:1200px){
+  .static-404-html a{
+    background: url(../images/404_wap.jpg) 0 0 / 100% 100% no-repeat;
+  }
+}

@@ -1,0 +1,13 @@
+{% assign bpage = '' %}
+{% assign prefix = '' %}
+{% assign linkId = '' %}
+<div class="advert">
+  <a href="{{data | setPoaterLink}}"><img data-suffix-img="{{data.posterImg}}" src="{{data.posterImg}}"></a>
+</div>
+<style>
+  .advert img {
+    display: block;
+    width: 100%;
+    vertical-align: top;
+  }
+</style>

@@ -1,0 +1,27 @@
+<div class="child-custList__option">
+	{% for item in data%}
+	<div class="product-info__variants_items hide" data-type="{{item.type}}" param-id="{{item.id}}"
+		param-name="{{item.field}}" data-parentOptionMapId="{{item.parentOptionMapId | default : ''}}">
+		<h3 class="product-info__variants_title">{{item.field | downcase}}{% if item.need == 1 %}<i
+				class="required">*</i>{%
+			endif %}:<p></p>
+		</h3>
+		{% if item.need == 1%}
+		<p class="error hide">{{'i18n.product_detail.error_tip' | t: lang}}</p>
+		{% endif %}
+		{% if item.type == 1 %}
+		{% if item.pattern == 1 %}
+		{% render 'product-select',data:item ,type: 'customization',lang:lang%}
+		{% else %}
+		{% render 'product-text_img.liquid',data:item ,type: 'customization',lang:lang%}
+		{% endif %}
+		{% elsif item.type == 2 %}
+		{% render 'product-text_img.liquid',data:item ,type: 'customization',lang:lang%}
+		{% elsif item.type == 3 %}
+		{% render 'product-input.liquid',data:item,lang:lang%}
+		{% else %}
+		{% render 'product-uploadImg.liquid',data:item,lang:lang%}
+		{% endif %}
+	</div>
+	{% endfor %}
+</div>

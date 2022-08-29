@@ -1,0 +1,147 @@
+<style>
+	.search-content {
+		margin-bottom: 60px;
+	}
+
+	.search-header {
+		padding: 20px 15px;
+		display: flex;
+		align-items: center;
+	}
+
+	.search-header-back {
+		color: #000;
+		cursor: pointer;
+		margin-right: 15px;
+	}
+
+	.search-header-input {
+		flex: 12;
+		height: 38px;
+		line-height: 40px;
+		width: 100%;
+		background: #ffffff;
+		box-shadow: -1px 2px 7px 0px rgba(0, 0, 0, 0.08);
+		border-radius: 2px;
+		border: 1px solid #d8d8d8;
+		display: flex;
+	}
+
+	.search-header-input input {
+		flex: 8;
+		height: 100%;
+		padding-left: 10px;
+	}
+
+	.search-header-submit {
+		display: flex;
+		align-items: center;
+		width: 35px;
+		height: 38px;
+		color: #9f9f9f;
+		cursor: pointer;
+	}
+
+	.search-header-input img {
+		width: 18px;
+		height: auto;
+	}
+
+	.search-result {
+		display: block;
+		background: #fff;
+	}
+
+	.search-result li {
+		padding: 0 15px;
+		height: 57px;
+		font-size: 14px;
+		font-weight: 400;
+		color: #000;
+		line-height: 57px;
+		border-bottom: 1px solid #f8f8f8;
+		display: flex;
+		align-items: center;
+	}
+
+	.search-result .hot-icon {
+		font-size: 20px;
+		color: #E90052;
+		padding-left: 5px;
+		padding-bottom: 9px;
+	}
+
+	.search-products {
+		height: min-content;
+	}
+
+	.search-products .search-products-title{
+		font-size: 20px;
+		flex: 1;
+		margin: 20px 0;
+		line-height: 44px;
+		font-weight: 400;
+		color: #000;
+		padding: 0 18px;
+		text-transform: capitalize;
+		text-align: center;
+	}
+</style>
+
+{% assign page_title = 'i18n.search.page_title' | t: lang , shop_name: shopName %}
+{% layout 'theme', showHeader: true%}
+{% assign searchData = headerData.config.search %}
+{% assign hotWords = searchData.words | split:',' %}
+{% assign hotGoods = searchData.goods %}
+
+{% block 'content' %}
+<div class="search">
+	<div class="search-content">
+		<div class="search-header">
+			<i class="search-header-back iconfont icon-arrow-left"></i>
+			<div class="search-header-input">
+				<input id="keyword" type="text" placeholder="{{'i18n.search.placeholder' | t: lang}}">
+				<i class="search-header-submit iconfont icon-magnifier" id="searchMobile"></i>
+			</div>
+		</div>
+		{% if searchData.showSearchWord == 1 and searchData.words.size > 0 %}
+		<ul class="search-result">
+			{% for word in hotWords %}
+			<li>
+				<a class="overflow_1" href="productList.html?keyword={{word}}">
+					<span class="hot-word">{{ word }}</span>
+					{% if forloop.first == true %}
+					<i class="hot-icon iconfont icon-rehot"></i>
+					{% endif %}
+				</a>
+			</li>
+			{% endfor %}
+		</ul>
+		{% endif %}
+		{% if searchData.showSearchGoods == 1 and hotGoods.size > 0 %}
+		{% comment %} {% render 'empty',lang: lang %} {% endcomment %}
+		<div class="search-products">
+		<div class="search-products-title">{{'i18n.guess_you_like.tips' | t: lang}}</div>
+		{% render 'products-swiper', perLineNum: 2.4,goodList: hotGoods,displaysty: 2,id: 'search',lang: lang %}
+		</div>
+		{% endif %}
+	</div>
+	{% if hotWords == 0 and hotGoods.size == 0 %}
+		{% render 'empty',lang: lang %}
+	{% endif %}
+</div>
+<script>
+$(document).ready(function(){
+		$('#searchMobile').on('click', function () {
+		const keyword = $('#keyword').val()
+		if (keyword) {
+			location.href = 'productList.html?keyword=' + keyword
+		} else {
+			location.href = 'productList.html'
+		}
+	})
+
+	$('.search-empty.about-all').hide()
+})
+</script>
+{% endblock %}

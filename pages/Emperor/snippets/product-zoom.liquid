@@ -1,0 +1,387 @@
+<style>
+	.product-swiper {
+		width: 100%;
+		position: relative;
+	}
+
+	.product-swiper {
+		height: 100%;
+		width: 100%;
+		position: relative;
+	}
+
+	.product-swiper .gallery-top {
+		z-index: 3;
+	}
+
+	.product-swiper .gallery-top .swiper-slide {
+		text-align: center;
+		overflow: hidden;
+		cursor: zoom-in;
+		margin-right:0;
+	}
+
+	.product-swiper .gallery-top .swiper-slide.videoType,
+	.product-swiper .gallery-top .swiper-slide.videoType .play_box {
+		cursor: initial;
+	}
+
+	.product-swiper .gallery-top .swiper-slide.videoType>img {
+		cursor: zoom-in;
+	}
+
+	.product-swiper .gallery-top .swiper-slide img {
+		max-height: 100%;
+		max-width: 100%;
+	}
+
+	.product-swiper .img_box {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		z-index: 80;
+		left: 0;
+		top: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		background: #fff;
+		cursor: zoom-in;
+	}
+
+	.product-swiper .play_box {
+		z-index: 1;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background: #000000;
+		position: absolute;
+	}
+
+	.product-swiper .play_box img {
+		width: auto;
+		height: auto;
+	}
+
+	.product-swiper .childDom_inner {
+		width: 100%;
+		height: 100%;
+		max-width: 100%;
+		max-height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.product-swiper .imgClose {
+		width: auto;
+		height: auto;
+		position: absolute;
+		right: -6px;
+		top: -6px;
+		cursor: pointer;
+	}
+
+	.product-swiper .gallery-thumbs {
+		width: 100%;
+		height: 90px;
+		overflow: hidden;
+		box-sizing: border-box;
+		position: relative;
+	}
+
+	.product-swiper .swiper-slide {
+		/* height: 90px !important;
+  		width: 90px !important; */
+		overflow: hidden;
+		cursor: pointer;
+		box-sizing: border-box;
+		text-align: center;
+		line-height: 90px;
+		border: 1px solid transparent;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 4px;
+	}
+
+	.product-swiper li:last-child {
+		margin-bottom: 0;
+	}
+
+	.product-swiper .i_img {
+		/* width: 100%;
+  height: auto; */
+		/* max-height: 100%; */
+		box-sizing: border-box;
+		border: 1px solid transparent;
+		/* padding: 4px; */
+		max-width: 100%;
+		max-height: 100%;
+		display: block;
+	}
+
+
+
+	/* .product-swiper .swiper-slide.swiper-slide-thumb-active img {
+  border: 1px solid #DF0052;
+} */
+
+	.product-swiper .swiper-slide.swiper-slide-thumb-active {
+		border: 1px solid var(--vshop-primary-color);
+	}
+
+	.product-swiper .childBtn {
+		width: 42px;
+		height: 42px;
+		position: absolute;
+		border: none !important;
+		z-index: 1;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.product-swiper .sBtn {
+		position: absolute;
+		width: 40px;
+		height: 40px;
+		top: 260px;
+		z-index: 100;
+	}
+
+
+	.product-swiper .zBtn_wrap {
+		position: absolute;
+		width: 100%;
+		left: 0;
+		bottom: 0;
+		text-align: center;
+		z-index: 10;
+	}
+
+	.product-swiper .zBtn {
+		width: 16px;
+		height: 7px;
+		display: inline-block;
+	}
+
+	.product-swiper .zBtn+.zBtn {
+		margin-left: 26px;
+	}
+
+	#gallery-top {
+		width: 100%;
+		padding-bottom: 100%;
+		height: 0;
+		position: relative;
+	}
+
+	#gallery-top .gallery-top {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 100%;
+		height: 100%;
+	}
+
+	#gallery-thumbs {
+		margin-top: 10px;
+		position: relative;
+		padding: 0 25px;
+	}
+
+	.product-swiper .gallery-thumbs .swiper-slide {
+		padding: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.product-swiper .gallery-thumbs .swiper-slide img {
+		display: block;
+		max-width: 100%;
+		max-height: 100%;
+	}
+
+	#gallery-thumbs .next,
+	#gallery-thumbs .prev {
+		position: absolute;
+		right: 0;
+		top: 0;
+		height: 100%;
+		line-height: 90px;
+		width: 25px;
+		background-color: #000;
+		font-size: 20px;
+		color: #fff;
+		text-align: center;
+	}
+
+	#gallery-thumbs .prev {
+		left: 0;
+	}
+
+	#detail-swiper-pagination {
+		display: none;
+	}
+
+	#detail-swiper-pagination .swiper-pagination-bullet {
+		width: 8px;
+		height: 8px;
+		background: #FFF;
+		border: none;
+	}
+
+	#detail-swiper-pagination .swiper-pagination-bullet.swiper-pagination-bullet-active {
+		border: none;
+		background: var(--vshop-primary-color);
+		box-shadow: 0 0 .04rem 0 rgba(255, 255, 255, 0.5);
+	}
+
+	@media (max-width:992px) {
+		#detail-swiper-pagination {
+			display: block;
+		}
+	}
+</style>
+<link rel="stylesheet" href="../assets/css/aliplayer.css">
+<div class="product-swiper">
+	<div class="picFocus">
+		<div id="gallery-top">
+			<div class="swiper-container gallery-top">
+				<div class="swiper-wrapper">
+					{% for item in data.resourceList %}
+					{% if item.type == 1 %}
+					<div class="swiper-slide" data-src="{{item.originalUrl}}" data-exthumbimage="{{item.url}}">
+						<img class="product-gallery__image" data-suffix-img="{{item.url}}" src="{{item.url}}">
+					</div>
+					{% elsif item.type == 2 %}
+					<div class="videoType swiper-slide" cover="{{item.cover}}" data-poster="{{item.cover}}"
+						data-html="#video1" video="{{item.url}}">
+						<img class="product-gallery__image" data-src="{{item.cover}}" src="{{item.cover}}"
+							data-suffix-img="{{item.cover}}">
+						<img src="../assets/images/play.png" class="playBtn hide">
+						<div class="play_box hide"></div>
+						<div style="display:none;" id="video1">
+							<video class="lg-video-object lg-html5 video-js vjs-default-skin" controls preload="none">
+								<source src="{{item.url}}" type="video/mp4">
+								{{'i18n.product_detail.your_browser_does_not_support_HTML5_video' | t: lang}}
+							</video>
+						</div>
+					</div>
+					{% endif %}
+					{% endfor %}
+					{% if data.speType == 1 %}
+					{% for val in data.skuList %}
+					{% if val.skuImg != '' and val.skuImg != null %}
+					<div class="img_box hide" data-src="{{val.skuImg}}" data-skuid='{{val.id}}'><img
+							class="childDom product-gallery__image" src="{{val.skuImg}}"></div>
+					{% endif %}
+					{% endfor %}
+					{% endif %}
+
+					{% if data.speType == 2 %}
+					{% if data.hasOwnProperty('idAndImgs') and data.idAndImgs.length > 0 %}
+					{% for val in data.idAndImgs %}
+					<div class="img_box hide" data-src="{{val.value}}" data-skuid='{{val.id}}'>
+						<img class="childDom product-gallery__image" src="{{val.value}}">
+					</div>
+					{% endfor %}
+					{% endif %}
+					{% endif %}
+				</div>
+				<div class="swiper-pagination" id="detail-swiper-pagination"></div>
+			</div>
+		</div>
+		<div id="gallery-thumbs">
+			<div class="swiper-container gallery-thumbs">
+				<div class="swiper-wrapper">
+					{% for item in data.resourceList %}
+					{% if item.type == 1 %}
+					<div class="swiper-slide"><img class="i_img" data-suffix-img="{{item.url}}" src="{{item.url}}">
+					</div>
+					{% elsif item.type == 2 %}
+					<div class="videoType swiper-slide" cover="{{item.cover}}" video="{{item.url}}">
+						<img class="i_img" src="{{item.cover}}" data-suffix-img="{{item.cover}}">
+						<img src="../assets/images/play.png" class="childBtn">
+					</div>
+					{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+			<div class="product-swiper--btn">
+				<a class="next iconfont  icon-arrow-right" href="javascript:void(0)"></a>
+				<a class="prev iconfont  icon-arrow-left" href="javascript:void(0)"></a>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+
+	var galleryThumbs = new Swiper('.gallery-thumbs', {
+		spaceBetween: 15,
+		slidesPerView: 5,
+		freeMode: true,
+		freeModeSticky: true,
+		freeModeMomentum: true,
+		centeredSlidesBounds: true,
+		watchSlidesVisibility: true,
+		watchSlidesProgress: true,
+		navigation: {
+			nextEl: '#gallery-thumbs .next',
+			prevEl: '#gallery-thumbs .prev',
+		},
+		// breakpoints: {
+		// 	992: {
+		// 		spaceBetween: 15,
+		// 		slidesPerView: 5,
+		// 	},
+		// 	768: {
+		// 		spaceBetween: 15,
+		// 		slidesPerView: 3,
+		// 	},
+		// 	320: {
+		// 		spaceBetween: 15,
+		// 		slidesPerView: 5,
+		// 	}
+
+		// },
+		on: {
+			'click': function (e) {
+				// 点击关闭多规格属性图片
+				if (!$('.product-swiper ').hasClass('.img_box')) {
+					$('.product-swiper').remove('.img_box');
+				}
+			}
+		}
+	});
+	var galleryTop = new Swiper('.gallery-top', {
+		navigation: {
+			nextEl: '.gallery-top .next',
+			prevEl: '.gallery-top .prev',
+		},
+		thumbs: {
+			swiper: galleryThumbs
+		},
+		pagination: {
+			el: '#detail-swiper-pagination',
+			clickable: true,
+		},
+		on: {
+			slideChange: function () {
+				$('.product-swiper .img_box').addClass('hide');
+				$('.product-swiper .swiper-slide').removeClass('no_border')
+			},
+		}
+	});
+	$('.gallery-thumbs').on('click', '.swiper-slide', function () {
+		$('.product-swiper .img_box').addClass('hide');
+		$(this).addClass('swiper-slide-thumb-active').siblings().removeClass('swiper-slide-thumb-active')
+		$(this).parent().find('.swiper-slide').removeClass('no_border')
+	})
+
+</script>

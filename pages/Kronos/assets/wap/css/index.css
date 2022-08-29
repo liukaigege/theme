@@ -1,0 +1,249 @@
+.product_box {
+    padding: 0 0.16rem;
+}
+
+.title {
+    font-size: 0.16rem;
+    font-family: "Floane-Regular";
+    color: #303133;
+    line-height: 1;
+    text-align: center;
+    padding: 0.16rem 0 0.1rem;
+}
+
+.title.noSpace {
+    padding-top: 0;
+}
+
+.newProducts_details {
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.newProducts_details img {
+    display: block;
+    width: 100%;
+}
+
+.a_space {
+    padding: 0.16rem;
+}
+
+.space {
+    padding: 0 0.16rem;
+}
+
+.shadow {
+    background: #FFFFFF;
+    box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.07);
+    border-radius: 1px;
+}
+
+.free_shipping {
+    z-index: 1;
+    left: 0;
+    bottom: 0;
+    background: #DF0052;
+    border-radius: 0px 0px 0px 1px;
+    font-weight: bold;
+    font-size: 0.1rem;
+    font-family: "Aileron-Bold, Aileron";
+    color: #FFFFFF;
+    line-height: 1;
+    padding: 0.02rem;
+}
+
+.free_shipping .text {
+    font-weight: normal;
+    margin-left: 0.06rem;
+}
+
+.discount {
+    z-index: 1;
+    width: 0.3rem;
+    height: 0.3rem;
+    background: #DF0052;
+    font-family: "Aileron SemiBold";
+    line-height: 1;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    color: #fff;
+    flex-wrap: wrap;
+    right: 0.06rem;
+    top: 0.06rem;
+}
+
+.discount .num {
+    line-height: 1;
+    margin-top: 0.02rem;
+    display: inline-block;
+}
+
+.discount .num i {
+    font-weight: bold;
+}
+
+.discount .text {
+    line-height: 1;
+    display: block;
+}
+
+/* 推荐二 */
+.newProduct_wrap .p_link {
+    font-size: 0.14rem;
+    font-family: "Aileron-Regular, Aileron";
+    color: #FFFFFF;
+    line-height: 1;
+    background: #000000;
+    border-radius: 2px;
+    border: 1px solid #000000;
+    display: inline-block;
+    padding: 0.055rem 0.06rem 0.035rem;
+    margin-bottom: 0.12rem;
+}
+
+.my_box .p_list {
+    margin-bottom: 0.16rem;
+}
+
+.p_list_wrap .p_list.noSpace,
+.my_box .p_list_wrap .p_list.addSpace:nth-child(3n),
+.my_box .p_list_wrap .p_list.addSpace:nth-child(4n) {
+    margin-bottom: 0;
+}
+
+.product_red.row {
+    display: block;
+}
+
+.product_red.row .p_list {
+    width: auto;
+}
+
+.product_red.row {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.product_red.row .p_list {
+    padding-bottom: 0.05rem;
+}
+
+/* 推荐三 */
+.product_red .p_list_wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.product_red .p_list {
+    width: calc(50% - 0.04rem);
+    text-align: center;
+}
+
+.newProduct_wrap.product_red .now_price.active {
+    color: #DF0052;
+}
+
+/* 推荐四 */
+.newProduct_wrap .swiper-slide {
+    width: 1.64rem !important;
+    text-align: center;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.07);
+    border-radius: 1px;
+}
+
+.newProduct_wrap .cover_wrap {
+    width: 100%;
+    padding-bottom: 100% !important;
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+#pro_recommend_two .cover_wrap {
+    border: 1px solid #ededed;
+}
+
+.newProduct_wrap .cover {
+    -o-object-fit: contain;
+    object-fit: contain;
+    position: absolute;
+    width: auto;
+    height: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    max-height: 100%;
+}
+
+
+.newProduct_wrap .m_title {
+    font-size: 0.1rem;
+    font-family: "Floane-Regular";
+    color: #303133;
+    padding: 0 0.06rem;
+    line-height: 2;
+    padding-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.newProduct_wrap .price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    line-height: 1;
+    padding-bottom: 0.05rem;
+
+}
+
+.newProduct_wrap .now_price {
+    font-size: 0.12rem;
+    font-family: "Aileron-SemiBold, Aileron";
+    font-weight: 600;
+    color: #000000;
+    padding: 0 0 0.04rem;
+    line-height: 1;
+}
+
+.newProduct_wrap .old_price {
+    font-size: 0.1rem;
+    font-family: "Aileron-Regular, Aileron";
+    font-weight: 400;
+    color: #9B9B9B;
+    line-height: 1;
+    text-decoration: line-through;
+    position: relative;
+    top: -0.02rem;
+}
+
+.newProduct_wrap .old_price+.now_price {
+    padding-left: 0.05rem !important;
+
+}
+
+.newProduct_wrap .swiper-container {
+    padding-bottom: 0.16rem;
+}
+
+.product_red.row .m_title {
+    font-size: 0.2rem;
+}
+
+.product_red.row .old_price,
+.product_red.row .now_price {
+    font-size: 0.2rem;
+}

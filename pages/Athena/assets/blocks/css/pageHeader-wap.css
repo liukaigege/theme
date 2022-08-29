@@ -1,0 +1,529 @@
+.header {
+	width: 100%;
+	background-color: #ffffff;
+}
+
+.header-warp .actived {
+	width: 100%;
+	height: 0.24rem;
+	text-align: center;
+	line-height: 0.24rem;
+	position: relative;
+	font-size: 0.12rem;
+	z-index: 1000;
+	overflow: hidden;
+}
+
+.header-warp .actived em {
+	font-style: oblique;
+}
+
+.header-warp .actived .activedContent {
+	width: 100%;
+	height: 100%;
+	padding: 0 0.2rem;
+}
+
+.header-warp .actived .activedContent>* {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-weight: normal;
+}
+
+.header-warp .actived a img {
+	width: auto;
+	height: 100%;
+	max-height: 100%;
+	max-width: 100%;
+	margin: 0 auto;
+}
+
+.header-warp .actived .actived-close {
+	position: absolute;
+	top: 50%;
+	right: 0.1rem;
+	transform: translateY(-50%);
+	width: 0.1rem;
+	height: 0.1rem;
+	cursor: pointer;
+}
+
+.toolbar {
+	/* width: 100%; */
+	height: 0.44rem;
+	display: flex;
+	padding: 0 0.15rem;
+}
+
+.toolbar-left,
+.toolbar-center,
+.toolbar-right {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.toolbar-left {
+	width: 1rem;
+	justify-content: left;
+	cursor: pointer;
+}
+
+.toolbar-menu {
+	width: 0.21rem;
+	height: 0.16rem;
+	cursor: pointer;
+}
+
+.toolbar-center {
+	flex: 1;
+	background-color: #ffffff;
+}
+
+.toolbar-center .logo {
+	display: block;
+	width: 0.9rem;
+	height: 0.37rem;
+	background-color: #fff;
+}
+
+.toolbar-right {
+	width: 1rem;
+}
+
+.homeOrder,
+.homeBag,
+.homeChat {
+	display: block;
+}
+
+.toolbar-right a {
+	display: inline-block;
+	width: 0.36rem;
+	text-align: center;
+}
+
+.toolbar-right .homeChat {
+	position: relative;
+}
+
+.toolbar-right .homeOrder img,
+.toolbar-right .homeBag img,
+.toolbar-right .homeChat img {
+	width: 0.16rem;
+	height: 0.18rem;
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.toolbar-right .homeOrder img {
+	width: 0.18rem;
+	height: 0.18rem;
+}
+
+.toolbar-right .homeBag img {
+	width: 0.14rem;
+	height: 0.17rem;
+}
+
+.toolbar-right .homeChat i {
+	height: 0.1rem;
+	min-width: 0.1rem;
+	background: #df0052;
+	position: absolute;
+	bottom: 0rem;
+	color: #fff;
+	font-size: 0.08rem;
+	display: flex;
+	align-items: center;
+	border-radius: 0.05rem;
+	justify-content: center;
+	padding: 0 0.02rem;
+	left: 0.18rem;
+}
+
+.menu {
+	position: fixed;
+	height: 100vh;
+	overflow: hidden;
+	z-index: 10000;
+}
+
+.menu .modal {
+	display: none;
+}
+
+.menu-inner,
+.menu-outer {
+	position: fixed;
+	top: 0;
+	left: -100%;
+	height: 100%;
+	width: 70%;
+	background-color: #f6f6f6;
+	z-index: 100000;
+	padding: 0.16rem;
+	transition: all 0.3;
+}
+
+.menu .menu-title {
+	width: 100%;
+	height: 0.4rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.menu-outer .close-outer {
+	width: 0.12rem;
+	height: 0.12rem;
+}
+
+.menu-inner .back-inner {
+	width: 0.12rem;
+	height: 0.18rem;
+	background-size: cover;
+}
+
+.menu .title {
+	width: 100%;
+	text-align: center;
+	font-size: 0.15rem;
+	font-family: Aileron-SemiBold, Aileron;
+	font-weight: 600;
+	color: #000;
+	letter-spacing: 1px;
+}
+
+.menu-mainImg {
+	display: block;
+	width: 100%;
+	height: 1rem;
+	border-radius: 2px;
+}
+
+.menu-outer .menu-list {
+	max-height: calc(100vh - 2.8rem);
+	overflow: auto;
+}
+
+.menu-inner .menu-list-card,
+.menu-outer .menu-list-item {
+	display: block;
+	width: 100%;
+	height: 0.5rem;
+	background: #ffffff;
+	padding: 0.1rem 0.2rem;
+	margin-top: 0.15rem;
+	position: relative;
+	padding-bottom: 0.15rem;
+}
+
+.menu-outer .menu-list-item:last-child {
+	/* height: 0.6rem; */
+}
+
+.menu-inner .menu-list-card-content,
+.menu-outer .menu-list-item-content {
+	width: 90%;
+	height: 100%;
+	font-size: 0.13rem;
+	color: #000;
+}
+
+.menu-outer .menu-list-item-content p:last-child {
+	font-size: 0.12rem;
+	font-weight: 400;
+	color: #9b9b9b;
+}
+
+.menu-inner .menu-list-card-content .names {
+	font-size: 0.12rem;
+	font-weight: 400;
+	color: #9b9b9b;
+}
+
+.menu-inner .menu-list-card-icon,
+.menu-outer .menu-list-item-icon {
+	position: absolute;
+	top: 50%;
+	right: 0.1rem;
+	width: 0.12rem;
+	height: 0.12rem;
+	transform: translateY(-50%);
+	background-image: url(../../wap/images/right@2x.png);
+}
+
+.menu-inner .menu-list-box {
+	height: calc(100vh - 2.8rem);
+	overflow: scroll;
+}
+
+.menu-inner .menu-list {
+	margin-top: 0.15rem;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+}
+
+.menu-inner .menu-list-item {
+	height: 0.8rem;
+	width: 0.6rem;
+	margin: 0 auto 0.05rem;
+}
+
+.menu-inner .menu-list-item-content {
+	height: 0.6rem;
+	width: 0.6rem;
+	margin: 0 auto;
+}
+
+.menu-inner .menu-list-item p {
+	line-height: 0.2rem;
+	text-align: center;
+	font-size: 0.1rem;
+	font-family: Aileron-Regular, Aileron;
+	font-weight: 400;
+	color: #000;
+}
+
+/* wap货币切换 */
+.coutriesShow {
+	width: 100%;
+	background-color: #ECECEC;
+	height: 0.54rem;
+	display: flex;
+	box-sizing: border-box;
+	padding: 0 0.16rem;
+	margin: 0.15rem auto 0;
+	border-radius: 0.02rem;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+}
+
+.coutriesFlag {
+	flex: 1;
+	height: 0.2rem;
+	margin-top: 0.17rem;
+	overflow: hidden;
+
+}
+
+.coutriesFlag img {
+	height: 0.2rem;
+	width: 0.2rem;
+	border-radius: 50%;
+	box-sizing: border-box;
+	border: 1px solid #ECECEC;
+}
+
+.coutriesName {
+	flex: 5;
+	height: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: #303133;
+	font-size: 0.14rem;
+	font-weight: bold;
+	line-height: 0.54rem;
+}
+
+.coutriesMoney {
+	flex: 1;
+	height: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: #303133;
+	font-size: 0.12rem;
+	text-align: right;
+	line-height: 0.54rem;
+}
+
+/* wap货币切换 选择列表 */
+.wap_money_list_container {
+	position: absolute;
+	top: 0;
+	left: 0%;
+	height: 100%;
+	width: 70%;
+	background-color: #f6f6f6;
+	padding: 0.16rem;
+}
+
+.wap_money_list_Title {
+	height: 0.36rem;
+}
+
+.leftArrow {
+	width: 0.16rem;
+	height: 0.16rem;
+	margin-top: 0.1rem;
+}
+
+.wap_money_list_Title_text {
+	width: 80%;
+	height: 0.36rem;
+	line-height: 0.36rem;
+	font-size: 0.16rem;
+	color: #303133;
+	font-weight: bold;
+	margin-left: 0.1rem;
+	text-align: center;
+}
+
+.coutries_list_container {
+	height: 80%;
+	overflow: scroll;
+	margin-top: 0.1rem;
+}
+
+.coutries_list {
+	border-radius: 0.02rem;
+	background-color: #fff;
+	margin-bottom: 0.02rem;
+	width: 100%;
+	height: 0.4rem;
+	box-sizing: border-box;
+	padding: 0 0.15rem;
+}
+
+.coutries_list_text {
+	line-height: 0.43rem;
+	margin-left: 0.1rem;
+	height: 0.4rem;
+}
+
+.coutries_list_flag {
+	height: 0.24rem;
+	margin-top: 0.08rem;
+	box-sizing: border-box;
+	border: 1px solid #ECECEC;
+	border-radius: 50%;
+}
+
+.choose_image {
+	height: 0.1rem;
+	margin-top: 0.15rem;
+	display: none;
+}
+
+.actived .choose_image {
+	display: block;
+}
+
+.wap_money_list_outer_container {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	left: -100%;
+	top: 0;
+	z-index: 100000;
+}
+
+.wap_money_list_outer_container_show {
+	animation: showFn 0.5s 1 linear forwards;
+	-moz-animation: showFn 0.5s 1 linear forwards;
+	-webkit-animation: showFn 0.5s 1 linear forwards;
+	-o-animation: showFn 0.5s 1 linear forwards;
+}
+
+.wap_money_list_outer_container_hide {
+	animation: hideFn 0.5s 1 linear forwards;
+	-moz-animation: hideFn 0.5s 1 linear forwards;
+	-webkit-animation: hideFn 0.5s 1 linear forwards;
+	-o-animation: hideFn 0.5s 1 linear forwards;
+}
+
+.wap_money_list_container_masker {
+	width: 100%;
+	height: 100%;
+	/* background-color: rgba(0, 0, 0, 0.3); */
+}
+
+@keyframes showFn {
+	from {
+		left: -100%;
+	}
+
+	to {
+		left: 0%;
+	}
+}
+
+@-moz-keyframes showFn {
+	from {
+		left: -100%;
+	}
+
+	to {
+		left: 0%;
+	}
+}
+
+@-webkit-keyframes showFn {
+	from {
+		left: -100%;
+	}
+
+	to {
+		left: 0%;
+	}
+}
+
+@-o-keyframes showFn {
+	from {
+		left: -100%;
+	}
+
+	to {
+		left: 0%;
+	}
+}
+
+@keyframes hideFn {
+	from {
+		left: 0%;
+	}
+
+	to {
+		left: -100%;
+	}
+}
+
+@-moz-keyframes hideFn {
+	from {
+		left: 0%;
+	}
+
+	to {
+		left: -100%;
+	}
+}
+
+@-webkit-keyframes hideFn {
+	from {
+		left: 0%;
+	}
+
+	to {
+		left: -100%;
+	}
+}
+
+@-o-keyframes hideFn {
+	from {
+		left: 0%;
+	}
+
+	to {
+		left: -100%;
+	}
+}
+
+.header-warp .actived .activedContent span,
+.header-warp .actived .activedContent p {
+	font-size: 12px !important;
+}

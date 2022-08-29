@@ -1,0 +1,71 @@
+{% comment %}
+主题： Athena-雅典娜;
+积木名称：视频;
+{% endcomment %}
+{% comment %}积木id{% endcomment %}
+{% assign sectionId = configData.sectionId %}
+{% comment %}配置数据{% endcomment %}
+{% assign configList = configData.config %}
+{% comment %}海报类型（0图片海报/1图文海报/2文本海报） 默认0{% endcomment %}
+{% assign type = configList.type %}
+{% comment %}视频{% endcomment %}
+{% assign video = configList.video %}
+{% assign text = configList.text %}
+{% assign button = configList.button %}
+<div type-block="block" class="videBlcok {% if isMobilePhone == 0 %}vshop-video-pc{%else%} vshop-video-wap {% endif %}"
+  id="{{sectionId}}" isMobilePhone="{{isMobilePhone}}">
+  {% if video.title.size>0%}
+  <div class="{% if isMobilePhone == 0 %}vshop-title-pc{%else%} vshop-title-wap {% endif %}">
+    <span>{{ video.title }}</span>
+  </div>
+  {% endif %}
+  {% comment %} 视频 {% endcomment %}
+  {% if type == 0 %}
+  <div class="section-video videoStyle1 alginCenter">
+    <div class="videoBox">
+      <video src="{{video.video | IMGURL }}"></video>
+      <img class="poster lazyload" data-original="{{video.cover | IMGURL:'../assets/pc/images/sp_fm_bg@2x.png' }}" {% if
+        isLocal==1%}src="{{video.cover | IMGURL:'../assets/pc/images/sp_fm_bg@2x.png' }}" {%endif%} alt="">
+      <div class="bg {% if video.video == '' %} disabled {% endif %}" id="play">
+      </div>
+    </div>
+  </div>
+  {% else %}
+  {% comment %} 文本视频 {% endcomment %}
+  <div class="section-video videoStyle2 alginCenter" {{ text.backgroundColor |
+    stylesheetTag:'background-color'}}>
+    <div class="videoText">
+      <div class="videoText-content">
+        <div class="videoText-content-top">
+          <h1  {{ text.titleColor | stylesheetTag:'color'}}>{{ text.title | OR:'Heading'}}</h1>
+          <div class="content">{{ text.content | OR:'Use this text to share information about your brand with your
+          customers. Describe a product,share announcements,or welcome customers to your store.' | escapeHtml }}
+          </div>
+        </div>
+        {% if button.switch == 1 %} {% comment %} 如果开关状态为 1 显示按钮，否则不显示按钮 {% endcomment %}
+        {% assign arr1 = button.color | SplicingString: button.textColor | split: "," %}
+        {% assign arr2 = 'background-color,color' | split: "," %}
+        <div>
+          <button class="alginCenter" {{ arr1 |
+            stylesheetTag:arr2,3}} onclick="routerJump('{{ button.linkUrl | LINKURL:button.linkStatus }}')">
+            {% comment %}
+            <button class="alginCenter fr"
+              onclick="routerJump('{{ button.linkUrl | LINKURL:button.linkStatus }}')">{% endcomment %}
+              {{ button.copywriting }}
+              {% comment %} <img src="../assets/pc/images/tail-triangle-right.png" alt="">{% endcomment %}
+            </button>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="videoContent">
+      <div class="videoBox">
+        <video src="{{video.video | IMGURL }}"></video>
+        <img class="poster lazyload" data-original="{{video.cover | IMGURL:'../assets/pc/images/one_bg_new@2x.png' }}" {%
+          if isLocal==1%}src="{{video.cover | IMGURL:'../assets/pc/images/one_bg_new@2x.png' }}" {%endif%} alt="">
+        <div class="bg {% if video.video == '' %} disabled {% endif %}" id="play"></div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>

@@ -1,0 +1,62 @@
+{% comment %}
+积木名称：主页pageHeader-页头;
+{% endcomment %}
+{% assign section = configData.config %}
+{% assign followUsHolder = prePath | append: 'assets/images/followUs-preloader.png' %}
+{% comment %}网站Logo{% endcomment %}
+{% assign logo = section.logo | IMGURL: followUsHolder %}
+{% comment %}导航菜单{% endcomment %}
+{% assign categoryData = section.catalogue.list %}
+{% comment %}展示样式--一级目录id 0超出一行自动换行 1超出一行左右滑动切换 默认0{% endcomment %}
+{% assign isLineFeed = section.style.displayStyleFirst %}
+{% comment %}展示样式--多级目录 0下拉单列展示 1下拉图文展示 2子菜单不足5个单列展示，超出5个图文展示 默认0{% endcomment %}
+{% assign displayStyleMultistage = section.style.displayStyleMultistage %}
+{% comment %}顶部公告{% endcomment %}
+{% assign notice = section.top %}
+{% comment %}货币数据{% endcomment %}
+{% assign moneyStatus = moneyStatus %}
+{% comment %} PC端 {% endcomment %}
+{% if notice.homeOnly == 1 and htmlName == 'index' %}
+{% assign homeOnly = 1 %}
+{% else %}
+{% assign homeOnly = 0 %}
+{% endif %}
+{% if homeOnly == 1 or notice.homeOnly == 0 %}
+{% if notice.topNotice == 1 %}
+{% if notice.topLock ==1%}
+{% if notice.showType==1 %}
+{% assign arr1 = '#fff' | SplicingString: 'fixed' | split: "," %}
+{% else %}
+{% assign arr1=notice.backgroundColor | SplicingString: 'fixed' | split: "," %}
+{% endif %}
+{% else%}
+{% if notice.showType==1 %}
+{% assign arr1='#fff' | SplicingString: 'relative' | split: "," %}
+{% else %}
+{% assign arr1=notice.backgroundColor | SplicingString: 'relative' | split: "," %}
+{% endif %}
+{% endif %}
+{% assign arr2 = 'background-color,position' | split: "," %}
+<div class="actived-box" id="topActived" {% if notice.topLock==1 %} {{ '40px' | stylesheetTag: 'height' }} {% endif %}>
+	<div class="actived" {{ arr1 | stylesheetTag: arr2,3}}>
+		<a class="actived-content"
+			href="{{ notice.linkUrl | LINKURL: notice.linkStatus | default: 'javascript:void(0)'}}">
+			{% if notice.showType == 1 %}
+			<img class="lazy-img notice-img-pc"
+				data-url="{{ notice.picNoticePc | IMGURL: followUsHolder,notice.picNoticeWap }}">
+			<img class="lazy-img notice-img-wap"
+				data-url="{{ notice.picNoticeWap | IMGURL: followUsHolder,notice.picNoticePc }}">
+			{% else %}
+			{{notice.copywriting}}
+			{% endif %}
+		</a>
+		<span class="actived-close iconfont icon-fine-cross" id="activedClose"> </span>
+	</div>
+</div>
+{% endif %}
+{% endif %}
+{% comment %} 大屏 {% endcomment %}
+{% render 'header-pc',currency:section.currency,isLineFeed
+:isLineFeed,categoryData:categoryData,displayStyleMultistage:displayStyleMultistage,logo:logo,lang:lang %}
+{% comment %} 小屏 {% endcomment %}
+{% render 'header-mobile',currency:section.currency,categoryData:categoryData,lang:lang,logo:logo%}

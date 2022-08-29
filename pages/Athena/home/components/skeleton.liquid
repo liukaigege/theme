@@ -1,0 +1,240 @@
+{% comment %}
+主题： Athena-雅典娜;
+积木名称：首页骨架;
+{% endcomment %}
+<style>
+  .skeleton {
+    height: 100%;
+    width: 100%;
+  }
+
+  .skeleton-recommend-item {
+    position: relative;
+    width: 96%;
+    height: 96%;
+    overflow: hidden;
+    text-align: center;
+    margin: 0 auto;
+    cursor: pointer;
+  }
+
+
+  .skeleton-recommend-item::before {
+    content: '';
+    padding-top: 50%;
+    float: left;
+  }
+
+
+  .skeleton-recommend-item::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+
+  .skeleton-footer {
+    margin-bottom: 0;
+  }
+</style>
+{% if isMobilePhone == 0 %}
+<style>
+  .skeleton-header {
+    width: 100%;
+    height: 197px;
+
+  }
+
+  .skeleton-notice {
+    width: 100%;
+    height: 48px;
+  }
+
+
+  .skeleton-toolbar {
+    display: flex;
+  }
+
+  .skeleton-logo {
+    width: 115px;
+    height: 48px;
+    margin: 0 15px;
+  }
+
+  .skeleton-curreny {
+    width: 115px;
+    height: 48px;
+    margin: 0 15px;
+  }
+
+  .skeleton-select {
+    flex: 1;
+    height: 48px;
+    margin: 0 15px;
+  }
+
+  .skeleton-tools1 {
+    width: 50px;
+    height: 48px;
+    margin: 0 15px;
+  }
+
+  .skeleton-tools2 {
+    width: 50px;
+    height: 48px;
+    margin: 0 15px;
+  }
+
+  .skeleton-tools3 {
+    width: 50px;
+    height: 48px;
+    margin: 0 15px;
+  }
+
+
+
+  .skeleton-navigation ul li {
+    width: 115px;
+    height: 40px;
+    margin: 0 30px;
+  }
+
+  .skeleton-banner {
+    height: 200px;
+  }
+
+  .skeleton-recommend {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+</style>
+
+<div class="skeleton" id="skeleton">
+  <div class="skeleton-header">
+    <div class="skeleton-notice skeletonBg"></div>
+    <div class="skeleton-toolbar alginCenter mg">
+      <div class="skeleton-logo skeletonBg"></div>
+      <div class="skeleton-curreny skeletonBg"></div>
+      <div class="skeleton-select skeletonBg"></div>
+      <div class="skeleton-tools1 skeletonBg"></div>
+      <div class="skeleton-tools2 skeletonBg"></div>
+      <div class="skeleton-tools3 skeletonBg"></div>
+    </div>
+    <div class="skeleton-navigation ">
+      <ul class="alginCenter mg">
+        <li class="skeletonBg"></li>
+        <li class="skeletonBg"></li>
+        <li class="skeletonBg"></li>
+        <li class="skeletonBg"></li>
+        <li class="skeletonBg"></li>
+        <li class="skeletonBg"></li>
+        <li class="skeletonBg"></li>
+        <li class="skeletonBg"></li>
+      </ul>
+    </div>
+  </div>
+  <div class="skeleton-banner skeletonBg mg"></div>
+  <div class="skeleton-recommend  mg">
+    <div class="skeleton-recommend-item skeletonBg"></div>
+    <div class="skeleton-recommend-item skeletonBg"></div>
+    <div class="skeleton-recommend-item skeletonBg"></div>
+    <div class="skeleton-recommend-item skeletonBg"></div>
+  </div>
+  <div class="skeleton-banner skeletonBg mg"></div>
+  <div class="skeleton-recommend mg">
+    <div class="skeleton-recommend-item skeletonBg"></div>
+    <div class="skeleton-recommend-item skeletonBg"></div>
+    <div class="skeleton-recommend-item skeletonBg"></div>
+    <div class="skeleton-recommend-item skeletonBg"></div>
+  </div>
+  <div class="skeleton-banner skeletonBg mg"></div>
+  <div class="skeleton-banner skeletonBg"></div>
+</div>
+{% else %}
+<style>
+  .skeleton-header {
+    width: 100%;
+    height: 0.68rem;
+
+  }
+
+  .skeleton-notice {
+    width: 100%;
+    height: 0.24rem;
+  }
+
+  .skeleton-toolbar {
+    height: 0.48rem;
+  }
+
+  .skeleton-logo {
+    flex: 1;
+    height: 0.44rem;
+  }
+
+  .skeleton-logoIner {
+    width: 1rem;
+    height: 0.34rem;
+  }
+
+  .skeleton-menu,
+  .skeleton-tools1,
+  .skeleton-tools2,
+  .skeleton-tools3 {
+    width: 0.2rem;
+    height: 0.18rem;
+    margin: 0 0.08rem;
+  }
+
+  .skeleton-banner1 {
+    height: 2.4rem;
+    margin: 0.15rem 0;
+  }
+
+  .skeleton-banner {
+    height: 1.2rem;
+    margin: 0.15rem 0;
+  }
+
+  .skeleton-recommend {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .skeleton-footer {
+    height: 1.2rem;
+    margin-bottom: 0;
+  }
+</style>
+
+<div class="skeleton" id="skeleton">
+  <div class="skeleton-header">
+    <div class="skeleton-notice skeletonBg"></div>
+    <div class="skeleton-toolbar alginCenter ">
+      <div class="skeleton-menu skeletonBg"></div>
+      <div class="skeleton-menu"></div>
+      <div class="skeleton-menu"></div>
+      <div class="skeleton-logo alginCenter ">
+        <div class="skeleton-logoIner skeletonBg"></div>
+      </div>
+      <div class="skeleton-tools1 skeletonBg"></div>
+      <div class="skeleton-tools2 skeletonBg"></div>
+      <div class="skeleton-tools3 skeletonBg"></div>
+    </div>
+  </div>
+  <div class=" skeleton-banner1 skeletonBg "></div>
+  <div class="skeleton-recommend  ">
+    <div class="skeleton-recommend-item skeletonBg"></div>
+    <div class="skeleton-recommend-item skeletonBg"></div>
+    <div class="skeleton-recommend-item skeletonBg"></div>
+    <div class="skeleton-recommend-item skeletonBg"></div>
+  </div>
+  <div class="skeleton-banner skeletonBg "></div>
+  <div class="skeleton-recommend ">
+    <div class="skeleton-recommend-item skeletonBg"></div>
+    <div class="skeleton-recommend-item skeletonBg"></div>
+    <div class="skeleton-recommend-item skeletonBg"></div>
+    <div class="skeleton-recommend-item skeletonBg"></div>
+  </div>
+  <div class="skeleton-footer skeletonBg"></div>
+</div>
+{% endif %}

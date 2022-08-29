@@ -1,0 +1,33 @@
+<div class="product-item" start="{{item.discountStaTime}}" end="{{item.discountEndTime}}">
+  <a href="productDetail_{{item.id}}.html" class="loading">
+    {% if item.discount and item.discount != 10 %}
+    <div class="off">
+      <em>{{item.discount | OFF}}%</em>
+      <em>OFF</em>
+    </div>
+    {% endif %}
+    {% if item.freeShipping != 0 %}
+    <div class="free_shipping">
+      FREE SHIPPING
+    </div>
+    {% endif %}
+    {% if item.otherImg.size>0 %}
+    <img class="associateImg" src="" data-url="{{item.mainImg}}" alt="">
+    <img class="mainImg" src="" data-url="{{item.otherImg}}" alt="">
+    {% else %}
+    <img src="" data-url="{{item.mainImg}}" alt="">
+    {% endif %}
+  </a>
+  <p class="productName overflow">{{item.goodsName}}</p>
+  <p class="price">
+    {% if item.discount and item.discount != 10 %}
+    <span class="oldPrice" p-price="{{item.defaultPrice}}"></span>
+    <span class="newPrice" p-price="{{item.defaultPrice | discountPrice:item.discount }}"></span>
+    {% else %}
+    <span class="oldPrice" p-price="{{item.defaultPrice}}"></span>
+    {% endif %}
+  </p>
+  {% if isshowShopNow==true %}
+  <div class="shopNow"><a href="productDetail_{{item.id}}.html">SHOP NOW</a></div>
+  {% endif %}
+</div>

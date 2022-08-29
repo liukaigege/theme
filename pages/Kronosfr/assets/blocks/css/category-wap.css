@@ -1,0 +1,82 @@
+.recommendCategory {
+  width: 100%;
+  margin: 0.2rem 0;
+}
+.recommendCategory .vshop-title-wap {
+  margin-bottom: 0.1rem;
+}
+
+.recommendCategory .items-warp {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* 推荐分类样式1 */
+.recommendCategory .itemsStyle1 {
+  display: block;
+  position: relative;
+  width: 95%;
+  overflow: hidden;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+  margin: 0 auto 0.1rem;
+  background-color: #ffffff;
+  cursor: pointer;
+  background-size: cover;
+}
+
+.recommendCategory .itemsStyle1::before {
+  content: '';
+  padding-top: 100%;
+  float: left;
+}
+
+.recommendCategory .itemsStyle1::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.recommendCategory .itemsStyle1-introduce {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  line-height: 0.3rem;
+  background: rgba(247, 247, 247, 0.8);
+  opacity: 0.97;
+  font-size: 0.1rem;
+  font-family: HelveticaNeue;
+  color: #080808;
+}
+
+/* 推荐分类样式2 */
+.recommendCategory .itemsStyle2 {
+  width: 95%;
+  overflow: hidden;
+  text-align: center;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.itemsStyle2 .itemsStyle2-img {
+  display: block;
+  padding-bottom: 100%;
+  background-size: cover;
+}
+
+.recommendCategory .itemsStyle2:nth-child(even) {
+  margin-left: 2.5%;
+}
+
+.recommendCategory .itemsStyle3-introduce,
+.recommendCategory .itemsStyle2-introduce {
+  width: 100%;
+  font-size: 0.16rem;
+  color: #000000;
+  line-height: 0.3rem;
+}
+
+.recommendCategory .itemsStyle2-introduce {
+  text-decoration: underline;
+}

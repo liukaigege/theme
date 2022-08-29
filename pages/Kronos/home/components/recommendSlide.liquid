@@ -1,0 +1,27 @@
+{% comment %}
+主题： Athena-雅典娜;
+积木名称：滑动展示;
+{% endcomment %}
+<div class="swiper-container recommend" sectionId="{{sectionId}}" perLineNum="{{perLineNum}}" id="swiper-{{id | uuid}}"
+  isLocal="{{isLocal}}">
+  <div class="swiper-wrapper">
+    {% for item in goodList %}
+    <div class="swiper-slide" {% if isMobilePhone==1 %}style="width:40%;margin:0.1rem" {% endif %}>
+      {% render
+      'Kronos/home/components/productsItems',item:item,type:displaysty,isMobilePhone:isMobilePhone,currentRate:currentRate,isLocal:isLocal
+      %}
+    </div>
+    {% endfor %}
+  </div>
+  {% if isMobilePhone == 0 %}
+  <div class="swiper-button-next"></div>
+  <div class="swiper-button-prev"></div>
+  {% endif %}
+</div>
+
+
+{% if isLocal == 1 %}
+<script>
+  initSwiper()
+</script>
+{%endif%}

@@ -1,0 +1,321 @@
+<style>
+  #recommend-section_layui_swiper h3 span {
+    font-size: 30px;
+    /* font-family: Floane-Regular, Floane; */
+    font-family: Arial;
+    font-weight: 400;
+    color: #363636;
+    text-align: center;
+    display: inline-block;
+    padding: 0 16px;
+    position: relative;
+    z-index: 9;
+    background-color: #fff;
+    text-transform: capitalize;
+  }
+
+  #recommend-section_layui_swiper h3 {
+    position: relative;
+    margin-bottom: 45px;
+    margin-top: 60px;
+    text-align: center;
+  }
+
+  #recommend-section_layui_swiper h3:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #000000;
+    transform: translateY(-3px);
+  }
+
+  #recommend-section_layui_swiper .swiper-slide {
+    text-align: center;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.07);
+    border-radius: 1px;
+  }
+
+  #recommend-section_layui_swiper .swiper-slide a {
+    display: block;
+    width: 100%;
+  }
+
+  #recommend-section_layui_swiper .cover_wrap {
+    width: 100%;
+    padding-bottom: 100% !important;
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  #recommend-section_layui_swiper .cover {
+    -o-object-fit: contain;
+    object-fit: contain;
+    position: absolute;
+    width: auto;
+    height: auto;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  #recommend-section_layui_swiper .m_title {
+    font-size: 14px;
+    /* font-family: "Floane-Regular"; */
+    font-family: Arial;
+    color: #303133;
+    padding: 0px 10px;
+    line-height: 2;
+    padding-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  #recommend-section_layui_swiper .price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    line-height: 1;
+    padding-bottom: 5px;
+    height: 30px;
+  }
+
+  #recommend-section_layui_swiper .now_price {
+    font-size: 17px;
+    color: #000000;
+    padding: 0 10px;
+    line-height: 1;
+    font-family: "Aileron-Regular, Aileron";
+    font-weight: 400;
+  }
+
+  #recommend-section_layui_swiper .old_price {
+    font-size: 17px;
+    font-family: "Aileron-Regular, Aileron";
+    font-weight: 400;
+    color: #9B9B9B;
+    line-height: 1;
+    text-decoration: line-through;
+    position: relative;
+    /* top: -2px; */
+  }
+
+  #recommend-section_layui_swiper .old_price+.now_price {
+    padding-left: 5px !important;
+
+  }
+
+  #recommend-section_layui_swiper .swiper-container {
+    padding-bottom: 16px;
+  }
+
+  .product_red.row .m_title {
+    font-size: 2px;
+  }
+
+  .product_red.row .old_price,
+  .product_red.row .now_price {
+    font-size: 0.2;
+  }
+
+  .product_red.row .now_price .hide {
+    display: none;
+  }
+
+  #recommend-section_layui_swiper .free_shipping {
+    font-size: 18px;
+    padding: 6px 25px;
+    position: static;
+    margin-bottom: 10px;
+  }
+
+  #recommend-section_layui_swiper .off {
+    position: static;
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    display: inline-block;
+    padding: 5px 5px 0;
+  }
+
+  #recommend-section_layui_swiper .off em {
+    position: static;
+  }
+
+  #recommend-section_layui_swiper .off em:first-child {
+    font-size: 16px;
+    top: 40px;
+  }
+
+  #recommend-section_layui_swiper .off em:last-child {
+    font-size: 16px;
+    top: 11px;
+  }
+
+  #recommend-section_layui_swiper {
+    position: relative;
+  }
+
+  #recommend-section_layui_swiper .swiper-next,
+  #recommend-section_layui_swiper .swiper-prev {
+    width: 42px;
+    height: 42px;
+    background-size: 100% 100%;
+    position: absolute;
+    top: 50%;
+    cursor: pointer;
+    outline: none;
+  }
+
+  #recommend-section_layui_swiper .swiper-next {
+    right: -80px;
+    background-image: url(../assets/pc/images/btn_crsl_right@2x.png);
+  }
+
+  #recommend-section_layui_swiper .swiper-prev {
+    left: -80px;
+    background-image: url(../assets/pc/images/btn_crsl_left@2x.png);
+  }
+
+  #recommend-section_layui_swiper .swiper-button-disabled {
+    opacity: .35;
+    cursor: auto;
+    pointer-events: none;
+  }
+
+  .discount_wrap {
+    position: absolute;
+    top: 10px;
+    right: 0;
+    z-index: 99;
+    text-align: right;
+  }
+
+  .sec_width {
+    margin: 0 150px;
+  }
+</style>
+<div id="recommend-section_layui_swiper" class="sec_width">
+  {% if isShow %}
+  <h3><span>you may also like</span></h3>
+  {% endif %}
+  <div class="swiper-container newProducts_details" id='recommend_layui_swiper'>
+  </div>
+  <div class="swiper-prev"></div>
+  <div class="swiper-next"></div>
+</div>
+{% raw %}
+<script id='recommend_template' type="text/html">
+    <div class="swiper-wrapper">
+      {{#  layui.each(d, function(index, item){ }}
+      <div class="swiper-slide">
+        <a data-toJump="productDetail_{{item.id}}.html">
+          <div class="cover_wrap">
+            <div class="discount_wrap">
+              {{# if(item.freeShipping != 0){ }}
+            <div class="free_shipping">
+              FREE SHIPPING
+            </div>
+            {{# } }}
+            {{# if(item.defaultPrice && item.defaultPrice < item.originalPrice){ }} <div class="off">
+              <em><i></i>%</em>
+              <em>OFF</em>
+              </div>
+            {{# } }}
+            </div>
+            <img class="{{# if(item.otherImg != '' && item.otherImg != null){ }}mainRelationListImg {{# } }} cover" src=""
+              data-suffix-img="{{item.mainImg}}" alt="">
+            {{# if(item.otherImg != '' && item.otherImg != null){ }}
+            <img class="associateRelationListImg cover" src="" data-suffix-img="{{item.otherImg}}" alt="">
+            {{# } }}
+          </div>
+          <p class="m_title">{{item.goodsName}}</p>
+          <div class="price" data-price="{{item.defaultPrice}}" data-originalPrice='{{item.originalPrice}}'>
+            <span class="old_price hide"></span>
+            <span class="now_price"></span>
+          </div>
+        </a>
+      </div>
+      {{# }) }}
+    </div>
+</script>
+{% endraw %}
+<script>
+
+  var result = [];
+  var version_rec = new Date().getTime()
+  // $.getJSON("../data/detail.json?version=" + version_rec, function (data) {
+  var data = deepClone(DETAILDATA)
+  var data_length = data.length > 100 ? 100 : data.length;
+  var ranNum = data_length > 12 ? 12 : data_length;
+  for (var i = 0; i < ranNum; i++) {
+    var ran = Math.floor(Math.random() * (data_length - i));
+    result.push(data[ran]);
+    data[ran] = data[data_length - i - 1];
+  };
+  layui.use(['laytpl'], function () {
+    let laytpl = layui.laytpl;
+    let getTpl = recommend_template.innerHTML,
+      view = document.getElementById('recommend_layui_swiper');
+    laytpl(getTpl).render(result, function (html) {
+      view.innerHTML = html;
+      // newProducts 下的轮播图
+      var recommend_layui_swiper = new Swiper('#recommend_layui_swiper', {
+        observer: true,//修改swiper自己或子元素时，自动初始化swiper
+        observeParents: true,//修改swiper的父元素时，自动初始化swiper
+        spaceBetween: 30,
+        slidesPerView: 3,
+        speed: 1000,
+        navigation: {
+          nextEl: '#recommend-section_layui_swiper .swiper-next',
+          prevEl: '#recommend-section_layui_swiper .swiper-prev',
+        },
+      })
+      recommendLayuiSwiper();
+    });
+    changeImg()
+    function recommendLayuiSwiper() {
+      $('#recommend-section_layui_swiper a[data-tojump]').each((index, item) => {
+        var url = $(item).attr('data-toJump')
+        var promotionLogo = getCookie('promotionLogo')
+        if (promotionLogo) {
+          $(item).attr('href', url + '?promotionLogo=' + promotionLogo)
+        } else {
+          $(item).attr('href', url)
+        }
+      })
+      let allprice = $("#recommend_layui_swiper [p-price]")
+      allprice.each(function (index) {
+        $(this).text(getMoney($(this).attr('p-price')))
+      });
+    }
+    let price = $('#recommend_layui_swiper .swiper-slide')
+    price.each(function (index, item) {
+      let $defaultPrice = $(item).find('.price').attr('data-price'),
+        $originalPrice = $(item).find('.price').attr('data-originalPrice');
+      relationCount($(item), $defaultPrice, $originalPrice)
+    });
+    /* 计算价格 */
+    function relationCount($this, $defaultPrice, $originalPrice) {
+      if ($originalPrice && $originalPrice != '' && Number($originalPrice) > Number($defaultPrice) && Object.prototype.toString.call($originalPrice).slice(8, -1) != 'Null') {
+        $this.find('.now_price').removeClass('hide').html(getMoney($defaultPrice)).addClass('main_color');
+        $this.find('.old_price').removeClass('hide').html(getMoney($originalPrice));
+        $this.find('.off i').html(parseFloat(Math.floor(100 - Number($defaultPrice) / Number($originalPrice) * 100)) || 1);
+        $this.find('[data-discount]').removeClass('hide');
+      } else {
+        $this.find('.now_price').html(getMoney($defaultPrice))
+      }
+    }
+  })
+  // })
+</script>

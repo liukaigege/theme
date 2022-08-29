@@ -1,0 +1,51 @@
+.subscribe {
+  width: 100%;
+  height: 1.42rem;
+  margin: 0.15rem 0;
+  overflow: hidden;
+}
+
+.subscribe-content {
+  padding: 0.08rem 0.08rem 0;
+  width: 2.5rem;
+  height: 1.3rem;
+  background-color: #ffffff;
+}
+
+.subscribe-content h1 {
+  font-size: 0.12rem;
+  font-family: Floane-Regular, Floane;
+  font-weight: 700;
+  color: #303133;
+  margin-bottom: 0.06rem;
+}
+
+.subscribe-content .subscribeWords {
+  font-size: 0.1rem;
+  font-family: Aileron-Regular, Aileron;
+  font-weight: 400;
+  color: rgba(8, 8, 8, 0.4);
+  margin-bottom: 0.14rem;
+}
+
+.subscribe-content input {
+  width: 100%;
+  font-size: 0.1rem;
+  font-family: Aileron-Regular, Aileron;
+  font-weight: 400;
+  margin-bottom: 0.08rem;
+  border-bottom: 1px solid #080808;
+}
+
+.subscribe-content button {
+  min-width: 0.78rem;
+  height: 0.24rem;
+  background: #000000;
+  border-radius: 2px;
+  font-size: 0.12rem;
+  font-family: Aileron-SemiBold, Aileron;
+  font-weight: 700;
+  color: #f7f7f7;
+  margin-top: 7px;
+  padding: 0 0.1rem;
+}

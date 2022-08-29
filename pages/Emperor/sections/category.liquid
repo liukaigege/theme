@@ -1,0 +1,37 @@
+{% comment %}
+积木名称：category-分类模块;
+{% endcomment %}
+{% assign section = configData.config %}
+{% comment %}分类数据,如果返回为空时，处理空数据以占位{% endcomment %}
+{% if section.categoryList.size > 0 %}
+{% assign categoryList = section.categoryList %}
+{% else %}
+{% assign categoryList = section.perLineNum | createGoodList %}
+{% endif %}
+{% assign itemNum = 12 | divided_by: section.perLineNum %}
+<div class="category container">
+	{% if section.title.size >0%}
+	<h2 class="section-title row mb-3 plate-title-font">{{section.title}}</h2>
+	{% endif %}
+	{% case section.displaysty %}
+	{% when 1 %}
+	<div class="row">
+		{% for item in categoryList %}
+		<div class="category-item col-6 col-md-{{itemNum}}">
+			{% render 'category-item-style1', data:item,isSwiper:0,prePath: prePath %}
+		</div>
+		{% endfor %}
+	</div>
+	{% when 2 %}
+	<div class="row">
+		{% for item in categoryList %}
+		<div class="category-item col-6 col-md-{{itemNum}}">
+			{% render 'category-item-style2', data:item,isSwiper:0,prePath: prePath %}
+		</div>
+		{% endfor %}
+	</div>
+	{% when 3 %}
+	{% render 'category-swiper-pc',categoryList:categoryList,perLineNum:section.perLineNum,id:id,isSwiper:1,prePath: prePath %}
+	{% render 'category-swiper-wap',categoryList:categoryList,perLineNum:section.perLineNum,id:id,isSwiper:1%,prePath: prePath %}
+	{% endcase %}
+</div>

@@ -1,0 +1,99 @@
+
+<div class="dynamic-checkout dynamic-checkout--loading">
+	<div class="dynamic-checkout__skeleton">
+		<div class="placeholder-line placeholder-line--animated"></div>
+		<div class="placeholder-line placeholder-line--animated"></div>
+	</div>
+	<div class="dynamic-checkout__buttons">
+		<div id="paypal-container"></div>
+	</div>
+</div>
+<script>
+	const clientId = CONFIGDATA.payMethod.paypal?.clientId
+	var setmeal = JSON.parse(localStorage.getItem('currentRate'));
+	if (clientId) {
+		var jsStr = `?client-id=${clientId}&currency=${setmeal.currency}`;
+		var PAYPAL_SCRIPT = 'https://www.paypal.com/sdk/js' + jsStr;
+		var script = document.createElement('script');
+		script.setAttribute('src', PAYPAL_SCRIPT);
+		document.body.append(script);
+		if (script.readyState) {
+			script.onreadystatechange = function () {
+				if (script.readyState == 'complete' || script.readyState == 'loaded') {
+					setPaypal()
+				}
+			}
+		} else {
+			script.onload = function () {
+				setPaypal()
+			}
+		}
+	}
+	function setPaypal() {
+		closePlaceholder()
+		// paypal支付
+		paypal.Buttons({
+			// Call your server to set up the transaction
+			createOrder: function (data, actions) {
+				return fetch('/vshop-site/api/v1/pre/orders/orders', {
+					method: 'post',
+					body: JSON.stringify(ORDER_PAYMENT),
+					headers: {
+						"Authorization": 'Bearer' + getStorage('localstorageId')
+					}
+				}).then(function (res) {
+					return res.json();
+				}).then(function (orderData) {
+					if (orderData.code != 0) {
+						$.alert('danger', i18n.payment_abnormality)
+					} else {
+						return orderData.data.order_number;
+					}
+				});
+			},
+			// Call your server to finalize the transaction
+			onApprove: function (data, actions) {
+				$('html').append('<div class="paymentLoading"><div><img src="../assets/pc/images/icon/loading.gif" alt=""><p>Please wait a moment before finishing the payment.....</p><div></div>')
+				return fetch('/vshop-third/api/v1/third/' + data.orderID + '/capture', {
+					method: 'post',
+					headers: {
+						"Authorization": 'Bearer' + getStorage('localstorageId')
+					}
+				}).then(function (res) {
+					return res.json();
+				}).then(function (orderData) {
+					// Three cases to handle:
+					//   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+					//   (2) Other non-recoverable errors -> Show a failure message
+					//   (3) Successful transaction -> Show a success / thank you message
+					// Your server defines the structure of 'orderData', which may differ
+					var errorDetail = Array.isArray(orderData.details) && orderData.details[0];
+					if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
+						// Recoverable state, see: "Handle Funding Failures"
+						// https://developer.paypal.com/docs/checkout/integration-features/funding-failure/
+						return actions.restart();
+					}
+					if (errorDetail) {
+						var msg = 'Sorry, your transaction could not be processed.';
+						if (errorDetail.description) msg += '\n\n' + errorDetail.description;
+						if (orderData.debug_id) msg += ' (' + orderData.debug_id + ')';
+						// Show a failure message
+						return alertTxt('payment abnormality')
+					}
+					// Show a success message to the buyer
+					let money = $('#totalPrice').attr('data-money');
+					if (orderData.statusCode === 201 && orderData.status === "COMPLETED") {
+						window.location.href = `/payment-results.html?status=1&transcationId=${data.orderID}&currency=${totalRate.currency}&amount=${money}`;
+					} else {
+						failedOpt()
+					}
+				});
+			}
+		}).render('#paypal-container');
+	}
+	// paypal预加载遮盖
+	function closePlaceholder() {
+		$(".dynamic-checkout--loading") && $(".dynamic-checkout--loading").removeClass('dynamic-checkout--loading')
+	}
+
+</script>

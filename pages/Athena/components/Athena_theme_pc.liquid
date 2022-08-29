@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  {% if name == 'index' %}
+  <title>{{ data.baseData.shopName }}</title>
+  {% elsif name == 'cart'%}
+  <title>Shopping Cart - {{ data.baseData.shopName }}</title>
+  {% elsif name == 'collections'%}
+  <title>collections - {{ data.baseData.shopName }}</title>
+  {% elsif name == 'information'%}
+  <title>Checkout - {{ data.baseData.shopName }}</title>
+  {% elsif name == 'logistics'%}
+  <title>Track logistics - {{ data.baseData.shopName }}</title>
+  {% elsif name == 'orderSearch'%}
+  <title>Track my order - {{ data.baseData.shopName }}</title>
+  {% elsif name == 'orderDetail'%}
+  <title>Track order information - {{ data.baseData.shopName }}</title>
+  {% elsif name == 'payment' or name == 'payment-results'%}
+  <title>{{name}} - {{ data.baseData.shopName }}</title>
+  {% elsif name == 'static'%}
+  <title>static - {{ data.baseData.shopName }}</title>
+  {% elsif name == 'contact'%}
+  <title>contact us - {{ data.baseData.shopName }}</title>
+  {% elsif name == 'boundDetails'%}
+  <title>Combination goods - {{ data.baseData.shopName }}</title>
+  {% elsif name == 'search'%}
+  <title>search - {{ data.baseData.shopName }}</title>
+  {% elsif name == 'productList'%}
+  {% if ROWS == 1 %}
+  <title>ALL - {{ data.baseData.shopName }}</title>
+  {% else %}
+  {% if ROWS.seoSearch.searchTitle.size > 0 %}
+  <title>{{ ROWS.seoSearch.searchTitle }}</title>
+  {% else %}
+  <title>{{ROWS.name}} - {{ data.baseData.shopName }}</title>
+  {% endif %}
+  {% endif %}
+  <meta name="keywords" content="{{ ROWS.seoSearch.searchKeyword }}">
+  <meta name="description" content="{{ ROWS.seoSearch.searchDesc }}">
+  {% elsif name == 'productDetail'%}
+  {% if ROWS.seoSearch.searchTitle.size > 0 %}
+  <title>{{ ROWS.seoSearch.searchTitle }}</title>
+  {% else %}
+  <title>{{ROWS.goodsName}} - {{ data.baseData.shopName }}</title>
+  {% endif %}
+  <meta name="keywords" content="{{ ROWS.seoSearch.searchKeyword }}">
+  <meta name="description" content="{{ ROWS.seoSearch.searchDesc }}">
+  <meta name="google-site-verification" content="7CWOkrTMsEJvvI1xoCJ4tzTNGmZdV7Q2LmLiu91bqm0" />
+  {% endif %}
+  <meta name="viewport"
+    content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <link id="shortcut" rel="shortcut icon" href="{{ blockData[0].config.icon | IMGURL }}" type="image/png">
+
+  <script src="../assets/pc/js/flex.js"></script>
+  <link rel="stylesheet" href="../assets/pc/css/reset_block.css">
+  <link rel="stylesheet" href="../assets/blocks/css/reset.css">
+  <link rel="stylesheet" href="../assets/blocks/css/common.css?v={{data.CONFIGS.VERSION}}">
+  {% for link in data.CONFIGS.PC.COMMON.STYLE.RESOURCES %}
+  <link rel="stylesheet" href="{{ data.CONFIGS.PC.COMMON.STYLE.PREFIX }}{{ link }}?v={{ data.CONFIGS.VERSION }}">
+  {% endfor %}
+  <link rel="stylesheet" href="../assets/blocks/css/pageHeader-pc.css">
+  <link rel="stylesheet" href="../assets/blocks/css/pageFooter-pc.css">
+  <link rel="stylesheet" href="../assets/blocks/css/coupon.css">
+  <link rel="stylesheet" href="../assets/blocks/css/coupon-pc.css">
+  {% assign name = name %}
+  {% for link in data.CONFIGS.PC.STYLE[name].RESOURCES %}
+  <link rel="stylesheet" href="{{ data.CONFIGS.PC.STYLE[name].PREFIX }}{{ link }}?v={{ data.CONFIGS.VERSION }}">
+  {% endfor %}
+  <!-- 屏蔽右键 -->
+  <script type="text/javascript">
+    document.oncontextmenu = function (event) {
+      if (window.event) {
+        event = window.event;
+      }
+      try {
+        var the = event.srcElement;
+        if (!((the.tagName == "INPUT" && the.type.toLowerCase() == "text") || the.tagName == "TEXTAREA")) {
+          return false;
+        }
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+  </script>
+  <script src="../assets/pc/js/jquery.js" id="version" data-version='{{data.CONFIGS.VERSION}}'></script>
+  <!-- 全局变量 -->
+  <script src="../data/globalVariable.js?v={{data.CONFIGS.VERSION}}"></script>
+  <!-- Start of LiveChat (www.livechatinc.com) code -->
+  <!-- <script type="text/javascript">
+    window.__lc = window.__lc || {};
+    window.__lc.license = 13011243;
+    ; (function (n, t, c) { function i(n) { return e._h ? e._h.apply(null, n) : e._q.push(n) } var e = { _q: [], _h: null, _v: "2.0", on: function () { i(["on", c.call(arguments)]) }, once: function () { i(["once", c.call(arguments)]) }, off: function () { i(["off", c.call(arguments)]) }, get: function () { if (!e._h) throw new Error("[LiveChatWidget] You can't use getters before load."); return i(["get", c.call(arguments)]) }, call: function () { i(["call", c.call(arguments)]) }, init: function () { var n = t.createElement("script"); n.async = !0, n.type = "text/javascript", n.src = "https://cdn.livechatinc.com/tracking.js", t.head.appendChild(n) } }; !n.__lc.asyncInit && e.init(), n.LiveChatWidget = n.LiveChatWidget || e }(window, document, [].slice))
+  </script>
+  <noscript><a href="https://www.livechatinc.com/chat-with/13011243/" rel="nofollow">Chat with us</a>, powered by <a
+      href="https://www.livechatinc.com/?welcome" rel="noopener nofollow" target="_blank">LiveChat</a></noscript> -->
+  <!-- End of LiveChat code -->
+  {% if data.configData.autoCodes.size > 0 %}
+  {% for list in data.configData.autoCodes %}
+  {% if list.appClient != 2 and list.codePosition == 0 %}
+  {{list.codeContent}}
+  {% endif%}
+  {% endfor %}
+  {% endif%}
+  {% if data.baseData.textInfo.codeFacebook and data.baseData.textInfo.codeFacebook != '' %}
+  {% assign facebookId = data.baseData.textInfo.codeFacebook %}
+  <script type="text/javascript">
+    ! function (f, b, e, v, n, t, s) {
+      if (f.fbq) return;
+      n = f.fbq = function () {
+        n.callMethod ?
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      };
+      if (!f._fbq) f._fbq = n;
+      n.push = n;
+      n.loaded = !0;
+      n.version = '2.0';
+      n.queue = [];
+      t = b.createElement(e);
+      t.async = !0;
+      t.src = v;
+      s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window,
+      document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+    const facebookId = '{{ facebookId }}'.split(',')
+    facebookId.forEach(item => {
+      fbq('init', item); // Insert your pixel ID here.
+    })
+    fbq('track', 'PageView');
+  </script>
+  {% assign facebookIdArr = facebookId | split: "," %}
+
+  {% for facebookIdItem in facebookIdArr %}
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id={{ facebookIdItem }}&ev=PageView&noscript=1" /></noscript>
+  {% endfor %}
+
+  {% endif %}
+
+  <!-- codeTiktok -->
+  {% assign codeTiktokId = data.baseData.textInfo.codeTiktok %}
+  {% if codeTiktokId and codeTiktokId != '' %}
+  {% assign codeTiktokIdArr = codeTiktokId | split: "," %}
+  {% for codeTiktokIdItem in codeTiktokIdArr %}
+  <script type="text/javascript">
+    !function (w, d, t) {
+      w.TiktokAnalyticsObject = t; var ttq = w[t] = w[t] || []; ttq.methods = ["page", "track", "identify", "instances", "debug", "on", "off", "once", "ready", "alias", "group", "enableCookie", "disableCookie"], ttq.setAndDefer = function (t, e) { t[e] = function () { t.push([e].concat(Array.prototype.slice.call(arguments, 0))) } }; for (var i = 0; i < ttq.methods.length; i++)ttq.setAndDefer(ttq, ttq.methods[i]); ttq.instance = function (t) { for (var e = ttq._i[t] || [], n = 0; n < ttq.methods.length; n++)ttq.setAndDefer(e, ttq.methods[n]); return e }, ttq.load = function (e, n) { var i = "https://analytics.tiktok.com/i18n/pixel/events.js"; ttq._i = ttq._i || {}, ttq._i[e] = [], ttq._i[e]._u = i, ttq._t = ttq._t || {}, ttq._t[e] = +new Date, ttq._o = ttq._o || {}, ttq._o[e] = n || {}; var o = document.createElement("script"); o.type = "text/javascript", o.async = !0, o.src = i + "?sdkid=" + e + "&lib=" + t; var a = document.getElementsByTagName("script")[0]; a.parentNode.insertBefore(o, a) };
+
+      ttq.load('{{codeTiktokIdItem}}');
+      ttq.page();
+    }(window, document, 'ttq');
+    ttq.track('Browse')
+  </script>
+  {% endfor %}
+  {% endif %}
+
+  <!-- codeGoogle -->
+  {% if data.baseData.textInfo.codeGoogle and data.baseData.textInfo.codeGoogle != '' %}
+  {% assign googlekId = data.baseData.textInfo.codeGoogle %}
+  <!-- Google Analytics -->
+  <script type="text/javascript">
+      (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+          (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+          m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+      })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', '{{googlekId}}', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <!-- End Google Analytics -->
+  {% endif %}
+
+  <!-- codeHotjar -->
+  {% if data.baseData.textInfo.codeHotjar and data.baseData.textInfo.codeHotjar != '' %}
+  {% assign hotjarId = data.baseData.textInfo.codeHotjar %}
+  <script type="text/javascript">
+    let $hotjarId = Number('{{hotjarId}}') ? Number('{{hotjarId}}') : '{{hotjarId}}';
+    (function (h, o, t, j, a, r) {
+      h.hj = h.hj || function () { (h.hj.q = h.hj.q || []).push(arguments) };
+      h._hjSettings = { hjid: $hotjarId, hjsv: 6 };
+      a = o.getElementsByTagName('head')[0];
+      r = o.createElement('script'); r.async = 1;
+      r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+  </script>
+  {% endif %}
+
+  {% if name == 'productDetail'%}
+  {% if data.baseData.textInfo.codeTiktok != '' and data.baseData.textInfo.tiktokType == 0%}
+  <script type="text/javascript">
+    // tiktok像素埋点
+    ttq.track('ViewContent', {
+      content_id: '{{detail.id}}',
+      content_type: 'product',
+      content_name: "{{detail.goodsName | escape_once}}",
+      quantity: 1,
+      price: Number('{{detail.defaultPrice}}'),
+      value: Number('{{detail.defaultPrice}}'),
+      currency: 'USD',
+    })
+  </script>
+  {% endif %}
+  {% if data.baseData.textInfo.codeGoogle != '' %}
+  <script type="text/javascript">
+    // ga像素埋点
+    ga('create', '{{data.baseData.textInfo.codeGoogle}}');
+    ga('require', 'ec');
+
+    ga('ec:addProduct', {
+      'id': '{{detail.id}}',
+      'name': "{{detail.goodsName | escape_once}}",
+      'price': Number('{{detail.defaultPrice}}'),
+      'brand': "{{detail.productClassify}}",
+    });
+
+    ga('ec:setAction', 'detail');
+
+    ga('send', 'pageview');
+  </script>
+  {% endif %}
+  {% endif %}
+</head>
+
+<body name="{{name}}">
+  <input type="hidden" id="facebookId" value="{{ data.baseData.textInfo.codeFacebook }}">
+  <input type="hidden" id="Tiktok" value="{{ data.baseData.textInfo.codeTiktok }}"
+    data-show="{% if data.baseData.textInfo.tiktokType == 1 %}false{% else %}true{% endif %}">
+  <input type="hidden" id="googleId" value="{{ data.baseData.textInfo.codeGoogle }}">
+  <input type="hidden" id="hotjarId" value="{{ data.baseData.textInfo.codeHotjar }}">
+  <input type="hidden" id="shopId" value="{{ data.baseData.shopId }}">
+  <input type="hidden" id="shopName" value="{{ data.baseData.shopName }}">
+  <input type="hidden" id="timezone" value="{{ data.baseData.timezone }}">
+  <input type="hidden" id="version" value="{{ data.CONFIGS.VERSION }}">
+  <input type="hidden" id="NODE_ENV" value="{{data.CONFIGS.NODE_ENV}}">
+  <input type="hidden" id="isMobilePhone" value="{{ isMobilePhone }}">
+  {% for item in data.CONFIGS.PC.COMMON.SCRIPTS.RESOURCES %}
+  <script src="{{data.CONFIGS.PC.COMMON.SCRIPTS.PREFIX}}{{item}}?v={{data.CONFIGS.VERSION}}"></script>
+  {% endfor %}
+  {% block content %}{% endblock %}
+  <script src="../assets/pc/js/load.js"></script>
+  {% for item in data.CONFIGS.PC.SCRIPTS[name].RESOURCES %}
+  <script type="text/javascript"
+    src="{{data.CONFIGS.PC.SCRIPTS[name].PREFIX}}{{item}}?v={{data.CONFIGS.VERSION}}"></script>
+  {% endfor %}
+  <script src="../assets/blocks/js/coupon.js?v={{VERSION}}"></script>
+  <script src="../assets/blocks/js/main.js?v={{VERSION}}"></script>
+  <script src="../assets/blocks/js/pageHeader-pc.js?v={{VERSION}}"></script>
+  <script src="../assets/blocks/js/coupon.js?v={{VERSION}}"></script>
+  <script src="../assets/blocks/js/utils.js?v={{VERSION}}"></script>
+  {% comment %}图片懒加载{% endcomment %}
+  <script src="../assets/pc/js/jquery.lazyload.min.js?v={{VERSION}}"></script>
+  <script type="text/javascript">
+    $(function () {
+      var lazyOption = {
+        effect: "fadeIn"
+      }
+      $("img.lazyload").lazyload(lazyOption)
+      $("div.lazyload").lazyload(lazyOption)
+      $("a.lazyload").lazyload(lazyOption)
+    })
+  </script>
+
+  {% if data.configData.autoCodes.size > 0 %}
+  {% for list in data.configData.autoCodes %}
+  {% if list.appClient != 2 and list.codePosition == 1 %}
+  {{list.codeContent}}
+  {% endif%}
+  {% endfor %}
+  {% endif%}
+</body>
+
+</html>

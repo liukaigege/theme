@@ -1,0 +1,99 @@
+<style>
+	.order-search {
+		display: inline-block;
+		text-align: center;
+		width: 100%;
+		background: url('../assets/images/bg.jpg') center no-repeat;
+		background-size: cover;
+		height: 765px;
+		box-sizing: border-box;
+		padding-top: 30px;
+	}
+
+	.order-search .order-search-title {
+		font-size: 60px;
+		font-weight: 600;
+		color: #FFFFFF;
+		line-height: 50px;
+		margin: 0 auto;
+		padding-top: 120px;
+	}
+
+	.order-search input {
+		width: 600px;
+		height: 50px;
+		background: #FFFFFF;
+		border-radius: 2px;
+		text-align: center;
+		margin-top: 80px;
+	}
+
+	.order-search .order-search-button {
+		display: block;
+		width: 600px;
+		background-color: var(--button-bg);
+		border-radius: 4px;
+		margin: 0 auto;
+		margin-top: 40px;
+		cursor: pointer;
+		color: var(--button-text-color);
+		font-size: var(--button-font-size);
+		padding:10px  0;
+	}
+	@media (max-width:768px){
+	  .order-search .order-search-button {
+		font-size: var(--button-wap-font-size);
+	  }
+	}
+	.order-search .order-search-descrip {
+		width: 597px;
+		height: 45px;
+		font-size: 12px;
+		font-weight: 400;
+		color: #FFFFFF;
+		line-height: 15px;
+		margin: 0 auto;
+		padding-top: 40px;
+	}
+
+	@media (max-width:920px) {
+
+		.order-search input,
+		.order-search .order-search-descrip,
+		.order-search .order-search-button {
+			width: 80%;
+		}
+
+		.order-search .order-search-title {
+			font-size: 48px;
+		}
+	}
+</style>
+
+{% assign page_title = 'i18n.order_search.page_title' | t: lang , shop_name: shopName %}
+{% layout 'theme', showHeader: true,showFooter: true %}
+{% block 'content' %}
+<div class="order-search" id="orderSearch">
+	<h2 class="order-search-title">
+		{{'i18n.order_search.order_search_title' | t: lang}}
+	</h2>
+	<input placeholder="{{'i18n.order_search.order_input_placeholder' | t: lang}}" id="orderEmail" />
+	<button class="order-search-button order-search_button--event button-font">{{'i18n.order_search.order_button' | t: lang}}</button>
+	<div class="order-search-descrip">{{'i18n.order_search.order_descrip' | t: lang}}</div>
+	<div class="order-error-msg" hidden>{{'i18n.order_search.error_msg' | t: lang}}</div>
+</div>
+<script>
+	$(function () {
+		$('.order-search_button--event').on('click', $.debounce(function (event) {
+			event.stopPropagation();
+			var strVal = $('#orderEmail').val().replace(/\s+/g, "");
+			if (($('#orderEmail').val() && !strVal) || !$('#orderEmail').val()) {
+				// 获取提示信息
+				$.alert('warning',$('.order-error-msg').text())
+			} else {
+				window.location.href = './orderDetail.html?orderId=' + encodeURI($('#orderEmail').val());
+			}
+		}));
+	});
+</script>
+{% endblock %}

@@ -1,0 +1,43 @@
+<style>
+	.information-info-header {
+		text-align: center;
+	}
+
+	.information-info__title img {
+		margin-top: 25px;
+		height: 70px;
+		object-fit: contain;
+	}
+
+	.information-info-header>.information-info__progress {
+		display: flex;
+		justify-content: center;
+		margin-top: 30px;
+		font-family: Roboto-Medium, Roboto;
+		font-weight: 500;
+		font-size: 14px;
+		line-height: 1;
+	}
+
+	.information-info__progress>.progress--active {
+		color: var(--vshop-primary-color);
+	}
+
+	.information-info-content {
+		display: flex;
+		margin: 25px 0;
+		text-align: left;
+	}
+</style>
+<div class="information-info-header">
+	<div class="information-info__title">
+		<img src="{{headerData.config.logo | IMGURL:'../assets/images/followUs-preloader.png'}}">
+	</div>
+	<ul class="information-info__progress">
+		<li>{{ 'i18n.general.cart' | t: lang }}</li>
+		<li>&nbsp;&nbsp;>&nbsp;&nbsp;</li>
+		<li class="{% if activeName == 'information' %}progress--active{% endif %}">	{{ 'i18n.general.information' | t: lang }}</li>
+		<li>&nbsp;&nbsp;>&nbsp;&nbsp;</li>
+		<li class="{% if activeName == 'payment' %}progress--active{% endif %}">	{{ 'i18n.general.payment' | t: lang }}</li>
+	</ul>
+</div>

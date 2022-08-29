@@ -1,0 +1,10 @@
+{% assign page_title = 'i18n.product_list.page_title' | t: lang , shop_name: shopName %}
+{% assign htmlName = "productList" %}
+{% layout 'theme', showHeader: true,showFooter: true %}
+{% block 'content' %}
+<div class="vshop-section" section-name="{{htmlName}}">
+	<div class="product-list container" data-free="{{ 'i18n.product_list.product_free_shipping' | t: lang }}" data-discount="{{ 'i18n.coupons.symbol' | t: lang }}" data-quick="{{ 'i18n.product_list.product_quick_shop' | t: lang }}">
+		{% render 'product-list-main',sortModel: categoryData.sortModel,categoryData: categoryData,detailData: detailData,lang: lang %}
+	</div>
+</div>
+{%endblock%}

@@ -1,0 +1,137 @@
+<link rel="stylesheet" href="../assets/css/peoduct-coupon.css">
+<div class="product-info__header_coupon_wrap" data-symbol="{{'i18n.coupons.symbol' | t:lang }}">
+
+</div>
+
+<script>
+	let couponListData = {{ data | json}};
+	let $couponHtml = '',
+		$couponItemDown = ''
+	couponListData.forEach(item => {
+		if (!contrastTime(true, item.end, item.start)) return false
+		const {
+			activitiesRule,
+			ruleResult,
+			id,
+			start,
+			end,
+			ruleDesc,
+			ruleResultValue
+		} = item
+		let $couponItem = ''
+		if (activitiesRule == '0') {
+			if (ruleResult == '0') {
+				$couponItem = `<span class="small-font">${String(getSpaceMoney(ruleResultValue)).split(' ')[0]}</span>
+							   <span class="big-font">${preMoenyFn(ruleResultValue)}</span>`
+			} else if (ruleResult == '1') {
+				$couponItem = `<span class="big-font">${Number(ruleResultValue) * 10}</span>
+                               <span class="small-font">%</span>
+                               <span class="small-font">{{'i18n.coupons.symbol' | t:lang }}</span> `
+				$couponItemDown = `<div class="coupon-item-down">${fnMoeny(ruleDesc)} </div> `
+			}
+		} else if (activitiesRule == '1') {
+			if (ruleResult == '0') {
+				$couponItem = `<span class="small-font">${String(getSpaceMoney(ruleResultValue)).split(' ')[0]} </span>
+				               <span class="big-font">${preMoenyFn(ruleResultValue)}</span>`
+				$couponItemDown = `<div class="coupon-item-down">${fnMoeny(ruleDesc)}</div> `
+			} else if (ruleResult == '1') {
+				$couponItem = `<span class="big-font">${Number(ruleResultValue) * 10}</span>
+                               <span class="small-font">%</span>
+                               <span class="small-font">{{'i18n.coupons.symbol' | t:lang }}</span>`
+				$couponItemDown = `<div class="coupon-item-down">${fnMoeny(ruleDesc)} </div> `
+			}
+		} else if (activitiesRule == '2') {
+			if (ruleResult == '0') {
+				$couponItem = `<span class="small-font">${String(getSpaceMoney(ruleResultValue)).split(' ')[0]}</span>
+                               <span class="big-font"> ${preMoenyFn(ruleResultValue)} </span>`
+				$couponItemDown = `<div class="coupon-item-down">${fnMoeny(ruleDesc)}</div> `
+			} else if (ruleResult == '1') {
+				$couponItem = `<span class="big-font">${Number(ruleResultValue) * 10}</span>
+                               <span class="small-font">%</span>
+                               <span class="small-font">{{'i18n.coupons.symbol' | t:lang }}</span>`
+				$couponItemDown = `<div class="coupon-item-down">${fnMoeny(ruleDesc)}</div> `
+			}
+		}
+		$couponHtml += `<div class="coupon-item-tag couponItem" data-id="${id}" data-start="${start}" data-end="${end}" data="${ruleDesc}">
+	                        	<div class="coupon-item">
+									<div class="coupon-item-top">${$couponItem}</div>
+								    ${$couponItemDown}
+								</div>
+	                         	<div class="coupon-item-btn">{{ 'i18n.coupons.get_symbol' | t: lang }}</div>
+                        </div>`
+	});
+	$('.product-info__header_coupon_wrap').html($couponHtml)
+	function fnMoeny(descr) {
+		var sDescr = '';
+		if (descr.indexOf('**') != -1) {
+			var upMoeny = descr.split('**')[1],
+				preDecr = descr.split('**')[0];
+			const frontStr = `<i>{{ 'i18n.coupons.rule_desc_type_one' | t: lang }}</i>`
+			{% raw %}
+				const behindValue = `<i p-price="${upMoeny}"></i>`
+				let reg = new RegExp('{{\\s*' + `desc_value` + '\\s*}}', 'gim')
+				sDescr = frontStr.replace(reg,behindValue)
+			{% endraw %}
+		} else if (descr.indexOf('more') != -1) {
+			const upMoeny = descr.split(' ')[1]
+			const frontStr = `<i>{{ 'i18n.coupons.rule_desc_type_three' | t: lang }}</i>`
+			{% raw %}
+				let reg = new RegExp('{{\\s*' + `desc_value` + '\\s*}}', 'gim')
+				sDescr = frontStr.replace(reg,upMoeny)
+			{% endraw %}
+		} else {
+			const upMoeny = descr.split(' ')[1]
+			const frontStr = `<i>{{ 'i18n.coupons.rule_desc_type_two' | t: lang }}</i>`
+			{% raw %}
+				let reg = new RegExp('{{\\s*' + `desc_value` + '\\s*}}', 'gim')
+				sDescr = frontStr.replace(reg,upMoeny)
+			{% endraw %}
+		}
+		return sDescr;
+	};
+	function preMoenyFn(money) {
+		var totalMoeny = getSpaceMoney(money).split(' ')[1].split('.')[1];
+		var preMoeny = '';
+		if (totalMoeny == '00' || totalMoeny == '0') {
+			preMoeny = getSpaceMoney(money).split(' ')[1].split('.')[0];
+		} else {
+			if (getSpaceMoney(money).split(' ')[1].indexOf('.') != -1) {
+				var cutBefore = getSpaceMoney(money).split(' ')[1].split('.')[0],
+					cutAfter = getSpaceMoney(money).split(' ')[1].split('.')[1].substr(0, 1);
+				if (cutAfter != 0) {
+					preMoeny = cutBefore + '.' + cutAfter.substr(0, 1);
+				} else {
+					preMoeny = cutBefore;
+				}
+
+			} else {
+				preMoeny = getSpaceMoney(money).split(' ')[1];
+			}
+		}
+		return preMoeny;
+	};
+	function getSpaceMoney(money) {
+		let currentRate = JSON.parse(getStorage('currentRate'))
+		if (currentRate && currentRate != '') {
+			let totalMoney = currentRate.rate * money
+			let result = parseFloat(totalMoney)
+			result = Math.round(totalMoney * 100) / 100
+			let s_x = result.toString()
+			if (currentRate.currency !== 'JPY' && currentRate.currency !== 'TWD') {
+				let pos_decimal = s_x.indexOf('.')
+				if (pos_decimal < 0) {
+					pos_decimal = s_x.length
+					s_x += '.'
+				}
+				while (s_x.length <= pos_decimal + 2) {
+					s_x += '0'
+				}
+			} else {
+				s_x = Math.round(s_x)
+			}
+			return currentRate.symbol + ' ' + Number(s_x)
+		} else {
+			return currentRate.symbol + ' ' + Number(money)
+		}
+	}
+</script>

@@ -1,0 +1,115 @@
+{% assign isshow = showRecommend %}
+
+
+<style>
+  .athena_search_empty {
+    text-align: center;
+  }
+
+  .athena_search_empty .emptyImg {
+    width: 1.68rem;
+    height: auto;
+  }
+
+  .athena_search_recommend {
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .athena_search_empty p {
+    font-size: 0.12rem;
+    font-family: Aileron-Regular, Aileron;
+    font-weight: 400;
+    color: #9B9B9B;
+    margin: 0.05rem 0;
+  }
+
+  .athena_search_empty .athena_search_empty_text {
+    margin: 0.2rem 0;
+  }
+
+  .athena_search_empty .athena_search_empty_text span {
+    color: #000000;
+  }
+
+  .athena_search_title {
+    text-align: center;
+    font-size: 0.14rem;
+    font-family: Floane-Regular, Floane;
+    font-weight: 400;
+    color: #363636;
+    line-height: 0.27rem;
+    margin-bottom: 0.15rem;
+  }
+
+  #recommend_empty .athena_product_item {
+    width: 1.64rem;
+    display: block;
+  }
+
+  #recommend_empty .athena_product_introduce_title {
+    margin: 0.02rem 0.12rem;
+    font-size: 0.1rem;
+    text-align: center;
+    height: 0.56rem;
+  }
+
+  #recommend_empty .athena_product_introduce_title p {
+    font-family: Floane-Regular, Floane;
+    font-weight: 400;
+    color: #303133;
+    width: 100%;
+    margin: 0.06rem 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .athena_product_introduce_price {
+    width: 100%;
+    font-family: Aileron-Regular, Aileron;
+    margin-bottom: 0.12rem;
+    font-weight: 400;
+  }
+
+  .defaultPrice {
+    font-size: 0.1rem;
+    font-weight: 700;
+    color: #303030FF;
+
+  }
+
+  .discountPrice {
+    font-size: 0.12rem;
+    font-weight: 700;
+    color: #DF0052;
+  }
+
+  .defaultPrice_line {
+    text-decoration: line-through;
+    font-weight: 700;
+    color: #9B9B9B !important;
+  }
+</style>
+<div class="athena_search_empty" style="display: none;">
+  <img class="emptyImg" src="../assets/wap/images/search_no_bg@2x.png" alt="">
+  <p>There is no product yet</p>
+  <div class="athena_search_recommend">
+    <div class="athena_search_title">You May Also Like</div>
+    <div class="swiper-container" id='recommend_empty'>
+      <div class="swiper-wrapper ">
+
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(function () {
+    var recommend_empty_swiper = new Swiper('#recommend_empty', {
+      slidesPerView: 'auto',
+      spaceBetween: 10,
+      // loop: true
+    });
+  })
+
+</script>

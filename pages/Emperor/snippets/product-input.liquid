@@ -1,0 +1,22 @@
+<style>
+	.product-info__variants_input-item input {
+		border: 1px solid #9B9B9B;
+		height: 42px;
+		width: 100%;
+		box-sizing: border-box;
+		padding: 0 10px;
+		font-size: 15px;
+		font-family: Arial;
+		color: #000000;
+		line-height: 42px;
+	}
+</style>
+<ul class="product-info__variants_input">
+	<li class="product-info__variants_input-item">
+		<input param-price="{{data.price}}" param-id="{{data.id}}" param-name="{{data.field}}"
+			param-required="{{data.need}}" param-type="{{data.type}}" type="text" class="a_input"
+			maxlength="{{data.maxLength}}"
+			placeholder="{{'i18n.product_detail.input-max-length' | t: lang ,maxLength:data.maxLength}}"
+			data-need="{{data.need}}">
+	</li>
+</ul>

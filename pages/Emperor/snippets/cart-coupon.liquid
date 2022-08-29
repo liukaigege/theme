@@ -1,0 +1,79 @@
+<script>
+	/*
+	* 渲染优惠券函数 renderCoupon
+	*/
+	function renderCouponTpl(data) {
+		const { couponList, goodsInfo, goodsCount, productPrice, useDiscount } = data
+		if (couponList.length) {
+			// 判断是否优惠券之前被选中
+			let currCouponId = ''
+			if (useDiscount.hasOwnProperty('couponId')) {
+				currCouponId = useDiscount.couponId
+			}
+			$('.coupon-list-container').show()
+			let couponStr = '';
+			couponList?.forEach(item => {
+				let isCheckclassName = currCouponId == item.id ? 'active' : ''
+				//isValid:是否满足 0:满足 1:不满足
+				if (item.isValid == '0') {
+					let couponContent = ''
+					if (item.ruleResult == '1') {
+						couponContent = `<span>${item.ruleDesc}</span> <p>{{'i18n.coupons.symbol' | t: lang}}</p>`
+					} else {
+						couponContent = `
+							<span class='minus'>- </span>
+							<span data-money='${item.ruleDesc}'>${getMoney(item.ruleDesc)}</span>
+						`
+					}
+					couponStr += `<li class="coupon-list coupon-list--event ${isCheckclassName}" data-discount-id='${item.id}' data-exclude='${item.addFoldUp}'>
+						<span class="iconfont coupon-icon coupon-list-icon--event ${isCheckclassName != '' ? 'icon-checked ' : ' icon-unchecked'} "></span>
+						<div class="coupon-content">${couponContent} </div>
+						</li>`
+				} else if (item.difference > 0) {
+					let couponContent = ''
+					if (item.ruleResult == '1') {
+						couponContent = `<div class='discount-card'>
+							<span>${item.ruleDesc}</span>
+							<p>{{'i18n.coupons.symbol' | t: lang}}</p>
+						</div>`
+					} else if (item.ruleResult == '0') {
+						couponContent = `<div class='discount-card'>
+							<span class='minus'>- </span>
+							<span data-money='${item.ruleDesc}'>${getMoney(item.ruleDesc)}</span>
+						</div>`
+					}
+					let couponProgress = ''
+					if (item.activitiesRule == '2') {
+						const frontStr = `<span>{{ 'i18n.coupons.cart_coupons_rule_desc_one' | t: lang }}</span>`
+						{% raw %}
+							let reg = new RegExp('{{\\s*' + `desc_value` + '\\s*}}', 'gim')
+							couponProgress = frontStr.replace(reg,item.difference)
+						{% endraw %}
+					} else {
+						const frontStr = `<span>{{ 'i18n.coupons.cart_coupons_rule_desc_two' | t: lang }}</span>`
+						const descValue = `<i data-money='${item.difference}'>${getMoney(item.difference)}</i>`
+						{% raw %}
+							let reg = new RegExp('{{\\s*' + `desc_value` + '\\s*}}', 'gim')
+							couponProgress = frontStr.replace(reg,descValue)
+						{% endraw %}
+					}
+					couponStr += `<li class='coupon-list op coupon-list--event ' data-discount-id='${item.id}'>
+					<span class="iconfont coupon-icon coupon-list-icon--event icon-unchecked"></span>
+					<div class="coupon-content">
+                        ${couponContent}
+						<div class='cart-progress'>
+                        ${couponProgress}
+							<div class="progress-outter">
+									 <div class="progress-inner" style="width:${item.proportion}%;"></div>
+							 </div>
+						</div>
+					</div>
+				</li>`
+				}
+			})
+			$('.coupon-list-content--event').html(couponStr);
+		} else {
+			$('.coupon-list-container').hide()
+		}
+	}
+</script>

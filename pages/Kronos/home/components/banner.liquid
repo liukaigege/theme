@@ -1,0 +1,98 @@
+{% comment %}
+主题： Athena-雅典娜;
+积木名称：section_banner-轮播图;
+{% endcomment %}
+
+{% comment %}积木id{% endcomment %}
+{% assign sectionId = configData.sectionId %}
+{% comment %}配置数据{% endcomment %}
+{% assign configList = configData.config %}
+{% comment %}轮播时间{% endcomment %}
+{% assign interval = configList.rotationTime %}
+{% comment %}轮播对象{% endcomment %}
+<!-- {% assign bannerList = configList.bannerList | filterBannerList:isLocal %} -->
+{% assign bannerList = configList.bannerList %}
+  {% for item in bannerList %}
+  {% if item.pcUrl.size>0 or item.wapUrl.size>0 %}
+  {% assign isShow = true %}
+  {% break %}
+  {% else %}
+  {% assign isShow = false %}
+  {% endif%}
+  {% endfor %}
+
+<div class="banner" type-block="block" id="{{sectionId}}" interval="{{interval}}" >
+  {% if bannerList.length>1 and isShow == true %}
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      {% for item in bannerList %}
+      {% if isMobilePhone == 0 %}
+      {% if item.pcUrl.size>0 %}
+      <a {% if item.linkUrl %} onclick="routerJump('{{ item.linkUrl | LINKURL:item.linkStatus }}')" {% endif%} class="swiper-slide">
+        <img class="swiper-lazy" src="{{item.pcUrl | IMGURL}}">
+      </a>
+      {% elsif item.wapUrl.size>0 %}
+      <a {% if item.linkUrl %} onclick="routerJump('{{ item.linkUrl | LINKURL:item.linkStatus }}')" {% endif%} class="swiper-slide">
+        <img class="swiper-lazy" src="{{item.wapUrl | IMGURL}}">
+      </a>
+      {% else %}
+
+      <a class="swiper-slide banner_empty_img_hide">
+        <img class="swiper-lazy" src="../assets/pc/images/banner_pc@2x.png" >
+      </a>
+
+      {%endif%}
+      
+      {% elsif isMobilePhone == 1%}
+      {% if item.wapUrl.size>0%}
+      <a {% if item.linkUrl %} onclick="routerJump('{{ item.linkUrl | LINKURL:item.linkStatus }}')" {% endif%} class="swiper-slide">
+        <img class="swiper-lazy" src="{{item.wapUrl| IMGURL}}">
+      </a>
+      {% elsif item.pcUrl.size>0%}
+      <a {% if item.linkUrl %} onclick="routerJump('{{ item.linkUrl | LINKURL:item.linkStatus }}')" {% endif%} class="swiper-slide">
+        <img class="swiper-lazy" src="{{item.pcUrl | IMGURL}}">
+      </a>
+      {% else %}
+      <a class="swiper-slide banner_empty_img_hide">
+        <img class="swiper-lazy" src="../assets/wap/images/banner_iphone@2x.png">
+      </a>
+      {%endif%}
+      {% endif %}
+      {% endfor %}
+    </div>
+    <div class="swiper-pagination swiper-pagination-white"></div>
+    {% if isMobilePhone == 0 and bannerList.length>1 %}
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    {% endif %}
+  </div>
+  {% elsif bannerList.length == 1 and isShow == true and isMobilePhone == 0%}
+    <a {% if bannerList[0].linkUrl %} onclick="routerJump('{{ bannerList[0].linkUrl | LINKURL:bannerList[0].linkStatus }}')" {% endif %}>
+      <img src="
+      {% if bannerList[0].pcUrl.size>0 %}
+        {{bannerList[0].pcUrl | IMGURL}}
+      {% elsif bannerList[0].wapUrl.size>0 %}
+        {{bannerList[0].wapUrl | IMGURL}}
+      {% else %}
+      '../assets/pc/images/banner_iphone@2x.png'
+      {% endif %}
+      " alt="" class="oneImages">
+    </a>
+  {% elsif bannerList.length == 1 and isShow == true and isMobilePhone == 1%}
+    <a {% if bannerList[0].linkUrl %}onclick="routerJump('{{ bannerList[0].linkUrl | LINKURL:bannerList[0].linkStatus }}')" {% endif %}>
+      <img src="
+      {% if bannerList[0].wapUrl.size>0 %}
+        {{bannerList[0].wapUrl | IMGURL}}
+      {% elsif bannerList[0].pcUrl.size>0 %}
+        {{bannerList[0].pcUrl | IMGURL}}
+      {% else %}
+        '../assets/wap/images/banner_iphone@2x.png'
+      {% endif %}
+      " alt="" class="oneImages" data-url="{{bannerList[0].linkUrl}}" data-status="{{bannerList[0].linkStatus}}">
+    </a>
+  {% else %}
+  
+  <img style="width: 100%; height: auto;" {% if isMobilePhone==0 %} src="../assets/pc/images/banner_pc@2x.png" {%else%}
+    src="../assets/wap/images/banner_iphone@2x.png" {%endif%}>
+  {% endif%}
+</div>

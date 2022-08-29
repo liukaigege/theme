@@ -1,0 +1,92 @@
+<div class="product-list-search row hide" id="productListSearch" link="{{picPc}}">
+	<div class="search-tip has-result hide">{{ 'i18n.product_list.product_has_result' | t: lang }} <span class="search-keyword"></span></div>
+	<div class="search-tip no-result hide">{{ 'i18n.product_list.product_no_result_front' | t: lang }}&nbsp;<span class="search-keyword"></span>&nbsp;{{ 'i18n.product_list.product_no_result_after' | t: lang }}</div>
+	<div class="search-input-wrap col-sm-12 col-lg-8">
+		<input class="search-input col-sm-12" id="pageSearch" />
+		<i class="search-icon iconfont icon-magnifier" id="pageSearchSubmit"></i>
+	</div>
+</div>
+<div class="product-list-operation">
+	<div class="product-list-title row">
+		<ul class="col-12 d-flex mb-10">
+			<li><a href="index.html">{{ 'i18n.product_list.product_back_home' | t: lang }}</a></li>
+			<li>&nbsp; / &nbsp;</li>
+			<li class="category-name">{{ 'i18n.product_list.product_operation_result' | t: lang }}</li>
+		</ul>
+		<h2 class="col-12 d-flex" id="result">
+			<span class="category-name">{{ 'i18n.product_list.product_operation_result' | t: lang }}</span>
+			<span class="total" id="resultTotal" all="0"></span>
+		</h2>
+	</div>
+	<div class="product-list-sort row justify-content-end" id="productListSort">
+		<div class="sort-by" id="sortBy">
+			<span>{{ 'i18n.product_list.product_sort_by' | t: lang }}</span>
+			<i class="triangle iconfont icon-arrow-top"></i>
+			{% assign sortWords = 'i18n.product_list.product_sort_by_word' | t: lang | split: "," %}
+			<ol class="sort-extend" id="sortExtend">
+				{% for item in sortModel.sortRule %}
+				{% if item[1].val == "Price" %}
+				<li class="sort-extend-item" value="{{item[1].key}}" sortMode="0">
+					<div class="sort-name">
+						<span>{{sortWords[item[0]]}}</span>
+						<i class="iconfont icon-price-up"></i>
+					</div>
+					<i class="sort-check iconfont icon-correct" sortRule="{{item[0]}}" sortMode="0"></i>
+				</li>
+				<li class="sort-extend-item" value="{{item[1].key}}" sortMode="1">
+					<div class="sort-name">
+						<span>{{sortWords[item[0]]}}</span>
+						<i class="iconfont icon-price-down"></i>
+					</div>
+					<i class="sort-check iconfont icon-correct" sortRule="{{item[0]}}" sortMode="1"></i>
+				</li>
+				{% else %}
+				<li class="sort-extend-item" value="{{item[1].key}}" sortMode="1">
+					<div class="sort-name">
+						<span>{{sortWords[item[0]]}}</span>
+						{% comment %} <span>{{item[1].val}}</span> {% endcomment %}
+					</div>
+					<i class="sort-check iconfont icon-correct" sortRule="{{item[0]}}"></i>
+				</li>
+				{% endif %}
+				{% endfor %}
+			</ol>
+		</div>
+		<div class="views">
+			<span>{{ 'i18n.product_list.product_list_views' | t: lang }} :</span>
+			<div id="threeColums">
+				<img src="../assets/images/3columns@2x.png" class="three-colums-active" style="display: none;">
+				<img src="../assets/images/3columns@3x.png" class="three-colums-unactive">
+			</div>
+			<div id="fourCloums">
+				<img src="../assets/images/4columns@3x.png" class="four-colums-active">
+				<img src="../assets/images/4columns@2x.png" class="four-colums-unactive" style="display: none;">
+			</div>
+			<span class="total" data-items="{{ 'i18n.product_list.product_list_item' | t: lang }}" id="sortTotal"></span>
+		</div>
+		<div class="mobile-views">
+			<div id="oneColums">
+				<span></span>
+				<i></i>
+			</div>
+			<div id="twoColums" class="active">
+				<span></span>
+				<span></span>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="product-list-main row" id="productListMain" data-collg="3" data-colsm="6">
+
+</div>
+<div class="product-list-empty row">
+ <div class="col-12">
+		{% render 'empty',lang: lang %}
+		{% comment %} {% render 'guess-you-like',lang: lang, pageTypes: 0 %} {% endcomment %}
+			{%- comment -%} 猜你喜欢 {%- endcomment -%}
+		{% assign randomProduct = detailData | random %}
+		{% render 'product-guess-you-like', detail: randomProduct ,categoryData: categoryData,detailData: detailData,lang: lang %}
+</div>
+</div>
+
+{% render 'loading' %}

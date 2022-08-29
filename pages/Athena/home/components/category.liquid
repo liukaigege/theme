@@ -1,0 +1,47 @@
+{% comment %}
+主题： Athena-雅典娜;
+积木名称：section_recommendCategory-推荐分类;
+{% endcomment %}
+{% comment %}积木id{% endcomment %}
+{% assign sectionId = configData.sectionId %}
+{% comment %}配置数据{% endcomment %}
+{% assign configList = configData.config %}
+{% comment %}推荐分类板块标题{% endcomment %}
+{% assign title = configList.title %}
+{% comment %}推荐分类展示样式{% endcomment %}
+{% assign displaysty = configList.displaysty %}
+{% comment %}分类数据{% endcomment %}
+{% if configList.categoryList.size > 0 %}
+{% assign categoryList = configList.categoryList %}
+{% else %}
+{% assign categoryList = configList.perLineNum | CREATEDGOODSLIST %}
+{% endif %}
+
+{% if isMobilePhone == 0 %}
+{% comment %}每行分类数{% endcomment %}
+{% assign perLineNum = configList.perLineNum %}
+{% else %}
+{% comment %}每行分类数,在移动端的时候，每行最多展示两个{% endcomment %}
+{% if configList.perLineNum > 1 %}
+{% if configList.categoryList.size> 5%}
+{% assign perLineNum = 2 %}
+{% else %}
+{% assign perLineNum = configList.perLineNum | modulo: 2 %}
+{% endif %}
+{% else %}
+{% assign perLineNum = 0 %}
+{% endif %}
+
+{% endif %}
+<div type-block="block" class="recommendCategory" id="{{ sectionId }}">
+  {% if title.size>0%}
+  <div class="{% if isMobilePhone == 0 %}vshop-title-pc{% else %} vshop-title-wap {% endif %}">
+    <span>{{ title }}</span>
+  </div>
+  {% endif %}
+  <div class="items-warp" {{ perLineNum | stylesheetTag:"grid-template-columns",2}}>
+    {% for item in categoryList %}
+    {% render 'Athena/home/components/categoryItems.liquid',item:item,type:displaysty,isLocal:isLocal,isMobilePhone:isMobilePhone %}
+    {% endfor %}
+  </div>
+</div>

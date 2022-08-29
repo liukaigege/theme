@@ -1,0 +1,199 @@
+{% assign newMainImg = 0 %}
+<!-- 多规格 单规格 -->
+{% if data.speType != 2 and data.speType != 3 and data.speList.size > 0%}
+<div class="pro_attr" data-len="{{data.speList.size}}">
+  <div id="mlpSpe">
+    {% for item in data.speList %}
+    <div class="a_item parent_item hasSpace" param-id="{{item.id}}" param-name="{{item.spe}}">
+      <div class="a_title_wrap ">
+        <h3 class="a_title">{{item.spe | downcase}}<i class="required">*</i>:<p>
+          </p>
+        </h3>
+        <p class="error hide">* Oups! Vous oubliez de le personnaliser!</p>
+      </div>
+      {% if item.valList.size > 0%}
+      {% if item.pattern == 1 %}
+      <ul class="z_select">
+        <li class="item_select  item_attr ">
+          <div class="a_select">
+            <div class="vshop-form-select">
+              <div class="vshop-select-title"><input type="text" placeholder="-- Sélectionner --" value="" readonly=""
+                  class="select-input"><i class="layui-edge"></i></div>
+              <ul class="vshop-anim-upbit">
+                <!-- <option value="">-- Sélectionner --</option> -->
+                {% for val in item.valList %}
+                <li param-name="{{item.spe}}" param-child-id="{{val.id}}" vshop-select-value="{{val.speVal}}" {% if
+                  val.speVal.length>50 %}title="{{val.speVal}}" {% endif %}
+                  data-optionalIds="{{val.optionalIds}}" class="is_show">
+                  {{val.speVal | slice: 0,50}}{% if val.speVal.length>50 %}...{% endif %}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+      {% else %}
+      <ul class="z_inner">
+        {% for val in item.valList %}
+        {% if val.mainImg and val.mainImg != '' %}
+        <li class="item_text m_img item_attr is_show" data-optionalIds="{{val.optionalIds}}" param-name="{{item.spe}}"
+          param-child-id="{{val.id}}" data-mainvalimg={{ val.mainImg }} title="{{val.speVal}}"><img
+            title="{{val.speVal}}" data-suffix-img="{{ val.mainImg }}" /></li>
+        {% else %}
+        <li class="item_text item_attr is_show" data-optionalIds="{{val.optionalIds}}" param-name="{{item.spe}}"
+          param-child-id="{{val.id}}" {% if val.speVal.length>50 %}title="{{val.speVal}}" {% endif %}>{{val.speVal}}
+        </li>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+      </ul>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+
+
+  {% elsif data.speType == 2 or data.speType == 3 %}
+  <div id="customization" class="pro_attr">
+    {% for item in data.custList%}
+    {% if item.type == 1 %}
+    <div class="a_item parent_item" data-privateId="{{item.id}}" data-type="{{item.type}}" data-field="{{item.field}}">
+      <div class="a_title_wrap ">
+        <h3 class="a_title">{{item.field | capitalize}}{% if item.need == 1 %}<i class="required">*</i>{% endif %}:
+        </h3>
+        {% if item.need == 1%}
+        <p class="error hide">* Oups! Vous oubliez de le personnaliser!</p>
+        {% endif %}
+      </div>
+      {% if item.optionList and item.optionList.length > 0%}
+      {% if item.pattern == 1%}
+      <ul class="z_select" param-id="{{item.id}}" data-need="{{item.need}}" param-name="{{item.field}}"
+        param-required="{{item.need}}" param-type="{{item.type}}">
+        <li class="item_select">
+          <div class="a_select" data-need="{{item.need}}">
+            <div class="vshop-form-select">
+              <div class="vshop-select-title"><input type="text" placeholder="-- Sélectionner --" value="" readonly=""
+                  class="select-input"><i class="layui-edge"></i></div>
+              <ul class="vshop-anim-upbit">
+                {% for val in item.optionList%}
+                <li data-need="{{item.need}}" data-selfId="{{val.id}}" {% if val.value.length> 50%}
+                  title="{{val.value}}" {% endif %}
+                  param-child-id="{{val.id}}" param-child-price="{{val.price}}" vshop-select-value="{{val.value}}"
+                  data-childLength = '{{val.childCustList | size}}' data-parentId='{{item.id}}' >
+                  {{val.value | slice: 0, 50}} {% if val.value.length> 50%} ... {% endif %}
+                  {% if val.price != 0%} (+<span p-price={{val.price}}>{{val.price}}</span>){% endif %}
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+      {% else %}
+      <ul class="z_inner" param-id="{{item.id}}" data-need="{{item.need}}" param-name="{{item.field}}"
+        param-required="{{item.need}}" param-type="{{item.type}}">
+        {% for val in item.optionList%}
+        {% if val.childCustList and val.childCustList.length > 0%}
+        <li data-selfId="{{val.id}}" data-need="{{item.need}}" param-child-id="{{val.id}}"
+          param-child-price="{{val.price}}" class="item_text" {% if val.value.length> 50%} title="{{val.value}}" {%
+          endif %} data-parentId='{{item.id}}' data-childLength = '{{val.childCustList | size}}'>{{val.value}}</li>
+        {% else %}
+        <li param-child-id="{{val.id}}" data-need="{{item.need}}" {% if val.value.length> 50%} title="{{val.value}}"
+          {%
+          endif %}
+          param-child-price="{{val.price}}" class="item_text" data-parentId='{{item.id}}' data-childLength =
+          '{{val.childCustList | size}}'>{{val.value}}</li>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+      </ul>
+      <div class="childCustListOption" data-dynamicParentId="{{item.id}}">
+        {% assign childCustListOption = item.optionList | optionFilter %}
+        {% render 'Kronosfr/components/options.liquid' , childCustListOption:childCustListOption %}
+        {% endif %}
+      </div>
+    </div>
+    {% elsif item.type == 2%}
+
+    <div class="a_item parent_item" data-type="{{item.type}}" data-field="{{item.field}}"
+      data-dynamicParentId="{{item.dynamicParentId | default : '' }}" data-privateId="{{item.id}}">
+      <div class="a_title_wrap ">
+        <h3 class="a_title">{{item.field | capitalize}}{% if item.need == 1 %}<i class="required">*</i>{% endif %}:<p>
+          </p>
+        </h3>
+        {% if item.need == 1%}
+        <p class="error hide">* Oups! Vous oubliez de le personnaliser!</p>
+        {% endif %}
+      </div>
+      {% if item.optionList and item.optionList.length > 0%}
+      <ul class="z_inner" data-need="{{item.need}}" param-id="{{item.id}}" param-name="{{item.field}}"
+        param-required="{{item.need}}" param-type="{{item.type}}">
+        {% for val in item.optionList%}
+        {% if val.childCustList and val.childCustList.length > 0%}
+        <li class="item_img" data-need="{{item.need}}" data-enlarge="{{item.enlarge}}" data-selfId="{{val.id}}"
+          title="{{val.tips  | default : ''}}" data-parentId='{{item.id}}'
+          data-childLength='{{val.childCustList | size}}'>
+          <img class="a_img" param-child-id="{{val.id}}" param-child-price="{{val.price}}"
+            data-suffix-img="{{ val.value }}">
+        </li>
+        {% else %}
+        <li class="item_img" data-need="{{item.need}}" data-enlarge="{{item.enlarge}}"
+          title="{{val.tips  | default : ''}}" data-parentId='{{item.id}}'
+          data-childLength='{{val.childCustList | size}}'>
+          <img class="a_img" param-child-id="{{val.id}}" param-child-price="{{val.price}}"
+            data-suffix-img="{{ val.value}}">
+        </li>
+        {% endif %}
+        {% endfor %}
+        <div class='imgTitle'></div>
+      </ul>
+      <div class="childCustListOption" data-dynamicParentId="{{item.id}}">
+        {% assign childCustListOption = item.optionList | optionFilter %}
+        {% render 'Kronosfr/components/options.liquid' , childCustListOption:childCustListOption %}
+        {% endif %}
+      </div>
+    </div>
+    {% elsif item.type == 3%}
+
+    <div class="a_item " data-privateId="{{item.id}}" data-type="{{item.type}}" data-field="{{item.field}}">
+      <div class="a_title_wrap ">
+        <h3 class="a_title">{{item.field | capitalize}}{% if item.need == 1 %}<i class="required">*</i>{% endif %}:
+        </h3>
+        {% if item.need == 1%}
+        <p class="error hide">* Oups! Vous oubliez de le personnaliser!</p>
+        {% endif %}
+      </div>
+      <ul class="z_inner">
+        <li class="item_input">
+          <input param-price="{{item.price}}" param-id="{{item.id}}" param-name="{{item.field}}"
+            param-required="{{item.need}}" param-type="{{item.type}}" type="text" class="a_input"
+            maxlength="{{item.maxLength}}" placeholder="Jusqu'à {{item.maxLength}} personnages" data-need="{{item.need}}">
+        </li>
+      </ul>
+    </div>
+
+    {% else %}
+
+    <div class="a_item uploadImg" data-privateId="{{item.id}}" data-type="{{item.type}}" data-field="{{item.field}}">
+      <div class="a_title_wrap ">
+        <h3 class="a_title">{{item.field | capitalize}}<i class="s_title">(Limites de taille de document 10 Mo)</i>{% if item.need
+          == 1
+          %}<i class="required">*</i>{% endif %}:</h3>
+        {% if item.need == 1%}
+        <p class="error hide">* Oups! Vous oubliez de le personnaliser!</p>
+        {% endif %}
+      </div>
+      <ul class="i_ul z_inner">
+        <a href="javascript:;" class="uploadFile"><i class="uploadText">TÉLÉCHARGEZ VOTRE IMAGE</i><input
+            class="uploadImgBtn pro-file" title="choisir le dossier" type="file" /></a>
+        <ul class="uploadImgWrap paramItem hide" param-price="{{item.price}}" param-id="{{item.id}}"
+          param-name="{{item.field}}" param-required="{{item.need}}" param-type="{{item.type}}">
+        </ul>
+        <p class="imgText">Si votre photo présente des problèmes de côté ou d'autres problèmes, nous l'ajusterons, ne vous inquiétez pas.</p>
+      </ul>
+    </div>
+
+    {% endif %}
+    {% endfor %}
+  </div>
+  {% endif %}

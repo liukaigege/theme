@@ -1,0 +1,134 @@
+{% layout 'Kronosfr/components/Kronosfr_theme_pc' name:'productList' %}
+{% assign sortRule = data.categoryData.sortModel.sortRule %}
+{% assign headerData = blockData | first %}
+{% assign footetData = blockData | last %}
+{% block 'content' %}
+{% if ROWS == 1 %}
+{% render 'Kronosfr/components/pageHeader',configData: headerData,isMobilePhone: isMobilePhone,OBJ: data,htmlName:'productList' %}
+{% else %}
+{% render 'Kronosfr/components/pageHeader',configData: headerData,isMobilePhone: isMobilePhone,OBJ: data,htmlName:'productList' %}
+{% endif %}
+
+<div style="margin: 0 150px;background:#FFFFFF">
+  <section>
+    <div class="athena-productList clearfix">
+      {% if ROWS != 1 %}
+      {% if ROWS.picPc.size>0 %}
+      <div class="categoryImg" style="background-image: url({{ROWS.picPc}})"></div>
+      {% elsif ROWS.picWap.size>0 %}
+      <div class="categoryImg" style="background-image: url({{ROWS.picWap}})"></div>
+      {% else %}
+      {% endif %}
+      {% endif %}
+      <div class="category" categoryId="{{ROWS.id}}">
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          {% comment %} <li><img src="../assets/pc/images/right@2x.png" alt=""></li>{% endcomment %}
+          <li>&nbsp; / &nbsp;</li>
+          {% if ROWS == 1 %}
+          <li class="categoryName">Résultats</li>
+          {% else %}
+          <li>{{ROWS.name}}</li>
+          {% endif %}
+        </ul>
+      </div>
+      <h2 class="category-name" id="result" categoryName="{{ROWS.name}}">
+        {% if ROWS.name %}
+        <span>{{ROWS.name}}</span>
+        {% else %}
+        <span>Résultats</span>
+        {% endif %}
+        {% if ROWS == 1 %}
+        <span class="total" id="total" all="1"></span>
+        {% else %}
+        <span class="total" id="total" all="0"></span>
+        {% endif %}</h2>
+      <div class="productContainer-box">
+        <div class="productContainer-list">
+          <div class="productContainer-side" style="display: none;">
+          </div>
+          <div class="productContainer-content">
+            <div class="sort" id="sort">
+              <ul>
+                <li class="sortBy" id="sortBy">
+                  <span>Sort by</span>
+                  <img class="triangle" src="../assets/pc/images/down@2x.png" alt="">
+                  <ol class="sort_extend" id="sort_extent">
+                    {% for item in sortRule %}
+                    {% if item[1].val == "Price" %}
+                    <li class="clearfix" value="{{item[1].key}}" sortMode="0">
+                      <div class="sortName">
+                        <span>{{item[1].val}}</span>
+                        <img src="../assets/pc/images/s_icon@2x.png" alt="">
+                      </div>
+                      <div class="sortCheck" sortRule="{{item[0]}}" sortMode="0">
+                        <img src="../assets/pc/images/home_check_icon.png" alt="">
+                      </div>
+                    </li>
+                    <li class="clearfix" value="{{item[1].key}}" sortMode="1">
+                      <div class="sortName">
+                        <span>{{item[1].val}}</span>
+                        <img src="../assets/pc/images/j_icon@2x.png" alt="">
+                      </div>
+                      <div class="sortCheck " sortRule="{{item[0]}}" sortMode="1">
+                        <img src="../assets/pc/images/home_check_icon.png" alt="">
+                      </div>
+                    </li>
+                    {% else %}
+                    <li class="clearfix" value="{{item[1].key}}" sortMode="1">
+                      <div class="sortName">
+                        <span>{{item[1].val}}</span>
+                      </div>
+                      <div class="sortCheck " sortRule="{{item[0]}}">
+                        <img src="../assets/pc/images/home_check_icon.png" alt="">
+                      </div>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                  </ol>
+                </li>
+                <li class="views">
+                  <span>Views:</span>
+                  <div id="three_colums">
+                    <img src="../assets/pc/images/3columns@2x.png" class="three_colums_isActive" style="display: none;">
+                    <img src="../assets/pc/images/3columns@3x.png" class="three_colums_notActive">
+                  </div>
+                  <div id="four_cloums">
+                    <img src="../assets/pc/images/4columns@3x.png" class="four_cloums_isActive">
+                    <img src="../assets/pc/images/4columns@2x.png" class="four_cloums_notActive" style="display: none;">
+                  </div>
+
+                  {% if ROWS == 1 %}
+                  <span class="total" id="total" all="1"></span>
+                  {% else %}
+                  <span class="total" id="total" all="0"></span>
+                  {% endif %}
+                </li>
+              </ul>
+            </div>
+            <div class="productContainer">
+              {% comment %} {% if ROWS == 1 %}
+              {% render 'Kronosfr/pc/components/productItem_pc.liquid' %}
+              {% else %}
+              {% for item in ROWS.goodsList %}
+              {% render 'Kronosfr/pc/components/productItem_pc.liquid' item:item %}
+              {% endfor %}
+              {% endif %} {% endcomment %}
+            </div>
+          </div>
+        </div>
+        <div class="pagination" id="pagination"></div>
+      </div>
+    </div>
+
+  </section>
+</div>
+{% render 'Kronosfr/pc/components/empty_pc.liquid' searchVal:ROWS.name,isshow:true,data:data %}
+{% render 'Kronosfr/components/pageFooter',configData: footetData,isMobilePhone: isMobilePhone,OBJ: data,htmlName:'productList' %}
+<!-- 返回顶部 -->
+{% render 'Kronosfr/pc/components/backTop_pc.liquid' %}
+<!-- 优惠券 -->
+{% if data.configData.commomCoupon[0].categoryDisplay == 1 %}
+{% render 'Kronosfr/components/coupon.liquid' ,OBJ:data,isMobilePhone:0 %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,43 @@
+@keyframes shake {
+	10%,
+	90% {
+		transform: translate3d(-1px, 100%, 0);
+	}
+
+	20%,
+	80% {
+		transform: translate3d(2px, 100%, 0);
+	}
+
+	30%,
+	50%,
+	70% {
+		transform: translate3d(-4px, 100%, 0);
+	}
+
+	40%,
+	60% {
+		transform: translate3d(4px, 100%, 0);
+	}
+}
+
+.validate-failed {
+	border-color: #f00 !important;
+}
+.validate-failed:not(select):focus{
+	border-color: #80bdff !important;
+}
+
+.err-msg {
+	position: absolute;
+	bottom: -2px;
+	left: 0;
+	transform: translateY(100%);
+	font-size: 12px;
+	font-family: 'Aileron-Regular, Aileron';
+	font-weight: 400;
+	color: #DF0052;
+	line-height: 1.2;
+	animation: shake 1.5s cubic-bezier(.36, .07, .19, .97) both;
+	-webkit-animation: shake 1.5s cubic-bezier(.36, .07, .19, .97) both;
+}

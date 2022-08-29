@@ -1,0 +1,85 @@
+<section>
+  <style>
+    .banner {
+      margin: 0 auto;
+      height: 664px;
+      overflow: hidden;
+      /* background: #303133; */
+    }
+
+    .banner .swiper-container {
+      width: 100%;
+      height: 100%;
+    }
+
+    .banner .swiper-slide {
+      width: 100%;
+      height: 100%;
+      background-size: auto 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: all .5s;
+      -webkit-transition: all .5s;
+      /* Safari */
+    }
+
+    .banner .swiper-slide:hover {
+      cursor: pointer;
+      transform: scale(1.1);
+      -ms-transform: scale(1.1);
+      /* IE 9 */
+      -moz-transform: scale(1.1);
+      /* Firefox */
+      -webkit-transform: scale(1.1);
+      /* Safari 和 Chrome */
+      -o-transform: scale(1.1);
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+      width: 58px;
+      height: 58px;
+      background-size: 100% 100%;
+
+    }
+
+    .banner .swiper-button-next {
+      right: 100px;
+      /* background-image: url('../images/btn_crsl_right@2x.png') */
+      background-image: url('../assets/pc/images/btn_crsl_right@2x.png')
+    }
+
+    .banner .swiper-button-prev {
+      left: 100px;
+      /* background-image: url('../images/btn_crsl_left@2x.png') */
+      background-image: url('../assets/pc/images/btn_crsl_left@2x.png')
+    }
+  </style>
+  <div class="banner" id="banner_home">
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        {% for item in data %}
+        {% assign href = item | setPoaterLink %}
+        <a href="{{href}}" class="swiper-slide" style="background-image: url('{{item.pcUrl}}')"></a>
+        {% endfor %}
+      </div>
+      <div class=" swiper-pagination swiper-pagination-white"></div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+  </div>
+  <script>
+    var bannerSwiper = new Swiper('#banner_home .swiper-container', {
+      spaceBetween: 0,
+      loop: true,
+      pagination: {
+        el: '#banner_home .swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '#banner_home .swiper-button-next',
+        prevEl: '#banner_home .swiper-button-prev',
+      },
+    });
+  </script>
+</section>

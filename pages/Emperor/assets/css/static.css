@@ -1,0 +1,17 @@
+.static-page-html * {
+  max-width: 100% !important;
+}
+
+@media (min-width:1201px){
+  .static-page-html {
+    padding: 30px 0;
+    min-height: 70vh;
+  }
+}
+
+@media (max-width:1200px){
+  .static-page-html {
+    padding: 30px;
+    min-height: 80vh;
+  }
+}

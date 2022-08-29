@@ -1,0 +1,382 @@
+{% layout 'theme', showHeader: false,showFooter: false %}
+{% block content %}
+{% comment %}
+<link rel="stylesheet" href="../assets/css/swiper-bundle.min.css"> {% endcomment %}
+<style>
+	@media (min-width:1201px) {
+		.payment-result-container {
+			width: 1200px;
+			margin: 50px auto 0;
+		}
+
+		.payment-result-btn-confirm,
+		.payment-result-btn-continue {
+			width: 450px;
+		}
+	}
+
+	@media (max-width:1200px) {
+		.payment-result-container {
+			width: 93.6%;
+			margin: 30px auto 0;
+		}
+
+		.payment-result-btn-confirm,
+		.payment-result-btn-continue {
+			width: 93.6%;
+		}
+	}
+
+	.payment-result-status-container {
+		display: flex;
+		border-bottom: 1px solid #888;
+		padding-bottom: 40px;
+	}
+
+	.payment-result-status-img,
+	.payment-result-status-img img {
+		width: 60px;
+		height: 60px;
+	}
+
+	.payment-result-status-content {
+		margin-left: 20px;
+	}
+
+	.payment-result-order {
+		line-height: 25px;
+		color: #888;
+		margin: 0;
+		padding: 0;
+		font-size: 12px;
+	}
+
+	.payment-result-content {
+		line-height: 35px;
+		font-size: 16px;
+	}
+
+	.payment-result-order-container {
+		margin-top: 80px;
+	}
+
+	li {
+		list-style: none;
+	}
+
+	.payment-result-list {
+		color: #666;
+		line-height: 36px;
+	}
+
+	.payment-result-btn-container {
+		display: flex;
+		justify-content: space-between;
+		margin: 60px 0 30px;
+		flex-wrap: wrap;
+	}
+
+	.payment-result-btn-confirm {
+		border: 1px solid #080808;
+		color: #080808;
+		line-height: 56px;
+		text-align: center;
+	}
+
+	.payment-result-btn-continue {
+		border: 1px solid #080808;
+		color: #fff;
+		background-color: #080808;
+		line-height: 56px;
+		text-align: center;
+	}
+
+	.btn-hover {
+		margin-bottom: 30px;
+	}
+
+	.btn-hover:hover {
+		opacity: 0.85;
+		cursor: pointer;
+	}
+</style>
+<div class="payment-result-outter-container payment-result-outter-container--event">
+	<div class="payment-result-container">
+		<div class="payment-result-status-container payment-result-status-container--event">
+
+		</div>
+		<div class="payment-result-order-container">
+			<strong class="payment-result-order-title">{{ 'i18n.payment_result.logistics_information' | t: lang }}</strong>
+			<ul class="payment-result-order-infomation--event">
+
+			</ul>
+		</div>
+		<div class="payment-result-btn-container">
+			<div class="btn-hover payment-result-btn-confirm payment-result-btn-confirm--event">{{ 'i18n.payment_result.confirm_order' | t: lang }}</div>
+			<div class="btn-hover payment-result-btn-continue payment-result-btn-continue--event">{{ 'i18n.payment_result.continue_shopping' | t: lang }}</div>
+		</div>
+		{% comment %} {% render 'guess-you-like',lang: lang %} {% endcomment %}
+		<div>
+			{% comment %} {% assign randomProduct = detailData | random %}
+			{% render 'product-guess-you-like',perLineNum:4, detail: randomProduct ,categoryData: categoryData,detailData: detailData,lang: lang %} {% endcomment %}
+
+			{% assign randomProduct = detailData | random %}
+			{% render 'product-guess-you-like',perLineNum:4, detail: randomProduct ,categoryData: categoryData,detailData: detailData,lang: lang %}
+		</div>
+	</div>
+
+</div>
+
+<script>
+	var pageUrl = window.location.href,
+		pageUrlList = !!~pageUrl.indexOf('?') ? pageUrl.split('?')[1].split('&') : [],
+		paymentResult = {};
+	pageUrlList.forEach(v => {
+		paymentResult[v.split('=')[0]] = v.split('=')[1]
+	})
+
+	getToken(function () {
+		$.req({
+			url: '/api/v1/orders/orders',
+			type: 'get',
+			data: {
+				param: paymentResult.transcationId,
+			},
+			success(res) {
+				if (res.code === 0) {
+					var address_form = res.data[0].address
+					localStorage.removeItem('checkedData')
+					$('.home-bag--event i').html(0)
+					var orderAdressStr = `
+							<li class="payment-result-list">${address_form.name||''}</li>
+							<li class="payment-result-list">${address_form.email||''}</li>
+							<li class="payment-result-list">${address_form.phone||''}</li>
+							<li class="payment-result-list">${address_form.street1||''} ${address_form.street2||''}</li>
+							<li class="payment-result-list">${address_form.city||''} ${address_form.state||''} ${address_form.country||''}</li>
+							<li class="payment-result-list">${address_form.shippingsName||''}</li>
+						`
+					$('.payment-result-order-infomation--event').html(orderAdressStr)
+
+
+					// Add locally stored data to order information
+					paymentResult.currentRate = JSON.parse(localStorage.getItem('currentRate')).symbol
+					const order = `"{{ 'i18n.payment_result.order_number_is' | t: lang, transcationId: '${paymentResult.transcationId}' }}"`
+					const tipsData = [{
+						title: "{{ 'i18n.payment_result.your_payment_is_successful' | t: lang }}",
+						status: '1,PAIED,PS,SUCCESS',
+						img: 'success_icon_new@2x',
+						order
+					}, {
+						title: "{{ 'i18n.payment_result.your_payment_is_processing' | t: lang }}",
+						status: 'PROCESSING',
+						img: 'pending_icon',
+						order
+					}, {
+						title: "{{ 'i18n.payment_result.your_payment_has_failed' | t: lang }}",
+						status: 'failed',
+						img: 'failed_icon_pay',
+						order
+					}, {
+						title: "{{ 'i18n.payment_result.submit_successfully' | t: lang}}",
+						status: 'cod',
+						img: 'success_icon_new@2x',
+						order
+					}];
+					console.log('tipsData',tipsData)
+
+					// Get the data in the current order status
+					const paymentData = tipsData.find(v => !!~v.status.indexOf(paymentResult.status)) || tipsData[3]
+					console.log('paymentData',paymentData)
+					// creat a string for order status shows
+					const paymentResultStr = `
+											<div class="payment-result-status-img">
+												<img src="../assets/images/${paymentData.img}.png" class="card-img-top" alt="...">
+											</div>
+											<div class="payment-result-status-content">
+												<p class="payment-result-order">${paymentData.order}</p>
+												<strong class="payment-result-content">${paymentData.title}</strong>
+											</div>
+										`;
+
+					// render the string
+					$('.payment-result-status-container--event').html(paymentResultStr)
+					// event area
+					$('.payment-result-outter-container--event').on('click', '.payment-result-btn-confirm--event', function () {
+						// click the Confirm Order botton
+						$.toPage('./orderDetail.html?transcationId=' + $.getParam('transcationId'))
+					}).on('click', '.payment-result-btn-continue--event', function () {
+						// click the Continue Shopping botton
+						$.toPage('./index.html')
+					})
+
+				} else {
+					$.alert('danger', res.msg)
+					setTimeout(() => {
+						window.location.href = '/'
+					}, 2000)
+				}
+			}
+		});
+	});
+
+
+
+	/*
+	* Buried point data start ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	*/
+
+	//need buried point status list
+	const needBuriedPointStatus = '1,PAIED,PS,SUCCESS,cod'
+
+	/*
+	* pinterest Buried point data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	*/
+	function pinterestPayMentResultFns(data) {
+		var pinterestSetData = {
+			pinterestYOUR_TAG_ID: '',
+			pinterestEventType: 'checkout',
+			pinterestData: {
+				value: parseFloat(data.amount),
+				order_quantity: 1,
+				currency: data.currency || 'USD'
+			}
+		},
+			pinterestYOUR_TAG_ID = pinterestSetData.pinterestYOUR_TAG_ID || BASEDATA.textInfo.codePrinterest,
+			pinterestImgId = 'pinterest' + pinterestSetData.pinterestEventType,//DOM元素的ID，每种类型的数据只有一个DOM结构
+			pinterestDataString = '';
+		if (pinterestYOUR_TAG_ID) {
+			for (let pinterestKey in pinterestSetData.pinterestData) {
+				pinterestDataString += `
+				&ed[${pinterestKey}]=${pinterestSetData.pinterestData[pinterestKey]}
+				`
+			}
+			let pinterestImgString = `
+				<img
+				id="${pinterestImgId}"
+				height="1"
+				width="1"
+				style="display:none;"
+				alt=""
+				src="https://ct.pinterest.com/v3/?tid=${pinterestYOUR_TAG_ID}&event=${pinterestSetData.pinterestEventType}${pinterestDataString}&noscript=1"
+				/>
+			`
+			$('#' + pinterestImgId).remove()
+			$('body').append(pinterestImgString)
+		}
+	}
+
+	/*
+	* facebook Buried point data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	*/
+	function facebookPayMentResultFns(data) {
+		// facebook
+		let $facebookId_val = window.shopInfo.facebookId
+		if (!!$facebookId_val) {
+			const eventID = getRandomString(5)
+			fbq('track', 'Purchase', {
+				value: data.amount,
+				currency: JSON.parse(getStorage('currentRate')).currency,
+			}, { eventID });
+			// exchange the facebook api data
+			const custom_data = {
+				"value": data.amount,
+				"currency": JSON.parse(getStorage('currentRate')).currency,
+				"content_type": "product"
+			}
+			var data = facebookApiParam(custom_data, 'Purchase', eventID)
+			const facebookIdArr = $facebookId_val.split(',')
+			facebookIdArr.forEach(item => {
+				facebookApi(item, data)
+			})
+			let fackBookData = {
+				"localStorageId": localStorage.getItem('oldDynamicId'),
+				"transcationId": data.transcationId,
+				"totalPrice": parseFloat(data.amount),
+				"currency": JSON.parse(getStorage('currentRate')).currency
+			}
+			getToken(function () {
+				$.req({
+					url: '/api/v1/orders/saveFaceBookData',
+					type: 'post',
+					data: JSON.stringify(fackBookData),
+					dataType: 'json',
+					contentType: 'application/json',
+					success(res) { }
+				})
+			})
+		}
+	}
+
+	/*
+	* tiktok Buried point data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	*/
+	function tiktokPayMentResultFns() {
+		let tiktokParam = JSON.parse(localStorage.getItem('TiktokParam'))
+		let $Tiktok_val = window.shopInfo.Tiktok
+		let $tiktok_status = window.shopInfo.tiktokStatus
+		if (!!$Tiktok_val) ttq.track('Purchase', tiktokParam)
+	}
+
+	/*
+	* google Buried point data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	*/
+	function googlePayMentResultFns(data) {
+		const $googleId = window.shopInfo.googleId
+		if (!!$googleId) {
+			const productData = JSON.parse(localStorage.getItem('productData'))
+			if (!productData) return
+			ga('create', $googleId);
+			ga('require', 'ec');
+
+			checkout(productData.goodsList)
+			function checkout(cart) {
+				cart.forEach(item => {
+					ga('ec:addProduct', {
+						'id': item.goodsId,
+						'name': item.goodsName,
+						'price': item.discountPrice,
+						'quantity': item.quantity
+					});
+				})
+			}
+			ga('ec:setAction', 'purchase', {
+				'id': data.transcationId,
+				'revenue': Math.round(productData.shippingMoney * 100 + productData.afterDicountTotal * 100) / 100,
+				'shipping': productData.shippingMoney,
+			});
+
+			ga('send', 'event', 'purchase', 'view', 'Checkout complete');
+		}
+	}
+
+	// the event buriedPointFn function will be done when the order status in those status
+	if (!!~needBuriedPointStatus.indexOf(paymentResult.status)) buriedPointFn(paymentResult)
+
+	function buriedPointFn(data) {
+		localStorage.setItem('transcationId', data.transcationId);
+		facebookPayMentResultFns(data)
+		pinterestPayMentResultFns(data)
+		tiktokPayMentResultFns()
+		googlePayMentResultFns(data)
+		localStorage.removeItem('TiktokParam')
+		localStorage.removeItem('productData')
+		localStorage.setItem('shopping_num', 0)
+		localStorage.removeItem('shipping')
+	}
+
+	// delete the coupon code data
+	if (!!~needBuriedPointStatus.indexOf(paymentResult.status)) {
+		let cart_param = localStorage.getItem('queryCartParam') ? JSON.parse(localStorage.getItem('queryCartParam')) : null,
+			history_list = localStorage.getItem('history_list') ? JSON.parse(localStorage.getItem('history_list')) : null,
+			newHistoryList = history_list ? history_list.filter(item => { return item.code != cart_param.couponCode }) : [];
+		if (!!cart_param && cart_param.hasOwnProperty('couponCode')) setStorage('history_list', JSON.stringify(newHistoryList))
+	}
+
+	/*
+	* Buried point data end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	*/
+
+
+
+</script>
+{% endblock %}

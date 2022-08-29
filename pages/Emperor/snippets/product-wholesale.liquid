@@ -1,0 +1,50 @@
+<style>
+	.wholesaleTable_box {
+		margin-top: 16px;
+	}
+
+	.wholesaleTable td {
+		padding: 4px 0;
+		border: 1px solid #9B9B9B;
+		color: #898989
+	}
+
+	.wholesaleTable tbody>tr:first-child td {
+		color: #000
+	}
+
+	.wholesaleTable {
+		width: 100%;
+		text-align: center;
+		font-size: 16px;
+		color: #333;
+		font-weight: 100;
+	}
+
+	.wholesaleTable tr.active {
+		background: var(--vshop-primary-color);
+	}
+</style>
+<div class="wholesaleTable_box">
+	<table class="wholesaleTable">
+		<tbody>
+			<tr>
+				<td>{{'i18n.product_detail.quantity' | t: lang}}</td>
+				<td>{{'i18n.product_detail.discount' | t: lang}}</td>
+				<td>{{'i18n.product_detail.price' | t: lang}}</td>
+			</tr>
+			{% for citem in wholesaleList %}
+			<tr data-discount="{{citem.discount}}" data-startCount="{{citem.startCount}}" {% if citem.endCount %}
+				data-endCount="{{citem.endCount}}" {% endif %}>
+				{% if citem.endCount %}
+				<td>{{citem.startCount}}~{{citem.endCount}}</td>
+				{% else %}
+				<td>>={{citem.startCount}}</td>
+				{% endif %}
+				<td w-rate></td>
+				<td w-price></td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>

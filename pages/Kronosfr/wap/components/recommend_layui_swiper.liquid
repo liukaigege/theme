@@ -1,0 +1,298 @@
+<style>
+  #recommend-section_layui_swiper {
+    margin-top: .5rem;
+  }
+
+  #recommend-section_layui_swiper h3 {
+    font-size: .16rem;
+    font-weight: 400;
+    color: #363636;
+    text-align: center;
+    margin-bottom: .15rem;
+    margin-top: .2rem;
+    text-transform: capitalize;
+  }
+
+  #recommend-section_layui_swiper .swiper-slide {
+    width: 1.64rem !important;
+    text-align: center;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.07);
+    border-radius: 1px;
+  }
+
+  #recommend-section_layui_swiper .swiper-slide a {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  #recommend-section_layui_swiper .cover_wrap {
+    width: 100%;
+    padding-bottom: 100% !important;
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  #recommend-section_layui_swiper .cover {
+    -o-object-fit: contain;
+    object-fit: contain;
+    position: absolute;
+    width: auto;
+    height: auto;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  #recommend-section_layui_swiper .m_title {
+    font-size: 0.1rem;
+    color: #303133;
+    padding: 0 0.06rem;
+    line-height: 2;
+    padding-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+
+  #recommend-section_layui_swiper .price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    line-height: 1;
+    padding-bottom: 0.05rem;
+    height: .3rem;
+  }
+
+  #recommend-section_layui_swiper .now_price {
+    font-size: 0.12rem;
+    font-weight: 600;
+    color: #000000;
+    padding: 0 0 0.04rem;
+    line-height: 1;
+  }
+
+  #recommend-section_layui_swiper .old_price {
+    font-size: 0.1rem;
+    font-weight: 400;
+    color: #9B9B9B;
+    line-height: 1;
+    text-decoration: line-through;
+    position: relative;
+    top: -0.02rem;
+  }
+
+  #recommend-section_layui_swiper .old_price+.now_price {
+    padding-left: 0.05rem !important;
+
+  }
+
+  #recommend-section_layui_swiper .swiper-container {
+    padding-bottom: 0.16rem;
+  }
+
+  .product_red.row .m_title {
+    font-size: 0.2rem;
+  }
+
+  .product_red.row .old_price,
+  .product_red.row .now_price {
+    font-size: 0.2rem;
+  }
+
+  .product_red.row .now_price .hide {
+    display: none;
+  }
+
+  #recommend-section_layui_swiper .free_shipping {
+    z-index: 1;
+    left: 0;
+    bottom: 0;
+    background: #6A2117;
+    border-radius: 0px 0px 0px 1px;
+    font-weight: bold;
+    font-size: 0.1rem;
+    display: inline-block;
+    color: #FFFFFF;
+    line-height: 1;
+    padding: 0.04rem;
+    margin-top: .06rem;
+    border-radius: 0.12rem 0 0.12rem 0;
+  }
+
+  #recommend-section_layui_swiper .off {
+    background: #6A2117;
+    color: #ffffff;
+    flex-wrap: wrap;
+    text-align: center;
+    overflow: hidden;
+    z-index: 2;
+    padding: 0.01rem 0.04rem 0;
+    display: inline-block;
+    width: 0.28rem;
+    height: 0.28rem;
+    border-radius: 50%;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  #recommend-section_layui_swiper .off em:first-child {
+    font-size: 0.12rem;
+    display: inline-block;
+    line-height: 1;
+    font-style: normal;
+    font-style: normal;
+    font-size: 0.1rem;
+    position: absolute;
+    height: 0.14rem;
+    top: 0.05rem;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  #recommend-section_layui_swiper .off em:first-child i {
+    font-weight: bold;
+  }
+
+  #recommend-section_layui_swiper .off em:last-child {
+    font-size: 0.08rem;
+    font-style: normal;
+    height: 0.14rem;
+    display: inline-block;
+    position: absolute;
+    top: 0.14rem;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  .discount_wrap {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: .1rem;
+    z-index: 99;
+    text-align: left;
+  }
+
+  #recommend-section_layui_swiper .main_color {
+    color: #6A2117 !important
+  }
+</style>
+<div id="recommend-section_layui_swiper">
+  {% if isShow %}
+  <h3>Tu pourrais aussi aimer</h3>
+  {% endif %}
+  <div class="swiper-container newProducts_details" id='recommend_layui_swiper'>
+
+  </div>
+</div>
+{% raw %}
+<script id='recommend_template' type="text/html">
+    <div class="swiper-wrapper">
+      {{#  layui.each(d, function(index, item){ }}
+      <div class="swiper-slide">
+        <a href="productDetail_{{item.id}}.html">
+          <div class="cover_wrap">
+            <div class="discount_wrap">
+{{# if(item.freeShipping != 0){ }}
+<div class="free_shipping">
+  Livraison Gratuite
+</div>
+{{# } }}
+{{# if(item.defaultPrice && item.defaultPrice < item.originalPrice){ }} <div class="off">
+  <em><i></i>%</em>
+  <em>RABAIS</em>
+  </div>
+  {{# } }}
+            </div>
+            
+            
+            <img class="cover" data-suffix-img="{{item.mainImg}}">
+          </div>
+          <p class="m_title">{{item.goodsName}}</p>
+          <div class="price" data-price="{{item.defaultPrice}}" data-originalPrice='{{item.originalPrice}}'>
+            <span class="old_price hide"></span>
+            <span class="now_price"></span>
+          </div>
+        </a>
+        {{# if (item.speType==3) { }}
+          <div class="wrapContainer">
+              <div class="cube">
+                  <div class="cubeList front">3</div>
+                  <div class="cubeList back">3</div>
+                  <div class="cubeList top">3</div>
+                  <div class="cubeList bottom">D</div>
+                  <div class="cubeList left">D</div>
+                  <div class="cubeList right">D</div>
+              </div>
+          </div>
+          {{# } }}
+      </div>
+      {{# }) }}
+    </div>
+
+</script>
+{% endraw %}
+<script type="text/javascript">
+  $(function () {
+    var result = [];
+    // let version_rec = new Date().getTime()
+    // $.getJSON("../data/detail.json?version=" + version_rec, function (data) {
+    var data = deepClone(DETAILDATA)
+    var data_length = data.length > 100 ? 100 : data.length;
+    var ranNum = data_length > 12 ? 12 : data_length;
+    for (var i = 0; i < ranNum; i++) {
+      var ran = Math.floor(Math.random() * (data_length - i));
+      result.push(data[ran]);
+      data[ran] = data[data_length - i - 1];
+    };
+    layui.use(['laytpl'], function () {
+      let laytpl = layui.laytpl;
+      let getTpl = recommend_cart_template.innerHTML,
+        view = document.getElementById('recommend_layui_swiper');
+      laytpl(getTpl).render(result, function (html) {
+        view.innerHTML = html;
+        // newProducts 下的轮播图
+        var recommend_cart_layui_swiper = new Swiper('#recommend_layui_swiper', {
+          observer: true,//修改swiper自己或子元素时，自动初始化swiper
+          observeParents: true,//修改swiper的父元素时，自动初始化swiper
+          slidesPerView: 'auto',
+          spaceBetween: 10,
+        })
+        recommendLayuiSwiper();
+      });
+      function recommendLayuiSwiper() {
+
+        let allprice = $("#recommend_layui_swiper [p-price]")
+        allprice.each(function (index) {
+          $(this).text(getMoney($(this).attr('p-price')))
+        });
+      }
+      let price = $('#recommend_layui_swiper .swiper-slide')
+      price.each(function (index, item) {
+        let $defaultPrice = $(item).find('.price').attr('data-price'),
+          $originalPrice = $(item).find('.price').attr('data-originalPrice');
+        relationCount($(item), $defaultPrice, $originalPrice)
+      });
+      /* 计算价格 */
+      function relationCount($this, $defaultPrice, $originalPrice) {
+        if ($originalPrice && $originalPrice != '' && Number($originalPrice) > Number($defaultPrice) && Object.prototype.toString.call($originalPrice).slice(8, -1) != 'Null') {
+          $this.find('.now_price').removeClass('hide').html(getMoney($defaultPrice)).addClass('main_color');
+          $this.find('.old_price').removeClass('hide').html(getMoney($originalPrice));
+          $this.find('.off i').html(parseFloat(Math.floor((1 - Number($defaultPrice) / Number($originalPrice)) * 100)) || 1);
+          $this.find('[data-discount]').removeClass('hide');
+        } else {
+          $this.find('.now_price').html(getMoney($defaultPrice))
+        }
+      }
+    })
+
+  })
+</script>

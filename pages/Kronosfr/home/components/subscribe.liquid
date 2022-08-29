@@ -1,0 +1,38 @@
+{% comment %}
+主题： Athena-雅典娜;
+积木名称：邮箱订阅;
+{% endcomment %}
+{% comment %}积木id{% endcomment %}
+{% assign sectionId = configData.sectionId %}
+{% comment %}配置数据{% endcomment %}
+{% assign configList = configData.config %}
+{% comment %}背景图片{% endcomment %}
+{% assign subscribeImg = configList.subscribeImg %}
+{% comment %}标题内容{% endcomment %}
+{% assign emailContent = configList.emailContent %}
+{% comment %}提示内容{% endcomment %}
+{% assign subscribeWords = configList.subscribeWords %}
+{% comment %}提示内容{% endcomment %}
+{% assign subscribeButtons = configList.subscribeButtons %}
+
+<div type-block="block" class="subscribe bg alginCenter lazyload" id="{{sectionId}}"
+  data-original="{{subscribeImg | IMGURL:'../assets/pc/images/subscribe.png' }}" {% if
+  isLocal==1%}style="background-image:url({{subscribeImg | IMGURL:'../assets/pc/images/subscribe.png' }})" {%endif%}>
+  <div class="subscribe-content textCenter alginCenter" id="subscribeCopntent" style="display:block">
+    <div>
+      <h1 class=" overflow_2 ">{{subscribeWords}}</h1>
+      <p class=" subscribeWords {% if isMobilePhone==0 %} overflow_2 {% else %}overflow_1{% endif %}">S'abonner to our
+        newsletters.</p>
+      <input type="text" class="textCenter" name="emailInput" id="emailInput" autocomplete="off"
+        placeholder="Votre adresse e-mail" onkeydown="submitSubscribe(event,1)">
+      <button type="submit" id="submitSubscribe" onclick="submitSubscribe(null,1)">{{ subscribeButtons }}</button>
+    </div>
+
+  </div>
+  <div class="subscribe-content textCenter alginCenter" id="subscribeAccept" style="display:none">
+    <div>
+      <div class="emailContent overflow_2"> Merci pour votre subscription!</div>
+      <p class="subscribeWords overflow_1">Nous vous enverrons des offres spéciales et des nouvelles sous peu...</p>
+    </div>
+  </div>
+</div>

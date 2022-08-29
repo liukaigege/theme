@@ -1,0 +1,521 @@
+:root {
+  /********************************全局********************************/
+  --Vshop-background: #ffffff;
+  --Vshop-color: #000000;
+  --Vshop-fontSize: 0.13rem;
+  --Vshop-font-family: Roboto-Regular, Roboto;
+  --Vshop-a-hover-color: #df0052;
+  /********************************标题********************************/
+  /* 标题颜色 */
+  --Vshop-color-title: #000000;
+  /* 标题字体 */
+  --Vshop-font-title: Roboto-Regular, Roboto;
+  /* 标题字号 */
+  --Vshop-fontSzie-title: 0.16rem;
+  /********************************价格********************************/
+  /* 现价颜色 */
+  --Vshop-color-discountPrice: #000000;
+  /* 现价字体 */
+  --Vshop-font-discountPrice: Roboto-Regular, Roboto;
+  /* 现价字号 */
+  --Vshop-fontSzie-discountPrice: 0.16rem;
+  /* 原价颜色 */
+  --Vshop-color-oldPrice: #000000;
+  /* 原价字体 */
+  --Vshop-font-oldPrice: Roboto-Regular, Roboto;
+  /* 原价字号 */
+  --Vshop-fontSzie-oldPrice: 0.16rem;
+  /********************************按钮********************************/
+  /* 按钮背景颜色 */
+  --Vshop-background-btn: #000000;
+  /* 按钮文字颜色 */
+  --Vshop-color-btn: #000000;
+  /* 按钮字体 */
+  --Vshop-font-btn: Roboto-Regular, Roboto;
+  /* 按钮字号 */
+  --Vshop-fontSzie-btn: 0.16rem;
+  /********************************商品标题********************************/
+  /* 商品标题字体 */
+  --Vshop-font-products: Roboto-Regular, Roboto;
+  /* 商品标题字号 */
+  --Vshop-fontSzie-products: 0.16rem;
+  /********************************商品-折扣-免邮（标签）********************************/
+  /* 折扣标签背景色 */
+  --Vshop-background-discount-label: #df0052;
+  /* 折扣标签文字颜色 */
+  --Vshop-color-discount-label: #ffffff;
+  /* 免邮标签背景色 */
+  --Vshop-background-freeship-label: #df0052;
+  /* 免邮标签文字颜色 */
+  --Vshop-color-freeship-label: #ffffff;
+}
+
+body {
+  background: var(--Vshop-background);
+  font-family: var(--Vshop-font-family) !important;
+  font-size: var(--Vshop-fontSize) !important;
+  color: var(--Vshop-color);
+  margin: 0 auto;
+  padding: 0;
+  overflow-x: hidden;
+  /* max-width: 1920px; */
+}
+
+input:focus {
+  color: var(--Vshop-color);
+}
+
+/* 公用推荐轮播样式 */
+.swiper-slide {
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  text-align: center;
+  font-size: 0.16rem;
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: translate3d(0, 0, 0);
+  overflow: hidden;
+  /* padding: 2px 0; */
+}
+
+.swiper-container {
+  width: 100%;
+  height: 100%;
+  /* 单独设置按钮颜色 */
+  --swiper-theme-color: var(--Vshop-background);
+  --swiper-navigation-size: 0.2rem;
+  /* 单独设置预加载风格 */
+  --swiper-preloader-color: #e5e5e5;
+  position: static;
+}
+
+.swiper-pagination-bullet {
+  width: 0.14rem;
+  height: 0.14rem;
+  background: #fff;
+  opacity: 0.8;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.16)
+}
+
+.swiper-pagination-bullet-active {
+  background: #6A2117;
+  opacity: 1;
+  box-shadow: 0px 0px 4px 0px rgba(255, 255, 255, 0.5)
+}
+
+.swiper-btn {
+  width: 0.4rem;
+  height: 0.41rem;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 0.82rem;
+  color: #000;
+  font-weight: 700;
+  background-color: #e5e5e5;
+  transition: 0.5s;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.swiper-container:hover .swiper-btn {
+  opacity: 1;
+  background: var(--Vshop-background);
+  color: var(--Vshop-color);
+}
+
+.swiper-button-prev,
+.swiper-container-rtl .swiper-button-next,
+.swiper-button-next,
+.swiper-container-rtl .swiper-button-prev {
+  outline: none;
+  width: 0.46rem;
+  height: 0.46rem;
+  border-radius: 50%;
+  color: #DBDBDB;
+  background-color: #ffffff;
+  transition: all 0.3s;
+}
+
+
+
+/* .swiper-button-prev:hover,
+.swiper-button-next:hover {
+  border: none;
+} */
+
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-weight: 700;
+}
+
+/* 公共样式 */
+.overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.overflow_1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.overflow_2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.overflow_3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.bg {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.rotate {
+  transition: all 0.3s ease-out;
+  transform: rotate(45deg);
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+.modal {
+  transition: all 800ms cubic-bezier(0.8, 0, 0.33, 1);
+  position: fixed;
+  top: 0;
+  background: #000000;
+  opacity: 0.65;
+  width: 100%;
+  height: 100%;
+  z-index: 100000;
+}
+
+.imgCover {
+  height: 100%;
+  width: auto;
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+.alginCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.textCenter {
+  text-align: center;
+}
+
+.postionCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.clearfix:after {
+  content: ' ';
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+.mg {
+  margin: 0.3rem 1.6rem;
+}
+
+.mg-30 {
+  margin: 0.3rem 0;
+}
+
+.mgb-15 {
+  margin-bottom: 0.15rem;
+}
+
+.mgt-15 {
+  margin-top: 0.15rem;
+}
+
+/* 标题 */
+.vshop-title-wap {
+  text-align: center;
+  position: relative;
+}
+
+.vshop-title-wap span {
+  display: inline-block;
+  font-size: 0.16rem;
+  background: #ffffff;
+  padding: 0 0.22rem;
+  font-weight: 400;
+  color: #303133;
+  line-height: 1;
+}
+
+.vshop-title-pc {
+  /* width: 1600px; */
+  margin: 40px auto;
+  margin-bottom: 69px;
+  height: 1px;
+  /* border-top: 1px solid #ddd; */
+  text-align: center;
+  position: relative;
+}
+
+.vshop-title-pc span {
+  transform: translateY(-50%);
+  display: inline-block;
+  font-size: 38px;
+  line-height: 38px;
+  color: #000;
+  background: #ffffff;
+  padding: 0 22px;
+}
+
+/* 价格 */
+.price {
+  font-family: Roboto-Medium, Roboto;
+  font-weight: 500;
+  margin: 0.06rem 0;
+}
+
+.price del,
+.price .oldPrice {
+  color: #999999;
+  font-size: 17px;
+  font-family: Roboto-Medium, Roboto;
+  font-weight: 500;
+  text-decoration: line-through;
+}
+
+.price .newPrice {
+  font-size: 17px;
+  color: #6A2117;
+  margin: 0 0.15rem;
+}
+
+.price .defaultPrice {
+  font-size: 17px;
+  color: #202020;
+}
+
+/* 骨架屏 */
+.skeletonBg {
+  /*这是一个默认的样式，js自动添加到有 skeleton="true"  属性的标签中 ，
+    最好是放在全局，这样所有页面的组件就都能用到。*/
+  background-color: #e5e5e5;
+  animation-duration: 1.5s;
+  animation-name: blink;
+  animation-iteration-count: infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.5;
+  }
+}
+
+/* 卡片阴影 */
+.boxShadow {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+}
+
+/* 返回顶部 */
+.backTop {
+  display: none;
+  position: fixed;
+  background-image: url(../../pc/images/up_but@2x.png);
+  /* background-position: -1.305rem -1.055rem;
+  background-size: 2.76rem 2.185rem;
+  background-repeat: no-repeat; */
+  cursor: pointer;
+  z-index: 9999;
+  background-size: cover;
+}
+
+.backTop-pc {
+  bottom: 2rem;
+  right: 0.55rem;
+  width: 0.54rem;
+  height: 0.54rem;
+}
+
+.backTop-wap {
+  bottom: 1rem;
+  right: 0.2rem;
+  width: 0.42rem;
+  height: 0.42rem;
+}
+
+/* 空积木 */
+.emptyBlock {
+  height: 2rem;
+  width: 100%;
+  text-align: center;
+  line-height: 2rem;
+  font-size: 0.2rem;
+  border: 2px dotted red;
+  margin: 30px 0;
+}
+
+.iframeModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999;
+}
+
+.swiper-button-disabled {
+  display: none;
+}
+
+/* 主副图 */
+.mainImg,
+.mainImgHover,
+.associateImg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* height: auto !important; */
+  user-select: none;
+}
+
+.mainImgHover {
+  opacity: 1;
+}
+
+.associateImg {
+  opacity: 0;
+}
+
+.productsItems:hover .associateImg {
+  opacity: 1;
+  transition: all 0.8s linear 0s;
+}
+
+.productsItems:hover .mainImgHover {
+  opacity: 0;
+  transition: all 0.8s linear 0s;
+}
+
+.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+.sprite {
+  background-image: url(../images/sprite.png);
+}
+
+.image1 {
+  background-position: -12px -76px;
+  width: 29px;
+  height: 19px;
+}
+
+/* success */
+
+#coupon_succ_html {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+#coupon_succ_html .coupon_success {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  width: 70%;
+  margin: 0 auto;
+  text-align: center;
+  border-radius: 0.02rem;
+}
+
+#coupon_succ_html .coupon_success .coupon_succ_img {
+  height: 1.25rem;
+  background: url(../../wap/images/coubg.png) 0 0 / 100% 100% no-repeat;
+}
+
+#coupon_succ_html .coupon_success .coupon_succ_img .receive_status {
+  width: 80%;
+  padding: 0.25rem 0 0;
+  margin: 0 10%;
+  font-size: 0.16rem;
+  color: #fff;
+}
+
+#coupon_succ_html .coupon_success .coupon_succ_img .receive_status_descripe {
+  color: #fff;
+  font-size: 0.12rem;
+  width: 80%;
+  margin: 0.25rem 10% 0;
+}
+
+#coupon_succ_html .coupon_success .coupon_success_btn {
+  height: 0.31rem;
+  width: 80%;
+  margin: 0.25rem 10%;
+  border-radius: 0.02rem;
+  background-color: #df0052;
+  color: #fff;
+  font-size: 0.16rem;
+  text-align: center;
+  font-weight: 400;
+}

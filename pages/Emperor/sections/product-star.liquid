@@ -1,0 +1,125 @@
+<style>
+	.star_wrap {
+		display: inline-block;
+		line-height: 1;
+		height: 22px;
+		margin-left: 20px;
+	}
+
+	.star_wrap .star_inner {
+		display: inline-block;
+		vertical-align: middle;
+		font-size: 0;
+	}
+
+	.star_wrap .score {
+		vertical-align: 0px;
+		font-size: 12px;
+		font-family: Roboto-Regular, Roboto;
+		color: #999;
+		display: inline-block;
+		margin-left: 10px;
+	}
+
+	.star_wrap .star {
+		display: inline-block;
+		width: 20px;
+		height: 20px;
+		background-image: url('../assets/images/s_6.png');
+		background-size: contain;
+	}
+
+	.star_wrap .star.empty {
+		background-image: url('../assets/images/s_0.png');
+	}
+
+	.star_wrap .star.s_1 {
+		background-image: url('../assets/images/s_1.png');
+	}
+
+	.star_wrap .star.s_2 {
+		background-image: url('../assets/images/s_2.png');
+	}
+
+	.star_wrap .star.s_3 {
+		background-image: url('../assets/images/s_2.png');
+	}
+
+	.star_wrap .star.s_4 {
+		background-image: url('../assets/images/s_2.png');
+	}
+
+	.star_wrap .star.s_5 {
+		background-image: url('../assets/images/s_3.png');
+	}
+
+	.star_wrap .star.s_6 {
+		background-image: url('../assets/images/s_4.png');
+	}
+
+	.star_wrap .star.s_7 {
+		background-image: url('../assets/images/s_4.png');
+	}
+
+	.star_wrap .star.s_8 {
+		background-image: url('../assets/images/s_5.png');
+	}
+
+	.star_wrap .star.s_9 {
+		background-image: url('../assets/images/s_5.png');
+	}
+
+	.star_wrap.min .star.empty {
+		background: url(../assets/images) no-repeat;
+	}
+
+	.star_wrap.min .star {
+		display: inline-block;
+		width: 10px;
+		height: 10px;
+		background: url(../assets/images/s_6.png) no-repeat;
+	}
+
+	.star_wrap .star+.star {
+		margin-left: 4px;
+	}
+</style>
+
+{% assign cempty = 0 %}
+{% assign newRemainder = 0 %}
+{% assign remainder = 0 %}
+{% assign allInteger = 0 %}
+{% assign star = 1 %}
+{% if data < 1 %} {% assign star=1 %} {% elsif data> 5 %}
+	{% assign star = 5 %}
+	{% else %}
+	{% assign star = data %}
+	{% endif %}
+
+	{%- comment -%} 取整数部分 {%- endcomment -%}
+	{% assign integer = star | floor %}
+
+	{%- comment -%} 取小数部分 {%- endcomment -%}
+	{% assign integers = star | floor | times: 10 %}
+	{% assign newRemainder = star | times: 10 | floor | minus: integers %}
+	{% if newRemainder > 0 %}
+	{% assign allInteger = integer | plus: 1 %}
+	{% else %}
+	{% assign allInteger = integer%}
+	{% endif %}
+
+	{% assign cempty = 5 | minus: allInteger %}
+
+	<span class="star_wrap {% if isMin %} min {% endif %}">
+		<span class="star_inner">
+			{% for i in (1..integer) %}
+			<i class="star"></i>
+			{% endfor %}
+			{% if newRemainder > 0 %}
+			<i class="star s_{{newRemainder}}" data-remainder="{{remainder}}" data-index="{{newRemainder}}"></i>
+			{% endif %}
+			{% for z in (1..cempty) %}
+			<i class="star empty"></i>
+			{% endfor %}
+		</span>
+	</span>

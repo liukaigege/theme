@@ -1,0 +1,19 @@
+{% comment %}
+积木名称：poster-海报;
+{% endcomment %}
+{% comment %}海报类型（0图片海报/1图文海报/2文本海报） 默认0{% endcomment %}
+{% assign section = configData.config %}
+{% assign poster = section.poster %}
+<div class="posters container posters-block" type="{{section.type}}">
+	{% case section.type %}
+	{% when 0 %}
+	{% comment %} 图片海报 {% endcomment %}
+	{% render 'poster-picture',postersContent: poster.picPoster,lang: lang,prePath: prePath%}
+	{% when 1 %}
+	{% comment %} 图文海报 {% endcomment %}
+	{% render 'poster-picture-text',postersContent: poster.picTextPoster,lang: lang,prePath: prePath%}
+	{% when 2 %}
+	{% comment %} 文本海报 {% endcomment %}
+	{% render 'poster-text',postersContent: poster.textPoster,lang: lang%}
+	{% endcase %}
+</div>

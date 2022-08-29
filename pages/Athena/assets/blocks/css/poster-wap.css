@@ -1,0 +1,141 @@
+.posterStyle {
+  margin: 0.15rem 0;
+  overflow: hidden;
+}
+
+/* 图片海报样式 */
+
+.posterStyle1 img {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.posterStyle1 .imgBox1 {
+  display: inline-block;
+  width: 100%;
+}
+.posterStyle1 .imgBox1 img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+.posterStyle1 .imgBox3 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 0 auto;
+}
+@media screen and (min-width: 300px) {
+  .posterStyle1 .imgBox3 {
+    height: 2.058rem;
+    width: 3.75rem;
+  }
+}
+@media screen and(min-width:375px) {
+  .posterStyle1 .imgBox3 {
+    height: 2.058rem;
+    width: 3.75rem;
+  }
+}
+@media screen and(min-width:414px) {
+  .posterStyle1 .imgBox3 {
+    height: 3.0912rem;
+  }
+}
+
+@media screen and(min-width:758px) {
+  .posterStyle1 .imgBox3 {
+    height: 5.6597333rem;
+  }
+}
+@media screen and(min-width:1024px) {
+  .posterStyle1 .imgBox3 {
+    height: 7.6458666rem;
+  }
+}
+.posterStyle1 .imgBox3 .imgBox3-right {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 0.15rem 0;
+}
+/* 图文海报样式 */
+.posterStyle2 {
+  padding: 0.32rem 0.15rem;
+}
+
+.posterStyle2 .posterText {
+  width: 100%;
+}
+
+.posterStyle2 .posterText .posterText-content h1 {
+  font-size: 0.24rem;
+  font-family: Helvetica;
+  margin-bottom: 0.05rem;
+}
+.posterStyle2 .posterText .posterText-content em {
+  font-style: oblique;
+}
+.posterStyle2 .posterText .posterText-content p {
+  font-size: 0.14rem;
+  font-family: Helvetica;
+
+  line-height: 0.29rem;
+  margin-bottom: 0.15rem;
+}
+
+.posterStyle2 .posterText .posterText-content button {
+  min-width: 1.41rem;
+  line-height: 0.36rem;
+  height: 0.36rem;
+  background: #df0052;
+  border-radius: 2px;
+  font-size: 0.14rem;
+  font-family: Helvetica;
+  cursor: pointer;
+  margin-top: 0.15rem;
+}
+
+.posterStyle2 .posterPicture {
+  margin-top: 0.15rem;
+  height: 2rem;
+}
+.posterStyle2 .posterPicture a {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}
+/* 文本海报样式 */
+.posterStyle3 {
+  background: #b60e4c;
+  border-radius: 1px;
+  padding: 0.5rem;
+}
+
+.posterStyle3 h1 {
+  font-size: 0.28rem;
+  font-family: PingFangSC-Semibold, PingFang SC;
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+}
+
+.posterStyle3 p {
+  font-size: 0.12rem;
+  font-family: Helvetica;
+
+  margin-bottom: 0.15rem;
+}
+
+.posterStyle3 button {
+  min-width: 1.41rem;
+  height: 0.36rem;
+  /* line-height: 0.36rem; */
+  border-radius: 0.8rem;
+  font-size: 0.1rem;
+  font-family: Helvetica;
+  color: #000000;
+  cursor: pointer;
+  /* padding: 0.1rem; */
+  margin-top: 0.15rem;
+}

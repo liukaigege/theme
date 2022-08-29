@@ -1,0 +1,221 @@
+<div class="email">
+    <img data-suffix-img="{{data.subscribeImg}}" class="bg_image_img" src="{{data.subscribeImg}}">
+    <div class="e_cont">
+        <div class="e_title">{{data.subscribeWords}}</div>
+        <p class="e_descr">S'abonner à nos newsletters.</p>
+        <input class="e_code" type="text" placeholder="Votre adresse e-mail" />
+        <div class="e_btn">SUBSCRIBE</div>
+    </div>
+    <div class="s_text hide">
+        <div class="s_inner">
+            <h3 class="s_title">Thanks for Subscribing</h3>
+            <p class="s_descr">We will send special offers and news to you shortly.</p>
+        </div>
+    </div>
+</div>
+<style>
+    .email {
+        position: relative;
+    }
+
+    .email .bg_image_img {
+        display: block;
+        width: 100%;
+    }
+
+    .email .e_cont {
+        background: #FFFFFF;
+        border: 1px solid #080808;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        width: 67.5%;
+        padding-bottom: 0.15rem;
+    }
+
+    .email .e_title {
+        font-size: 0.21rem;
+        font-family: "Floane-Regular";
+        margin: 0 0.12rem 0;
+        font-weight: 400;
+        color: #303133;
+        text-overflow: ellipsis;
+        box-sizing: border-box;
+        padding-top: 0.05rem;
+        text-overflow: -o-ellipsis-lastline;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        line-height: 1;
+        overflow: hidden;
+        height: 0.504rem;
+        line-height: 1.2;
+    }
+
+    .email .e_descr {
+        font-size: 0.1rem;
+        font-family: "Aileron-Regular";
+        font-weight: 400;
+        color: rgba(8, 8, 8, 0.4);
+        padding: 0.06rem 0.12rem 0.16rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1;
+    }
+
+    .email .e_code {
+        font-size: 0.1rem;
+        font-family: "Aileron-Regular";
+        color: rgba(8, 8, 8, 0.4);
+        width: calc(100% - 0.24rem);
+        text-align: center;
+        padding: 0 0 0.06rem;
+        border: none;
+        border-bottom: 1px solid #0A1826;
+        margin: 0 0 0.15rem;
+    }
+
+    .email .e_btn {
+        display: inline-block;
+        font-size: 10px;
+        font-family: "Aileron-SemiBold, Aileron";
+        font-weight: 600;
+        color: #FFFFFF;
+        line-height: 1.2;
+        background: #000000;
+        border-radius: 2px;
+        border: 1px solid #000000;
+        padding: 0.04rem 0.07rem;
+    }
+
+    .email .s_text {
+        background: #FFFFFF;
+        border: 1px solid #080808;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        width: 54%;
+        height: 100%;
+        display: table;
+    }
+
+    .email .s_text.hide {
+        display: none;
+    }
+
+    .email .s_text .s_inner {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    .email .s_text .s_title {
+        font-size: 0.18rem;
+        font-family: "Floane-Regular, Floane";
+        font-weight: normal;
+        color: #303133;
+        line-height: 1;
+        padding-bottom: 0.1rem;
+    }
+
+    .email .s_text .s_descr {
+        font-size: 0.1rem;
+        font-family: "Aileron-Regular, Aileron";
+        color: #000000;
+        line-height: 1.2;
+    }
+</style>
+<script>
+    layui.config({
+        version: true,
+        base: '/layui'
+    }).use(['jquery', 'layer'], function () {
+        let $ = layui.jquery,
+            layer = layui.layer;
+        $('.email .e_btn').on('click', function (event) {
+            event.stopPropagation();
+            let $this = $(this),
+                $baseEmail = $(this).parents('.email').find('.e_code').val(),
+                $email = $baseEmail.replace(/\s/g, ''),
+                sendData = {
+                    email: $email
+                };
+            $(this).parents('.email').val($email);
+            getToken(function () {
+                if (!$email) {
+                    layer.msg('You forget to email!', {
+                        icon: 5,
+                        time: 1000,
+                        success() {
+                            $('.layui-layer-msg').addClass('coupon_msg');
+                        }
+                    });
+                    return false;
+                } else {
+                    if ($email.length > 60) {
+                        layer.msg('Mailbox length more than 60!', {
+                            icon: 5,
+                            time: 1000,
+                            success() {
+                                $('.layui-layer-msg').addClass('coupon_msg');
+                            }
+                        });
+                        return false;
+                    }
+                    if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9])+$/.test(
+                        $email)) {
+                        layer.msg('Please Enter a valid email address address!', {
+                            icon: 5,
+                            time: 1000,
+                            success() {
+                                $('.layui-layer-msg').addClass('coupon_msg');
+                            }
+                        });
+                        return false;
+                    }
+                }
+                var $emailIndex = layer.load(2);
+                $.req({
+                    url: '/api/v1/user/subscribe',
+                    type: 'post',
+                    contentType: 'application/json;charset=UTF-8',
+                    data: JSON.stringify(sendData),
+                    success(res) {
+                        layer.close($emailIndex);
+                        if (res.code == 0) {
+                            $this.parents('.email').find('.e_code').val('');
+                            $this.parents('.email').find('.s_text').removeClass('hide');
+                            $this.parents('.email').find('.e_cont').addClass('hide');
+                        } else if (res.code == 20007) {
+                            layer.msg(
+                                'You are already subscribed with this email address!', {
+                                icon: 5,
+                                time: 1500,
+                                success() {
+                                    $('.layui-layer-msg').addClass(
+                                        'coupon_msg');
+                                }
+                            });
+                        } else {
+                            layer.msg(msg, {
+                                icon: 6,
+                                time: 1500,
+                                success() {
+                                    $('.layui-layer-msg').addClass(
+                                        'coupon_msg');
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    });
+</script>

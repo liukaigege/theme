@@ -1,0 +1,252 @@
+.rotate {
+  transition: 0.3s;
+  transform: rotate(45deg);
+}
+
+.footer .serve {
+  background: #ededed;
+}
+
+.footer .serve .serve-inner {
+  padding-bottom: 0.2rem;
+}
+
+.footer .serve .serve-inner p {
+  padding: 0 0.2rem 0.1rem;
+  text-align: center;
+  font-size: 0.12rem;
+  width: 2.5rem;
+}
+
+.footer .serve .serve-icon {
+  margin: 0.05rem auto;
+  width: 0.7rem;
+  height: 0.7rem;
+}
+.footer .serve .serve-icon img {
+  width: 100%;
+  height: 100%;
+}
+.link {
+  background: #1d1d1d;
+  color: #ffffff;
+  font-size: 0.1rem;
+}
+
+.link .link-item {
+  border-bottom: 1px solid #5a5a5a;
+}
+
+.link .link-item p {
+  padding: 0.12rem 0.14rem;
+}
+
+.link .link-item ul {
+  display: none;
+}
+
+.link .link-item li {
+  color: #bbbbbb;
+  padding: 0.07rem 0.14rem;
+  display: block;
+}
+.link .link-item{
+padding-bottom: 0.07rem;
+}
+.link li a {
+  color: #bbbbbb;
+}
+
+.link .link-item .link-icon {
+  width: 0.14rem;
+  height: 0.14rem;
+  float: right;
+  background-image: url('../../wap/images/ic_plus@2x.png');
+}
+
+.link .link-item input {
+  width: 68%;
+  height: 0.36rem;
+  border-radius: 1px;
+  border: 1px solid #9b9b9b;
+  font-family: Aileron-Regular, Aileron;
+  background: #1d1d1d;
+  color: #bbbbbb;
+  padding: 0.06rem 0.13rem;
+  margin-right: 10px;
+}
+.link .link-item .emailList{
+  padding-bottom: 15px;
+}
+.link .foot-emial button {
+  width: 28%;
+  height: 0.36rem;
+  border-radius: 1px;
+  border: 1px solid #ffffff;
+  font-family: Aileron-Regular, Aileron;
+  color: #ffffff;
+  background: #1d1d1d;
+  font-size: 0.1rem;
+}
+
+.link .foot-emial ul {
+  display: block;
+}
+
+.payment {
+  background: #1d1d1d;
+  color: #ffffff;
+}
+
+.payment .currency {
+  padding: 0.14rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.payment .currency span {
+  margin: 0 0.05rem;
+}
+
+.payment .currency .currency-icon {
+  width: 0.25rem;
+  height: 0.25rem;
+}
+
+.payment .fb-simple {
+  text-align: center;
+}
+
+.payment .fb-simple a {
+  display: inline-block;
+  width: 0.25rem;
+  height: 0.25rem;
+  margin: 0 0.05rem;
+}
+
+.payment .pay_icon {
+  height: 0.25rem;
+  max-width: 2.4rem;
+  margin: 0 auto;
+  margin-top: 0.16rem;
+}
+
+.payment .pay_icon a {
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  margin: 0 0.05rem;
+  text-align: center;
+}
+.payment .fb-simple img,
+.payment .pay_icon img {
+  width: auto;
+  height: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+.record {
+  background: #1d1d1d;
+  color: #ffffff;
+  text-align: center;
+  padding: 0.16rem 0;
+  color: #999999;
+  overflow: hidden;
+}
+
+.currencyBox {
+  position: fixed;
+  height: 70%;
+  width: 100%;
+  bottom: -100%;
+  background: #ffffff;
+  z-index: 10000;
+}
+
+.currencyBox .currency-head {
+  padding: 0.16rem;
+  border-bottom: 1px solid #9b9b9b;
+}
+
+.currencyBox .currency-head strong {
+  float: left;
+  font-size: 0.16rem;
+}
+
+.currencyBox .currency-head .currency-close {
+  float: right;
+  width: 0.13rem;
+  height: 0.13rem;
+  background-image: url(../../wap/images/m_close.png);
+}
+
+.currencyBox ul {
+  padding: 0.16rem;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.currencyBox ul li {
+  display: flex;
+  align-items: center;
+  margin: 0.2rem 0;
+  position: relative;
+}
+
+.currencyBox ul li img {
+  width: 0.35rem;
+  height: 0.35rem;
+  margin-right: 0.15rem;
+}
+.currencyBox ul li .choose_image{
+  width: 0.2rem;
+  height: 0.2rem;
+  position: absolute;
+  right: 0.1em;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
+}
+.currencyBox ul li strong {
+  font-size: 0.14rem;
+}
+
+.foot-notice {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  height: 0.28rem;
+  line-height: 0.28rem;
+  z-index: 1000;
+  overflow: hidden;
+  padding: 0 0.2rem;
+}
+.foot-notice img {
+  width: auto;
+  height: 100%;
+  max-height: 100%;
+  margin: 0 auto;
+}
+.foot-notice .active-close {
+  position: absolute;
+  top: 50%;
+  right: 0.1rem;
+  transform: translateY(-50%);
+  width: 0.1rem;
+  height: 0.1rem;
+  cursor: pointer;
+}
+.foot-notice em {
+  font-style: oblique;
+}
+.footImgBox {
+  width: 100%;
+  height: 100%;
+}
+.swiper-pagination-bullet.swiper-pagination-bullet-active{
+  border: 1px solid #df0052;
+}

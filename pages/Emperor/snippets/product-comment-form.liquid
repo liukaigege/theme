@@ -1,0 +1,398 @@
+<style>
+	#product-write-review {
+		position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 1050;
+		display: none;
+		overflow: hidden;
+		outline: 0;
+		background: rgba(0, 0, 0, 0.5);
+	}
+
+	#product-write-review.active {
+		display: block;
+	}
+
+	#product-write-reviews-dialog {
+		position: absolute;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		margin: auto;
+		background: #fff;
+		display: flex;
+		flex-direction: column;
+		overflow: auto;
+		line-height: 1.2;
+		width: 600px;
+		height: 684px;
+		margin: 50px auto;
+	}
+
+	#product-write-review .icon-back {
+		position: absolute;
+		right: 15px;
+		top: 15px;
+		color: #000;
+		font-size: 18px;
+		cursor: pointer;
+		font-weight: normal;
+		width: 15px;
+		height: 15px;
+		line-height: 15px;
+		text-align: center;
+	}
+
+	.product-write-review__title {
+		height: 70px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-bottom: 1px solid #eee;
+	}
+
+	.product-write-review__title h4 {
+		font-weight: bold;
+		color: #212121;
+		font-size: 24px;
+	}
+
+	.reviews_star i {
+		font-size: 26px;
+		color: #FFC700
+	}
+
+	.reviews_star {
+		display: flex;
+	}
+
+	#product-write-reviews-dialog .form {
+		padding: 20px 15px;
+	}
+
+	.product-reviews__writer_num {
+		color: #FFC700;
+		font-size: 26px;
+		margin-left: 10px;
+	}
+
+	.product-reviews__write-review__tips {
+		color: #d0021b;
+		margin-top: 5px;
+		font-size: 14px;
+		position: relative;
+		z-index: 100;
+	}
+
+	.product-reviews__write-review__tips::after {
+		content: attr(number);
+		position: absolute;
+		bottom: 6px;
+		right: 18px;
+		left: auto;
+		width: auto;
+		color: #999;
+		font-size: 12px;
+		line-height: 20px;
+		background: transparent;
+		text-align: right;
+	}
+
+	.addImgBtn {
+		position: relative;
+		margin: 0;
+		width: 100px;
+		height: 100px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		border: 1px solid #eee
+	}
+
+	.addImgBtn::before {
+		content: "";
+		width: 40px;
+		position: absolute;
+		border: 15px solid #bbb;
+		border-radius: 4px;
+	}
+
+	.addImgBtn:after {
+		content: "";
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		border: 3px solid #fff;
+		border-radius: 50%;
+	}
+
+	.addImgFile {
+		opacity: 0;
+		width: 100%;
+		height: 100%;
+		position: relative;
+		z-index: 999;
+	}
+
+	.product-reviews__write-review__post {
+		color: #FFFFFF !important;
+		border-color: var(--button-bg) !important;
+		background: var(--button-bg) !important;
+		opacity: .9;
+		min-width: 85px;
+		height: 37px;
+		color: #fff;
+		border: none;
+		outline: none;
+		cursor: pointer;
+		font-size: 14px;
+	}
+
+	.addCommentItem {
+		display: flex;
+		flex-wrap: wrap;
+		margin-right: 10px;
+		margin-bottom: 10px;
+	}
+
+	.addCommentItem li {
+		flex-basis: 100px;
+		width: 100px;
+		height: 100px;
+		border: 1px #eee solid;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+		margin-right: 10px;
+		margin-bottom: 10px;
+	}
+
+	.addCommentItem li i {
+		position: absolute;
+		top: 0;
+		right: 0;
+		font-size: 12px;
+		z-index: 999;
+		color: #ff0000;
+		transform: translate(50%, -50%);
+	}
+
+	#product-write-review .form-group {
+		position: relative;
+		margin-bottom: 20px;
+	}
+
+	@media (max-width:768px) {
+		#product-write-reviews-dialog {
+			width: calc(100% - 20px);
+			display: block;
+		}
+
+		.product-width .product-reviews--content {
+			padding: 0;
+			border: none
+		}
+	}
+</style>
+<div id="product-write-review">
+	<div id="product-write-reviews-dialog">
+		<div class="product-write-review__title">
+			<h4> {{'i18n.product_detail.write-a-review' | t: lang}}</h4>
+			<i class="iconfont icon-back"></i>
+		</div>
+		<form class="form">
+			<div class="form-group reviews_star-box">
+				<label class="spr-form-label" for="review-star">{{'i18n.product_detail.rating' | t:
+					lang}}</label>
+				<div class="reviews_star">
+					<i class="iconfont icon-star-fill" data-star="1"></i>
+					<i class="iconfont icon-star-fill" data-star="2"></i>
+					<i class="iconfont icon-star-fill" data-star="3"></i>
+					<i class="iconfont icon-star-fill" data-star="4"></i>
+					<i class="iconfont icon-star-fill" data-star="5"></i>
+					<div class="product-reviews__writer_num">5</div>
+				</div>
+
+			</div>
+			<div class="form-group">
+				<label for="review_name">{{'i18n.product_detail.your-name' | t: lang }}</label>
+				<input type="email" class="form-control" name="name" id="review_name" class="c_input"
+					data-reg="^.{1,60}$" data-required
+					data-msg="{{'i18n.product_detail.enter_a_valid_name' | t: lang }}" type="text" value=""
+					maxlength='100' placeholder="{{'i18n.product_detail.enter_your_name' | t: lang }}">
+			</div>
+			<div class="form-group">
+				<label for="review-email">{{'i18n.product_detail.contact_email' | t: lang }}</label>
+				<input type="email" class="form-control" id="review-email" class="c_input" type="text" name="email"
+					data-required
+					data-reg="^[a-zA-Z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"
+					data-msg="{{'i18n.product_detail.enter_a_valid_email' | t: lang }}" value="" maxlength='100'
+					placeholder="{{'i18n.product_detail.contact-email-of-your-order' | t: lang }}">
+			</div>
+			<div class="form-group">
+				<label for="review-comment">{{'i18n.product_detail.body-of-review' | t: lang }}</label>
+				<textarea class="form-control" id="review-comment" rows="3" name="comment" maxlength="1500"
+					data-required data-msg="{{'i18n.product_detail.leave_your_comments_here' | t: lang }}"
+					placeholder="{{'i18n.product_detail.please-enter-your-review' | t: lang }}"></textarea>
+				<div class="product-reviews__write-review__tips" number="0/1500"></div>
+			</div>
+			<div class="form-group">
+				<label for="review">{{'i18n.product_detail.photos-up-to-8' | t: lang }}</label>
+				<ul class="addCommentItem"></ul>
+				<a href="javascript:;" class="addImgBtn">
+					<input class="addImgFile pro-file" title="select file" type="file" multiple="multiple">
+				</a>
+			</div>
+			<button class="product-reviews__write-review__post">{{'i18n.product_detail.Post' | t: lang
+				}}</button>
+		</form>
+	</div>
+</div>
+
+<script>
+	$('.reviews_star').on('click', 'i', function () {
+		const index = $(this).attr('data-star')
+		$('.product-reviews__writer_num').text(index)
+		$('.reviews_star i').each((i, v) => {
+			if (index > i) {
+				$(v).addClass('icon-star-fill').removeClass('icon-star')
+			} else {
+				$(v).addClass('icon-star').removeClass('icon-star-fill')
+			}
+		})
+	})
+	$('.product-write-review__title i').click(function () {
+		$('#product-write-review').removeClass('active')
+	})
+	$('#review-comment').keyup(function () {
+		const num = $(this).val().length
+		$('.product-reviews__write-review__tips').attr('number', `${num}/1500`)
+	})
+	$('#product-write-review .addCommentItem').on('click', '.icon-fine-cross', function () {
+		$(this).parents('li').remove();
+	})
+	$("#product-write-review input:not([type = 'file']),#product-write-review textarea").on({
+		'blur': function () {
+			$(this).validateItem()
+		}
+	});
+
+	$('.product-reviews__write-review__post').click($.debounce(function (e) {
+		e.preventDefault()
+		if ($('#product-write-review').validate()) {
+			const formVal = $('#product-write-review .form').serializeToObj(),
+				star = Number($('.product-reviews__writer_num').text()),
+				resourceList = []
+			$('.addCommentItem li').each((index, item) => {
+				const resourceItem = { url: $(item).find('img').attr('src') }
+				resourceList.push(resourceItem)
+			})
+			const goodsId = ROWS.id
+			const param = {
+				...formVal, star, resourceList, goodsId
+			}
+			getToken(function () {
+				$.req({
+					url: '/api/v1/goods/comment',
+					type: 'post',
+					contentType: 'application/json;charset=UTF-8',
+					data: JSON.stringify(param),
+					success(res) {
+						if (res.code == 0) {
+							$.alert('success', res.msg)
+							$('#product-write-review input,#product-write-review textarea').val('');
+							$('.reviews_star .icon-star').addClass('icon-star-fill').removeClass('icon-star');
+							$('.product-reviews__writer_num').text('5')
+							$('#product-write-review .addCommentItem').html('');
+							$('#product-write-review').removeClass('active')
+						} else {
+							$.alert('danger', res.msg)
+						}
+					}
+				});
+			});
+		}
+	}))
+	$('#product-write-review .addImgFile').on('change', function (event) {
+		event.stopPropagation();
+		var arr = [
+			'image/png',
+			'image/jpg',
+			'image/jpeg',
+			'image/bmp',
+			'image/gif',
+			'image/webp'
+		];
+		if (!$(this).prop('files').length) {
+			return false;
+		}
+		const $review_ul = $('#product-write-review .addCommentItem')
+		const $review_li = $('#product-write-review .addCommentItem li')
+		if ($review_li.length > 7 || $(this).prop('files').length > 8 || ($review_li.length + $(this).prop('files').length) > 8) {
+			$.alert('danger', window.product_detail_i18n.max_pictures_length)
+		}
+		let MaxNewFilesLen = 8 - $review_li.length
+		let newFiles = $(this).prop('files');
+		const newFilesLen = $(this).prop('files').length
+		MaxNewFilesLen = MaxNewFilesLen < newFilesLen ? MaxNewFilesLen : newFilesLen
+		const newFilesResult = []
+		for (let zIndex = 0; zIndex < MaxNewFilesLen; zIndex++) {
+			if (arr.indexOf(newFiles[zIndex].type) === -1) {
+				$.alert('danger', window.product_detail_i18n.Wrong_picture_type)
+				$(this).val('');
+				return false;
+			}
+			let isLt2M = newFiles[zIndex].size / 1024 / 1024 < 10;
+			if (!isLt2M) {
+				$.alert('danger', window.product_detail_i18n.Upload_picture_size)
+				$(this).val('');
+				return false;
+			}
+			new Promise((resolve, reject) => {
+				let extensionName = newFiles[zIndex].name.substr(newFiles[zIndex].name.indexOf('.')); // 文件扩展名
+				const fileUrl = randomImgName() + extensionName; // 文件名字（相对于根目录的路径 + 文件名）
+				// 执行上传
+				createOssClient().then(client => {
+					// 异步上传,返回数据
+					resolve({
+						fileName: MD5(newFiles[zIndex].name) + newFiles[zIndex].name,
+						fileUrl: fileUrl
+					})
+					// 上传处理
+					async function putObject() {
+						try {
+							let result = await client.put(fileUrl, newFiles[zIndex])
+							if (result.url) {
+								newFilesResult.push({ 'val': result.url, 'num': zIndex })
+								if (newFilesResult.length == MaxNewFilesLen) {
+									newFilesResult.sort(sortby('num'))
+									function sortby(prop) {
+										return function (a, b) {
+											var val1 = a[prop];
+											var val2 = b[prop];
+											return val1 - val2
+										}
+									}
+									newFilesResult.forEach(item => {
+										var addImgHtml = `<li><img class="uploadImg" src="${item.val}"> <i class="iconfont icon-fine-cross"></i></li>`
+										$review_ul.append(addImgHtml).removeClass('hide');
+									})
+								}
+
+							}
+						} catch (e) {
+							$.alert('danger', window.product_detail_i18n.Upload_failed)
+						}
+					}
+					putObject();
+				});
+			});
+		}
+	});
+</script>

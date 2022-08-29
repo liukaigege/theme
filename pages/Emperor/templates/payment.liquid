@@ -1,0 +1,287 @@
+{% assign page_title = 'i18n.payment.page_title' | t: lang , shop_name: shopName %}
+{% layout 'theme' %}
+{% block content %}
+{% assign payMethod = configData.payMethod.creditCard%}
+{% assign alipayMethod = false %}
+{% for listItem in payMethod %}
+{% if listItem.cardType == -1 %}
+{% assign alipayMethod = true %}
+{% else if(listItem.cardType > -1) %}
+{% assign creditPayMethod = listItem %}
+{% endif %}
+{% endfor %}
+<script>
+	var i18n = {
+		payment_abnormality: "{{ 'i18n.payment.payment_abnormality' | t: lang }}",
+		payment_anomaly: "{{ 'i18n.payment.payment_anomaly' | t: lang }}"
+	}
+</script>
+<div class="information-info container">
+	{% render 'payment-header', activeName: 'payment',headerData: headerData,lang: lang %}
+	<div class="information-info-content row">
+		{% render 'payment-summary', activeName: 'payment',lang: lang%}
+		<div class="col-lg" style="padding: 0 0;">
+			{% render 'payment-address-tpl',lang: lang%}
+			<div style="display: none;" id="paymentForm">
+				{% render 'payment-form' settingData: settingData,type: 'shopping',lang: lang %}
+				<button type="button" class="btn btn-info btn--wdith button-general-font" id="confirmBtn">{{ 'i18n.general.confirm' | t: lang }}</button>
+			</div>
+			<div class="payment-method-info payment-method-info--event">
+				<div class="method-info__title">
+					<div>{{ 'i18n.payment.payment_method' | t: lang }}</div>
+					<p>{{ 'i18n.payment.payment_method_tip' | t: lang }}</p>
+				</div>
+				<div class="payment-failed payment-failed--event" style="display: none;">
+					<i class="i-icon">i</i>
+					<p>{{ 'i18n.payment.failed_tip1' | t: lang }}</p>
+					<p>{{ 'i18n.payment.failed_tip2' | t: lang }}</p>
+					<p>{{ 'i18n.payment.failed_tip3' | t: lang }}</p>
+					<p>{{ 'i18n.payment.failed_tip4' | t: lang }}</p>
+				</div>
+				{% if paypalClientId != '' %}
+				<div class="payment-method-warpper">
+					<div class="custom-control custom-radio">
+						<input type="radio" id="paypalMethod" data-method="paypal" name="payMethod" class="custom-control-input">
+						<label class="custom-control-label" for="paypalMethod">{{ 'i18n.general.paypal' | t: lang }}</label>
+					</div>
+					<div class="method-box  method-box--event">
+						<div class="method-info__tips">
+							<p>{{ 'i18n.payment.method_info_tip' | t: lang }}</p>
+						</div>
+						{% render 'payment-paypal-tpl',lang: lang %}
+					</div>
+				</div>
+				{% endif %}
+				{% if payMethod.size > 0 %}
+				<div class="payment-method-warpper">
+					<div class="custom-control custom-radio">
+						<input type="radio" id="creaditCard" data-method="oceanpaymentBtn" name="payMethod" class="custom-control-input">
+						<label class="custom-control-label" for="creaditCard">{{ 'i18n.payment.creadit_card' | t: lang }}</label>
+					</div>
+					<div class="method-box  method-box--event">
+						<div class="method-info__tips">
+							<p>{{ 'i18n.payment.method_info_tip' | t: lang }}</p>
+						</div>
+						{% render 'payment-credit-card-tpl',creditPayMethod: creditPayMethod ,lang: lang%}
+					</div>
+				</div>
+				{% endif %}
+				{% if alipayMethod %}
+				<div class="payment-method-warpper">
+					<div class="custom-control custom-radio">
+						<input type="radio" id="alipay" name="payMethod" data-method="alipay" class="custom-control-input">
+						<label class="custom-control-label" for="alipay">{{ 'i18n.payment.alipay' | t: lang }}</label>
+					</div>
+					<div class="method-box  method-box--event">
+						<div class="method-info__tips">
+							<p>{{ 'i18n.payment.method_info_tip' | t: lang }}</p>
+						</div>
+						{% render 'payment-alipay-tpl',lang: lang %}
+					</div>
+				</div>
+				{% endif %}
+				<div class="payment-method-warpper" id="cod">
+					<div class="custom-control custom-radio">
+						<input type="radio" id="cashOnDelivery" data-method="cod" name="payMethod" class="custom-control-input">
+						<label class="custom-control-label" for="cashOnDelivery">{{ 'i18n.payment.cash_on_delivery' | t: lang }}</label>
+					</div>
+					<div class="method-box  method-box--event">
+						<button type="submit" class="btn btn-primary button-general-font checkout--event btn--width">
+							{{ 'i18n.payment.proceed_to_checkout' | t: lang }}
+							<div class="spinner-border spinner-border-sm" role="loading">
+								<span class="sr-only"></span>
+							</div>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal payment-modal">
+	<div class="container modal-container">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">{{ 'i18n.payment.payment_method' | t: lang }}</h5>
+				<button type="button" class="close close--event" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="container">
+					<ul class="row other-payment-box" id="otherPaymentContent"></ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal completed-modal">
+	<div class="modal-container container-sm">
+		<div class="modal-content ">
+			<div class="modal-body">
+				<div class="alipay-tip">{{'i18n.payment.paying' | t: lang }}</div>
+			</div>
+			<div class="alipay-btn">
+				<button type="button" class="btn btn-danger btn-width" id="alipayCompleted">{{ 'i18n.payment.payment_completed' | t: lang }}</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="commitForm" hidden></div>
+<script>
+	function renderPayssion(country, payssionPayStatus) {
+		if (payssionPayStatus) {
+			getToken(function () {
+				$.req({
+					url: '/api/v1/orders/queryPayssion',
+					type: 'get',
+					data: {},
+					dataType: 'json',
+					contentType: 'application/json',
+					success(res) {
+						if (res.code == 0) {
+							let thisCountryPament = [], //当前国家展示的支付方式
+								otherCountryPayment = []; //其他国家的更多支付方式
+							res.data.forEach(item => { //遍历后台支付数据
+								item.countryName = item.countryName.split(','); //多个国家名称，转为数组
+								let pushStatus = item.countryName.includes(country) //遍历当前方法支持的国家数组
+								if (pushStatus) {
+									thisCountryPament.push(item)
+								} else {
+									otherCountryPayment.push(item)
+								}
+							});
+							// 删除之前添加的支付方式
+							$('.payment-method-info--event').find('.append--event').each(function () {
+								$(this).remove();
+							})
+							let thisCountryTpl = '', morepayssionTpl = '';
+							thisCountryPament.forEach((v, i) => {
+								thisCountryTpl = thisCountryTpl +
+									`
+								<div class="payment-method-warpper append--event">
+									<div class="custom-control custom-radio">
+										<input type="radio" id="${v.methodName}" data-method="payssion"  name="payMethod" class="custom-control-input">
+										<label class="custom-control-label" for="${v.methodName}">${v.methodName} via payssion</label>
+									</div>
+									<div class="method-box  method-box--event">
+										<div class="method-info__tips">
+											<p>{{ 'i18n.payment.method_info_tip' | t: lang }}</p>
+										</div>
+										<button type="submit" data-id="${v.id}" class="btn btn-primary button-general-font checkout--event btn--width">
+											{{ 'i18n.payment.proceed_to_checkout' | t: lang }}
+											<div class="spinner-border spinner-border-sm" role="loading">
+												<span class="sr-only"></span>
+											</div>
+										</button>
+									</div>
+								</div>
+							`
+							});
+							thisCountryTpl = thisCountryTpl +
+								`
+								<div class="payment-method-warpper append--event">
+									<div class="custom-control custom-radio">
+										<input type="radio" id="moreMethods" name="payMethod" data-method="payssion" class="custom-control-input">
+										<label class="custom-control-label" for="moreMethods">{{ 'i18n.payment.more_payment_methods' | t: lang }}</label>
+									</div>
+									<div class="method-box  method-box--event">
+										<div class="btn btn-outline--border btn--margin" id="showMore">${otherCountryPayment[0].methodName} via payssion</div>
+										<div class="method-info__tips">
+											<p>{{ 'i18n.payment.method_info_tip' | t: lang }}</p>
+										</div>
+										<button type="submit" class="btn btn-primary button-general-font checkout--event btn--width ">
+											{{ 'i18n.payment.proceed_to_checkout' | t: lang }}
+											<div class="spinner-border spinner-border-sm" role="loading">
+												<span class="sr-only"></span>
+											</div>
+										</button>
+									</div>
+								</div>
+							`
+
+							$('.payment-method-info--event').append(thisCountryTpl);
+							otherCountryPayment.forEach((v, i) => {
+								morepayssionTpl += `
+									<li class="col-sm-6 col-lg-4 other-payment-warpper">
+										<div class="payment-box payment-box--event" data-id="${v.id}">
+											${v.methodName} via payssion
+										</div>
+									</li>
+								`
+							})
+							$('#otherPaymentContent').html(morepayssionTpl)
+
+						}
+					}
+				})
+			})
+		}
+	}
+	/*
+		付款方式为 payssion
+	*/
+	function commitPayssion(reqPayssionParam) {
+		let keys = ['api_key', 'api_sig', 'pm_id', 'amount', 'currency', 'order_id', 'description', 'return_url', 'notify_url', 'payer_email', 'payer_name']
+		let inputs = ''
+		keys.forEach(key => {
+			inputs = inputs + `<input name="${key}" value="${reqPayssionParam[key]}">`
+		})
+		let form = `<form action="${reqPayssionParam.commitUrl}" method="post" id="payssionForm">${inputs}</form>`
+		$('#commitForm').html(form)
+		$('#payssionForm').submit();
+	}
+	// 付款方式为 ocean
+	function commitOcean(data) {
+		let keys = ['account', 'terminal', 'signValue', 'backUrl', 'noticeUrl', 'methods', 'pages', 'order_number', 'order_currency',
+			'order_amount', 'productSku', 'productName', 'productNum', 'billing_firstName', 'billing_lastName', 'billing_email',
+			'billing_phone', 'billing_country', 'billing_state', 'billing_city', 'billing_address', 'billing_zip']
+		let inputs = ''
+		keys.forEach(key => {
+			inputs = inputs + `<input name="${key}" value="${data[key]}">`
+		})
+		let form = `<form action="${data.oceanCommitUrl}" method="post" id="oceanForm">${inputs}</form>`
+		$('#commitForm').html(form)
+		$('#oceanForm').submit();
+	}
+	// pacypay
+	function commitPacypay(data) {
+		let keys = ['merchantNo', 'subAccount', 'products', 'consumerId', 'transactionWebSite', 'consigneeEmail']
+		let inputs = ''
+		keys.forEach(key => {
+			inputs = inputs + `<input name="${key}" value="${data[key]}">`
+		})
+		let otherInput =
+			`
+			<input name="transactionId" value="${data.order_number}" />
+			<input name="amount" value="${data.order_amount}" />
+			<input name="currency" value="${data.order_currency}" />
+			<input name="returnUrl" value="${data.backUrl}" />
+			<input name="notifyUrl" value="${data.noticeUrl}" />
+			<input name="sign" value="${data.signValue}" />
+			<input name="firstName" value="${data.ship_firstName}" />
+			<input name="lastName" value="${data.ship_lastName}" />
+			<input name="address" value="${data.ship_addr}" />
+			<input name="streetNumber" value="${data.ship_zip}" />
+			<input name="city" value="${data.ship_city}" />
+			<input name="state" value="${data.ship_state}" />
+			<input name="country" value="${data.ship_country}" />
+			<input name="zipCode" value="${data.ship_zip}" />
+			<input name="email" value="${data.consigneeEmail}" />
+			<input name="phone" value="${data.ship_phone}" />
+			<input name="consigneeFirstName" value="${data.ship_firstName}" />
+			<input name="consigneeLastName" value="${data.ship_lastName}" />
+			<input name="consigneeAddress" value="${data.ship_addr}" />
+			<input name="consigneeCity" value="${data.ship_city}" />
+			<input name="consigneeState" value="${data.ship_state}" />
+			<input name="consigneeCountry" value="${data.ship_country}" />
+			<input name="consigneeZip" value="${data.ship_zip}" />
+			<input name="consigneePhone" value="${data.ship_phone}" />
+		`
+		let form = `<form action="${data.oceanCommitUrl}" method="post" id="pacypayForm">${inputs}${otherInput}}</form>`
+		$('#commitForm').html(form)
+		$('#pacypayForm').submit();
+	}
+</script>
+{% endblock %}

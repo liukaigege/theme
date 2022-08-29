@@ -1,0 +1,209 @@
+.recommendCategory {
+  margin: 89px 1.35rem;
+  position: relative;
+}
+
+.recommendCategory .swiper-button-next {
+  right: -0.67rem;
+  background: url('../../pc/images/next_category.png') center no-repeat;
+}
+
+.recommendCategory .swiper-button-prev {
+  left: -0.67rem;
+  background: url('../../pc/images/prev_category.png') center no-repeat;
+}
+
+.recommendCategory .items-warp {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 0.3rem 0.3rem;
+}
+
+.recommendCategory .items-warp-limit {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.recommendCategory .swiper-slide {
+  align-items: baseline;
+  justify-content: start;
+}
+
+.recommendCategory .swiper-slide .itemsStyle2 {
+  margin: 0 0.2rem 0 0 !important;
+}
+
+.recommendCategory [perLineNum='4'] .swiper-slide .itemsStyle2 {
+  width: 23% !important;
+}
+
+.recommendCategory [perLineNum='4'] .swiper-slide .itemsStyle2:first-child {
+  width: 29% !important;
+}
+
+.recommendCategory [perLineNum='3'] .swiper-slide .itemsStyle2 {
+  margin-right: 2%;
+  width: 29% !important;
+}
+
+.recommendCategory [perLineNum='3'] .swiper-slide .itemsStyle2:first-child {
+  width: 40% !important;
+}
+
+.recommendCategory [perLineNum='2'] .swiper-slide .itemsStyle2 {
+  width: 43% !important;
+}
+
+.recommendCategory [perLineNum='2'] .swiper-slide .itemsStyle2:first-child {
+  width: 54% !important;
+  margin-right: 0.3rem !important;
+}
+
+.recommendCategory .recommendCategory-swiper-pc .itemsStyle2 .itemsStyle2-img {
+  background-size: cover;
+}
+
+
+.recommendCategory .recommendCategory-swiper-pc .itemsStyle2 .itemsStyle3-introduce {
+  margin-top: 0.2rem;
+}
+
+
+/* 四个分类时的布局 */
+/* .recommendCategory [perLineNum='4'].items-warp-limit .itemsStyle2 {
+  height: 4.2rem;
+  width: 3.4rem;
+}
+
+.recommendCategory [perLineNum='4'].items-warp-limit .itemsStyle2:first-child {
+  height: 5.4rem;
+  width: 4.9rem;
+} */
+
+/* 三个分类时的布局 */
+.recommendCategory [categorySize='3'].items-warp-limit .itemsStyle2 {
+  width: 4.5rem;
+  height: 5.5rem;
+}
+
+.recommendCategory [categorySize='3'].items-warp-limit .itemsStyle2:first-child {
+  height: 7rem;
+  width: 6.4rem;
+}
+
+/* 两个分类时的布局 */
+.recommendCategory [categorySize='2'].items-warp-limit .itemsStyle2 {
+  height: 8.7rem;
+  width: 7rem;
+}
+
+.recommendCategory [categorySize='2'].items-warp-limit .itemsStyle2:first-child {
+  height: 9.8rem;
+  width: 9rem;
+}
+
+/* .recommendCategory .items-warp-limit .itemsStyle3-introduce, */
+.recommendCategory .items-warp-limit .itemsStyle2-introduce {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
+/* 推荐分类样式1 */
+.recommendCategory .itemsStyle1 {
+  display: block;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+  margin: 0 auto;
+  background-color: #ffffff;
+  cursor: pointer;
+  background-size: cover;
+}
+
+.recommendCategory .itemsStyle1::before {
+  content: '';
+  padding-top: 100%;
+  float: left;
+}
+
+.recommendCategory .itemsStyle1::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.recommendCategory .itemsStyle1-introduce {
+  position: absolute;
+  bottom: -100%;
+  left: 0;
+  width: 100%;
+  line-height: 60px;
+  background: rgba(247, 247, 247, 0.8);
+  opacity: 0.97;
+  font-size: 28px;
+  font-family: HelveticaNeue;
+  color: #080808;
+  transition: bottom 0.5s;
+  -moz-transition: bottom 0.5s;
+  /* Firefox 4 */
+  -webkit-transition: bottom 0.5s;
+  /* Safari 和 Chrome */
+  -o-transition: bottom 0.5s;
+  /* Opera */
+}
+
+.recommendCategory .itemsStyle1:hover .itemsStyle1-introduce {
+  bottom: 0;
+}
+
+/* 推荐分类样式2 */
+.recommendCategory .itemsStyle2 {
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.recommendCategory .itemsStyle2 .itemsStyle2-img {
+  display: block;
+  padding-bottom: 100%;
+  background-size: cover;
+}
+
+.recommendCategory .items-warp-limit .itemsStyle2 .itemsStyle2-img {
+  margin-bottom: 0.2rem;
+}
+
+.recommendCategory .itemsStyle3-introduce,
+.recommendCategory .itemsStyle2-introduce {
+  font-size: 0.24rem;
+  line-height: 0.28rem;
+}
+
+.recommendCategory .itemsStyle2-introduce {
+  text-decoration: underline;
+  margin-top: 0.2rem;
+}
+
+@media screen and (max-width: 1600px) {
+  /* .recommendCategory {
+    margin: 0.6rem 1.6rem;
+  } */
+
+  .recommendCategory .items-warp {
+    grid-gap: 0.15rem 0.15rem;
+  }
+
+  .recommendCategory .itemsStyle1-introduce {
+    line-height: 0.6rem;
+    opacity: 0.97;
+    font-size: 0.28rem;
+  }
+}

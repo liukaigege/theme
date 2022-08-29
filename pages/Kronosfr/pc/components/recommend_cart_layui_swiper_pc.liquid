@@ -1,0 +1,41 @@
+<div id="recommend-section_cart_layui_swiper">
+  {% if isShow %}
+  <h3>Tu pourrais aussi aimer</h3>
+  {% endif %}
+  <div class="swiper-container newProducts_details" id='recommend_cart_layui_swiper'>
+  </div>
+</div>
+{% raw %}
+<script id='recommend_cart_template' type="text/html">
+    <div class="swiper-wrapper">
+      {{#  layui.each(d, function(index, item){ }}
+      <div class="swiper-slide">
+        <a onclick="toJump('productDetail_{{item.id}}.html')" data-toJump="productDetail_{{item.id}}.html">
+          <div class="cover_wrap">
+              {{# if(item.freeShipping != 0){ }}
+            <div class="free_shipping">
+              Livraison Gratuite
+            </div>
+            {{# } }}
+            {{# if(item.defaultPrice && item.defaultPrice < item.originalPrice){ }}
+                 <div class="off">
+                    <em><i></i>%</em>
+                    <em>RABAIS</em>
+                 </div>
+            {{# } }}
+            <img class="cover {{# if(item.otherImg != '' && item.otherImg != null){ }}mainRelationListImg {{# } }}" src="" data-suffix-img="{{item.mainImg}}" alt="">
+            {{# if(item.otherImg != '' && item.otherImg != null){ }}
+            <img class="associateRelationListImg cover" src="" data-suffix-img="{{item.otherImg}}" alt="">
+            {{# } }}
+            </div>
+          <p class="m_title">{{item.goodsName}}</p>
+          <div class="price" data-price="{{item.defaultPrice}}" data-originalPrice='{{item.originalPrice}}'>
+            <span class="old_price hide"></span>
+            <span class="now_price"></span>
+          </div>
+        </a>
+      </div>
+      {{# }) }}
+    </div>
+</script>
+{% endraw %}

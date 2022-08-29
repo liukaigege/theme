@@ -1,0 +1,38 @@
+<script>
+	/*物流信息渲染函数*/
+	function renderShippingTpl(shippingData) {
+		console.log(shippingData)
+		if (shippingData.list.length) {
+			let shippingStr = '';
+			shippingData.list.forEach(v => {
+				shippingStr += `
+					<li class="modal-price-container modal-price-container-list--event" data-id="${v.id}" data-name=${v.name}>
+						<div class="price-checked-container">
+							<span class="iconfont cart-shipping-icon--event icon-unchecked"></span>
+						</div>
+						<div class="price-title-container">${v.name}${!!v.displayPage && v.displayPage.indexOf("0") !== -1 && !!v.deliveryTime ? `(${v.deliveryTime})` : ''} </div>
+						<div class="price-price-container"><span class="shippingCost"  data-money="${v.money}">${getMoney(v.money)}</span></div>
+					</li>
+				`
+			})
+			$('.cart-shipping-container--event').html(shippingStr)
+		} else {
+			$('.shipping-method').html('')
+		}
+		minShipping(shippingData.list)
+		// 切换运费
+		$('.shipping-method').on('click', 'li', function (e) {
+			e.stopPropagation();
+			e.preventDefault();
+			$(this).addClass('active').siblings('li').removeClass('active')
+			$(this).find('.price-checked-container>span').removeClass('icon-unchecked').addClass('icon-checked')
+			$(this).siblings('li').find('.price-checked-container>span').removeClass('icon-checked').addClass('icon-unchecked')
+			var $shippingMoney = $(this).find('.shippingCost').attr('data-money');
+			// 获取邮费
+			let $id = $(this).attr('data-id');
+
+			// 存储运费进入session
+			shippingSession($id, $shippingMoney, true)
+		})
+	}
+</script>

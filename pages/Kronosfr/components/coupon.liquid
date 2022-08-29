@@ -1,0 +1,91 @@
+{% comment %}
+主题： Athena-雅典娜;
+积木名称：优惠券弹框;
+{% endcomment %}
+{% assign couponData = OBJ.configData.commomCoupon[0] %}
+{% comment %}货币数据{% endcomment %}
+{% assign currency = OBJ.configData.currency %}
+{% for i in currency %}
+{% if i.mainCurrency==1 %}
+{% assign currentRate = i %}
+{% break %}
+{% endif%}
+{% endfor%}
+{% comment %} 2021年6月21日重构优惠券弹框模块 Start 通过pcCouponModal和wapCouponModal两个类名控制样式转换 {% endcomment %}
+<div class="newCouponModal hideClass {% if isMobilePhone == 0 %}pcCouponModal{% else %}wapCouponModal{% endif %} ">
+  {% comment %} 蒙层 maker {% endcomment %}
+  <div class="newCouponModal_maker"></div>
+  {% comment %} 弹框的主题内容 content pc端优惠券少于5个时，弹框宽度变窄=>通过类名newCouponModal_content_less控制 {% endcomment %}
+  <div
+    class="newCouponModal_content {% if couponData.list.length < 5 and isMobilePhone == 0 %}newCouponModal_content_less less {% endif %}">
+    {% comment %} 弹框头部和优惠券列表容器 {% endcomment %}
+    <div class="newCouponModal_contentContainer">
+      <div class="newCouponModal_contentContainerTitle">{{couponData.title}}</div>
+      <ul class="newCouponModal_couponListContentUL clearfix 
+        {% if couponData.list.length == 1 %}
+           only-one 
+        {% elsif  couponData.list.length == 2 %}
+           only-two
+        {% endif %}">
+        {% comment %} 优惠券列表 {% endcomment %}
+        {% for item in couponData.list %}
+        {% comment %} item.ruleResult 0=>满立减优惠券 1=>折扣优惠券 {% endcomment %}
+        {% comment %} item.activitiesRule 0=>优惠券使用不需要条件 1=>优惠券使用订单需要满足一定金额 2=>优惠券使用订单需要满足一定件数 {% endcomment %}
+        <li class="newCouponModal_couponList fl">
+          <div
+            class="newCouponModal_couponListContent {% if item.ruleDesc and item.activitiesRule != '0' %}hastips{%endif%}">
+            <div class="newCouponModal_couponListMainContent">
+              <div class="newCouponModal_couponListMainContentPrice">
+                {% if item.ruleResult == '0' %}<span class="newCouponModal_Dollar">{{currentRate.symbol}}</span>{% endif
+                %}<span class="newCouponModal_Price">{%if item.ruleResult == '0' %}{{item.ruleResultValue |
+                  calculationPrice:currentRate}}{% else %}
+                  {{item.ruleResultValue | times:10}}
+                  {% endif %}
+                </span>
+              </div>
+              {% if item.ruleResult == '1' %}
+              <div class="newCouponModal_couponListMainContentPer">
+                <p>%</p>
+                <p>RABAIS</p>
+              </div>
+              {% endif %}
+            </div>
+            {% if item.ruleDesc and item.activitiesRule != '0' %}
+            <div class="newCouponModal_couponListContentTpips">{{ item.ruleDesc | replace: "**", currentRate.symbol }}
+            </div>
+            {% endif %}
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% comment %} 弹框的底部，按钮和提示的容器 {% endcomment %}
+    <div class="newCouponModal_contentBtnsTips">
+      <div class="newCouponModal_contentBtns">{{couponData.buttonContent}}</div>
+      <div class="newCouponModal_contentTips">{{couponData.activityDescription}}</div>
+    </div>
+    {% comment %} 弹框关闭按钮 {% endcomment %}
+    <img src="../assets/wap/images/cancel_but@2x.png" class="newCouponModal_Close_wap_btn" alt="">
+    <img src="../assets/pc/images/btn_close@2x.png" class="newCouponModal_Close_pc_btn" alt="">
+  </div>
+  {% comment %} 点击获取优惠券成功后的弹框 {% endcomment %}
+  <div
+    class="newCouponModal_contentSuccess hideClass {% if couponData.list.length < 5 and isMobilePhone == 0 %}newCouponModal_content_less less {% endif %} "">
+    <div class=" newCouponModal_contentSuccess_container">
+    <div class="newCouponModal_contentSuccess_containerTitle">TOUTES NOS FÉLICITATIONS!</div>
+    <div class="newCouponModal_contentSuccess_containerTips">
+      Reçu avec succès. Les remises seront ajoutées <br /> automatiquement lors de votre commande.</div>
+  </div>
+  <div class="newCouponModal_contentSuccess_btnContainer">
+    <div class="newCouponModal_contentSuccess_btn">ALLER FAIRE LES COURSES</div>
+    <div class="newCouponModal_contentTips">{{couponData.activityDescription}}</div>
+    {% if isMobilePhone == 0 %}
+    <img src="../assets/pc/images/btn_close@2x.png" class="newCouponModal_contentSuccess_Close_pc_btn" alt="">
+    {% else %}
+    <img src="../assets/wap/images/cancel_but@2x.png" class="newCouponModal_contentSuccess_Close_pc_btn" alt="">
+    {%endif%}
+  </div>
+</div>
+
+</div>
+{% comment %} 2021年6月21日重构优惠券弹框模块 End {% endcomment %}

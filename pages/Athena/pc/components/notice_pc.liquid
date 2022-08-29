@@ -1,0 +1,95 @@
+<style>
+  .noticeBox {
+    width: 100%;
+    position: relative;
+    height: 48px;
+  }
+
+  .notice_img {
+    width: 100%;
+    text-align: center;
+    font-size: 0;
+    height: 48px;
+  }
+
+  .notice_img img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .notice {
+    /* width: 100%; */
+    text-align: center;
+    line-height: 48px;
+    font-size: 15px;
+    font-family: Aileron-Regular, Aileron;
+    font-weight: 700;
+  }
+
+  .closeNotice {
+    position: absolute;
+    right: 14px;
+    top: 14px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+</style>
+{% assign activities = data.configData.activities %}
+{% assign status = data.configData.activities[0].status %}
+{% if activities.size>0 and status==1 %}
+{% for item in activities limit:1 %}
+{% if item.picPc.size>0 %}
+<section id="noticeFlag" flag="1" start="{{item.start}}" end="{{item.end}}">
+  <div class="noticeBox ">
+    <img class="closeNotice" src="../assets/pc/images/commentClose.png" alt="">
+    <div class="notice_img">
+      <img src="{{item.picPc}}" alt="">
+    </div>
+  </div>
+</section>
+{% elsif item.picWap.size>0 %}
+<section id="noticeFlag" flag="1" start="{{item.start}}" end="{{item.end}}">
+  <div class="noticeBox ">
+    <img class="closeNotice" src="../assets/pc/images/commentClose.png" alt="">
+    <div class="notice_img">
+      <img src="{{item.picWap}}" alt="">
+    </div>
+  </div>
+</section>
+{% elsif item.description.size>0 %}
+<section id="noticeFlag" flag="1" start="{{item.start}}" end="{{item.end}}">
+  <div class="noticeBox ">
+    <img class="closeNotice" src="../assets/pc/images/commentClose.png" alt="">
+    <div class="notice" bg-color="{{item.colorPlate}}">{{item.description}}</div>
+  </div>
+</section>
+{% else %}
+<section id="noticeFlag" flag="0"></section>
+{% endif %}
+
+</section>
+{% endfor %}
+{% else %}
+<section id="noticeFlag" flag="0"></section>
+{% endif %}
+
+
+
+<script>
+  $('.notice').css('background', $('.notice').attr('bg-color'))
+  $('.closeNotice').on('click', function () {
+    $('.noticeBox').hide()
+    $('header').css('height', '160px')
+  })
+  checkActive()
+  function checkActive() {
+    let start = new Date($('#noticeFlag').attr('start')).getTime()
+    let end = new Date($('#noticeFlag').attr('end')).getTime()
+    if ($now < start || $now > end) {
+      $('.noticeBox').hide()
+      $('header').css('height', '160px')
+    }
+  }
+
+</script>

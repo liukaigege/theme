@@ -1,0 +1,183 @@
+.payment-tips {
+	margin-top: 15px;
+	line-height: 40px;
+	border-radius: 4px;
+	border: 1px solid #FFE28D;
+	background-color: #FFFAEB;
+	font-size: 12px;
+	font-family: Roboto-Regular, Roboto;
+	font-weight: 400;
+	color: #666666;
+}
+.i-icon {
+	display: inline-block;
+	margin: 0 15px;
+	height: 20px;
+	width: 20px;
+	border-radius: 50%;
+	font-size: 14px;
+	line-height: 20px;
+	color: #ffc439;
+	text-align: center;
+	border: 1px #ffc439 solid;
+}
+
+.payment-info-content .address-info {
+	border: 1px solid #E9E9E9;
+	border-radius: 2px;
+}
+
+.payment-info-content {
+	margin: 20px 0;
+}
+
+.address-info>li {
+	padding: 10px 20px;
+	border-bottom: #EEEEEE 1px solid;
+	display: flex;
+	justify-content: space-between;
+}
+
+.address-info>li:last-child {
+	border-bottom: none;
+}
+
+.address-info .review-block__label {
+	color: #9B9B9B;
+}
+
+.address-info .review-block__content {
+	font-size: 16px;
+	color: #000000;
+}
+
+
+.address-info  .change-button {
+	background: var(--vshop-primary-color);
+	color: #fff;
+	padding: 5px 8px ;
+}
+.btn--wdith {
+	width: 100%;
+}
+.btn--margin {
+	margin-top: 15px;
+}
+.payment-method-warpper {
+	margin-top: 15px;
+}
+.method-box {
+	display: none;
+	width: 90%;
+	margin: 0 auto;
+	margin-bottom: 15px;
+}
+.method-box.selected{
+	display: block;
+}
+.payment-method-info {
+	padding: 0 15px 25px;
+	margin-top: 15px;
+}
+.payment-method-info>.method-info__title {
+	line-height: 2;
+	font-size: 16px;
+	font-family: Roboto-Regular, Roboto;
+	font-weight: 400;
+	color: #303133;
+}
+
+.method-info__title::after {
+	display: block;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #E9E9E9;
+	content: '';
+}
+
+.method-info__title p {
+	font-size: 12px;
+	color: #666666;
+}
+.payment-failed {
+	position: relative;
+	margin: 15px 0;
+	background: #FFF0EF;
+	border-radius: 4px;
+	border: 1px solid #E63575;
+	padding: 5px 5px 5px 40px;
+	font-size: 12px;
+	font-family: Roboto-Regular, Roboto;
+	font-weight: 400;
+	color: #666666;
+}
+.payment-failed .i-icon {
+	position: absolute;
+	top: 5px;
+	left: -5px;
+	color: #E63575;
+	text-align: center;
+	border: 1px #E63575 solid;
+}
+.method-info__tips {
+	font-size: 12px;
+    line-height: 14px;
+    color: #666;
+    margin: 5px 0 10px;
+}
+.btn-outline--border {
+	border-color: #6c757d
+}
+.modal-container {
+	position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%,-50%);
+}
+.modal-container .other-payment-warpper {
+	padding: 0;
+	margin-bottom: 10px;
+	font-size: 15px;
+    color: #363636;
+	text-align: center;
+}
+.other-payment-box {
+	max-height: 410px;
+	box-sizing: border-box;
+	overflow: auto;
+}
+.alipay-tip {
+	height: 40px;
+	line-height: 40px;
+}
+.alipay-btn {
+	padding: 10px 15px;
+	background-color: #f0f0f0;
+}
+.completed-modal .modal-container{
+	max-width: 450px ;
+}
+.other-payment-warpper .payment-box {
+	margin: 0 5px;
+	padding: 5px;
+	border: 1px solid #eee;
+	border-radius: 3px;
+	cursor: pointer;
+}
+.payment-box.active {
+	border-color: red;
+	color: red;
+}
+[role="loading"] {
+	display: none;
+}
+.btn--width {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+@media (min-width: 992px) {
+	.modal-container {
+		max-width: 900px;
+	}
+}

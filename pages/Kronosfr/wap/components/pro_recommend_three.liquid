@@ -1,0 +1,59 @@
+<div id="pro_recommend_three" class="product_red newProduct_wrap a_space">
+  <div class="p_list_wrap">
+    {% for item in data.goods %}
+      {% if forloop.index <= 2 %}
+        <div class="p_list shadow">
+          <a href="productDetail_{{item.id}}.html">
+              <div class="cover_wrap">
+                  <img class="cover" data-suffix-img="{{item.mainImg}}" src="{{item.mainImg}}">
+                  {% if item.discount and item.discount != 10 %}<span class="discount pa hide" data-discount="{{item.discount}}" data-start="{{item.discountStaTime}}" data-end="{{item.discountEndTime}}"><em class="num"><i class="d_num"></i>%</em><em class="text">RABAIS</em></span>{% endif %}
+                  {% if item.freeShipping and item.freeShipping == 1 %}<span class="free_shipping pa">FREE<i class="text">SHIPPING</i></span>{% endif %}
+              </div>
+              <p class="m_title">{{item.goodsName}}</p>
+              <div class="price">
+                <span class="old_price hide" discount-price></span><span class="now_price hide" p-price="{{item.defaultPrice}}"></span>
+              </div>
+          </a>
+          {% if item.speType==3 %}
+          <div class="wrapContainer">
+              <div class="cube">
+                  <div class="cubeList front">3</div>
+                  <div class="cubeList back">3</div>
+                  <div class="cubeList top">3</div>
+                  <div class="cubeList bottom">D</div>
+                  <div class="cubeList left">D</div>
+                  <div class="cubeList right">D</div>
+              </div>
+          </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+      
+  </div>
+</div>
+<script>
+  $(function () {
+    function recommendThreeBaseLogic(){
+      $('#pro_recommend_three .p_list').each(function(index,el){
+        let $discount = $(el).find('[data-discount]').attr('data-discount'),
+            $start = $(el).find('[data-start]').attr('data-start'),
+            $end = $(el).find('[data-end]').attr('data-end'),
+            $basePrice = $(el).find('[p-price]').attr('p-price');
+            if($discount && $discount != '' && Number($discount) != 10  && Object.prototype.toString.call($discount).slice(8, -1) != 'Null'){
+                    if(contrastTime(true,$end,$start)){
+                        $(el).find('[p-price]').removeClass('hide').addClass('active').html(getMoney($basePrice * ($discount / 10)));
+                        $(el).find('[discount-price]').removeClass('hide').html(getMoney($basePrice));
+                        $(el).find('.d_num').html(100 - $discount * 10);
+                        $(el).find('[data-discount]').removeClass('hide');
+                    }else{
+                      $(el).find('[p-price]').removeClass('hide active').html(getMoney($basePrice));
+                    }
+            }else{
+                $(el).find('[p-price]').removeClass('hide active').html(getMoney($basePrice));
+            }
+      });
+    }
+    recommendThreeBaseLogic();
+  });
+</script>

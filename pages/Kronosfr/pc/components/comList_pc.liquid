@@ -1,0 +1,151 @@
+<ul class="u_list">
+  {% for item in data %}
+  {% if forloop.index0 < 5 %} <li>
+    <div class="user">
+      <img class="u_icon" src="../assets/pc/images/user.png">
+      <span class="u_name">
+        <div class="c_name_inner">
+          <div class="name">{{item.name}}</div>
+          {% if item.country!= '' and item.country != null %}
+          <div class="country"><span class="country-location-icon"></span><span>{{item.country}}</span></div>{% endif
+          %}
+        </div>
+        <div class="c_star_inner">
+          {% if item.star %}{% render 'Kronosfr/pc/components/star_pc.liquid',isShowScore: true,isMin: true,data: item.star | at_least: 1 |
+          at_most: 5 %}{% endif %}
+        </div>
+      </span>
+    </div>
+
+    {% comment %} {% if item.createTime %}
+    <div class="u_time  m_lr_20">{{item.createTime | slice: 0, 10}}</div>
+    {% endif %} {% endcomment %}
+
+    {% if item.comment %}
+    <div class="u_descr">{{item.comment}}</div>
+    {% endif %}
+
+    {% if item.commentResourceList.size > 0%}
+    <dl class="clearfix z_img_inner">
+      {% for citem in item.commentResourceList %}
+      <dd>
+        <div class="z_img" data-src="{{citem.url}}" data-index="{{forloop.index0}}">
+          <img src="{{citem.url}}">
+        </div>
+      </dd>
+      {% endfor %}
+    </dl>
+    {% endif %}
+    {% if item.reply != '' and item.reply != null %}
+    <div class="reply">
+      <div class="reply-title">Réponse du marchand</div>
+      <p>{{item.reply}}</p>
+    </div>
+    {% endif %}
+    </li>
+    {% endif %}
+    {% endfor %}
+</ul>
+<div id="dialog-box">
+  <div class="box">
+    <!-- <img src="" class="box-img"/> -->
+  </div>
+</div>
+{% if data.size > 5 %}
+<div class="get_more_wrap">
+  <div class="loading l_box_wrap hide"></div>
+  <p class="get_more_btn">Afficher plus de commentaires</p>
+</div>
+{% endif %}
+
+{% raw %}
+<script id="setmealDialogTpl" type="text/html">
+    <div class="swiper-container" id="setmealDialogTplSwiper">
+        <div class="swiper-wrapper">
+            {{# layui.each(d, function(index, item){ }}
+            <div class="swiper-slide">
+                <img src="{{item.mainImg}}" class="box-img"/>
+            </div>
+            {{# }); }}
+        </div>
+        <div class="swiper-button-prev dialogPrevBtn"></div>
+        <div class="swiper-button-next dialogNextBtn"></div>
+    </div>
+</script>
+{% endraw %}
+
+{% raw %}
+<script id="cHtml" type="text/html">
+    {{# layui.each(d, function(index, item){ }}
+      <li>
+        <div class="user">
+          <img class="u_icon" src="../assets/pc/images/user.png">
+          <span class="u_name">
+            <div class="c_name_inner">
+              <div class="name">{{item.name}}</div>
+              {{# if(item.country && item.country != '' && Object.prototype.toString.call(item.country).slice(8,-1) != 'Null' ){}}
+              <div class="country"><span class="country-location-icon"></span><span>{{item.country}}</span></div>
+              {{# }}}
+            </div>
+            <div class="c_star_inner">
+              <span class="star_wrap  min ">
+                <span class="star_inner">
+                  {{#  
+                    var fn = function(num){
+                      var num = num > 5 ? 5 : num;
+                      var star = '';
+                      for(let i = 0;i < parseInt(num);i++){
+                        star += '<i class="star"></i>';
+                      }
+            
+                      var halfStar = '',
+                          strStar = String(num);
+                      if(strStar.indexOf('.') != -1){
+                        halfStar = strStar.split('.')[1];
+                        var zClass= 's_'+ halfStar;
+                        star += '<i class="star '+ zClass +'"></i>';
+                      }
+                      
+                      if(5 > Math.ceil(num)){
+                        var k = 5 - Math.ceil(num);
+                        for(let z = 0;z < k;z++){
+                          star += '<i class="star empty"></i>';
+                        }
+                      }
+                      return star;
+                    }; 
+                  }}
+                  {{ fn(item.star) }}
+                </span>
+              </span>
+            </div>
+          </span>
+        </div>
+        {{# if(item.comment && item.comment != '' && Object.prototype.toString.call(item.comment).slice(8,-1) != 'Null' ){}}
+        <div class="u_descr">{{item.comment}}</div>
+        {{# }}}
+        
+        {{# if(item.commentResourceList.length > 0 && Object.prototype.toString.call(item.commentResourceList).slice(8,-1) != 'Null'){}}
+        <dl class="clearfix z_img_inner">
+          {{#  layui.each(item.commentResourceList, function(zindex, val){ }}
+              {{# if (val.type == 1 && val.url && val.url != '' && Object.prototype.toString.call(val.url).slice(8,-1) != 'Null') { }}
+                  <dd>
+                    <div class="z_img" data-src="{{val.url}}" data-index="{{zindex}}">
+                      <img src="{{val.url}}">
+                    </div>
+                  </dd>
+              {{# } }}
+          {{#  }); }}
+        </dl>
+        {{# }}}
+        {{# if(item.reply != '' && item.reply != null){}}
+        <div class="reply">
+          <div class="reply-title">Réponse du marchand</div>
+          <p>{{item.reply}}</p>
+        </div>
+        {{# }}}
+      </li>
+    {{# }); }}
+</script>
+{% endraw %}
+<script src="../assets/pc/js/comList.js"></script>

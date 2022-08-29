@@ -1,0 +1,22 @@
+{% comment %}
+主题： Kronos;
+积木名称：滑动展示;
+{% endcomment %}
+<div class="swiper-container recommend" sectionId="{{sectionId}}" perLineNum="{{perLineNum}}" id="swiper-{{id | uuid}}"
+  isLocal="{{isLocal}}">
+  <div class="swiper-wrapper">
+    {% for item in goodList %}
+    <div class="swiper-slide" {% if  goodList.size == 2 %} style="width:45%;margin:0.14rem"
+      {% elsif  goodList.size ==1 %} style="width:100%" {%else%} style="width:40%;margin:0.1rem" {%endif%}>
+      {% render
+      'Kronos/home/components/categoryItems',item:item,type:displaysty,isLocal:isLocal,isMobilePhone:isMobilePhone
+      %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% if isLocal == 1 %}
+<script>
+  initSwiper()
+</script>
+{%endif%}

@@ -1,0 +1,536 @@
+/* 2021年6月21日重构优惠券弹框模块 Start */
+.coupon-modal {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	left: 0;
+	top: 0;
+	display: none;
+	z-index: 9999;
+}
+
+/* 蒙层 maker */
+.coupon-modal_maker {
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
+.coupon-modal_success {
+	display: none;
+	width: 480px;
+}
+
+.coupon-modal_success--container {
+	width: 100%;
+	border-radius: 2px 2px 0 0;
+	box-sizing: border-box;
+	padding: 0 10px;
+	color: #713D41;
+	font-size: 36px;
+	font-weight: bold;
+}
+
+.coupon-modal .coupon-modal_success--container {
+	height: 70%;
+}
+
+
+.coupon-modal .coupon-modal_success--tips {
+	padding: 0 20px;
+	margin-top: 77px;
+	font-size: 30px;
+	font-family: Roboto-Medium, Roboto;
+	font-weight: 500;
+	color: #713D41;
+	line-height: 40px;
+	text-align: center;
+}
+
+@media (min-width:992px) {
+	.coupon-modal .coupon-modal_success--tips {
+		padding: 0 100px;
+	}
+}
+
+@media (max-width:992px) {
+	.coupon-modal .coupon-modal_success--tips {
+		font-size: 25px;
+	}
+}
+
+@media (max-width:768px) {
+	.coupon-modal .coupon-modal_success--tips {
+		font-size: 18px;
+		margin-top: 50px;
+		line-height: 30px;
+	}
+}
+
+@media (max-width:576px) {
+	.coupon-modal .coupon-modal_success--tips {
+		font-size: 13px;
+		margin-top: 85px;
+		line-height: 22px;
+	}
+}
+
+/* .coupon-modal_success--close {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+} */
+
+
+.coupon-modal .coupon-modal_success--desc {
+	text-align: center;
+	width: 100%;
+	line-height: 16px;
+	font-size: 16px;
+	font-family: Roboto-Medium, Roboto;
+	font-weight: 500;
+	color: #FFFFFF;
+}
+
+
+.coupon-modal .coupon-modal_success,
+.coupon-modal .coupon-modal_content {
+	height: 726px;
+	width: 1080px;
+}
+
+/* 弹框的主题内容 content */
+.coupon-modal .coupon-modal_success,
+.coupon-modal .coupon-modal_content {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	background: url(../images/coupon_bg.png) 0 0 / 100% 100% no-repeat;
+}
+
+@media (max-width:992px) {
+
+	.coupon-modal .coupon-modal_success,
+	.coupon-modal .coupon-modal_content {
+		background: url(../images/coupon_bg@2x.png) 0 0 / 100% 100% no-repeat;
+	}
+}
+
+@media (max-width:768px) {
+
+	.coupon-modal .coupon-modal_success,
+	.coupon-modal .coupon-modal_content {
+		width: 75% !important;
+		height: 55% !important;
+	}
+}
+
+@media (max-width:576px) {
+
+	.coupon-modal .coupon-modal_success,
+	.coupon-modal .coupon-modal_content {
+		height: 440px !important;
+		width: 90% !important;
+	}
+}
+
+.coupon-modal .coupon-modal_success.less,
+.coupon-modal .coupon-modal_content.less {
+	background: url(../images/coupon_bg@2x.png) 0 0 / 100% 100% no-repeat;
+}
+
+
+.coupon-modal .coupon-modal_content--less {
+	width: 664px;
+}
+
+
+.coupon-modal .coupon-modal_content--less .coupon-modal_success--btn,
+.coupon-modal .coupon-modal_content--less .coupon-modal_options--btn {
+	max-width: 55%;
+}
+
+.coupon-modal .coupon-modal_success--btn,
+.coupon-modal .coupon-modal_options--btn {
+	max-width: 35%;
+	margin: 0 auto;
+	height: 80px;
+	line-height: 80px;
+	color: #713D41;
+	background: #F0E8E8;
+	text-align: center;
+	font-size: 30px;
+	font-weight: bold;
+	cursor: pointer;
+	border-radius: 40px;
+	margin-bottom: 30px;
+}
+
+
+@media (max-width:992px) {
+
+	.coupon-modal .coupon-modal_success--btn,
+	.coupon-modal .coupon-modal_options--btn {
+		height: 70px;
+		line-height: 70px;
+		font-size: 27px;
+		border-radius: 35px;
+		max-width: 50%;
+		margin-bottom: 25px;
+	}
+}
+
+@media (max-width:768px) {
+
+	.coupon-modal .coupon-modal_success--btn,
+	.coupon-modal .coupon-modal_options--btn {
+		height: 50px;
+		line-height: 50px;
+		font-size: 20px;
+		margin-bottom: 15px
+	}
+}
+
+@media (max-width:576px) {
+
+	.coupon-modal .coupon-modal_success--btn,
+	.coupon-modal .coupon-modal_options--btn {
+		height: 40px;
+		font-size: 16px;
+		line-height: 40px;
+		margin-bottom: 30px;
+	}
+}
+
+.coupon-modal_container {
+	width: 100%;
+}
+
+.coupon-modal .coupon-modal_success--title,
+.coupon-modal .coupon-modal_container--title {
+	width: 100%;
+	height: 110px;
+	line-height: 140px;
+	font-weight: bold;
+	color: #713D41;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-align: center;
+	font-weight: bold;
+	font-size: 36px;
+}
+
+@media (max-width:768px) {
+
+	.coupon-modal .coupon-modal_success--title,
+	.coupon-modal .coupon-modal_container--title {
+		font-size: 25px;
+		height: 70px;
+		line-height: 100px;
+	}
+}
+
+@media (max-width:576px) {
+
+	.coupon-modal .coupon-modal_success--title,
+	.coupon-modal .coupon-modal_container--title {
+		font-size: 20px;
+		height: 50px;
+		line-height: 70px;
+	}
+}
+
+.coupon-modal_coupon--ul {
+	/* padding: 10px 0 20px; */
+	overflow-y: auto;
+}
+
+.coupon-modal .coupon-modal_coupon--ul {
+	margin: 0 10%;
+	max-height: 500px;
+}
+
+@media (max-width:992px) {
+	.coupon-modal .coupon-modal_coupon--ul {
+		margin: 0 90px;
+		max-height: 285px;
+	}
+}
+
+@media (max-width:768px) {
+	.coupon-modal .coupon-modal_coupon--ul {
+		margin: 0 10%;
+		max-height: 200px;
+	}
+}
+
+@media (max-width:576px) {
+	.coupon-modal .coupon-modal_coupon--ul {
+		max-height: 41%;
+	}
+}
+
+
+.coupon-modal .coupon-modal_coupon--ul.only-two,
+.coupon-modal .coupon-modal_coupon--ul.only-one {
+	margin: 70px 15%;
+}
+
+
+/* @media (max-width:992px) {
+
+	.coupon-modal .coupon-modal_coupon--ul.only-two,
+	.coupon-modal .coupon-modal_coupon--ul.only-one {
+		margin: 11% 10%;
+	}
+}
+
+@media (max-width:768px) {
+
+	.coupon-modal .coupon-modal_coupon--ul.only-two,
+	.coupon-modal .coupon-modal_coupon--ul.only-one {
+		margin: 5% 10%;
+	}
+}
+
+@media (max-width:576px) {
+
+	.coupon-modal .coupon-modal_coupon--ul.only-two,
+	.coupon-modal .coupon-modal_coupon--ul.only-one {
+		margin: 0 10%;
+	}
+} */
+
+.coupon-modal .coupon-modal_coupon--ul.only-one .coupon-modal_couponlist {
+	width: 100%;
+}
+
+
+.coupon-modal_couponlist .coupon-modal_couponlist--bg {
+	background: url(../images/couponItem.png) 0 0 / 100% 100% no-repeat;
+	height: 100%;
+	position: relative;
+}
+
+
+.coupon-modal .coupon-modal_couponlist {
+	height: 115px;
+	font-family: Impact;
+	color: #713D41;
+	padding: 5px;
+}
+
+@media (max-width:768px) {
+	.coupon-modal .coupon-modal_couponlist {
+		height: 90px;
+	}
+}
+
+@media (max-width:576px) {
+	.coupon-modal .coupon-modal_couponlist {
+		height: 80px;
+	}
+}
+
+.coupon-modal .coupon-modal_list--content.hastips {
+	top: 52%;
+}
+
+.coupon-modal_list--content {
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100%;
+	line-height: 1;
+	top: 50%;
+}
+
+.coupon-modal_list--main {
+	width: 100%;
+	text-align: center;
+}
+
+.coupon-modal_list--price {
+	font-size: 40px;
+	display: inline-block;
+	line-height: 1;
+	position: relative;
+	font-family: Impact;
+}
+
+@media (max-width:992px) {
+	.coupon-modal_list--price {
+		font-size: 35px;
+	}
+}
+
+@media (max-width:768px) {
+
+	.coupon-modal_list--price {
+		font-size: 30px;
+	}
+
+	.coupon-modal_coupon--tips {
+		transform: scale(0.9);
+	}
+
+
+}
+
+@media (max-width:576px) {
+	.coupon-modal_list--price {
+		font-size: 25px;
+	}
+
+	.coupon-modal_coupon--tips {
+		transform: scale(0.75);
+	}
+}
+
+.topClass {
+	top: -2px;
+}
+
+.coupon-modal_coupon--per {
+	display: inline-block;
+	position: relative;
+}
+
+.coupon-modal_coupon--per p {
+	font-size: 40px;
+	line-height: 1;
+	text-align: left;
+	font-family: Impact;
+	color: #713D41;
+}
+
+.coupon-modal_coupon--per p:last-child {
+	font-size: 16px;
+	position: absolute;
+	top: -18px;
+	right: -37px;
+	font-weight: bold;
+	width: max-content;
+}
+
+
+@media (max-width:992px) {
+	.coupon-modal_coupon--per p {
+		font-size: 35px;
+	}
+}
+
+@media (max-width:768px) {
+	.coupon-modal_coupon--per p {
+		font-size: 30px;
+	}
+
+	.coupon-modal_coupon--per p:last-child {
+		font-size: 12px;
+		top: -12px;
+		right: -25px;
+	}
+}
+
+@media (max-width:576px) {
+	.coupon-modal_coupon--per p {
+		font-size: 25px;
+	}
+}
+
+.coupon-modal_coupon--tips {
+	font-size: 14px;
+	text-align: center;
+	margin: 6px 0 -10px 0;
+}
+
+.coupon-modal_coupon--tips i {
+	color: #713D41;
+	font-weight: 600;
+}
+
+.coupon-modal_options {
+	position: absolute;
+	bottom: 80px;
+	left: 50%;
+	transform: translateX(-50%);
+	text-align: center;
+	width: 100%;
+}
+
+@media (max-width:576px) {
+	.coupon-modal_options {
+		bottom: 50px;
+	}
+}
+
+
+
+.coupon-modal_options--tips {
+	line-height: 16px;
+	font-size: 16px;
+	font-weight: 600;
+	color: #FFFFFF;
+}
+
+@media (max-width:992px) {
+
+	.coupon-modal .coupon-modal_success--desc,
+	.coupon-modal .coupon-modal_options--tips {
+		font-size: 14px;
+		line-height: 14px;
+	}
+}
+
+@media (max-width:576px) {
+
+	.coupon-modal .coupon-modal_success--desc,
+	.coupon-modal .coupon-modal_options--tips {
+		font-size: 12px;
+		line-height: 12px;
+	}
+}
+
+/* .coupon-modal .coupon-modal_success--close, */
+.coupon-modal .coupon-modal_close--pc {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	right: 10px;
+	top: 10px;
+}
+
+@media (max-width:992px) {
+
+	/* .coupon-modal .coupon-modal_success--close, */
+	.coupon-modal .coupon-modal_close--pc {
+		width: 25px;
+		height: 25px;
+		top: auto;
+		bottom: -5%;
+		right: 50%;
+		transform: translateX(50%);
+		border: 1px solid #F0E8E8;
+		border-radius: 50%;
+		padding: 5px;
+	}
+}
+
+
+/* .coupon-modal .coupon-modal_success--close:hover, */
+.coupon-modal .coupon-modal_close--pc:hover {
+	cursor: pointer;
+	opacity: 0.75;
+}
+
+
+/* 点击获取优惠券成功后的弹框 */
+
+
+
+/* 2021年6月21日重构优惠券弹框模块 End   */

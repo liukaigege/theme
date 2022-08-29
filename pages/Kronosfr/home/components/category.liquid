@@ -1,0 +1,58 @@
+{% comment %}
+主题： Kronosfr;
+积木名称：section_recommendCategory-推荐分类;
+{% endcomment %}
+{% comment %}积木id{% endcomment %}
+{% assign sectionId = configData.sectionId %}
+{% comment %}配置数据{% endcomment %}
+{% assign configList = configData.config %}
+{% comment %}推荐分类板块标题{% endcomment %}
+{% assign title = configList.title %}
+{% comment %}推荐分类展示样式{% endcomment %}
+{% assign displaysty = configList.displaysty %}
+{% comment %}分类数据{% endcomment %}
+{% if configList.categoryList.size > 0 %}
+{% assign categoryList = configList.categoryList %}
+{% else %}
+{% assign categoryList = configList.perLineNum | CREATEDGOODSLIST %}
+{% endif %}
+
+{% assign perLineNum = configList.perLineNum %}
+<div type-block="block" class="recommendCategory" id="{{ sectionId }}">
+  {% if title.size>0%}
+  <div class="{% if isMobilePhone == 0 %}vshop-title-pc{% else %} vshop-title-wap {% endif %}">
+    <span>{{ title }}</span>
+  </div>
+  {% endif %}
+  {% if displaysty != 3 %}
+  <div class="items-warp" {% if isMobilePhone == 0 %}
+    {{ perLineNum | stylesheetTag:"grid-template-columns",2}}{%else%}style="grid-template-columns:repeat(2, 1fr)"
+    {%endif%}>
+    {% for item in categoryList %}
+    {% render 'Kronosfr/home/components/categoryItems.liquid',item:item,type:displaysty,isLocal:isLocal,isMobilePhone:isMobilePhone %}
+    {% endfor %}
+  </div>
+  {% elsif displaysty == 3 and isMobilePhone == 0 %}
+  {% comment %} {% for item in categoryList limit:perLineNum %}
+  {% render 'Kronosfr/home/components/categoryItems.liquid',item:item,type:displaysty,isLocal:isLocal,isMobilePhone:isMobilePhone %}
+  {% endfor %} {% endcomment %}
+  {% render
+      'Kronosfr/home/components/categoryPcSlider.liquid',goodList:categoryList,displaysty:displaysty,isMobilePhone:isMobilePhone,perLineNum:perLineNum,sectionId:sectionId,isLocal:isLocal
+      %}
+  {% comment %} {%if categoryList.size >3 %}
+  {% render
+      'Kronosfr/home/components/categoryPcSlider.liquid',goodList:categoryList,displaysty:displaysty,isMobilePhone:isMobilePhone,perLineNum:perLineNum,sectionId:sectionId,isLocal:isLocal
+      %}
+  {%else%}
+  <div class="items-warp-limit" categorySize={{categoryList.size}}>
+    {% for item in categoryList%}
+    {% render 'Kronosfr/home/components/categoryItems.liquid',item:item,type:displaysty,isLocal:isLocal,isMobilePhone:isMobilePhone %}
+    {% endfor %}
+  </div>
+  {%endif%}{% endcomment %}
+  {% elsif displaysty == 3 and isMobilePhone == 1 %}
+  {% render
+    'Kronosfr/home/components/categorySlide.liquid',goodList:categoryList,displaysty:displaysty,isMobilePhone:isMobilePhone,perLineNum:perLineNum,sectionId:sectionId,isLocal:isLocal
+    %}
+  {%endif%}
+</div>

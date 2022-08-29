@@ -1,0 +1,319 @@
+{% comment %}
+主题： Athena-雅典娜;
+积木名称：pageFooter-页脚;
+{% endcomment %}
+{% comment %}积木id{% endcomment %}
+{% assign sectionId = configData.sectionId %}
+{% comment %}配置数据{% endcomment %}
+{% assign configList = configData.config %}
+{% comment %}服务数据{% endcomment %}
+{% assign serveData = configList.shop %}
+{% comment %}服务数据{% endcomment %}
+{% assign menuList = configList.menuList %}
+{% comment %}支付图标{% endcomment %}
+{% assign payImage = configList.payImage %}
+{% comment %}followUs{% endcomment %}
+{% assign followUs = configList.followUs %}
+{% comment %}备案信息{% endcomment %}
+{% assign recordInfo = configList.recordInfo %}
+{% comment %}底部公告{% endcomment %}
+{% assign noticeBottom = configList.bottom %}
+{% comment %}货币数据{% endcomment %}
+{% assign currency = configList.currency %}
+{% if isMobilePhone == 0 %}
+<div type-block="block" class="footer pageFooter pc_block_footer" id="{{sectionId}}" {% if noticeBottom.bottomLock==1
+  and htmlName=='index' and noticeBottom.showBottom==1 and recordInfo.length>0 and and noticeBottom.showBottom == 1 %}
+  style="padding-bottom: 0.28rem;" {% endif %}>
+  {% if serveData.shopInformation == 1 %}
+  <div class="serve">
+    <ul>
+      <li>
+        <div class="serve-icon shopIcon lazyload bg"
+          data-original="{{serveData.logisticsImg | IMGURL:'../assets/pc/images/icon-preloader.png'}}"
+          {% if
+          isLocal==1%}style="background-image:url({{serveData.logisticsImg | IMGURL:'../assets/pc/images/icon-preloader.png'}})" {%endif%}></div>
+        <p class="overflow_2">{{serveData.logisticsMsg}}</p>
+      </li>
+      <li>
+        <div class="serve-icon callIcon lazyload bg"
+          data-original="{{serveData.customerServiceImg | IMGURL:'../assets/pc/images/icon-preloader.png'}}"
+          {% if
+          isLocal==1%}style="background-image:url({{serveData.customerServiceImg | IMGURL:'../assets/pc/images/icon-preloader.png'}})" {%endif%}></div>
+        <p class="overflow_2">{{serveData.customerServiceMsg}}</p>
+      </li>
+      <li>
+        <div class="serve-icon chatIcon lazyload bg"
+          data-original="{{serveData.workTimeImg | IMGURL:'../assets/pc/images/icon-preloader.png'}}"
+          {% if
+          isLocal==1%}style="background-image:url({{serveData.workTimeImg | IMGURL:'../assets/pc/images/icon-preloader.png'}})" {%endif%}></div>
+        <p class="overflow_2">{{serveData.workTimeMsg}}</p>
+      </li>
+      <li>
+        <div class="serve-icon giftIcon lazyload bg"
+          data-original="{{serveData.otherImg | IMGURL:'../assets/pc/images/icon-preloader.png'}}"
+          {% if
+          isLocal==1%}style="background-image:url({{serveData.otherImg | IMGURL:'../assets/pc/images/icon-preloader.png'}})" {%endif%}></div>
+        <p class="overflow_2">{{serveData.otherMsg}}</p>
+      </li>
+    </ul>
+  </div>
+  {% endif %}
+  <div class="link">
+    {% for item in menuList %}
+    {% if item.type == 0 %}
+    <div class="link-item">
+      <ul>
+        <li>{{item.pageClassifyId.name}}</li>
+        {% for page in item.pageClassifyId.pageList %}
+        <li><a onclick="routerJump('static.html?pageid={{page.path}}')">{{page.name}}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% elsif item.type == 1%}
+    <div class="link-item">
+      <ul>
+        <li>{{item.textTitle}}</li>
+        <li>{{item.textContent}}</li>
+      </ul>
+    </div>
+    {% else %}
+    <div class="link-item">
+      <ul>
+        <li>{{item.mailTitle}}</li>
+        <li class="foot-email clearfix">
+          <input class="fl" type="text" autocomplete="off" name="footer-subscribe" id="footer-subscribe"
+            placeholder="Votre adresse e-mail" onkeydown="submitSubscribe(event,1)">
+          <button class="fr" type="submit" id="submitSubscribe" onclick="submitSubscribe(null,2)"><img
+              src="../assets/pc/images/bianzu.png" alt=""></button>
+        </li>
+      </ul>
+    </div>
+    {% endif %}
+    {% endfor %}
+    <div class="link-item followus">
+      <ul>
+        {% if followUs.size > 0 %}
+        {% for item in followUs %}
+        {% if item.status == 1 %}
+        <li>FOLLOW US</li>
+        {% break %}
+        {% endif %}
+        {% endfor %}
+        <li>
+          {% for item in followUs %}
+          {% if item.status == 1 %}
+          <a onclick="routerJump('{{item.link | LINKURL:item.linkStatus }}')">
+            <img class="lazyload" data-original="{{item.img | IMGURL:'../assets/pc/images/icon-preloader.png'}}" {% if
+              isLocal==1%}src="{{item.img | IMGURL:'../assets/pc/images/icon-preloader.png'}}" {%endif%}>
+          </a>
+          {% endif %}
+          {% endfor %}
+        </li>
+        {% endif %}
+        {% if configList.isshowPayIcon == 1 %}
+        <li>MÉTHODES DE PAYEMENT</li>
+        <li class="payImage">
+          <a href="javascript:;">
+            <img class="lazyload" data-original="{{ payImage | IMGURL:'../assets/pc/images/followUs-preloader.png'}}" {%
+              if isLocal==1%}src="{{payImage | IMGURL:'../assets/pc/images/followUs-preloader.png'}}" {%endif%}>
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+  {% if recordInfo.length>0 %}
+  <div class="record">{{recordInfo}}</div>
+  {% endif %}
+  {% comment %}底部公告{% endcomment %}
+  {% if noticeBottom.homeOnly == 1 %}
+  {% assign homeOnly = 1 %}
+  {% else %}
+  {% assign homeOnly = 0 %}
+  {% endif %}
+  {% if homeOnly == 1 and htmlName != 'index' %}
+  {% else %}
+  {% if noticeBottom.showBottom == 1 %}
+  {% if noticeBottom.bottomLock == 1%}
+  {% assign arr1 = noticeBottom.backgroundColor | SplicingString: 'fixed' | split: "," %}
+  {% else%}
+  {% assign arr1 = noticeBottom.backgroundColor | SplicingString: 'relative' | split: "," %}
+  {% endif %}
+  {% assign arr2 = 'background-color,position' | split: "," %}
+  <div id="foot-notice" {% if noticeBottom.bottomLock==1 and htmlName=='index' %}style="height:0.4rem" {% elsif
+    noticeBottom.bottomLock==1 and htmlName !='index' %}style="height:0.4rem" {% endif %} homeOnly="{{homeOnly}}"
+    htmlName="{{htmlName}}">
+    <div class="foot-notice" {{ arr1 | stylesheetTag:arr2,3}} {% if isPreview and isPreview !='' and
+      noticeBottom.bottomLock==1 %}data-id='1' {% endif %}>
+      <div class="footImgBox" onclick="routerJump('{{noticeBottom.linkUrl  | LINKURL:noticeBottom.linkStatus }}')">
+        {% if noticeBottom.copywritingBanner == 1 %}
+        <img
+          src="{{noticeBottom.bannerPc | IMGURL:'../assets/pc/images/followUs-preloader.png',noticeBottom.bannerWap}}">
+        {% else %}
+        {{noticeBottom.copywriting}}
+        {% endif %}
+      </div>
+      <div class="active-close bg" id="active-close"
+        style="background-image: url('../assets/pc/images/btn_close@2x.png')">
+      </div>
+    </div>
+
+  </div>
+  {% endif %}
+  {% endif %}
+</div>
+{% else %}
+<div type-block="block" class="footer pageFooter wap_block_footer" id="{{sectionId}}" {% if noticeBottom.bottomLock==1
+  and htmlName=='index' and noticeBottom.showBottom==1 %} style="padding-bottom: 0.24rem;" {% endif %}>
+  {% if serveData.shopInformation == 1 %}
+  <div class="serve-container">
+    <div class="serve-container-box">
+      <div class="serve-inner">
+        <div class="serve-icon shopIcon">
+          <img src="{{serveData.logisticsImg | IMGURL:'../assets/pc/images/icon-preloader.png'}}">
+        </div>
+        <p class="overflow_3">{{serveData.logisticsMsg}}</p>
+      </div>
+      <div class="serve-inner">
+        <div class="serve-icon callIcon">
+          <img src=" {{serveData.customerServiceImg | IMGURL:'../assets/pc/images/icon-preloader.png'}}">
+        </div>
+        <p class="overflow_3">{{serveData.customerServiceMsg}}</p>
+      </div>
+    </div>
+    <div class="serve-container-box">
+      <div class="serve-inner">
+        <div class="serve-icon chatIcon">
+          <img src=" {{serveData.workTimeImg | IMGURL:'../assets/pc/images/icon-preloader.png'}}">
+        </div>
+        <p class="overflow_3">{{serveData.workTimeMsg}}</p>
+      </div>
+      <div class="serve-inner">
+        <div class="serve-icon giftIcon">
+          <img src=" {{serveData.otherImg | IMGURL:'../assets/pc/images/icon-preloader.png'}}">
+        </div>
+        <p class="overflow_3">{{serveData.otherMsg}}</p>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  <div class="link">
+    {% for item in menuList %}
+    {% if item.type == 0 %}
+    <div class="link-item">
+      <p><span>{{item.pageClassifyId.name}}</span><span class="link-icon bg"></span></p>
+      <ul class="menuExtend">
+        {% for page in item.pageClassifyId.pageList %}
+        <li><a onclick="routerJump('static.html?pageid={{page.path}}')">{{page.name}}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% elsif item.type == 1%}
+    <div class="link-item">
+      <p><span>{{item.textTitle}}</span><span class="link-icon bg"></span></p>
+      <ul class="menuExtend">
+        <li>{{item.textContent}}</li>
+      </ul>
+    </div>
+    {% else %}
+    <div class="link-item foot-emial">
+      <p>{{item.mailTitle}}</p>
+      <ul class="emailList">
+        <li class="link-sub">
+          <input type="text" id="footer-subscribe" autocomplete="off" placeholder="Votre adresse e-mail"
+            onkeydown="submitSubscribe(event,1)">
+          <button type=" submit" id="submitSubscribe" onclick="submitSubscribe(null,2)"><img
+              src="../assets/pc/images/bianzu.png" alt=""></button>
+        </li>
+      </ul>
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+  <div class="payment">
+    <div class="currency" id="currency">
+      {% for item in currency %}
+      {% if item.mainCurrency == 1 %}
+      <span class="currency-icon bg" style="background-image: url({{item.pic}})"></span>
+      <span class="currency-text">{{item.currency}}</span>
+      {% endif %}
+      {% endfor %}
+    </div>
+    {% if followUs.size >0 %}
+    <div class="fb-simple">
+      {% for item in followUs %}
+      {% if item.status == 1 %}
+      <a href="{{item.link}}">
+        <img src="{{item.img | IMGURL:'../assets/pc/images/icon-preloader.png'}}">
+      </a>
+      {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% if configList.isshowPayIcon == 1 %}
+    <div class="pay_icon">
+      <a href="javascript:;">
+        <img src="{{payImage | IMGURL:'../assets/pc/images/followUs-preloader.png'}}">
+      </a>
+    </div>
+    {% endif %}
+    {% if  recordInfo.length>0 %}
+    <div class="record">{{recordInfo}}</div>
+    {% endif %}
+  </div>
+  <div class="currencyBox">
+    <div class="currency-head clearfix" id="currency-close">
+      <strong>Currency</strong>
+      <span class="currency-close bg"></span>
+    </div>
+    <ul class="currencyExtend">
+      {% for item in currency %}
+      <li currencyId="{{item.currency}}">
+        <img src="{{item.pic}}">
+        <strong>{{item.currency}}</strong>
+        <img src="../assets/wap/images/gou_icon@2x.png" alt="" class="choose_image">
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% comment %}底部公告{% endcomment %}
+  {% if noticeBottom.homeOnly == 1 %}
+  {% assign homeOnly = 1 %}
+  {% endif %}
+  {% if homeOnly == 1 and htmlName != 'index' %}
+  {% else %}
+  {% if noticeBottom.showBottom == 1 %}
+  {% if noticeBottom.bottomLock == 1%}
+  {% assign arr1 = noticeBottom.backgroundColor | SplicingString: 'fixed' | split: "," %}
+  {% else%}
+  {% assign arr1 = noticeBottom.backgroundColor | SplicingString: 'relative' | split: "," %}
+  {% endif %}
+  {% assign arr2 = 'background-color,position' | split: "," %}
+  <div id="foot-notice" bottomLock="{{noticeBottom.bottomLock}}" name="{{htmlName}}">
+    <div class="foot-notice" {{ arr1 | stylesheetTag:arr2,3}} {% if noticeBottom.bottomLock==1%}style="height:0.24rem"
+      {% endif %}>
+      <div class="footImgBox" onclick="routerJump('{{ noticeBottom.linkUrl  | LINKURL:noticeBottom.linkStatus }}')">
+        {% if noticeBottom.copywritingBanner == 1 %}
+        <img
+          src="{{ noticeBottom.bannerWap | IMGURL:'../assets/pc/images/followUs-preloader.png',noticeBottom.bannerPc }}">
+        {% else %}
+        {{ noticeBottom.copywriting }}
+        {% endif %}
+
+      </div>
+      <div class="active-close bg" id="active-close"
+        style="background-image: url('../assets/pc/images/btn_close@2x.png')">
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  {% endif %}
+</div>
+{% endif %}
+<script>
+  if ($("#foot-notice .foot-notice").data('id') == 1) {
+    $("#foot-notice .foot-notice").css({
+      bottom: '0.8rem'
+    })
+  }
+</script>

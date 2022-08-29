@@ -1,0 +1,88 @@
+@charset "utf-8";
+.contact_main{
+  box-sizing: border-box;
+  background-color: #F7F7F7;
+}
+.contact_main .contact_header{
+  text-align: center;
+  line-height: 1.4;
+  padding: 50px 0;
+}
+.contact_main .contact_header p{
+ font-size: 12px;
+color: #545454;
+}
+.contact_main h1{
+  font-size: 36px;
+  line-height: 1.4;
+  font-family: Aileron-SemiBold;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.layout{
+  background-color: #fff;
+}
+.form__header, .form__legend {
+    margin-bottom: 3px;
+}
+.form__header h3{
+  font-size: 20px;
+}
+.form__input-wrapper{
+  width: 100%;
+  background-color: #fff;
+  height: 48px;
+  margin-bottom: 12px;
+  position: relative;
+}
+.form__textarea-wrapper{
+  height: 200px;
+}
+.form__input-wrapper input,.form__input-wrapper textarea{
+  width: 100%;
+  padding-top: 16px;
+  padding-left: 14px;
+  box-sizing: border-box;
+  height: 100%;
+  display: block;
+  border: #eee solid 1px;
+}
+.form__input-wrapper label{
+  position: absolute;
+  top: 5px;
+  left: 14px;
+  font-size: 14px;
+  color: #9B9B9B;
+}
+.form__input-wrapper textarea{
+  padding-top:2px;
+}
+.layui-form-item button{
+  background-color: #6A2117;
+  color:#ffff;
+  font-size: 16px;
+  padding: 14px 36px;
+  border-radius: 4px;
+  margin-top: 40px;
+}
+.form__input-row{
+  display: flex;
+  justify-content: space-between;
+}
+.form__input-row>div{
+  flex-basis: calc(50% - 10px);
+}
+#contact_form{padding: 30px 0;}
+#contact-form-message{
+  padding-top: 25px;
+}
+.hide{
+  display: none;
+}
+.successText{
+  font-size: 18px;
+    padding-top: 40px;
+    color: #df0052;
+    text-align: center;
+    margin-bottom: 10vh;
+}

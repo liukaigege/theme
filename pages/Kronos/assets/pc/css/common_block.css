@@ -1,0 +1,382 @@
+:root {
+  /********************************全局********************************/
+  --Vshop-background: #ffffff;
+  --Vshop-color: #000000;
+  --Vshop-fontSize: 0.13rem;
+  --Vshop-font-family: 'Aileron-Regular, Aileron';
+  --Vshop-a-hover-color: #df0052;
+  /********************************标题********************************/
+  /* 标题颜色 */
+  --Vshop-color-title: #000000;
+  /* 标题字体 */
+  --Vshop-font-title: 'Aileron-Regular, Aileron';
+  /* 标题字号 */
+  --Vshop-fontSzie-title: 0.16rem;
+  /********************************价格********************************/
+  /* 现价颜色 */
+  --Vshop-color-discountPrice: #000000;
+  /* 现价字体 */
+  --Vshop-font-discountPrice: 'Aileron-Regular, Aileron';
+  /* 现价字号 */
+  --Vshop-fontSzie-discountPrice: 0.16rem;
+  /* 原价颜色 */
+  --Vshop-color-oldPrice: #000000;
+  /* 原价字体 */
+  --Vshop-font-oldPrice: 'Aileron-Regular, Aileron';
+  /* 原价字号 */
+  --Vshop-fontSzie-oldPrice: 0.16rem;
+  /********************************按钮********************************/
+  /* 按钮背景颜色 */
+  --Vshop-background-btn: #000000;
+  /* 按钮文字颜色 */
+  --Vshop-color-btn: #000000;
+  /* 按钮字体 */
+  --Vshop-font-btn: 'Aileron-Regular, Aileron';
+  /* 按钮字号 */
+  --Vshop-fontSzie-btn: 0.16rem;
+  /********************************商品标题********************************/
+  /* 商品标题字体 */
+  --Vshop-font-products: 'Aileron-Regular, Aileron';
+  /* 商品标题字号 */
+  --Vshop-fontSzie-products: 0.16rem;
+  /********************************商品-折扣-免邮（标签）********************************/
+  /* 折扣标签背景色 */
+  --Vshop-background-discount-label: #df0052;
+  /* 折扣标签文字颜色 */
+  --Vshop-color-discount-label: #ffffff;
+  /* 免邮标签背景色 */
+  --Vshop-background-freeship-label: #df0052;
+  /* 免邮标签文字颜色 */
+  --Vshop-color-freeship-label: #ffffff;
+}
+
+body {
+  background: var(--Vshop-background);
+  font-family: var(--Vshop-font-family);
+  font-size: var(--Vshop-fontSize);
+  color: var(--Vshop-color);
+  margin: 0 auto;
+  padding: 0;
+  overflow-x: hidden;
+  /* max-width: 1920px; */
+}
+
+input:focus {
+  color: var(--Vshop-color);
+}
+
+/* 公用推荐轮播样式 */
+.swiper-slide {
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  text-align: center;
+  font-size: 0.16rem;
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* padding: 2px 0; */
+}
+
+.swiper-container {
+  width: 100%;
+  height: 100%;
+  /* 单独设置按钮颜色 */
+  --swiper-theme-color: var(--Vshop-background);
+  --swiper-navigation-size: 0.2rem;
+  /* 单独设置预加载风格 */
+  --swiper-preloader-color: #e5e5e5;
+}
+
+.swiper-pagination-bullet-active {
+  background: #ffffff;
+  border: 1px solid #df0052;
+}
+.swiper-btn {
+  width: 0.4rem;
+  height: 0.41rem;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 0.82rem;
+  color: #000;
+  font-weight: 700;
+  background-color: #e5e5e5;
+  transition: 0.5s;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.swiper-container:hover .swiper-btn {
+  opacity: 1;
+  background: var(--Vshop-background);
+  color: var(--Vshop-color);
+}
+.swiper-button-prev,
+.swiper-container-rtl .swiper-button-next,
+.swiper-button-next,
+.swiper-container-rtl .swiper-button-prev {
+  border: 1px solid #e5e5e5;
+  border-radius: 50%;
+  color: #000;
+  background-color: #fff;
+  outline: none;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-weight: 700;
+}
+/* 公共样式 */
+.overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.overflow_1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.overflow_2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.overflow_3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.bg {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.rotate {
+  transition: all 0.3s ease-out;
+  transform: rotate(45deg);
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+.modal {
+  transition: all 800ms cubic-bezier(0.8, 0, 0.33, 1);
+  position: fixed;
+  top: 0;
+  background: #000000;
+  opacity: 0.65;
+  width: 100%;
+  height: 100%;
+  z-index: 100000;
+}
+.imgCover {
+  height: 100%;
+  width: auto;
+  max-height: 100%;
+  max-width: 100%;
+}
+.alginCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.textCenter {
+  text-align: center;
+}
+.postionCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.clearfix:after {
+  content: ' ';
+  display: block;
+  height: 0;
+  clear: both;
+}
+.mg {
+  margin: 0.3rem 1.6rem;
+}
+.mg-30 {
+  margin: 0.3rem 0;
+}
+.mgb-15 {
+  margin-bottom: 0.15rem;
+}
+.mgt-15 {
+  margin-top: 0.15rem;
+}
+/* 标题 */
+.vshop-title-wap {
+  text-align: center;
+  position: relative;
+}
+
+.vshop-title-wap span {
+  display: inline-block;
+  font-size: 0.16rem;
+  background: #ffffff;
+  padding: 0 0.22rem;
+  font-family: Aileron-Regular, Aileron;
+  font-weight: 400;
+  color: #303133;
+}
+.vshop-title-pc {
+  margin: 40px 0;
+  height: 1px;
+  /* border-top: 1px solid #ddd; */
+  text-align: center;
+  position: relative;
+}
+
+.vshop-title-pc span {
+  transform: translateY(-50%);
+  display: inline-block;
+  font-size: 38px;
+  line-height: 38px;
+  color: #000;
+  background: #ffffff;
+  padding: 0 22px;
+}
+/* 价格 */
+.price {
+  font-family: Aileron-Regular, Aileron;
+  font-weight: 700;
+  margin: 0px 0 8px 0;
+}
+.oldPrice {
+  font-size: 13px;
+  color: #9b9b9b;
+  text-decoration: line-through;
+}
+.newPrice {
+  font-size: 15px;
+  color: #6A2117;
+}
+.defaultPrice {
+  font-size: 15px;
+  color: #000000;
+}
+
+/* 骨架屏 */
+.skeletonBg {
+  /*这是一个默认的样式，js自动添加到有 skeleton="true"  属性的标签中 ，
+    最好是放在全局，这样所有页面的组件就都能用到。*/
+  background-color: #e5e5e5;
+  animation-duration: 1.5s;
+  animation-name: blink;
+  animation-iteration-count: infinite;
+}
+@keyframes blink {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+/* 卡片阴影 */
+.boxShadow {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+}
+/* 返回顶部 */
+.backTop {
+  display: none;
+  position: fixed;
+  background-image: url(../../pc/images/home_top_but@2x.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+  z-index: 9999;
+}
+.backTop-pc {
+  bottom: 2rem;
+  right: 0.55rem;
+  width: 0.54rem;
+  height: 0.54rem;
+}
+.backTop-wap {
+  bottom: 1rem;
+  right: 0.2rem;
+  width: 0.3rem;
+  height: 0.3rem;
+}
+/* 空积木 */
+.emptyBlock {
+  height: 2rem;
+  width: 100%;
+  text-align: center;
+  line-height: 2rem;
+  font-size: 0.2rem;
+  border: 2px dotted red;
+  margin: 30px 0;
+}
+.iframeModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999;
+}
+.swiper-button-disabled {
+  display: none;
+}
+/* 主副图 */
+.mainImg,
+.mainImgHover,
+.associateImg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.mainImgHover {
+  opacity: 1;
+}
+.associateImg {
+  opacity: 0;
+}
+.productsItems:hover .associateImg {
+  opacity: 1;
+  transition: all 0.2s linear 0s;
+}
+.productsItems:hover .mainImgHover {
+  opacity: 0;
+  transition: all 0.2s linear 0s;
+}

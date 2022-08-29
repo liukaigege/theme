@@ -1,0 +1,244 @@
+<style>
+  #recommend-section_swiper h3 {
+    font-size: .16rem;
+    font-family: Floane-Regular, Floane;
+    font-weight: 400;
+    color: #363636;
+    text-align: center;
+    margin-bottom: .15rem;
+    margin-top: .2rem;
+  }
+
+  #recommend-section_swiper .swiper-slide {
+    width: 1.64rem !important;
+    text-align: center;
+    background: #FFFFFF;
+    border-radius: 1px;
+  }
+
+  #recommend-section_swiper .cover_wrap {
+    width: 100%;
+    padding-bottom: 100% !important;
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  #recommend-section_swiper .cover {
+    -o-object-fit: contain;
+    object-fit: contain;
+    position: absolute;
+    width: auto;
+    height: auto;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  #recommend-section_swiper .m_title {
+    font-size: 0.1rem;
+    font-family: "Floane-Regular";
+    color: #303133;
+    padding: 0 0.06rem;
+    line-height: 2;
+    padding-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+
+  #recommend-section_swiper .price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    line-height: 1;
+    padding-bottom: 0.05rem;
+    height: .3rem;
+  }
+
+  #recommend-section_swiper .now_price {
+    font-size: 0.12rem;
+    font-family: "Aileron-SemiBold, Aileron";
+    font-weight: 600;
+    color: #000000;
+    padding: 0 0 0.04rem;
+    line-height: 1;
+    flex-basis: 100%;
+    width: 100%;
+  }
+
+  #recommend-section_swiper .old_price {
+    font-size: 0.1rem;
+    font-family: "Aileron-Regular, Aileron";
+    font-weight: 400;
+    color: #9B9B9B;
+    line-height: 1;
+    text-decoration: line-through;
+    position: relative;
+    top: -0.02rem;
+  }
+
+  #recommend-section_swiper .old_price+.now_price {
+    padding-left: 0.05rem !important;
+
+  }
+
+  #recommend-section_swiper .swiper-container {
+    padding-bottom: 0.16rem;
+  }
+
+  .product_red.row .m_title {
+    font-size: 0.2rem;
+  }
+
+  .product_red.row .old_price,
+  .product_red.row .now_price {
+    font-size: 0.2rem;
+  }
+
+  .product_red.row .now_price .hide {
+    display: none;
+  }
+
+  #recommend-section_swiper .free_shipping {
+    z-index: 1;
+    left: 0;
+    bottom: 0;
+    background: #DF0052;
+    border-radius: 0px 0px 0px 1px;
+    font-weight: bold;
+    font-size: 0.1rem;
+    font-family: "Aileron-Bold, Aileron";
+    color: #FFFFFF;
+    line-height: 1;
+    padding: 0.02rem;
+    position: absolute;
+  }
+
+  #recommend-section_swiper .off {
+    position: absolute;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    background: #DF0052;
+    color: #ffffff;
+    flex-wrap: wrap;
+    right: 0.06rem;
+    top: 0.06rem;
+    text-align: center;
+    overflow: hidden;
+    z-index: 2;
+  }
+
+  #recommend-section_swiper .off em:first-child {
+    font-size: 0.12rem;
+    font-family: Aileron-Bold, Aileron;
+    display: inline-block;
+    line-height: 1;
+    margin-top: 0.05rem;
+  }
+
+  #recommend-section_swiper .off em:first-child i {
+    font-weight: bold;
+  }
+
+  #recommend-section_swiper .off em:last-child {
+    font-size: 0.1rem;
+    font-family: Aileron-Bold, Aileron;
+    display: block;
+  }
+
+  #recommend-section_swiper .discount {
+    width: 0.3rem;
+    height: 0.3rem;
+  }
+
+  #recommend-section_swiper .discount .num {
+    margin-top: 0.02rem;
+  }
+</style>
+<div id="recommend-section_swiper">
+  {% if isShow %}
+  <h3>you may also like </h3>
+  {% endif %}
+  <div class="swiper-container newProducts_details" id='recommend_products_swiper'>
+    <div class="newProducts_details swiper-wrapper">
+      {% for item in data %}
+      {% if forloop.index < 13 %} <div class="swiper-slide">
+        <a href="productDetail_{{item.id}}.html">
+          <div class="cover_wrap">
+            {% if item.discount and item.discount != 10 %}
+            <span class="discount pa hide" data-discount="{{item.discount}}" data-start="{{item.discountStaTime}}"
+              data-end="{{item.discountEndTime}}">
+              <em class="num"><i class="d_num"></i>%</em><em class="text">OFF</em>
+            </span>
+            {% endif %}
+            {% if item.freeShipping != 0 %}
+            <div class="free_shipping">
+              Free Shipping
+            </div>
+            {% endif %}
+            <img class="cover" data-suffix-img="{{item.mainImg}}" src="{{item.mainImg}}">
+            {% if item.speType==3 %}
+            <div class="wrapContainer">
+                <div class="cube">
+                    <div class="cubeList front">3</div>
+                    <div class="cubeList back">3</div>
+                    <div class="cubeList top">3</div>
+                    <div class="cubeList bottom">D</div>
+                    <div class="cubeList left">D</div>
+                    <div class="cubeList right">D</div>
+                </div>
+            </div>
+            {% endif %}
+          </div>
+          <p class="m_title">{{item.goodsName}}</p>
+          <div class="price" data-price="{{item.defaultPrice}}">
+            <span class="now_price"></span>
+            <span class="old_price hide"></span>
+          </div>
+        </a>
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+</div>
+<script>
+  function recommendSwiper() {
+    // newProducts 下的轮播图
+    var recommend_products_swiper = new Swiper('#recommend_products_swiper', {
+      slidesPerView: 'auto',
+      spaceBetween: 10,
+    });
+  }
+  recommendSwiper();
+  let swiperSlideDom = $('#recommend-section_swiper .swiper-slide')
+  swiperSlideDom.each(function (index, item) {
+    relationCount($(item))
+  });
+  /* 计算价格 */
+  function relationCount($this) {
+    let start = $this.find('[data-start]').attr('data-start'),
+      end = $this.find('[data-end]').attr('data-end'),
+      $defaultPrice = $this.find('[data-price]').attr('data-price'),
+      $discount = Number($this.find('[data-discount]').attr('data-discount'));
+
+    if ($discount && $discount != '' && Number($discount) != 10 && Object.prototype.toString.call($discount).slice(8, -1) != 'Null') {
+      if (contrastTime(true, end, start)) {
+        $this.find('.now_price').removeClass('hide').html(getMoney($defaultPrice * ($discount / 10))).addClass('main_color');
+        $this.find('.old_price').removeClass('hide').html(getMoney($defaultPrice));
+        $this.find('.d_num').html((100 - $discount * 10));
+        $this.find('[data-discount]').removeClass('hide');
+      } else {
+        $this.find('.now_price').html(getMoney($defaultPrice))
+      }
+    } else {
+      $this.find('.now_price').html(getMoney($defaultPrice))
+    }
+  }
+</script>

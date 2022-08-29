@@ -1,0 +1,54 @@
+<style>
+	/* 返回顶部 */
+	.back-top {
+		display: none;
+		position: fixed;
+		bottom: 200px;
+		right: 55px;
+		width: 52px;
+		height: 52px;
+		border-radius:50%;
+		border:1px solid #ccc;
+		text-align:center;
+		background-color:#fff;
+		cursor: pointer;
+		z-index: 998;
+	}
+	.back-top .iconfont{
+		font-size:22px;
+		line-height:52px;
+		color:#9C9C9C;
+	}
+	@media (max-width:992px) {
+		.back-top {
+			bottom: 100px;
+			right: 20px;
+			transform: scale(0.8)
+		}
+	}
+</style>
+<div class="back-top" id="backTop">
+	<i class="iconfont icon-arrow-top"></i>
+</div>
+<script>
+	// 当网页向下滑动 20px 出现"返回顶部" 按钮
+	scrollFunction()
+	$('#backTop').on('click', topFunction)
+	// 点击按钮，返回顶部
+	function topFunction() {
+		$("body,html").animate({
+			scrollTop: 0
+		}, 500)
+	}
+	function scrollFunction() {
+		$(window).scroll(function () {
+			if ($(this).scrollTop() >= 300) {
+				$("#backTop").fadeIn();
+			}
+			if ($(this).scrollTop() < 300) {
+				$("#backTop").fadeOut();
+			}
+		});
+	}
+
+</script>

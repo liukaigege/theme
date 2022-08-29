@@ -1,0 +1,56 @@
+
+{% assign section = configData.config %}
+{% assign bannerList = section.bannerList | filterBannerList %}
+{% assign bannerPc = prePath | append: "assets/images/banner_pc@2x.png" %}
+{% assign bannerWap = prePath | append: "assets/images/banner_iphone@2x.png" %}
+{% if bannerList.length > 1 %}
+<div class="home-swiper swiper-pc swiper-container" interval="{{section.rotationTime}}" id="{{ configData.sectionId | append: "1" }}">
+	<div class="swiper-wrapper">
+		{% for item in bannerList %}
+		{% if item.pcUrl.size > 0 or item.wapUrl.size > 0 %}
+			<a {% if item.linkUrl.size > 0 %} href="{{ item.linkUrl | LINKURL: item.linkStatus | default: 'javascript:void(0)'}}" {% endif %} class="swiper-slide">
+				<img class="swiper-lazy" src="{{item.pcUrl | IMGURL: bannerPc,item.wapUrl }}">
+			</a>
+		{% endif %}
+		{% endfor %}
+	</div>
+	<div class="swiper-pagination swiper-pagination-white"></div>
+	{% comment %}
+	{% if bannerList.length>1 %}
+	<div class="swiper-button-next iconfont icon-arrow-right"></div>
+	<div class="swiper-button-prev iconfont icon-arrow-left"></div>
+	{% endif %}
+	{% endcomment %}
+</div>
+<div class="home-swiper swiper-wap swiper-container" interval="{{section.rotationTime}}" id="{{ configData.sectionId | append: "2"}}">
+	<div class="swiper-wrapper">
+		{% for item in bannerList %}
+		{% if item.pcUrl.size > 0 or item.wapUrl.size > 0 %}
+			<a {% if item.linkUrl.size > 0 %} href="{{ item.linkUrl | LINKURL: item.linkStatus | default: 'javascript:void(0)'}}" {% endif %} class="swiper-slide">
+				<img class="swiper-lazy" src="{{item.wapUrl | IMGURL: bannerWap,item.pcUrl }}">
+			</a>
+		{% endif %}
+		{% endfor %}
+	</div>
+	<div class="swiper-pagination swiper-pagination-white"></div>
+</div>
+{% elsif bannerList.length == 1 %}
+<div class="home-swiper swiper-pc" interval="{{section.rotationTime}}">
+	<a {% if bannerList[0].linkUrl %} href="{{ bannerList[0].linkUrl | LINKURL: bannerList[0].linkStatus | default: 'javascript:void(0)'}}" {% endif %}>
+		<img class="swiper-lazy " src="{{ bannerList[0].pcUrl | IMGURL: bannerPc,bannerList[0].wapUrl }}"	style="display:block;margin:0 auto;width: 100%"  alt="" >
+	</a>
+</div>
+<div class="home-swiper swiper-wap" interval="{{section.rotationTime}}">
+	<a {% if bannerList[0].linkUrl %} href="{{ bannerList[0].linkUrl | LINKURL: bannerList[0].linkStatus | default: 'javascript:void(0)'}}" {% endif %}>
+		<img class="swiper-lazy" src="{{ bannerList[0].wapUrl | IMGURL: bannerWap,bannerList[0].pcUrl }}"	style="display:block;margin:0 auto;width: 100%"  alt="" >
+	</a>
+</div>
+{%else%}
+<div class="home-swiper swiper-pc" interval="{{section.rotationTime}}">
+	<img class="swiper-lazy" style="width: 100%; height: auto"  src="{{bannerPc}}" alt="">
+</div>
+<div class="home-swiper swiper-wap" interval="{{section.rotationTime}}">
+	<img class="swiper-lazy" style="width: 100%; height: auto"  src="{{bannerWap}}" alt="">
+</div>
+{%endif%}
+

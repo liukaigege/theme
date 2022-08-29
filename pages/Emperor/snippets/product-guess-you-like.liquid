@@ -1,0 +1,142 @@
+<style>
+	#recommend_products_swiper .swiper-container {
+		padding-bottom: 16px;
+	}
+
+
+	.you-may-also-like {
+		margin-top: 100px;
+	}
+
+
+	.you-may-also-like .title {
+		padding: 0 5%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 20px;
+	}
+
+	.you-may-also-like .title .title-line {
+		height: 1px;
+		background: #979797;
+		flex: .33;
+	}
+
+	.you-may-also-like .title .title-real {
+		font-size: 32px;
+		line-height: 44px;
+		font-weight: 400;
+		color: #000000;
+		padding: 0 18px;
+		text-transform: capitalize;
+		text-align: center;
+	}
+
+	.you-may-also-like-swiper {
+		position: relative;
+	}
+
+	.you-may-also-like .swiper-slide {
+		user-select: none;
+		margin-right: 0;
+		box-shadow: none;
+	}
+
+	@media (max-width:768px) {
+		.you-may-also-like .title .title-line {
+			display: none;
+		}
+
+		.you-may-also-like .title .title-real {
+			font-size: 19px;
+			flex: 1;
+			margin-bottom: 20px;
+		}
+
+		.you-may-also-like {
+			margin: 40px 0;
+		}
+
+		.you-may-also-like .title {
+			margin-bottom: 0;
+		}
+
+		.you-may-also-like .swiper-slide {
+			width: 160px;
+			padding-bottom: 0;
+		}
+
+	}
+
+	.swiper-button-prev,
+	.swiper-button-next {
+		width: 40px;
+		height: 40px;
+		font-size: 40px !important;
+		color: #000;
+		top: 35%;
+	}
+
+	@media(max-width:992px) {
+
+		.swiper-button-prev,
+		.swiper-button-next {
+			display: none;
+		}
+	}
+
+	.swiper-container {
+		width: 100%;
+		height: 100%;
+		--swiper-theme-color: var(--Vshop-background);
+		--swiper-navigation-size: 0.2rem;
+		--swiper-preloader-color: #e5e5e5;
+		position: static;
+	}
+
+	.swiper-button-next,
+	.swiper-button-prev {
+		opacity: 0.3;
+	}
+
+	.swiper-button-next:hover,
+	.swiper-button-prev:hover {
+		opacity: 1;
+	}
+
+
+	.swiper-button-disabled {
+		display: none;
+	}
+
+
+	.swiper-button-prev::after,
+	.swiper-button-next::after {
+		content: '';
+	}
+</style>
+{% assign swiperNumber = perLineNum | default: 4 %}
+{% assign swiperId = id | default: "recommend_products_swiper" %}
+<div id="recommend-section_swiper" class="you-may-also-like col-12">
+	<div class="title">
+		<div class="title-line"></div>
+		<div class="title-real">{{'i18n.guess_you_like.tips' | t: lang}}</div>
+		<div class="title-line"></div>
+	</div>
+	<div class="you-may-also-like-swiper">
+		<div class="swiper-container products-swiper" perLineNum="{{swiperNumber}}" id="{{swiperId}}">
+			<div class="swiper-wrapper">
+				{%assign relationListPro = detail | relationList: categoryData,detailData %}
+				{% for item in relationListPro %}
+				<div class="swiper-slide">
+					{% render 'products-item-style3.liquid',item:item,isSwiper:1,perLineNum:swiperNumber,lang: lang %}
+				</div>
+				{% endfor %}
+			</div>
+			<div class="swiper-button-next iconfont icon-arrow-right"></div>
+			<div class="swiper-button-prev iconfont icon-arrow-left"></div>
+		</div>
+
+	</div>
+</div>

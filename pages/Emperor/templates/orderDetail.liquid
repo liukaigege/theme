@@ -1,0 +1,57 @@
+{% assign page_title = 'i18n.cart.page_title' | t: lang , shop_name: shopName %}
+{% layout 'theme', showHeader: true,showFooter: true %}
+{% block content %}
+<script>
+	window.i18n = {
+		deadline: `{{ 'i18n.order_detail.deadline' | t: lang }}`,
+		complete_your_purchase: `{{ 'i18n.order_detail.complete_your_purchase' | t: lang }}`,
+		total_amount: `{{ 'i18n.order_detail.total_amount' | t: lang }}`,
+		consignee_info: `{{ 'i18n.order_detail.consignee_info' | t: lang }}`,
+		name: `{{ 'i18n.order_detail.name' | t: lang }}`,
+		address: `{{ 'i18n.order_detail.address' | t: lang }}`,
+		total: `{{ 'i18n.order_detail.total' | t: lang }}`,
+		discount: `{{ 'i18n.order_detail.discount' | t: lang }}`,
+		shipping_Cost: `{{ 'i18n.order_detail.shipping_cost' | t: lang }}`,
+		actual_payment: `{{ 'i18n.order_detail.actual_payment' | t: lang }}`,
+		tax: `{{ 'i18n.order_detail.tax' | t: lang }}`,
+		order_number: `{{ 'i18n.order_detail.order_number' | t: lang }}`,
+		transcation_number: `{{ 'i18n.order_detail.transcation_number' | t: lang }}`,
+		order_Time: `{{ 'i18n.order_detail.order_Time' | t: lang }}`,
+		payment_time: `{{ 'i18n.order_detail.payment_time' | t: lang }}`,
+		shipping_info: `{{ 'i18n.order_detail.shipping_info' | t: lang }}`,
+		product_name: `{{ 'i18n.order_detail.product_name' | t: lang }}`,
+		unit_price: `{{ 'i18n.order_detail.unit_price' | t: lang }}`,
+		Qty: `{{ 'i18n.order_detail.Qty' | t: lang }}`,
+		subtotal: `{{ 'i18n.order_detail.subtotal' | t: lang }}`,
+		complete_your_purchase: `{{ 'i18n.order_detail.complete_your_purchase' | t: lang }}`
+	}
+</script>
+<link rel="stylesheet" href="../assets/css/order-detail.css">
+<div class="empty-container">
+	<img src="../assets/images/empty@2x.png">
+	<p>{{'i18n.order_detail.your_have_not_ordered_anything_yet' | t: lang}}</p>
+	<a href="productList.html" class="button" type="button">{{'i18n.order_detail.continue_shopping' | t: lang}}</a>
+</div>
+<div class="order-content hide">
+	<div class="order-content__header">{{'i18n.order_detail.my_orders' | t: lang}}（<span>1</span>）</div>
+	<ul class="order-list__header">
+		<li class="active" data-id="1">
+			<div class="payment_successful_icon payment_icon"></div>{{'i18n.order_detail.payment_successful'| t: lang}}
+		</li>
+		<li data-id="2">
+			<div class="payment_awaiting_icon payment_icon"></div> {{'i18n.order_detail.awaiting_payment' | t: lang}}
+		</li>
+		<li data-id="3">
+			<div class="payment_pending_icon payment_icon"></div>{{'i18n.order_detail.pending' | t: lang}}
+		</li>
+		<li data-id="4">
+			<div class="payment_failed_icon payment_icon"></div>{{'i18n.order_detail.payment_failed' | t: lang}}
+		</li>
+	</ul>
+	<div class="order-detail"></div>
+</div>
+
+</div>
+
+{% render 'orderDetailsHtml', data:product ,,lang:lang%}
+{% endblock %}

@@ -1,0 +1,13 @@
+{% comment %}
+主题： Athena-雅典娜;
+积木名称：标签;
+{% endcomment %}
+
+{% if type==0 %}
+<label class="discountLabel" {% if freeShipping==0 %}{{ '0.15rem' | stylesheetTag:'top'}}{% endif %}>
+  <p>{{discount}}%</p>
+  <p>OFF</p>
+</label>
+{% elsif type==1 %}
+<label class="freeLabel"><p>Free Shipping</p></label>
+{% endif %}

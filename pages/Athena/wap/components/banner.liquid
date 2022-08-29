@@ -1,0 +1,67 @@
+<style>
+  /* banner */
+  #banner {
+    width: 100%;
+    height: 0;
+    padding-bottom: 74.7%;
+    position: relative;
+  }
+
+  #banner>.swiper-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  #banner .swiper-slide {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background-size: auto 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: all .5s;
+    -webkit-transition: all .5s;
+    cursor: pointer;
+  }
+
+
+
+  #banner .swiper-pagination-bullet.swiper-pagination-bullet-active {
+    border: 1px solid#DF0052;
+  }
+
+  #banner .swiper-pagination-bullet.swiper-pagination-bullet-active {
+    border: 1px solid#DF0052;
+    background: none;
+  }
+
+  #banner .swiper-pagination-bullet {
+    background: #FFFFFF;
+    opacity: 1;
+  }
+</style>
+{% assign bpage = '' %}
+{% assign prefix = '' %}
+{% assign linkId = '' %}
+<!-- banner -->
+<div class="swiper-container" id='banner'>
+  <div class="swiper-wrapper">
+    {% for item in data %}
+    {% assign href = item | setPoaterLink %}
+    <a href="{{href}}" class="swiper-slide" style="background-image: url('{{item.wapUrl}}')"></a>
+    {% endfor %}
+  </div>
+  <div class="swiper-pagination"></div>
+</div>
+<script>
+  var bannerSwiper = new Swiper('#banner', {
+    autoplay: true,
+    loop: true,
+    speed: 3000,
+    pagination: {
+      el: '#banner .swiper-pagination',
+      clickable: true
+    }
+  });
+</script>

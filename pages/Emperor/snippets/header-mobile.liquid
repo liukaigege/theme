@@ -1,0 +1,67 @@
+<div class="header-mobile">
+	<div class="header-warp">
+		<div class="header-toolbar">
+			<div class="header-toolbar-left" id="headerToolbarMenu">
+				<a class="header-toolbar-menu iconfont icon-menu"></a>
+				<a class="home-seach_wap--event iconfont icon-magnifier"></a>
+			</div>
+			<a href={{ 'index' | fmtUrl }}><img class="header-toolbar-center header-toolbar__center-event" src="{{logo}}" alt=""></a>
+			<div class="header-toolbar-right">
+				<a class="home-order home-order-event iconfont icon-dingdan"></a>
+				<a class="home-bag home-bag--event iconfont icon-cart-bag" id="homeCart">
+					<i>0</i>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="modal-overlay sidebar-container hide" id="sidebarContainer">
+		<div class="sidebar" id="sidebar">
+			<div class="sidebar-close" id="closeSidebar">
+				<i class="iconfont icon-back"></i>
+			</div>
+			<div class="sidebar-title">{{ 'i18n.index.wap_slider_title' | t: lang }}</div>
+			<div class="sidebar-menu-wrap">
+				{% for item in categoryData %}
+				<div class="sidebar-menu">
+					<div class="sidebar-submenu">
+						<a  href="{{ item.linkUrl | LINKURL: item.linkStatus | default: 'javascript:void(0)'}}"
+							class="sidebar-submenu-left sidebar-submenu_left--event">
+							{% if item.pic.size > 0 %}
+							{% assign pic = item.pic | IMGURL %}
+							{% elsif item.picWap.size > 0 %}
+							{% assign pic = item.picWap | IMGURL %}
+							{% elsif item.picPc.size > 0 %}
+							{% assign pic = item.picPc | IMGURL %}
+							{% elsif item.picGoods.size > 0 %}
+							{% assign pic = item.picGoods | IMGURL %}
+							{% endif %}
+							<div style="background-image:url({{pic}})" class="sidebar-submenu-img"></div>
+							<div class="sidebar-submenu-name">{{item.name}}</div>
+						</a>
+						{% if item.childList && item.childList.size > 0 %}
+						<div class="sidebar-submenu-icon"></div>
+						{% endif %}
+					</div>
+					{% if item.childList && item.childList.size > 0 %}
+					<div class="sidebar-menu-list">
+						{% for menuItem in item.childList %}
+						<a href="{{ menuItem.linkUrl | LINKURL: menuItem.linkStatus | default: 'javascript:void(0)'}}"
+							class="sidebar-menu-item sidebar-menu_item--event">{{menuItem.name}}</a>
+						{% endfor %}
+					</div>
+					{% endif %}
+				</div>
+				{% endfor %}
+			</div>
+			<div class="sidebar-bottom">
+				<div class="currency-list" id="sidebarCurrency">
+					<div class="currency-list-left">
+						<img class="currency-list-img currency-main-img" src="" />
+					</div>
+					<div class="currency-list-unit currency-main-unit">USD</div>
+				</div>
+			</div>
+			{%render 'currency-select.liquid',currencyList:currency%}
+		</div>
+	</div>
+</div>

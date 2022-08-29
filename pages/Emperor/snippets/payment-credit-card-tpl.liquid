@@ -1,0 +1,265 @@
+<style>
+	.creadit-cards-warpper {
+		margin-top: 15px;
+	}
+
+	.cards-info__content {
+		margin-bottom: 15px;
+	}
+
+	.cards-info__content>.content--border {
+		border: 1px solid #d9d9d9;
+		border-radius: 4px;
+	}
+
+	.cards-info__content>.cards-info__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		height: 58px;
+		padding: 0 15px;
+		border-bottom: 1px solid #d9d9d9;
+	}
+
+	.cards-info__header>.img-box {
+		height: 24px;
+	}
+
+	.cards-info__form {
+		margin-top: 15px;
+		padding: 15px 15px 0 15px;
+	}
+
+	.append-img {
+		position: absolute;
+		top: 3px;
+		right: 18px;
+		z-index: 99;
+		width: 32px;
+		object-fit: contain;
+	}
+
+	.cardType7-tip {
+		font-size: 12px;
+		color: #999;
+	}
+
+	sr-root {
+		display: flex;
+		flex-direction: row;
+		width: 100% !important;
+		max-width: 980px;
+		/* padding:48px;
+	*/
+		align-content: center;
+		justify-content: center;
+		height: auto;
+		/* min-height:100vh;
+	*/
+		/* margin:0 auto */
+	}
+
+	.sr-main {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		height: 100%;
+		align-self: center;
+		padding: 35px 25px;
+		background: var(--body-color);
+		width: 100%;
+		border-radius: var(--radius);
+		box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1), 0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
+	}
+	.sr-field-error {
+		color: var(--font-color);
+		text-align: left;
+		font-size: 13px;
+		line-height: 17px;
+		margin-top: 12px
+	}
+
+	.sr-input,
+	.payment_btn input[type="text"] {
+		border: 1px solid var(--gray-border);
+		border-radius: var(--radius);
+		padding: 5px 12px;
+		height: 44px;
+		width: 100%;
+		transition: box-shadow 0.2s ease;
+		background: white;
+		-moz-appearance: none;
+		-webkit-appearance: none;
+		appearance: none
+	}
+
+	.sr-input:focus,
+	.payment_btn input[type="text"]:focus,
+	.payment_btn button:focus,
+	.payment_btn .focused {
+		box-shadow: 0 0 0 1px rgba(50, 151, 211, 0.3), 0 1px 1px 0 rgba(0, 0, 0, 0.07), 0 0 0 4px rgba(50, 151, 211, 0.3);
+		outline: none;
+		z-index: 9
+	}
+
+	.sr-input::placeholder,
+	.payment_btn input[type="text"]::placeholder {
+		color: var(--gray-light)
+	}
+
+	.sr-result {
+		height: 44px;
+		-webkit-transition: height 1s ease;
+		-moz-transition: height 1s ease;
+		-o-transition: height 1s ease;
+		transition: height 1s ease;
+		color: var(--font-color);
+		overflow: auto
+	}
+
+	.sr-result code {
+		overflow: scroll
+	}
+
+	.sr-result.expand {
+		height: 350px
+	}
+
+	.sr-combo-inputs-row {
+		box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1), 0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
+		border-radius: 7px
+	}
+</style>
+<div class="creadit-cards-warpper">
+	{% if creditPayMethod.cardType == 7 %}
+	<div class="cards-info__content" >
+		<div class="custom-control custom-checkbox">
+			<input type="checkbox" class="custom-control-input" id="point">
+			<label class="custom-control-label" for="point">
+				<p>{{ 'i18n.payment.buy_tip' | t: lang }}</p>
+				<!-- <p class="cardType7-tip">For more information,click the links.</p> -->
+			</label>
+		</div>
+	</div>
+	{% endif %}
+	{% if creditPayMethod.cardType == 10 or creditPayMethod.cardType == 11%}
+	<div  class="cards-info__content content--border">
+		<div class="cards-info__header">
+			<p>{{ 'i18n.payment.pay_by_credit_cards' | t: lang }}</p>
+			<div class="img-box">
+				{% if creditPayMethod.cardType == 10 %}
+				<img src="../assets/images/visa.png" alt="">
+				<img src="../assets/images/mastercard.png" alt="">
+				<img src="../assets/images/jcb.jpg" alt="">
+				{% if creditPayMethod.cardType == 11 %}
+				<img src="../assets/images/visa-seeklogo.com.png" alt="">
+				<img src="../assets/images/maestro-mastercard-seeklogo.com.png" alt="">
+				<img src="../assets/images/mastercard-seeklogo.com.png" alt="">
+				{% endif %}
+			</div>
+		</div>
+		<form class="cards-info__form cards-info__form--event">
+			<div class="form-group">
+				<label for="cardNumber">{{ 'i18n.payment.card_number' | t: lang }}</label>
+				<div class="input-group">
+					<input class="form-control" id="cardNumber" placeholder="{{ 'i18n.payment.card_number' | t: lang }}" data-required name="card_no" data-reg="^[ 0-9]{14,23}$" maxlength="24" data-msg="{{ 'i18n.information.enter_value' | t: lang }}" onkeyup="this.value=this.value.replace(/\D/g,'').replace(/....(?!$)/g,'$& ')">
+					<div class="input-group-append">
+						<img src="../assets/images/vmj.png" class="append-img" alt="">
+					</div>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label>{{ 'i18n.general.mm' | t: lang }}</label>
+					<select class="custom-select" id="month" data-required name="month" data-msg="{{ 'i18n.information.enter_value' | t: lang }}">
+						<option value="" selected disabled hidden>Month</option>
+						<option value="01">01</option>
+						<option value="02">02</option>
+						<option value="03">03</option>
+						<option value="04">04</option>
+						<option value="05">05</option>
+						<option value="06">06</option>
+						<option value="07">07</option>
+						<option value="08">08</option>
+						<option value="09">09</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>
+					</select>
+				</div>
+				<div class="form-group col-md-6">
+					<label>{{ 'i18n.general.yyyy' | t: lang }}</label>
+					<select class="custom-select" id="year" data-required name="year" data-msg="{{ 'i18n.information.enter_value' | t: lang }}">
+						<option value="" selected disabled hidden>Year</option>
+						<option value="2021">2021</option>
+						<option value="2022">2022</option>
+						<option value="2023">2023</option>
+						<option value="2024">2024</option>
+						<option value="2025">2025</option>
+						<option value="2026">2026</option>
+						<option value="2027">2027</option>
+						<option value="2028">2028</option>
+						<option value="2029">2029</option>
+						<option value="2030">2030</option>
+						<option value="2031">2031</option>
+						<option value="2032">2032</option>
+						<option value="2033">2033</option>
+						<option value="2034">2034</option>
+						<option value="2035">2035</option>
+						<option value="2036">2036</option>
+						<option value="2037">2037</option>
+						<option value="2038">2038</option>
+						<option value="2039">2039</option>
+						<option value="2040">2040</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label for="firstName">{{ 'i18n.general.first_name' | t: lang }}</label>
+					<input class="form-control" id="firstName" placeholder="{{ 'i18n.general.first_name' | t: lang }}" data-required name="first_name"
+					data-msg="{{ 'i18n.information.enter_value' | t: lang }}">
+				</div>
+				<div class="form-group col-md-6">
+					<label for="lastName">{{ 'i18n.general.last_name' | t: lang }}</label>
+					<input class="form-control" id="lastName" placeholder="{{ 'i18n.general.last_name' | t: lang }}" data-required name="last_name"
+					data-msg="{{ 'i18n.information.enter_value' | t: lang }}">
+				</div>
+			</div>
+			<div class="form-group" style="position: relative;">
+				<label for="cvv">{{ 'i18n.general.cvv' | t: lang }}</label>
+				<input type="text" class="form-control" id="cvv" name="card_cvv" data-reg="^[0-9]{3,4}$" placeholder="CVV" data-required
+				data-msg="{{ 'i18n.information.enter_value' | t: lang }}">
+			</div>
+		</form>
+	</div>
+	{% endif %}
+	{% elsif creditPayMethod.cardType == 1 %}
+	<div class="cards-info__content content--border">
+		<div class="payment_btn">
+			<div class="sr-root">
+				<div class="sr-main">
+					<form id="payment-form" class="sr-payment-form">
+						<div class="sr-combo-inputs-row">
+							<div class="sr-input sr-card-element" id="card-element"></div>
+						</div>
+						<div class="sr-field-error" id="card-errors" role="alert"></div>
+						<button type="button" id="submit" class="btn btn-success btn--width">
+							{{ 'i18n.general.pay' | t: lang }}
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endif %}
+	<div class="payment_btn--content">
+		<button type="submit" class="btn btn-primary btn--width" id="creditCardBtn" {% if creditPayMethod.cardType == 7%} disabled {% endif %}>
+			{{ 'i18n.payment.proceed_to_checkout' | t: lang }}
+			<div class="spinner-border spinner-border-sm" role="loading">
+				<span class="sr-only"></span>
+			</div>
+		</button>
+	</div>
+
+</div>

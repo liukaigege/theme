@@ -1,0 +1,331 @@
+<!-- 商品详情swiper -->
+<div id='pro_details_swiper' class="pr">
+    <div class="b_bd">
+        <div class="swiper_inner">
+            <div class="swiper-container product-gallery">
+                <div class="swiper-wrapper">
+                    {% for item in data %}
+                    {% if item.type == 1 %}
+                    <div class="swiper-slide"><img class="wapImg" data-suffix-img="{{item.url}}" src="{{item.url}}">
+                    </div>
+                    {% elsif item.type == 2 %}
+                    <!-- <div class="swiper-slide"><img class="wapImg" data-suffix-img="{{item.cover}}" src="{{item.cover}}"></div> -->
+                    <div class="swiper-slide videoType" video="{{item.url}}" cover={{item.cover}}>
+                        <img src="{{item.cover}}">
+                        <img src="../assets/wap/images/play.png" class="playBtn">
+                        <div id="z_play_box" class="play_box pa hide"></div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <!-- <div class="swiper-pagination"></div> -->
+
+            </div>
+        </div>
+        <div class="hide pa sBox">
+            <div class="pr childDom_inner">
+                <img class="childDom" src="">
+            </div>
+        </div>
+        <div class="wrapContainer" style="display: none;top: 0.2rem;left: 0.1rem;">
+            <div class="cube">
+                <div class="cubeList front">3</div>
+                <div class="cubeList back">3</div>
+                <div class="cubeList top">3</div>
+                <div class="cubeList bottom">D</div>
+                <div class="cubeList left">D</div>
+                <div class="cubeList right">D</div>
+            </div>
+        </div>
+    </div>
+    <div class="h_hd">
+        <div class="swiper-container product-thumbs">
+            <div class="swiper-wrapper">
+                {% for item in data %}
+                {% if item.type == 1 %}
+                <div class="swiper-slide"><i><img class="i_img" data-suffix-img="{{item.url}}" src="{{item.url}}"></i>
+                </div>
+                {% elsif item.type == 2 %}
+                <div class="videoType swiper-slide" cover="{{item.cover}}" video="{{item.url}}">
+                    <i> <img class="i_img" src="{{item.cover}}" data-suffix-img="{{item.cover}}">
+                        <img src="../assets/pc/images/play.png" class="childBtn"></i>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Add Arrows -->
+        <div id="product-prev-product-page-images" class="gallery-button">
+            <i class="layui-icon layui-icon-left"></i>
+        </div>
+        <div id="product-next-product-page-images" class="gallery-button">
+            <i class="layui-icon layui-icon-right"></i>
+        </div>
+    </div>
+    <!-- <img src="../assets/wap/images/3D@2x.png" class="threeDSweiperImage" style="width: 0.3rem;position: absolute;top: 0.15rem;right: 0.15rem;z-index: 4;display: none;" alt=""> -->
+</div>
+<script>
+    var myPlayer = null;
+
+    function detailsSwiper() {
+        /* pro_details_swiper */
+        var productGallery = new Swiper("#pro_details_swiper .product-thumbs", {
+            spaceBetween: 10,
+            loop: false,
+            freeMode: true,
+            //looped slides should be the same
+            loopedSlides: 1,
+            watchSlidesVisibility: true,
+            watchSlidesProgress: true,
+            slidesPerView: 6,
+            on: {
+                slideChange: function () {
+                    if (!$('#pro_details_swiper .sBox').hasClass('hide')) {
+                        $('#pro_details_swiper .sBox').addClass('hide');
+                    }
+                    if (myPlayer) {
+                        $('#pro_details_swiper  #my-video').empty().remove();
+                        $('#pro_details_swiper  .play_box').addClass('hide');
+                        myPlayer.dispose(); //销毁
+                        myPlayer = null;
+                    }
+                }
+            },
+        });
+        $('#pro_details_swiper .product-thumbs').on('click', '.swiper-slide', function () {
+            $('#pro_details_swiper .sBox').addClass('hide');
+            $(this).addClass('swiper-slide-thumb-active').siblings().removeClass('swiper-slide-thumb-active')
+            $(this).parent().find('.swiper-slide').removeClass('no_border')
+        })
+        let pro_details_swiper = new Swiper('#pro_details_swiper .product-gallery', {
+            // pagination: {
+            //     el: '#pro_details_swiper .swiper-pagination',
+            //     clickable: true
+            // },
+            navigation: {
+                prevEl: "#product-prev-product-page-images",
+                nextEl: "#product-next-product-page-images"
+            },
+            on: {
+                slideChange: function () {
+                    if (!$('#pro_details_swiper .sBox').hasClass('hide')) {
+                        $('#pro_details_swiper .sBox').addClass('hide');
+                    }
+                    if (myPlayer) {
+                        $('#pro_details_swiper  #my-video').empty().remove();
+                        $('#pro_details_swiper  .play_box').addClass('hide');
+                        myPlayer.dispose(); //销毁
+                        myPlayer = null;
+                    }
+                }
+            },
+            thumbs: {
+                swiper: productGallery
+            }
+        });
+
+        // $('#pro_details_swiper .wapImg').each(function (index, el) {
+        //     countWH(el, '#pro_details_swiper');
+        // });
+
+
+
+        $('#pro_details_swiper .playBtn').on('click', function () {
+            let $videoUrl = $(this).parents('.swiper-slide').attr('video'),
+                $cover = $(this).parents('.swiper-slide').attr('cover') || '';
+            if ($videoUrl && $videoUrl != '' && Object.prototype.toString.call($videoUrl).slice(8, -1) !=
+                'Null') {
+                playVideo($videoUrl, true, $cover);
+            }
+        });
+    }
+    detailsSwiper();
+
+    function countWH($img, $dom) {
+        let $src = $($img).attr('src');
+        if ($src && $src != '' && Object.prototype.toString.call($src).slice(8, -1) != 'Null') {
+            let newImg = new Image(); //建立新的图片对象
+            newImg.src = $src;
+            let img_h = newImg.height;
+            let img_w = newImg.width;
+            let idWidth = $($dom).width();
+            if (img_w > idWidth && img_w > img_h) {
+                let height = img_h * idWidth / img_w;
+                $($img).css({
+                    "width": idWidth,
+                    "height": height
+                });
+            }
+            if (img_w > idWidth && img_w < img_h) {
+                let width = img_w * idWidth / img_h;
+                $($img).css({
+                    "width": width,
+                    "height": idWidth
+                });
+            }
+
+            if (img_h > idWidth && img_w < img_h) {
+                let height = img_w * idWidth / img_h;
+                $($img).css({
+                    "width": height,
+                    "height": idWidth
+                });
+            }
+            if (img_h > idWidth && img_w > img_h) {
+                let height = img_h * idWidth / img_w;
+                $($img).css({
+                    "width": idWidth,
+                    "height": height
+                });
+            }
+
+            if (img_w > idWidth && img_w == img_h) {
+                $($img).css({
+                    "width": idWidth,
+                    "height": idWidth
+                });
+            }
+        }
+    }
+
+    function playVideo($url, isPlay, coverUrl) {
+        if (myPlayer) {
+            $('#pro_details_swiper  #my-video').empty().remove();
+            $('#pro_details_swiper  .play_box').addClass('hide');
+            myPlayer.dispose(); //销毁
+            myPlayer = null;
+        }
+        $('#pro_details_swiper .play_box').removeClass('hide').html($('<div id="my-video"></div>'));
+        myPlayer = new Aliplayer({
+            id: "my-video",
+            source: $url,
+            cover: coverUrl,
+            width: "100%",
+            height: "100%",
+            autoplay: true,
+            isLive: false,
+            playsinline: true,
+            showBarTime: 2000,
+            controlBarVisibility: 'click',
+            useH5Prism: true,
+            useFlashPrism: false,
+            x5_video_position: 'normal',
+            x5_type: 'h5',
+            skinLayout: [ // false | Array, 播放器使用的ui组件，非必填，不传使用默认，传false或[]整体隐藏
+                {
+                    name: "bigPlayButton",
+                    align: "blabs",
+                    x: 30,
+                    y: 80
+                },
+                {
+                    name: "H5Loading",
+                    align: "cc"
+                },
+                {
+                    name: "errorDisplay",
+                    align: "tlabs",
+                    x: 0,
+                    y: 0
+                },
+                // {name: "snapshot", align: "trabs", x: 10, y: "50%"},
+                {
+                    name: "infoDisplay",
+                    align: "cc"
+                },
+                {
+                    name: "controlBar",
+                    align: "blabs",
+                    x: 0,
+                    y: 0,
+                    children: [{
+                        name: "progress",
+                        align: "blabs",
+                        x: 0,
+                        y: 44
+                    },
+                    {
+                        name: "playButton",
+                        align: "tl",
+                        x: 15,
+                        y: 12
+                    },
+                    {
+                        name: "timeDisplay",
+                        align: "tl",
+                        x: 10,
+                        y: 7
+                    },
+                    {
+                        name: "fullScreenButton",
+                        align: "tr",
+                        x: 10,
+                        y: 10
+                    },
+                    //{name: "snapshot", align: "tr", x: 10, y: 10},
+                    {
+                        name: "volume",
+                        align: "tr",
+                        x: 10,
+                        y: 10
+                    },
+                    {
+                        name: "streamButton",
+                        align: "tr",
+                        x: 0,
+                        y: 10
+                    },
+                    {
+                        name: "speedButton",
+                        align: "tr",
+                        x: 0,
+                        y: 10
+                    },
+                    {
+                        name: "captionButton",
+                        align: "tr",
+                        x: 0,
+                        y: 10
+                    },
+                    {
+                        name: "trackButton",
+                        align: "tr",
+                        x: 0,
+                        y: 10
+                    },
+                    ]
+                }
+            ],
+        }, function (player) {
+            player.on('ready', function (e) {
+                if (isPlay) {
+                    player.play();
+                } else {
+                    player.pause();
+                }
+            });
+            var _video = document.querySelector('video');
+            $('.prism-cover').on('click', function (event) {
+                event.stopPropagation();
+                player.play();
+            });
+
+            player.on('play', function (e) {
+                _video.removeEventListener('click', play);
+                _video.addEventListener('click', pause);
+            });
+            player.on('pause', function (e) {
+                _video.removeEventListener('click', pause);
+                _video.addEventListener('click', play)
+            });
+
+            function play() {
+                if (player) player.play();
+            }
+
+            function pause() {
+                if (player) player.pause();
+            }
+        });
+    }
+</script>

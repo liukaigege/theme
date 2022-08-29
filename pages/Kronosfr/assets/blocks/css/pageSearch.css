@@ -1,0 +1,200 @@
+.search {
+  font-family: Roboto-Regular, Roboto;
+}
+.search .searchHeader {
+  width: 100%;
+  height: 0.4rem;
+  margin-bottom: 0.2rem;
+  margin-top: .2rem;
+  padding: 0 .16rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search .backHome {
+  width: 0.07rem;
+  height: 0.12rem;
+  background-image: url(../../wap/images/left@2x.png);
+}
+
+.search .inputBox {
+  display: flex;
+  height: 100%;
+  width: calc(100% - .24rem);
+  background: #FFFFFF;
+  box-shadow: -.01rem .02rem .07rem 0 rgba(0, 0, 0, 0.08);
+  border-radius: .02rem;
+  border: .01rem solid #D8D8D8;
+  font-size: .14rem;
+}
+
+.search .inputBox input {
+  flex: 1;
+  height: 100%;
+  padding-left: 0.12rem;
+  border: none;
+}
+
+.search .inputBox .searchSubmit {
+  height: 100%;
+  width: 0.35rem;
+}
+
+.search .inputBox .searchSubmit img {
+  width: 0.18rem;
+  height: 0.18rem;
+}
+.search ul {
+  padding: 0 0.16rem;
+}
+.search ul li {
+  height: 0.54rem;
+  font-size: 0.14rem;
+  font-family: Roboto-Regular, Roboto;
+  color: #303133;
+  border-bottom: .01rem solid #f8f8f8;
+  display: flex;
+  align-items: center;
+}
+
+.search ul li img {
+  width: 0.16rem;
+  height: .2rem;
+  margin-left: 0.04rem;
+  margin-bottom: .2rem;
+  align-self: flex-end;
+}
+
+
+.you-may-also-like{
+  font-family: Roboto-Regular, Roboto;
+  margin-top: .6rem;
+}
+.you-may-also-like .swiper-slide .goods-info-wrap{
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.you-may-also-like .goods-info-wrap .img-box {
+  width: 1.74rem;
+  height: 1.74rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: .01rem solid #F5F5F5;
+}
+
+.you-may-also-like .goods-info-wrap .img-box .goods-img {
+  -o-object-fit: contain;
+  object-fit: contain;
+  position: absolute;
+  width: auto;
+  height: auto;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.you-may-also-like .goods-info-wrap .img-box .discount-shipping,.discount-percent {
+  position: absolute;
+  top: .1rem;
+  z-index: 3;
+}
+
+.you-may-also-like .goods-info-wrap .img-box .discount-shipping {
+  color: #FFF;
+  font-size: .08rem;
+  padding: 0 0.1rem;
+  height: 0.21rem;
+  top: 0.16rem;
+  line-height: .21rem;
+  left: -0.02rem;
+  background: url(../../wap/images/product-detail/icon-shipping.png) no-repeat;
+  background-size: 100% 0.21rem;
+}
+
+.you-may-also-like .goods-info-wrap .img-box .discount-percent {
+  color: #FFF;
+  font-size: .1rem;
+  width: .36rem;
+  height: .36rem;
+  border-radius: 50%;
+  background: #6a2117;
+  box-shadow: 0 0 .04rem 0 rgba(255, 255, 255, 0.5);
+  right: .1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.you-may-also-like .goods-info-wrap .img-box .discount-percent .discount-off {
+  font-size: .08rem;
+  /* margin-top: .02rem; */
+}
+
+.you-may-also-like .goods-info-wrap .goods-name {
+  margin-top: .07rem;
+  padding: 0 .05rem;
+  font-size: .12rem;
+  color: #202020;
+  height: .14rem;
+  line-height: .14rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.you-may-also-like .goods-info-wrap .price-info {
+  margin-top: .05rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .12rem;
+  color: #202020;
+}
+
+.you-may-also-like .goods-info-wrap .price-info .original-price {
+  color: #999;
+  margin-right: .05rem;
+  text-decoration: line-through;
+}
+
+.you-may-also-like .goods-info-wrap .price-info .original-price + .current-price {
+  color: #6A2117;
+}
+
+.you-may-also-like .title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.you-may-also-like .title .title-line {
+  height: .01rem;
+  background: #979797;
+  width: .6rem;
+}
+
+.you-may-also-like .title .title-real {
+  font-size: .16rem;
+  line-height: .22rem;
+  font-weight: 400;
+  color: #000000;
+  padding: 0 .06rem;
+  text-transform: capitalize;
+}
+
+.you-may-also-like-swiper {
+  position: relative;
+  padding: .2rem .16rem .3rem .16rem;
+}
+
+.you-may-also-like .swiper-slide {
+  width: 1.74rem !important;
+  height: 2.2rem;
+}

@@ -1,0 +1,144 @@
+{% assign isshow = showRecommend %}
+
+
+<style>
+  .athena_search_empty {
+    text-align: center;
+    margin-top: 30px;
+    font-family: Roboto-Regular, Roboto;
+  }
+
+  .athena_search_empty .emptyImg {
+    width: 1.3rem;
+    height: 1.3rem;
+  }
+
+  .athena_search_recommend {
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+    padding: 0 .16rem;
+  }
+
+   .athena_search_empty .big-font {
+    font-size: .12rem;
+    margin-top: .35rem;
+    color: #666;
+    font-weight: 400;
+    line-height: .14rem;
+  }
+
+  .athena_search_empty .small-font {
+    font-size: .1rem;
+    margin-top: .1rem;
+    color: #999;
+    font-weight: 400;
+    line-height: .11rem;
+  } 
+
+  .athena_search_empty .athena_search_empty_text {
+    margin-top: .2rem;
+  }
+
+  .athena_search_empty .athena_search_empty_text span {
+    color: #000000;
+  }
+
+  .athena_search_title {
+    font-size: 0.14rem;
+    font-family: Roboto-Regular, Roboto;
+    font-weight: 400;
+    color: #363636;
+    margin-bottom: 0.2rem;
+    height: .24rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .athena_search_title .title {
+    margin: 0 .06rem
+  }
+  .athena_search_title .line {
+    height: .01rem;
+    background: #979797;
+    width: .6rem;
+  }
+  #recommend_empty {
+    font-family: Roboto-Regular, Roboto;
+  }
+  #recommend_empty .athena_product_item {
+    width: 1.74rem;
+    display: block;
+  }
+
+  #recommend_empty .athena_product_introduce_title {
+    margin: 0.02rem 0.12rem;
+    font-size: 0.12rem;
+    line-height: .14rem;
+    text-align: center;
+  }
+
+  #recommend_empty .athena_product_introduce_title p {
+    font-weight: 400;
+    color: #202020;
+    width: 100%;
+    margin: 0.06rem 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #recommend_empty .athena-product-introduce-price {
+    width: 100%;
+    margin-bottom: 0.12rem;
+    font-weight: 500;
+    color: #6A2117;
+    text-align: center;
+  }
+
+  .defaultPrice {
+    font-size: 0.14rem;
+    font-weight: 700;
+    color: #303030FF;
+
+  }
+
+  .discountPrice {
+    font-size: 0.14rem;
+    font-weight: 700;
+    color: #DF0052;
+  }
+
+  .defaultPrice_line {
+    text-decoration: line-through;
+    font-weight: 700;
+    color: #9B9B9B !important;
+  }
+</style>
+<div class="athena_search_empty" style="display: none;">
+  <img class="emptyImg" src="../assets/pc/images/search/search-nothing.png" alt="">
+  <p class="big-font">Désolé, aucun produit ne correspond au mot-clé!</p>
+  <p class="small-font">·Utiliser des termes plus généraux</p>
+  <p class="small-font" style="text-indent: -0.46rem;">·Vérifie ton orthographe</p>
+  <div class="athena_search_recommend">
+    <div class="athena_search_title">
+      <div class="line"></div>
+      <div class="title">Tu pourrais aussi aimer</div>
+      <div class="line"></div>
+    </div>
+    <div class="swiper-container" id='recommend_empty'>
+      <div class="swiper-wrapper ">
+
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(function () {
+    var recommend_empty_swiper = new Swiper('#recommend_empty', {
+      slidesPerView: 'auto',
+      spaceBetween: 15,
+      // loop: true
+    });
+  })
+
+</script>

@@ -1,0 +1,22 @@
+{% assign preloader = prePath | append:"assets/images/preloader.png"  %}
+<div class="products-swiper swiper-container" perLineNum="{{perLineNum}}" id="swiper-{{id}}">
+	<div class="swiper-wrapper">
+		{% for item in goodList %}
+		<div class="swiper-slide">
+			{% case displaysty %}
+			{% when 1 %}
+			{% comment %}产品类型1{% endcomment %}
+			{% render 'products-item-style1.liquid',item:item,isSwiper:1,perLineNum:perLineNum,lang:lang,preloader:preloader %}
+			{% when 2 %}
+			{% comment %}产品类型2{% endcomment %}
+			{% render 'products-item-style2.liquid',item:item,isSwiper:1,perLineNum:perLineNum,lang:lang,preloader:preloader %}
+			{% when 3 %}
+			{% comment %}产品类型3{% endcomment %}
+			{% render 'products-item-style3.liquid',item:item,isSwiper:1,perLineNum:perLineNum,lang:lang,preloader:preloader %}
+			{%endcase%}
+		</div>
+		{% endfor %}
+	</div>
+	<div class="swiper-button-next iconfont icon-arrow-right"></div>
+	<div class="swiper-button-prev iconfont icon-arrow-left"></div>
+</div>

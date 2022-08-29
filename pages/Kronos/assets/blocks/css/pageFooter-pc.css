@@ -1,0 +1,306 @@
+/* 服务--客服--物流...... */
+.footer .serve {
+  width: 100%;
+  height: 1.9rem;
+  background: #ededed;
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  padding: 40px 0;
+}
+
+.footer .serve ul {
+  width: 100%;
+  display: flex;
+  margin: 0 160px;
+}
+
+.footer .serve ul li {
+  flex: 1;
+  border-right: 1px solid #b8b8b8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 50px;
+  text-align: center;
+}
+
+.footer .serve ul li:last-child {
+  border-right: none;
+}
+
+.footer .serve ul li p {
+  font-size: 13px;
+}
+
+.footer .serve .serve-icon {
+  margin: 0 10px;
+  /* width: 70px;
+  height: 70px; */
+  height: 40px;
+  width: 40px;
+  margin-bottom: 12px;
+}
+
+.footer .serve .serve-title {
+  font-size: 0.14rem;
+  color: #202020;
+  line-height: 0.16rem;
+}
+
+/* 链接 */
+.link {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1.35rem;
+  background: #000000;
+}
+
+.link-item {
+  height: 100%;
+  margin: 0 0.3rem;
+  max-width: 20%;
+}
+
+.link-item a {
+  color: #ccc;
+}
+
+.link-item a:hover {
+  color: #6A2117;
+}
+
+.link-item li {
+  text-align: left;
+  font-size: 14px;
+  color: #ccc;
+  line-height: 22px;
+}
+
+.link-item li:first-child {
+  font-size: 16px;
+  font-family: Roboto-Bold, Roboto;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+.link-item .foot-email {
+  display: flex;
+  width: 100%;
+  height: 38px;
+}
+
+.link-item .foot-email input {
+  flex: 1;
+  font-size: 14px;
+  height: 38px;
+  font-weight: 400;
+  background: #fff;
+  padding: 0 0.09rem;
+  border-radius: 0.02rem 0 0 0.02rem;
+}
+
+.link-item .foot-email button {
+  height: 38px;
+  padding: 0 9px;
+  border-left: none;
+  border-radius: 0 0.02rem 0.02rem 0;
+  background: #6A2117;
+}
+
+.link-item .foot-email button img {
+  height: 20px;
+  width: 26px;
+}
+
+.followus li {
+  text-align: left;
+  font-size: 16px;
+  margin-bottom: 10px;
+  line-height: 19px;
+  color: #FFFFFF;
+  font-weight: bold;
+}
+
+.followus li a {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+}
+
+.followus .payImage a {
+  width: 280px;
+  height: 25px;
+}
+
+.followus li img {
+  display: inline-block;
+  transition: all 0.3s;
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.record {
+  height: 53px;
+  background: #f4f4f4;
+  font-size: 12px;
+  color: var(--Athena-color);
+  line-height: 53px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.foot-notice {
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  height: 0.4rem;
+  line-height: 0.4rem;
+  z-index: 999;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+.foot-empty {
+  height: 0.4rem;
+}
+
+.foot-notice .footImgBox p{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 0.4rem;
+  font-size: 0.12rem;
+  font-weight: normal;
+}
+
+.foot-notice a {
+  width: 100%;
+  height: 100%;
+  /* display: block; */
+}
+
+.foot-notice img {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  margin: 0 auto;
+  padding: 0 !important;
+}
+
+.foot-notice .active-close {
+  position: absolute;
+  top: 50%;
+  right: 0.2rem;
+  transform: translateY(-50%);
+  width: 0.15rem;
+  height: 0.15rem;
+  cursor: pointer;
+}
+
+.foot-notice em {
+  font-style: oblique;
+}
+
+.footImgBox {
+  width: 100%;
+  height: 100%;
+}
+
+@media screen and (max-width: 1600px) {
+  .footer .serve {
+    height: 1.9rem;
+  }
+
+  .footer .serve ul {
+    /* height: 0.68rem; */
+    margin: 0 1.6rem;
+  }
+
+  .footer .serve ul li {
+    padding: 0 0.5rem;
+  }
+
+  .footer .serve ul li p {
+    font-size: 0.13rem;
+  }
+
+  .footer .serve .serve-icon {
+    margin: 0 10px;
+    width: 0.7rem;
+    height: 0.7rem;
+    margin-bottom: 12px;
+  }
+
+  /* 链接 */
+  .link {
+    width: 100%;
+    padding: 0.5rem 1.6rem;
+  }
+
+  .link-item {
+    margin: 0 0.3rem;
+  }
+
+  /* .link-item li {
+    font-size: 0.14rem;
+    line-height: 0.22rem;
+  } */
+
+  /* .link-item li:first-child {
+    line-height: 0.18rem;
+    margin-bottom: 0.1rem;
+  } */
+
+  /* .link-item .foot-email {
+    height: 0.38rem;
+  } */
+
+  /* .link-item .foot-email input {
+    font-size: 0.13rem;
+    height: 0.38rem;
+    padding: 0 0.09rem;
+  } */
+
+  /* .link-item .foot-email button {
+    height: 0.38rem;
+    padding: 0 0.09rem;
+  } */
+/* 
+  .followus li {
+    margin-bottom: 0.1rem;
+  }
+
+  .followus li a {
+    width: 0.3rem;
+    height: 0.3rem;
+  } */
+
+  /* .followus .payImage a {
+    width: 2.8rem;
+    height: 0.27rem;
+  } */
+
+  .record {
+    height: 0.53rem;
+    font-size: 0.12rem;
+    line-height: 0.53rem;
+  }
+
+  .foot-notice {
+    height: 0.48rem;
+    line-height: 0.48rem;
+  }
+  .foot-empty {
+    height: 0.48rem;
+  }
+  .foot-notice .active-close {
+    right: 0.2rem;
+    width: 0.15rem;
+    height: 0.15rem;
+  }
+}

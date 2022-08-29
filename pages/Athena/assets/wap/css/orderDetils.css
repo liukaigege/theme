@@ -1,0 +1,418 @@
+.items {
+    background: #F7F7F7;
+    border: 1px solid #E9E9E9;
+}
+
+.items .itemPaystatus {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.15rem 0.16rem 0rem;
+}
+
+.items .curreny {
+    font-size: 0.14rem;
+    /* font-family: "Aileron-SemiBold, Aileron"; */
+    font-weight: 600;
+    color: #000000;
+    /* line-height: 1; */
+}
+
+
+/* 支付状态图标 */
+.items .payment_icon_success {
+    display: inline-block;
+    width: 0.16rem;
+    height: 0.16rem;
+    background: url(../images/success_icon.png) no-repeat;
+    background-size: contain;
+    text-align: center;
+}
+
+.items .payment_icon_awaiting {
+    display: inline-block;
+    width: 0.16rem;
+    height: 0.16rem;
+    background: url(../images/wait_icon.png) no-repeat;
+    background-size: contain;
+    text-align: center;
+}
+
+.items .payment_icon_pending {
+    display: inline-block;
+    width: 0.16rem;
+    height: 0.16rem;
+    background: url(../images/pending_icon.png) no-repeat;
+    background-size: contain;
+    text-align: center;
+}
+
+.items .payment_icon_failed {
+    display: inline-block;
+    width: 0.16rem;
+    height: 0.16rem;
+    background: url(../images/failed_icon.png) no-repeat;
+    background-size: contain;
+    text-align: center;
+}
+
+.items .payment_status {
+    font-size: 0.14rem;
+    font-family: "Aileron-Regular, Aileron";
+    font-weight: 400;
+    padding-left: 0.07rem;
+}
+
+
+/* 各种状态颜色 */
+
+.items .pay_successful {
+    color: #1677FF;
+}
+
+.items .pay_awaitingPayment {
+    color: #52C41A;
+}
+
+.items .pay_pending {
+    color: #FFBF00;
+}
+
+.items .pay_failed {
+    color: #FF3B30;
+}
+
+.items .payment_status_show {
+    display: flex;
+    justify-content: space-between;
+}
+
+.items .pay_time {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.04rem 0.16rem 0.15rem 0.40rem;
+}
+
+.pay_time .down_open {
+    margin: auto 0;
+    display: inline-block;
+    width: 0.13rem;
+    height: 0.08rem;
+    background: url(../images/down_open.png) no-repeat;
+    background-size: contain;
+    text-align: center;
+    /* 旋转箭头 */
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    transition: 0.3s all ease-in;
+    -webkit-transition: 0.3s all ease-in;
+}
+
+
+/* 展开内容默认隐藏 */
+
+.items .down_open_content {
+    display: none;
+}
+
+
+/* 添加一个 active属性，每次点击时旋转箭头 */
+
+.items_click .pay_time.active .down_open {
+    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transition: 0.3s all ease-in;
+    -webkit-transition: 0.3s all ease-in;
+}
+
+.items .down_open_content {
+    padding: 0.03rem 0.16rem;
+}
+
+.items_click .content_btn {
+    background: #52C41A;
+    width: auto;
+    border-radius: 4px;
+    color: #FFFFFF;
+    display: flex;
+    /* 设置主轴的方向为y轴 */
+    flex-direction: column;
+    align-items: center;
+    margin: 0 .15rem .1rem .15rem;
+}
+
+.items_click .content_btn span:nth-child(1) {
+    padding-top: 0.06rem;
+    font-size: 0.12rem;
+    font-family: "Aileron-Regular, Aileron";
+    font-weight: 400;
+    line-height: 1;
+}
+
+.items_click .content_btn span:nth-child(2) {
+    padding-bottom: 0.04rem;
+    font-size: 0.16rem;
+    font-family: "Aileron-SemiBold,Aileron";
+    font-weight: 600;
+    color: #FFFFFF;
+    line-height: 1.3;
+    letter-spacing: 0.01rem;
+}
+
+.down_open_content .open_content {
+    margin: 0 0 0.16rem 0;
+    background-color: #fff;
+    width: 100%;
+}
+
+.down_open_content .open_content .open_content_padding {
+    padding: 0.15rem 0.20rem;
+}
+
+.order_status span:nth-child(1) {
+    font-size: 0.12rem;
+    font-family: "Aileron-Regular, Aileron";
+    /* font-weight: 600; */
+    color: #000000;
+    line-height: 2.4;
+}
+
+.order_status span:nth-child(2) {
+    font-size: 0.12rem;
+    color: #545454;
+    line-height: 2.2;
+}
+
+.line {
+    width: 100%;
+    height: 0.01rem;
+    background-color: #E9E9E9;
+    margin: 0.15rem 0;
+}
+
+
+/* 收货人信息样式 */
+
+.consignee div:first-child {
+    font-size: 0.12rem;
+    font-family: "Aileron-Regular, Aileron";
+    /* font-weight: 600; */
+    color: #000;
+    line-height: 2.2;
+}
+
+
+/* 地址信息超出两行隐藏 */
+
+.address {
+    display: flex;
+}
+
+.address span:nth-child(1) {
+    margin-right: 0.03rem;
+}
+
+.address span:nth-child(2) {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    line-height: 2.4;
+}
+
+
+/* 订单图文信息 */
+
+.pict_info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.order_info>.order_info_title {
+    font-size: 0.13rem;
+    color: #000000;
+    /* width: 20%; */
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pict_info .picture {
+    padding-right: 0.12rem;
+    width: .9rem;
+    height: .9rem;
+    flex-basis: .9rem;
+}
+
+.pict_info .picture img {
+    max-width: 100%;
+}
+
+.pict_info .picture {
+    /* flex: 24%; */
+    padding-right: 0.12rem;
+}
+
+.pict_info .order_info {
+    flex-basis: calc(100% - .9rem);
+    width: calc(100% - .9rem);
+}
+
+.order_info ol li {
+    font-size: 0.11rem;
+    color: #000000;
+    line-height: 1.5;
+}
+
+.order_info_price {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 0.1rem;
+    padding-bottom: 0;
+}
+
+.order_info_price span:nth-child(1) {
+    font-size: 13px;
+    font-family: "Aileron-Regular, Aileron";
+    font-weight: 400;
+    color: #000000;
+    line-height: 1.1;
+}
+
+.order_info_price span:nth-child(2) {
+    font-size: 0.10rem;
+    font-family: "Aileron-Regular, Aileron";
+    font-weight: 400;
+    color: #000000;
+    line-height: 1.6;
+}
+
+.order_info_price span:nth-child(3) {
+    font-size: 0.13rem;
+    font-family: "Aileron-SemiBold, Aileron";
+    font-weight: 600;
+    color: #E32168;
+    line-height: 1.2;
+}
+.skuValImg{
+  display: inline-block;
+  background: url(../images/icon/photo_bg.png) bottom center no-repeat;
+  width: .24rem;
+  height: .13rem;
+  background-size: auto 100%;
+}
+.zoomImg{
+  position: absolute;
+  left: 0;
+  top:0;
+  /* width: 100vw;
+  height: 100vh; */
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+}
+.zoomImg img{
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+}
+.layui-layer-setwin .layui-layer-ico {
+    background: url(../images/icon/commentClose.png) 100% no-repeat;
+    background-position: 0 !important;
+    right: 0!important;
+    top: 0!important;
+    width: .3rem!important;
+    height: .3rem!important;
+    z-index: 1000;
+}
+.pict_info .picture .n-title{
+    width: 100%;
+    padding-bottom:100% ;
+    position: relative;
+    height: 0;
+    background-color: #eee;
+    display: block;
+}
+.pict_info .picture .n-title img{
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+}
+/* 如果设备像素大于等于2，则用2倍图 */
+
+@media screen and (-webkit-min-device-pixel-ratio: 2) {
+    .skuValImg{
+    background-image: url(../images/icon/photo_bg@2x.png)
+  }
+    .items .payment_icon_success {
+        background: url(../images/success_icon@2x.png) no-repeat;
+        background-size: contain;
+    }
+    .items .payment_icon_awaiting {
+        background: url(../images/wait_icon@2x.png) no-repeat;
+        background-size: contain;
+    }
+    .items .pay_time .down_open {
+        background: url(../images/down_open@2x.png) no-repeat;
+        background-size: contain;
+    }
+    .items .payment_icon_pending {
+        background: url(../images/pending_icon@2x.png) no-repeat;
+        background-size: contain;
+    }
+    .items .payment_icon_failed {
+        background: url(../images/failed_icon@2x.png) no-repeat;
+        background-size: contain;
+    }
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 3),
+screen and (min--moz-device-pixel-ratio: 3) {
+    .items .payment_icon_success {
+        background: url(../images/success_icon@3x.png) no-repeat;
+        background-size: contain;
+    }
+    .items .payment_icon_awaiting {
+        background: url(../images/wait_icon@3x.png) no-repeat;
+        background-size: contain;
+    }
+    .items .payment_icon_pending {
+        background: url(../images/pending_icon@3x.png) no-repeat;
+        background-size: contain;
+    }
+    .items .payment_icon_failed {
+        background: url(../images/failed_icon@3x.png) no-repeat;
+        background-size: contain;
+    }
+}
+.emptyImg{
+    text-align: center;
+    margin: .3rem 0;
+}
+.emptyImg img{
+    display:inline-block;
+    max-width: 40vw;
+}
+.skuValImg{
+  display: inline-block;
+  background: url(../images/icon/photo_bg.png) bottom center no-repeat;
+  width: .24rem;
+  height: .13rem;
+  background-size: auto 100%;
+}
+.zoom_img{
+  background-color: none;
+}
+.zoom_img>div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

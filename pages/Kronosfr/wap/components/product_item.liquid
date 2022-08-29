@@ -1,0 +1,60 @@
+<div class="athena-productListBox clearfix">
+  {% for item in data limit:10 %}
+  <div class="athena_product_item animate__animated ">
+    <a href="productDetail_{{item.id}}.html" class="loading">
+      <img src="" alt="" data-url="{{item.mainImg}}">
+      {% if item.discount and item.discount != 10 and item.speType!=3 %}
+      <span class="discount">
+        <em><i>{{item.discount | RABAIS }}</i>%</em>
+        <em>RABAIS</em>
+      </span>
+      {% else item.discount and item.discount != 10 and item.speType==3 %}
+      <span class="discount slide">
+        <em><i>{{item.discount | RABAIS }}</i>%</em>
+        <em>RABAIS</em>
+      </span>
+      {% endif %}
+      {% if item.freeShipping != 0 %}
+      <span class="free_shipping">
+        Livraison Gratuite
+      </span>
+      {% endif %}
+    </a>
+    <div class="athena_product_introduce_title">
+      <p>{{item.goodsName}}</p>
+      <div class="athena_product_introduce_price" id="discountTime" start="{{item.discountStaTime}}"
+        end="{{item.discountEndTime}}">
+        {% if item.discount != 10 %}
+        <span class="defaultPrice" id="defaultPrice" p-price="{{item.defaultPrice}}"></span>
+        <span class="discountPrice" id="discountPrice"
+          p-price="{{item.defaultPrice | discountPrice:item.discount }}"></span>
+        {% else %}
+        <span class="defaultPrice" id="defaultPrice" p-price="{{item.defaultPrice}}"></span>
+        {% endif %}
+      </div>
+    </div>
+    {% if item.speType==3 %}
+    <div class="wrapContainer">
+        <div class="cube">
+            <div class="cubeList front">3</div>
+            <div class="cubeList back">3</div>
+            <div class="cubeList top">3</div>
+            <div class="cubeList bottom">D</div>
+            <div class="cubeList left">D</div>
+            <div class="cubeList right">D</div>
+        </div>
+    </div>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+  $(function () {
+    var allprice = $("[p-price]")
+    allprice.each(function (index) {
+      $(this).text(getMoney($(this).attr('p-price')))
+    })
+  });
+  checkActiveTime()
+</script>

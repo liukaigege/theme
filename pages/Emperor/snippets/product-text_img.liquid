@@ -1,0 +1,33 @@
+<ul class="product-info__variants_text-img" param-id="{{data.id}}">
+	{% if type == 'mlpSpe'%}
+	{% for val in data.valList %}
+	{% if data.speType == 1 %}
+	<li class="product-info__variants_img mlpSpe-item" data-need="1" data-optionalIds="{{val.optionalIds}}"
+		param-name="{{data.spe}}" data-selfId="{{val.id}}" title="{{val.speVal}}" data-mainvalimg={{ val.mainImg }}>
+		<img data-url="{{ val.mainImg }}" src="{{ val.mainImg }}" />
+	</li>
+	{% else %}
+	<li class="product-info__variants_text mlpSpe-item" data-need="1" data-optionalIds="{{val.optionalIds}}"
+		param-name="{{data.spe}}" data-selfId="{{val.id}}" {% if val.speVal.length>50 %}title="{{val.speVal}}" {% endif
+		%}>{{val.speVal}}
+	</li>
+	{% endif %}
+	{% endfor %}
+	{%else%}
+	{% if data.type == 1 %}
+	{% for val in data.optionList%}
+	<li data-selfId="{{val.id}}" data-need="{{data.need}}" param-price="{{val.price}}"
+		class="product-info__variants_text customization-item" {% if val.value.length> 50%} title="{{val.value}}" {%
+		endif %} data-parentId='{{data.id}}' data-childLength = '{{val.childCustList | size}}'>{{val.value}}</li>
+	{% endfor %}
+	{% else %}
+	{% for val in data.optionList%}
+	<li class="product-info__variants_img customization-item" data-need="{{data.need}}" param-price="{{val.price}}"
+		data-enlarge="{{data.enlarge}}" data-selfId="{{val.id}}" title="{{val.tips  | default : ''}}"
+		data-parentId='{{data.id}}' data-childLength='{{val.childCustList | size}}'>
+		<img data-url="{{ val.value }}" src="{{ val.value }}">
+	</li>
+	{% endfor %}
+	{%endif%}
+	{%endif%}
+</ul>

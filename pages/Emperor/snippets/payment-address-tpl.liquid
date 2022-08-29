@@ -1,0 +1,82 @@
+
+<div class="info-box col-lg">
+	<div class="payment-tips">
+		<i class="i-icon">i</i>
+		<span>{{ 'i18n.payment.confirm_tip' | t: lang }}</span>
+	</div>
+	<div class="payment-info-content">
+		<ul class="address-info" id="addressInfo">
+
+		</ul>
+	</div>
+</div>
+<script>
+	function renderPaymentAddess(data) {
+		if (data.shippingsName) {
+			sessionStorage.setItem('shippingsName', data.shippingsName)
+		} else {
+			data.shippingsName = sessionStorage.getItem('shippingsName')
+		}
+		let billingAdressParamTpl  =  '';
+		if(data.billingAdressParam) {
+			billingAdressParamTpl  =
+			`
+				<li class='billing_address'>
+					<div>
+						<div class="review-block__label">{{ 'i18n.payment.billing_address' | t: lang }}</div>
+						<div class="review-block__content">
+							${data.billingAdressParam.street1},${data.billingAdressParam.city},${data.billingAdressParam.state},${data.billingAdressParam.country}
+						</div>
+					</div>
+					<div>
+						<button class="address-change--event change-button" data-type='billingAdressParam'>{{ 'i18n.payment.change' | t: lang }}</button>
+					</div>
+				</li>
+
+			`
+		}
+		let tpl =
+		`
+			<li>
+				<div class="review-block__inner">
+					<div role="rowheader" class="review-block__label">{{ 'i18n.general.email' | t: lang }}</div>
+					<div role="cell" class="review-block__content">
+						${data.adressParam.email}
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class="review-block__inner">
+					<div  class="review-block__label">{{ 'i18n.payment.shop_to' | t: lang }}</div>
+					<div role="cell" class="review-block__content">
+			  			${data.adressParam.street1}, ${data.adressParam.city},${data.adressParam.state},${data.adressParam.country}
+					</div>
+				</div>
+				<div >
+					<button class="address-change--event change-button" data-type='adressParam'>{{ 'i18n.payment.change' | t: lang }}</button>
+				</div>
+			</li>
+			${billingAdressParamTpl}
+			<li>
+				<div class="review-block__inner">
+					<div role="rowheader" class="review-block__label">{{ 'i18n.payment.shipping_method' | t: lang }}</div>
+					<div role="cell" class="review-block__content">
+						${data.shippingsName ? data.shippingsName: "{{ 'i18n.product_list.product_free_shipping' | t: lang }}" }
+					</div>
+				</div>
+			</li>
+
+		`
+		$('#addressInfo').html(tpl)
+		// 绑定事件
+		$('.address-change--event').click(function () {
+			var type = $(this).data('type');
+			// 给Confirm 按钮 绑定type
+			$("#confirmBtn").data('type',type)
+			$("#paymentForm").show();
+			$('#addressInfo').html('');
+			// 地址回显
+			addressShow('#paymentForm',data[type],type)
+		});
+	}
+</script>

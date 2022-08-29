@@ -1,0 +1,194 @@
+$(function () {
+  // console.log(CATEGORYDATA, INDEXDATA, SIDEDATA, '===================');
+  keyword = getQueryVariable('keyword')
+  var id = $('.category').attr('categoryId')
+  const notShowSideList = SIDEDATA.map(item => !item.linkStatus && item.linkId)
+  const isAll = $('.total').attr('all')
+  if (isAll == 1) {
+    hideSide()
+    searchSubmit(keyword)
+    callbackSort('0', 1)
+    if (keyword) {
+      $('#keyword').val(keyword)
+    }
+  } else {
+    // console.log(CATEGORYDATA.categoryList);
+    // 渲染侧边栏
+    renderSideList(id)
+    $('.total').text(`（${findCategory(CATEGORYDATA.categoryList, Number(id)).goodsList.length}）`)
+    const belongSideCategory = flatSideList(SIDEDATA).find(item => item.linkId == id)
+    if (belongSideCategory && belongSideCategory.level === 1) {
+      let resultLen = 0
+      const parentCategory = SIDEDATA.find(item => item.linkId == belongSideCategory.linkId)
+      if (parentCategory.childList && parentCategory.childList.length) {
+        parentCategory.childList.forEach(_item => {
+          var data = findCategory(CATEGORYDATA.categoryList, Number(_item.linkId))
+          if (data && data.goodsList.length > 0) {
+            searchResult = data.goodsList.filter(item => exemptSearchList.indexOf(item.id) === -1) // 获取当前分类下的数据
+            // 如果分类下的有数据，渲染到当前页面中，否则渲染空页面
+            callbackSort(data.sortRule, data.sortMode)
+            searchResult = sort(searchResult, 'sort', 1)
+            newRender(searchResult, _item.linkId, 1, _item.name)
+          } else {
+            searchResult = []
+            newRender(searchResult, null, 1, _item.name)
+          }
+          resultLen+=searchResult.length
+        })
+        $('.total').text(`（${resultLen}）`)
+      } else {
+        var data = findCategory(CATEGORYDATA.categoryList, Number(id))
+        if (data && data.goodsList.length) {
+          $('.total').text(`（${ data.goodsList.length}）`)
+          searchResult = data.goodsList.filter(item => exemptSearchList.indexOf(item.id) === -1) // 获取当前分类下的数据
+        } else {
+          searchResult = []
+        }
+        if (searchResult.length) {
+          // 如果分类下的有数据，渲染到当前页面中，否则渲染空页面
+          callbackSort(data.sortRule, data.sortMode)
+          searchResult = sort(searchResult, 'sort', 1)
+          render(searchResult, 1)
+        }
+      }
+    } else if (belongSideCategory && (belongSideCategory.level === 2)) {
+      var data = findCategory(CATEGORYDATA.categoryList, Number(id))
+      searchResult = data.goodsList.filter(item => exemptSearchList.indexOf(item.id) === -1) // 获取当前分类下的数据
+      if (searchResult.length) {
+        // 如果分类下的有数据，渲染到当前页面中，否则渲染空页面
+        callbackSort(data.sortRule, data.sortMode)
+        searchResult = sort(searchResult, 'sort', 1)
+        render(searchResult, 1)
+        $('.total').text(`（${searchResult.length + prevArr.length} items）`)
+        paginationObj.total = searchResult.length + prevArr.length
+        pagination.init(paginationObj) // 初始化分页
+      }
+      // hideSide()
+    } else {
+      // $('.productContainer-box').hide()
+      // renderRecommendEmpty()
+    }
+    // 一级菜单 隐藏侧边栏
+    // const notShowSideItem = flatSideList(SIDEDATA).find(item => item.linkId == id)
+    // const hasChildList = notShowSideItem.childList && notShowSideItem.childList.length > 0
+    // if (notShowSideItem.level > 1 || !hasChildList || !searchResult.length) hideSide()
+  }
+  // if (!searchResult.length) {
+  //   $('.productContainer-box').hide()
+  //   renderRecommendEmpty()
+  // }
+  if ($('.productContainer-side li').length) {
+    // 侧边栏首个分类默认增加点击效果
+    $('.productContainer-side li')[0].classList.add('active')
+  }
+  if ($('#sortBy li').length) {
+    // 排序方式元素上增加标记
+    $('#sortBy li')[0].classList.add('active')
+  }
+
+
+  // 排序显示隐藏
+  $('#sortBy').on('click', function () {
+    $('#sort_extent').fadeToggle(300)
+    if ($('.triangle').hasClass('triangle_ratate')) {
+      //点击箭头旋转180度
+      $('.triangle').removeClass('triangle_ratate')
+    } else {
+      $('.triangle').addClass('triangle_ratate')
+    }
+  })
+
+  // 获取点击的排序字段
+  $('#sortBy li').on('click', function () {
+    // 加上标记，点击查看更多的时候定位元素，并取得排序方式
+    $(this).addClass('active').siblings('li').removeClass('active')
+    if (!notShowSideList.includes(Number(id))) {
+      // let arr = [...searchResult]
+      searchResult = sort(searchResult, $(this).attr('value'), $(this).attr('sortMode'))
+      // listSort(arr,true)//重新排序
+      paginationObj.currentPage = 1
+      pagination.init(paginationObj)
+      // arr = delItemsFn(arr)
+      // let productList = [...prevArr, ...arr];
+      render(searchResult, 1)
+    } else {
+      const belongSideCategory = flatSideList(SIDEDATA).find(item => item.linkId == id)
+      if (belongSideCategory.childList.length) {
+        belongSideCategory.childList.forEach(item => {
+          const listLength = $(`div[moreid=${item.linkId}]`).attr('length') || 8
+          const data = findCategory(CATEGORYDATA.categoryList, Number(item.linkId))
+          searchResult = data.goodsList.filter(item => exemptSearchList.indexOf(item.id) === -1)
+          searchResult = sort(searchResult, $(this).attr('value'), $(this).attr('sortMode'))
+          singleRender(searchResult, 1, listLength, item.linkId, item.name)
+        })
+      }
+    }
+    $('.sortCheck').hide()
+    $(this).find('.sortCheck').show()
+    $('.triangle').removeClass('triangle_ratate')
+    // if (paginationObj.pagesize === 16) {
+    //   $('.productContainer .product-item').css({ width: '24%' })
+    //   $('.productContainer .product-item a').css({ height: '383px' })
+    // } else {
+    //   $('.productContainer .product-item').css({ width: '32%' })
+    //   $('.productContainer .product-item a').css({ height: '518px' })
+    // }
+  })
+  // 三列排
+  $('#three_colums').on('click', function () {
+    $('.three_colums_isActive').show()
+    $('.three_colums_notActive').hide()
+    $('.four_cloums_notActive').show()
+    $('.four_cloums_isActive').hide()
+    paginationObj.currentPage = 1
+    paginationObj.pagesize = 12
+    pagination.init(paginationObj)
+    // searchResult = delItemsFn(searchResult)
+    // let productList = [...prevArr, ...searchResult]
+    if (!notShowSideList.includes(Number(id))) {
+      render(searchResult, 1)
+    }
+
+    // $('.productContainer').css('grid-template-columns', 'repeat(3, 1fr)')
+    $('.productContainer .product-item').css({
+      width: 'calc(33.33% - 25px)'
+    })
+    // $('.productContainer .product-item a').css({ height: '518px' })
+  })
+  // 四列排
+  $('#four_cloums').on('click', function () {
+    $('.three_colums_isActive').hide()
+    $('.three_colums_notActive').show()
+    $('.four_cloums_notActive').hide()
+    $('.four_cloums_isActive').show()
+    paginationObj.currentPage = 1
+    paginationObj.pagesize = 16
+    pagination.init(paginationObj)
+    // searchResult = delItemsFn(searchResult)
+    // let productList = [...prevArr, ...searchResult]
+    if (!notShowSideList.includes(Number(id))) {
+      render(searchResult, 1)
+    }
+    $('.productContainer .product-item').css({
+      width: 'calc(25% - 25px)'
+    })
+    // $('.productContainer .product-item a').css({ height: '383px' })
+    // $('.productContainer').css('grid-template-columns', 'repeat(4, 1fr)')
+  })
+
+  // 侧边栏分类点击事件,相关分类标题滚动到视口位置
+  $('.productContainer-side li').on('click', function () {
+    $(this).addClass('active').siblings('li').removeClass('active')
+    const id = $(this).attr('linkid')
+    const offset = $(`.productContainer_${id}`).offset()
+    $('body,html').animate({
+      scrollTop: offset.top - 100
+    }, 500)
+  })
+
+  // 隐藏侧边栏
+  function hideSide() {
+    $('.productContainer-side').hide()
+    $('.productContainer').css('margin-bottom', 0)
+  }
+})

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+	<title>{{ page_title }}</title>
+	<meta name="keywords" content="{{ ROWS.seoSearch.searchKeyword }}">
+	<meta name="description" content="{{ ROWS.seoSearch.searchDesc }}">
+	<meta name="google-site-verification" content="7CWOkrTMsEJvvI1xoCJ4tzTNGmZdV7Q2LmLiu91bqm0" />
+	<link id="shortcut" rel="shortcut icon" href="{{ headerData.config.icon | IMGURL }}" type="image/png">
+	{% assign prePath = '../' %}
+	{% if isIframe == '1'%}
+	{% assign prePath = '../temptheme/' %}
+	{% endif%}
+	<link rel="stylesheet" href="{{prePath}}assets/css/swiper-bundle.min.css">
+	<link rel="stylesheet" href="{{prePath}}assets/css/vendor.min.css">
+	<link rel="stylesheet" href="{{prePath}}assets/css/paypal.css">
+	<link rel="stylesheet" href="{{prePath}}assets/css/footer.css?v={{version}}">
+	<link rel="stylesheet" href="{{prePath}}assets/css/header.css?v={{version}}">
+	<link rel="stylesheet" href="{{prePath}}assets/css/reset.css?v={{version}}">
+	<link rel="stylesheet" href="{{prePath}}assets/css/common.css?v={{version}}">
+	<link rel="stylesheet" href="{{prePath}}assets/css/iconfont.css?v={{version}}">
+	<link rel="stylesheet" href="{{prePath}}/assets/css/coupon.css?v={{version}}">
+	{% for item in assetsData['css'] %}
+	<link rel="stylesheet" href="{{prePath}}assets/css/{{ item }}.css?v={{version}}">
+	{% endfor %}
+	<script>
+		window.shopInfo = {
+			facebookId: "{{baseData.textInfo.codeFacebook }}",
+			Tiktok: "{{ baseData.textInfo.codeTiktok }}",
+			tiktokStatus: "{{baseData.textInfo.tiktokType}}",
+			googleId: "{{baseData.textInfo.codeGoogle}}",
+			shopId: "{{baseData.shopId}}",
+			shopName: "{{baseData.shopName}}",
+			timezone: "{{baseData.timezone }}",
+		}
+	</script>
+	<script src="{{prePath}}assets/js/jquery.min.js"></script>
+	<script src="{{prePath}}assets/js/swiper-bundle.min.js"></script>
+	<script src="{{prePath}}assets/js/jquery.url.js"></script>
+	<script src="{{prePath}}assets/js/globalVariable.js?v={{version}}"></script>
+	<script src="{{prePath}}assets/js/support.js?v={{version}}"></script>
+	<script src="{{prePath}}assets/js/utils.js?v={{version}}"></script>
+	<script src="{{prePath}}assets/js/calculate.js?v={{version}}"></script>
+	<script src="{{prePath}}assets/js/main.js?v={{version}}"></script>
+	<script src="{{prePath}}assets/js/lazyload.js?v={{version}}"></script>
+	<script src="{{prePath}}assets/js/header-pc.js?v={{version}}"></script>
+	<script src="{{prePath}}assets/js/header-mobile.js?v={{version}}"></script>
+	<script src="{{prePath}}assets/js/footer.js?v={{version}}"></script>
+	<script src="{{prePath}}/assets/js/coupon.js?v={{version}}"></script>
+	{% if isIframe == '1'%}
+	<script src="../temptheme/assets/js/postMessage.js"></script>
+	{% endif%}
+	{% for item in assetsData['js'] %}
+	<script src="{{prePath}}assets/js/{{ item }}.js?v={{version}}"></script>
+	{% endfor %}
+	{% for item in assetsData['defer'] %}
+	<script src="{{prePath}}assets/js/{{ item }}.js?v={{version}}" defer></script>
+	{% endfor %}
+	{%- comment -%} 像素埋点 {%- endcomment -%}
+	{% render 'buried-point', pointInfo: baseData.textInfo %}
+	{% comment %} 全局变量配置 {% endcomment %}
+	{% render 'global-var', configData: globalVarData %}
+</head>
+
+<body>
+	{% render 'message'%}
+	{% if showHeader  %}
+	<div class="vshop-section" section-name="{{ headerData.templateName }}" section-id="{{ headerData.sectionId }}" version="{{version}}">
+		{% render 'pageHeader',configData: headerData,htmlName: htmlName,pageTitle: page_title, globalVarData: globalVarData,lang: lang,prePath: prePath %}
+	</div>
+	{% endif %}
+	<div id="template">
+		{% block content %}{% endblock %}
+	</div>
+	{% if showFooter %}
+	<div class="vshop-section" section-name="{{footerData.templateName}}" section-id="{{footerData.sectionId}}">
+		{% render 'pageFooter',configData: footerData,htmlName: htmlName,lang: lang,prePath: prePath %}
+	</div>
+	{% endif %}
+	{% render 'back-to-top'%}
+	{% comment %} 优惠券 {% endcomment %}
+	{% render 'coupon',configData: configData,lang: lang,prePath: prePath  %}
+	{% comment %} 图片查看器,此处引入，全局可用 {% endcomment %}
+	{% render 'query-images' %}
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+{% layout 'Kronosfr/components/Kronosfr_theme' name:'search' %}
+{% block 'content' %}
+{% render 'Kronosfr/components/pageHeader',configData: blockData.first,isMobilePhone: isMobilePhone,OBJ:data %}
+
+{% assign detailData = data.detailData %}
+{% assign hotName = data.configData.searchRecommendation.hotName %}
+{% assign hotGoods = data.configData.searchRecommendation.hotGoods %}
+
+<section>
+  <div class="athena_search">
+    <div>
+      <div class="athena_search_header">
+        <div class="athena_search_header_back">
+          <img src="../assets/wap/images/left@2x.png" alt="">
+        </div>
+        <div class="athena_search_header_input">
+          <input id="keyword" type="text" placeholder="search...">
+          <div class="athena_search_header_submit" id="search">
+            <img src="../assets/wap/images/search_btn@2x.png" alt="">
+          </div>
+        </div>
+      </div>
+      <ul class="athena_search_result">
+        {% for item in hotName %}
+        <li>
+          <span class="hotName">{{item}}</span>
+          {% if item == hotName[0] %}
+          <span class="athena_search_hot"><img src="../assets/wap/images/hot_icon@2x.png" alt=""></span>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% render 'Kronosfr/wap/components/empty.liquid' showRecommend:false %}
+    {% if hotGoods.size>0 %}
+    <div class="athena_search_products clearfix">
+      {% render 'Kronosfr/wap/components/product_item.liquid' data:hotGoods %}
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% endblock %}

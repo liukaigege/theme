@@ -1,0 +1,49 @@
+{% comment %}
+积木名称：视频;
+{% endcomment %}
+{% assign section = configData.config %}
+{% assign videoConfig = section.video %}
+{% assign preloader = prePath | append: "assets/images/sp_fm_bg@2x.png" %}
+{% assign preloaderSm = prePath | append: "assets/images/one_bg_new@2x.png" %}
+<div class="video container video-blcok">
+	{% if videoConfig.title.size>0%}
+	<h2 class="section-title row mb-3 plate-title-font">{{ videoConfig.title}}</h2>
+	{% endif %}
+	{% case section.type %}
+	{% when 0 %}
+	{% comment %} 视频 {% endcomment %}
+	<div class="video-style-one row">
+		<div class="video-content">
+			<video src="{{videoConfig.video | IMGURL }}"></video>
+			<img class="video-mask lazy-img" data-url="{{videoConfig.cover | IMGURL: preloader }}"  alt="">
+			<div class="bg {% if videoConfig.video == '' %} disabled {% endif %} video-play"></div>
+		</div>
+	</div>
+	{% when 1 %}
+	{% comment %} 文本视频 {% endcomment %}
+	{% assign content = 'i18n.video.default_content' | t: lang %}
+	<div class="video-style-two row"  name="{{section.button.switch}}">
+		<div class="video-text col-md-auto col-lg-6" {{ section.text.backgroundColor | stylesheetTag: 'background-color'}}>
+			<div class="video-text-top" name="{{section.text.title}}">
+				<h3 {{ section.text.titleColor | stylesheetTag: 'color'}}>{{ section.text.title | default: 'i18n.video.default_head' | t: lang }}</h3>
+				<div class="content">
+					{{ section.text.content | escapeHtml | default: content }}
+				</div>
+			</div>
+			{% comment %} {% if section.button.switch == 1 %} {% comment %} 如果开关状态为 1 显示按钮，否则不显示按钮 {% endcomment %}
+			{% if section.button.switch == 1 %}
+			{% assign arr1 = section.button.color | SplicingString: section.button.textColor | split: "," %}
+			{% assign arr2 = 'background-color,color' | split: "," %}
+			<button class="video-button__event" data-link="{{ section.button.linkUrl }}" data-status="{{ section.button.linkStatus }}" {{ arr1 | stylesheetTag: arr2,3}}>
+				{{ section.button.copywriting }}
+			</button>
+			{%endif%}
+		</div>
+		<div class="video-content col-md-auto col-lg-6">
+			<video src="{{videoConfig.video | IMGURL }}"></video>
+			<img class="video-mask lazy-img" data-url="{{ videoConfig.cover | IMGURL: preloaderSm }}" alt="">
+			<div class="bg {% if videoConfig.video == '' %} disabled {% endif %} video-play"></div>
+		</div>
+	</div>
+	{% endcase %}
+</div>

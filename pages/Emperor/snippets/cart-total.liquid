@@ -1,0 +1,45 @@
+<script>
+	/**
+	* 购物车用费总说明
+	* data：购物车全部数据；currentRate：当前税率
+	**/
+	function renderTotalTpl(data, currentRate) {
+		const cartDataList = deepClone(data)
+		const { symbol } = currentRate
+		let productPrice = 0;
+		if (cartDataList.goodsList.length) {
+			cartDataList.goodsList.forEach(element => {
+				productPrice = Math.round(productPrice * 100 + getMoneyrate(element.discountPrice) * 100 * element.quantity) / 100;
+			});
+		}
+		cartDataList.productPrice = productPrice;
+		cartDataList.total = Math.round(productPrice * 100 - getMoneyrate(cartDataList.promotionDiscount) * 100 - getMoneyrate(cartDataList.couponDiscount) * 100) / 100;
+		if (cartDataList.total < 0) {
+			cartDataList.total = 0;
+		}
+		let renderCartTotalStr = `<li class="modal-order-info-container">
+								<div class="modal-order-info-title">${i18n.product_price}:</div>
+								<div class="modal-order-info-content"><span id="product-price"  data-o-money='${cartDataList.productPrice}'>${symbol}${cartDataList.productPrice}</span></div>
+							</li>
+							<li class="modal-order-info-container ${!!cartDataList.dicountTotal ? '' : 'hide'}">
+								<div class="modal-order-info-title">${i18n.discount}</div>
+								<div class="modal-order-info-content"><span id='dicount-total' data-money="${cartDataList.dicountTotal}" data-o-money="${getMoneyrate(cartDataList.dicountTotal)}">${symbol}${getMoneyrate(cartDataList.dicountTotal)}</span></div>
+							</li>
+							<li class="modal-order-info-container">
+								<div class="modal-order-info-title">${i18n.shipping_cost}</div>
+								<div class="modal-order-info-content"><span id='cart-shipping--price'>0</span></div>
+							</li>
+							<li class="modal-order-info-container total">
+								<div class="modal-order-info-title">${i18n.total}:</div>
+								<div class="modal-order-info-content"><span id="cart-total--price" data-o-money="${cartDataList.total}"
+									data-d-money="${cartDataList.total}">${symbol}${cartDataList.total}</span></div>
+							</li>`
+		$('#total-list').html(renderCartTotalStr)
+		if (cartDataList.goodsList.length || cartDataList.invalidGoodsList.length) {
+			//运费查询
+			shippingCost()
+		} else {
+			$('#shipping').html('')
+		}
+	}
+</script>

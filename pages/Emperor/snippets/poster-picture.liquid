@@ -1,0 +1,20 @@
+<style>
+	.posters .posters-picture .posters-picture-item {
+		padding: 0;
+		text-align:center;
+	}
+</style>
+{% assign preloader = prePath | append : "assets/images/poster_preloader.png" %}
+<div class="posters-picture row">
+	{% if postersContent.posterData.length > 0 %}
+		{% for item in postersContent.posterData %}
+			<a class="posters-picture-item{% if postersContent.displaysty == 1 %} col{% else %} col-md-auto col-lg-6{% endif %}" href="{{ item.linkUrl | LINKURL: item.linkStatus | default: 'javascript:void(0)'}}">
+				<img class="lazy-img" data-url="{{item.pic | IMGURL: preloader}}" />
+			</a>
+		{% endfor %}
+	{% else %}
+		<a class="posters-picture-item {% if postersContent.displaysty == 1 %} col{% else %} col-md-auto col-lg-6{% endif %}">
+			<img class="lazy-img" data-url="{{ preloader }}" />
+		</a>
+	{%endif%}
+</div>

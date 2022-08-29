@@ -1,0 +1,42 @@
+.dynamic-checkout__skeleton {
+	display: none
+}
+
+.dynamic-checkout--loading .dynamic-checkout__skeleton {
+	display: block
+}
+
+.dynamic-checkout__buttons {
+	display: block
+}
+
+.dynamic-checkout--loading .dynamic-checkout__buttons {
+	display: none
+}
+
+.placeholder-line--animated {
+	background-image: linear-gradient(to left, #e6e6e6 0%, #cdcdcd 50%, #e6e6e6 100%);
+	width: 100%;
+	margin-bottom: 14px;
+	border-radius: 4px;
+	height: 45px
+}
+
+.placeholder-line--animated {
+	-webkit-animation: 1.5s linear 0s infinite normal forwards running loading;
+	animation: 1.5s linear 0s infinite normal forwards running loading;
+	background-repeat: no-repeat;
+	background-size: 200px 100%;
+	background-color: #e5e5e5;
+	background-image: linear-gradient(to left, #e6e6e6 0%, #cdcdcd 50%, #e6e6e6 100%)
+}
+
+@keyframes loading {
+	0% {
+		background-position: -200px 0
+	}
+
+	100% {
+		background-position: calc(100% + 200px) 0
+	}
+}

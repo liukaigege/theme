@@ -1,0 +1,128 @@
+{% assign product_name = ROWS.goodsName%}
+{% assign page_title = 'i18n.product_detail.page_title' | t: lang , shop_name: shopName,product_name:product_name%}
+{% layout 'theme', showHeader: true,showFooter: true %}
+{% block 'content' %}
+<script>
+	window.product_detail_i18n = {
+		Upload_picture_size: `{{ 'i18n.product_detail.upload_picture_size' | t: lang }}`,
+		Wrong_picture_type: `{{ 'i18n.product_detail.wrong_picture_type' | t: lang }}`,
+		refresh_tip: `{{ 'i18n.product_detail.refresh_tip' | t: lang}}`,
+		select_other_products_tip: `{{ 'i18n.product_detail.select_other_products_tip' | t: lang }}`,
+		Successfully: `{{ 'i18n.product_detail.successfully' | t: lang }}`,
+		max_pictures_length: `{{ 'i18n.product_detail.max_pictures_length' | t: lang }}`,
+		Upload_failed: `{{ 'i18n.product_detail.upload_failed' | t: lang }}`
+	};
+
+	window.ROWS = {{ ROWS | json }};
+
+</script>
+{% assign product = ROWS %}
+<div class="row product-width-title">
+	<ul class="col-12 d-flex mb-10">
+		<li><a href="index.html">{{ 'i18n.product_list.product_back_home' | t: lang }}</a></li>
+		<li>&nbsp; / &nbsp;</li>
+		<li class="goods-name">{{ product.goodsName }}</li>
+	</ul>
+</div>
+<div class="row product-width">
+	<div class="col-lg-6 col-md-6">
+		{% render 'product-zoom',data: product,lang: lang %}
+	</div>
+	<div class="col-lg-6 col-md-6 product-info">
+		<div class="product-info__header">
+			<h3 class="product-info__title goods-font" data-goodsVersion="{{product.goodsVersion}}"
+				data-id="{{product.id}}" data-speType="{{product.speType}}" data-mainImg="{{product.mainImg}}">
+				{{product.goodsName}}</h3>
+			<p class="product-info__no">{{'i18n.product_detail.item_no' | t: lang}}{{product.goodsNum}}</p>
+			<div class="product-info__views" data-views="{{product.visitNum}}">
+				{% if product.visitNum > 0%}
+				{% if product.visitNum < 9999 %} <i class="view">{{product.visitNum}} {{'i18n.product_detail.views' | t:
+					lang}}</i>
+					{% else %}
+					<i class="view">9999+ {{'i18n.product_detail.views' | t: lang}}</i>
+					{% endif %}
+					{% endif %}
+					{% if product.sales > 0 %}
+					{% if product.sales < 9999 %} <i class="sales">{{'i18n.product_detail.sales' | t:
+						lang}}({{product.sales}})</i>
+						{% else %}
+						<i class="sales">{{'i18n.product_detail.sales' | t: lang}}({{9999}}+)</i>
+						{% endif %}
+						{% endif %}
+						{% if product.commentScore and product.commentList.size > 0 %}
+						<div>
+							{% render 'product-star',data: product.commentScore | at_least: 1 | at_most: 5,lang:lang %}
+							<em class="score {% if isShowScore %} hide {% endif %}">{{product.commentScore | at_least: 1
+								|
+								at_most: 5
+								}}</em>
+						</div>
+						{% endif %}
+			</div>
+			{% render 'details_coupon',data: product.couponList ,lang:lang%}
+			<div class="product-info__header-show">
+				<div class="product-info__header_discount hide"><i class="product-info__header_discount_num"></i>%<i
+						class="text">{{'i18n.coupons.symbol' | t: lang}}</i>
+				</div>
+				{% if product.freeShipping == 1%}
+				<div class="product-info__header_free-shipping">
+					{{'i18n.product_list.product_free_shipping' | t: lang}}
+				</div>
+				{% endif %}
+			</div>
+			<div class="product-info__header_price-wrapper">
+				<div class="product-info__header_price-wrapper-left">
+					<span class="product-info__header_price money" base-price="{{product.defaultPrice}}">
+					</span>
+					<span class="product-info__header_compare-at-price">
+					</span>
+				</div>
+			</div>
+		</div>
+		{%- comment -%} 产品选项 {%- endcomment -%}
+		{% render 'product-attr',data:product,lang:lang %}
+
+		<div class="product-info__qty_container">
+			<h3 class="product-info__variants_title">{{'i18n.product_detail.quantity' | t: lang}} </h3>
+			<div class="product-info__qty">
+				<button type="button" class="product-info__qty_btn product-info__qty_decr" data-click="decrease">
+					-
+				</button>
+				<input id="product_quantity_btn" class="product-info__qty_num" type="text" value="1" name="quantity">
+				<button type="button" class=" product-info__qty_btn product-info__qty_incr" data-click="increase">
+					+
+				</button>
+			</div>
+		</div>
+		<div class="product-info__btn" {% if isView == '1'%}hidden{% endif %}>
+			<div class="add-to-cart button-font" operation="toCart">{{'i18n.product_detail.add-to-cart' | t: lang}}</div>
+			<div class="buy-it-now button-font"> {{'i18n.product_detail.buy-it-now' | t: lang}}</div>
+		</div>
+
+		<div>{{product.brief}}</div>
+		{%- comment -%} 产品描述 {%- endcomment -%}
+		<div class="product-info__desc">
+			<div class="product-info__desc-title active">
+				{{'i18n.product_detail.description' | t: lang}}
+				<i class="iconfont icon-arrow-down"></i>
+			</div>
+			<div class="product-info__desc-tab-content">
+			</div>
+		</div>
+	</div>
+
+	{%- comment -%} 评论 {%- endcomment -%}
+	{% render 'product-review', data:product ,lang:lang%}
+
+	{%- comment -%} 猜你喜欢 {%- endcomment -%}
+	{% render 'product-guess-you-like', detail:product,categoryData:categoryData,detailData:detailData ,lang:lang%}
+</div>
+{% render 'cart-modal',categoryData:categoryData,detailData:detailData ,lang:lang%}
+{% if isView == '1' %}
+<!-- 预览页提示  -->
+<div class="preview-tip">
+	本页面仅供PC端预览商品信息，用户无法下单购买，请勿直接或分享给他人进行投放。
+</div>
+{% endif %}
+
+{% endblock %}

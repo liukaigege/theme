@@ -1,0 +1,99 @@
+<script>
+	function renderCartTpl(cartList) {
+		const { goodsList, invalidGoodsList } = cartList
+		let cartListStr = '';//购物车列表数据
+		if (goodsList.length || invalidGoodsList.length) {
+			// 购物车有值
+			$('.list-container--event').show()
+			$('.cart-empty-default--event').hide()
+			goodsList?.forEach(v => {
+				let skuStr = '';
+				if (v.speType == 1) {
+					const skuVal = JSON.parse(v.skuVal)
+					skuVal?.forEach(element => {
+						if (!!element?.speValmainImg) {
+							skuStr += `<p><span>${element.spe}</span><i>:</i><span class="iconfont icon-img cart-icon-img--event" data-src="${element.speValmainImg}"></span></p>`
+						} else {
+							skuStr += `<p><span>${element.spe}</span><i>:</i><span>${element.speVal}</span></p>`
+						}
+					})
+				} else if (v.speType == 2) {
+					const skuVal = JSON.parse(v.customVal)
+					customVal(skuVal)
+				}
+				// 定制属性
+				function customVal(skuVal) {
+					skuVal?.forEach(element => {
+						if (element.type == '1' || element.type == '3') {
+							skuStr += `<p><span>${element.name}</span><i>:</i><span>${element.value}</span></p>`
+						} else {
+							skuStr += `<p><span>${element.name}</span><i>:</i><span class="iconfont icon-img cart-icon-img--event" data-src="${element.value}"></span></p>`
+						}
+						if (element.hasOwnProperty("childList")) {
+							customVal(element.childList)
+						}
+					})
+				}
+				//购物车显示单价
+				let cart_price
+				if (!!v.sellingPrice && Number(v.sellingPrice) > Number(v.discountPrice)) {
+					cart_price =
+						`<span class="cart-price--compare" data="${v.speType}" data-money="${v.sellingPrice}">${getMoney(v.sellingPrice)}</span>
+						 <span class="cart-price--discountPrice" data-money='${v.discountPrice}'>${getMoney(v.discountPrice)}</span>`
+				} else {
+					cart_price = `<span class="cart-price--discountPrice" data-money='${v.discountPrice}'>${getMoney(v.discountPrice)}</span>`
+				}
+
+				cartListStr += `<li data-customVal='${$.base64.encode(v.customVal)}' data-speType='${v.speType}'  data-wholesale = '${v.isWholesale}'   data-sku='${v.skuId}' data-goodsId='${v.goodsId}' data-skuName='${v.sku}' data-goodsVersion='${v.goodsVersion}'>
+					<div data-img="${returnSuffixName(v.mainImg)}"
+						data-zoom="zoomImg" class="cart-img">
+						<div>
+					     	<img src="${returnSuffixName(v.mainImg)}" alt="${v.goodsName}">
+					    	<div class="cart-off hide"> <em><i>24</i>%</em> <em>OFF</em> </div>
+						</div>
+					</div>
+					<div class='cart__detail'>
+					<div class="cart-info"> <a href="productDetail_${v.goodsId}.html" class="cart-product--name font_overhide"
+							title="${v.goodsName}">${v.goodsName}</a>
+						<div class="cart-product--skuVal">
+							${skuStr}
+						</div>
+					</div>
+					<div class="cart-price">${cart_price}</div>
+					<div class="quantity-selector">
+						<button type="button" class="quantity-selector__button"
+							data-action="decrease-quantity">-</button>
+						<input class="quantity-selector__value"  value="${v.quantity}" size="2" data-id="${v.speType}" data-line-id="${v.skuId}">
+						<button type="button" class="quantity-selector__button"
+							data-action="increase-quantity">+</button>
+					</div>
+					<div class="cart-total--price" > <span> ${cellTotal(getMoneyrate(v.discountPrice), v.quantity)} </span> </div>
+					<div class="cart-del" data-line-id="${v.skuId}">
+						<i class="iconfont icon-closed icon-closed--event"></i>
+					</div>
+					</div>
+				</li>`;
+			})
+			invalidGoodsList?.forEach(v => {
+				cartListStr += ` <li class="expired" data-speType='${v.speType}'  data-customVal='${$.base64.encode(v.customVal)}' data-wholesale = '${v.isWholesale}'   data-sku='${v.skuId}' data-goodsId='${v.goodsId}' data-skuName='${v.sku}' data-goodsVersion='${v.goodsVersion}' >
+					<div class="cart-img">
+						<div>
+						<img src="${returnSuffixName(v.mainImg)}" alt="${v.goodsName}">
+						</div>
+					</div>
+					<div class="cart-info">
+						<div class="cart-product--name font_overhide">${v.goodsName}</div>
+					</div>
+					<div class="cart-del" data-line-id="${v.skuId}">
+						<i class="iconfont icon-closed icon-closed--event"></i>
+					</div>
+				</li>`
+			})
+			$('.goods-container--event').html(cartListStr)
+		} else {
+			// 购物车无值，为空
+			$('.list-container--event').hide()
+			$('.cart-empty-default--event').show()
+		}
+	}
+</script>

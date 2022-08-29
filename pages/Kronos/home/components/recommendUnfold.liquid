@@ -1,0 +1,10 @@
+{% comment %}
+积木名称：平铺展示;
+{% endcomment %}
+<div class="items-warp columns-{{perLineNum}}" {{ perLineNum | stylesheetTag:"grid-template-columns",2}}>
+  {% for item in goodList %}
+  {% render
+  'Kronos/home/components/productsItems.liquid',item:item,type:displaysty,isMobilePhone:isMobilePhone,isSwiper:0,currentRate:currentRate,isLocal:isLocal
+  %}
+  {% endfor %}
+</div>

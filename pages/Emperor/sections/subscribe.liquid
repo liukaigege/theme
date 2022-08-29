@@ -1,0 +1,34 @@
+{% assign section = configData.config %}
+{% assign preloader = prePath | append: "assets/images/subscribe.png" %}
+{% comment %} <div class="newsletter" style="background-image:url({{section.subscribeImg | IMGURL:'../assets/images/subscribe.png' }})"> {% endcomment %}
+<div class="newsletter" style="background-image:url({{section.subscribeImg | IMGURL: preloader}})">
+	<div class="container">
+		<div class="row">
+			<div id="newsletter" class="text-center col-md-12">
+				<div class="newsletter-subscribing">
+					{% if section.subscribeWords != '' %}
+					<div class="newsletter-title">{{ section.subscribeWords }}</div>
+					{% endif %}
+					<div class="newsletter-title_sub">{{ 'i18n.newsletter.subscribe_our' | t: lang }}</div>
+					<div class="newsletter-form">
+						<div class="form-row mx-auto">
+							<div class="col-md-12 col-lg-8 newsletter-input-wrap">
+								<input id="inputEmail" type="email" class="newsletter-input" placeholder="{{ 'i18n.newsletter.email_placeholder' | t:lang }}">
+								<div class="text-left invalid-feedback"></div>
+							</div>
+							<div class="col-md-12 col-lg-4 newsletter-btn-wrap">
+								<input type="button" class="submit_newsletter newsletter-btn btn" id="buttonEmail" type="submit" value="{{ section.subscribeButtons }}">
+							</div>
+						</div>
+						<p class="subscribe-success d-none">{{ 'i18n.newsletter.subscribe_success' | t: lang }}</p>
+						<p class="empty-address d-none">{{ 'i18n.newsletter.empty_address' | t: lang }}</p>
+					</div>
+				</div>
+				<div class="newsletter-subscribed">
+					<div class="newsletter-subscribed_title">{{ 'i18n.newsletter.subscribe_success_title' | t: lang }}</div>
+					<div class="newsletter-subscribed_content">{{ 'i18n.newsletter.subscribe_success_content' | t: lang }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

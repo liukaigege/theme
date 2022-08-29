@@ -1,0 +1,94 @@
+{% assign isshow = showRecommend %}
+
+
+<style>
+  .athena_search_empty {
+
+    text-align: center;
+    margin-top: 30px;
+  }
+
+  .athena_search_empty img {
+    width: 168px;
+    height: auto;
+  }
+
+  .athena_search_recommend {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  .athena_search_empty p {
+    font-size: 12px;
+    font-family: Aileron-Regular, Aileron;
+    font-weight: 400;
+    color: #9B9B9B;
+    margin: 5px 0;
+  }
+
+  .athena_search_empty .athena_search_empty_text {
+    margin-top: 20px;
+  }
+
+  .athena_search_empty .athena_search_empty_text span {
+    color: #000000;
+  }
+
+  .athena_search_title {
+    text-align: center;
+    font-size: 14px;
+    font-family: Floane-Regular, Floane;
+    font-weight: 400;
+    color: #363636;
+    line-height: 27px;
+    margin-bottom: 15px;
+  }
+
+  .empty .recommend {
+    padding: 0;
+  }
+
+  #recommend-empty .swiper-slide {
+    width: 513px;
+    display: block;
+    /* margin-right: 30px; */
+  }
+
+  /* .empty .recommend img {
+    width: 513px;
+    height: auto;
+  } */
+
+  .empty .recommend .swiper-button-next,
+  .empty .recommend .swiper-button-prev {
+    width: 42px;
+    height: 42px;
+    background-size: contain;
+  }
+
+  /* .empty */
+</style>
+<div class="empty" id="empty" style="display: none;">
+  <div class="athena_search_empty">
+    <img src="../assets/pc/images/search_no_bg@2x.png" alt="">
+
+    <p>There is no product yet</p>
+
+  </div>
+  {% if isshow == true %}
+  <section>
+    <div class="recommend  recommendSwiper " id="recommend-empty" len="3">
+      <div class="title"><span>YOU MAY ALSO LIKE</span></div>
+      <div class="content">
+        <div class="swiper-container" id="empty_swiper">
+          <div class="swiper-wrapper">
+
+          </div>
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+</div>

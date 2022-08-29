@@ -1,0 +1,46 @@
+{% if item.linkStatus != 0 %}
+{% assign href = "productDetail_" | SplicingString:item.id, 2 %}
+{% endif %}
+{% assign itemNum = 12 | divided_by: perLineNum %}
+{% assign associateImg = item.associateImg | default: item.otherImg | default:'' %}
+
+<div class="products-item products-item-style2  {% if isSwiper == 0 %}col-6 col-md-{{itemNum}}{% endif %}">
+	<div class="products-item-img product-img-event w-100" data-link="{{ href }}">
+		<img {% if isSwiper==0 %} data-url="{{item.mainImg | IMGURL: preloader}}"
+			class="lazy-img {% if associateImg.size > 0 %}main-img{%endif%}" {% else %}
+			src="{{item.mainImg | IMGURL: preloader}}"
+			class="swiper-lazy {% if associateImg.size > 0 %}main-img{%endif%}" {% endif %} data-imgsize="1" alt="" />
+		<img class="associate-img associate-display" data-imgsize="1" src="{{ associateImg | IMGURL }}">
+		<div class="introduce-mask introduce-mask--event  align-items-center justify-content-center flex-column">
+			<i class="iconfont icon-cart-bag"></i>
+			<span>{{ 'i18n.product_list.product_quick_shop' | t: lang }}</span>
+		</div>
+		{% if item.originalPrice > item.defaultPrice %}
+		{% assign discount = item.originalPrice | calcDiscount: item.defaultPrice %}
+		{% render 'label.liquid',type:0,discount: discount,freeShipping: item.freeShipping,lang: lang %}
+		{% endif %}
+		{% if item.freeShipping == 1 %}
+		{% if item.originalPrice > item.defaultPrice %}
+		{% assign isDiscount = 1 %}
+		{% elsif %}
+		{% assign isDiscount = 0 %}
+		{% endif %}
+		{% render 'label.liquid',type:1,isDiscount: isDiscount,lang: lang  %}
+		{% endif %}
+	</div>
+	<div class="products-item-introduce">
+		<p class="goods-title-font">{{ item.name | default: item.goodsName | default: '' }}</p>
+		<div class="price">
+			{% if item.originalPrice>item.defaultPrice %}
+			<span class="oldPrice prev-price-font" p-price="{{ item.originalPrice }}">{{ item.originalPrice |
+				switchRate:currentRate }}</span>
+			<span class="newPrice current-price-font" p-price="{{ item.defaultPrice }}">{{ item.defaultPrice |
+				switchRate:currentRate }}</span>
+			{% else %}
+			<span class="defaultPrice current-price-font" p-price="{{ item.defaultPrice }}">{{ item.defaultPrice |
+				switchRate:currentRate}}</span>
+			{% endif %}
+		</div>
+	</div>
+
+</div>

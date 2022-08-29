@@ -1,0 +1,343 @@
+{% comment %}
+主题： Athena-雅典娜;
+积木名称：pageHeader-页头;
+{% endcomment %}
+{% comment %}积木id{% endcomment %}
+{% assign sectionId = configData.sectionId %}
+{% comment %}配置数据{% endcomment %}
+{% assign configList = configData.config %}
+{% comment %}网站Logo{% endcomment %}
+{% assign logo = configList.logo | IMGURL:'.../assets/pc/images/followUs-preloader.png' %}
+{% comment %}导航菜单{% endcomment %}
+{% assign categoryData = configList.catalogue.list %}
+{% comment %}展示样式--一级目录id 0超出一行自动换行 1超出一行左右滑动切换 默认0{% endcomment %}
+{% assign isLineFeed = configList.style.displayStyleFirst %}
+{% comment %}展示样式--多级目录 0下拉单列展示 1下拉图文展示 2子菜单不足5个单列展示，超出5个图文展示 默认0{% endcomment %}
+{% assign displayStyleMultistage = configList.style.displayStyleMultistage %}
+{% comment %}顶部公告{% endcomment %}
+{% assign notice = configList.top %}
+{% comment %}货币数据{% endcomment %}
+{% assign currency = configList.currency %}
+{% assign moneyStatus = moneyStatus %}
+{% if isMobilePhone == 0 %}
+<div type-block="block" class="header-warp" topNotice="{{notice.topNotice}}" htmlName="{{htmlName}}"
+  topLock="{{notice.topLock}}" homeOnly="{{notice.homeOnly}}" id="{{sectionId}}" isShow="{{isShow}}">
+  {% if notice.homeOnly == 1 and htmlName == 'index' %}
+  {% assign homeOnly = 1 %}
+  {% else %}
+  {% assign homeOnly = 0 %}
+  {% endif %}
+  {% if homeOnly == 1 or notice.homeOnly == 0 %}
+  {% if notice.topNotice == 1 %}
+  {% if notice.topLock ==1%}
+  {% if notice.showType==1 %}
+  {% assign arr1 = '#fff' | SplicingString: 'fixed' | split: "," %}
+  {% else %}
+  {% assign arr1=notice.backgroundColor | SplicingString: 'fixed' | split: "," %}
+  {% endif %}
+  {% else%}
+  {% if notice.showType==1 %}
+  {% assign arr1='#fff' | SplicingString: 'relative' | split: "," %}
+  {% else %}
+  {% assign arr1=notice.backgroundColor | SplicingString: 'relative' | split: "," %}
+  {% endif %}
+  {% endif %}
+  {% assign arr2='background-color,position' | split: "," %}
+  <div class="activedBox" id="top-actived" {% if notice.topLock==1 %} {{ '0.48rem' | stylesheetTag:'height'}} {% endif
+    %}>
+    <div class="actived" {{ arr1 | stylesheetTag:arr2,3}}>
+      <div class="activedContent" onclick="routerJump('{{notice.linkUrl  | LINKURL:notice.linkStatus }}')">
+        {% if notice.showType == 1 %}
+        <img class="lazyload"
+          data-original="{{notice.picNoticePc | IMGURL:'../assets/pc/images/followUs-preloader.png',notice.picNoticeWap}}"
+          {% if isLocal==1%}
+          src="{{notice.picNoticePc | IMGURL:'../assets/pc/images/followUs-preloader.png',notice.picNoticeWap}}"
+          {%endif%}>
+        {% else %}
+        {{notice.copywriting}}
+        {% endif %}
+      </div>
+      <span class="actived-close bg" id="actived-close"
+        style="background-image: url('../assets/pc/images/btn_close@2x.png')">
+      </span>
+    </div>
+  </div>
+  {% endif %}
+  {% endif %}
+  <div class="header">
+    <div class="toolbar" id="toolbar">
+      <div class="toolbar-left">
+        <a href="index.html" class="logo bg" style="background-image:url({{logo}})"></a>
+        <div class="currency">
+          {% for item in currency %}
+          {% if item.mainCurrency == 1 %}
+          <span class="currency-img currencyActive-img bg" style="background-image: url({{item.pic}});"></span>
+          <span class="currency-name currencyActive-name">{{item.currency}}</span>
+          <span class="currency-rotate bg" style=" background-image: url('../assets/pc/images/down@2x(1).png');"></span>
+          {% endif %}
+          {% endfor %}
+          <ul class="currencyExtend">
+            {% for item in currency %}
+            <li currencyid="{{item.currency}}">
+              <span class="currency-img bg" style="background-image:url('{{item.pic}}')"></span>
+              <span class="currency-name">{{item.currency}}</span>
+              {% if item.mainCurrency == 1 %}
+              <span class="currency-check bg"
+                style="display: block;background-image: url('../assets/pc/images/home_check_icon@2x.png');"></span>
+              {% else %}
+              <span class="currency-check bg"
+                style="display: none;background-image: url('../assets/pc/images/home_check_icon@2x.png')"></span>
+              {% endif %}
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <div class="toolbar-center">
+        <input id="search" placeholder="search..." type="text">
+        <a class="input_icon bg" id="searchSubmit"
+          style="background-image: url(../assets/pc/images/home_search_but@2x.png);"></a>
+        <ul class="searchExtend">
+          <div id="searchResult"></div>
+          <li class="viewAll" id="viewAll">View All Results</li>
+        </ul>
+      </div>
+      <div class="toolbar-right">
+        <a class="homeOrder bg" href="orderSearch.html"
+          style=" background-image: url(../assets/pc/images/home_order_but@2x.png)"></a>
+        <a class="homeBag bg home_bag"
+          style=" background-image: url(../assets/pc/images/home_bag_but@2x.png)"><i>0</i></a>
+        <a class="homeChat bg" href="contact.html"
+          style=" background-image: url(../assets/pc/images/home_chat_but@2x.png)"></a>
+      </div>
+    </div>
+    <div class="navigation" id="navigation" displayStyle="{{displayStyleMultistage}}" {% if isLineFeed==0 %} {{ '100%' |
+      stylesheetTag:'height'}} {% endif %}>
+      <div id="header_firstMenu_container" class="menuHide">
+        <ul class="scroller 
+            {% if isLineFeed==0 %}
+              scroller-style-002
+            {% else %}
+              scroller-style-001 opClass
+            {% endif %}" id="scroller" isLineFeed="{{isLineFeed}}">
+          {% for item in categoryData %}
+          <li categoryid="{{item.id}}" {% if isLineFeed==0 %} {{ '48px' | stylesheetTag:'line-height'}} {% endif %}>
+            <a onclick="routerJump('{{ item.linkUrl | LINKURL:item.linkStatus }}')">{{item.name}}</a>
+            {% if displayStyleMultistage==0 and item.childList.size> 0 %}
+            <div class="menu-warp-style-one">
+              {% for i in item.childList %}
+              <a class="overflow_1" onclick="routerJump('{{ i.linkUrl | LINKURL:i.linkStatus }}')">{{i.name}}</a>
+              {% endfor %}
+            </div>
+            {% elsif displayStyleMultistage==2 and item.childList.size < 5 and item.childList.size> 0 %}
+              <div class="menu-warp-style-one">
+                {% for i in item.childList %}
+                <a class="overflow_1" onclick="routerJump('{{ i.linkUrl | LINKURL:i.linkStatus }}')">{{i.name}}</a>
+                {% endfor %}
+              </div>
+              {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+        {% if isLineFeed==1 %}
+        <div class="left-modal">
+          <span class="bg" id="toLeft" style="background-image: url(../assets/pc/images/d-left.png)"></span>
+        </div>
+        <div class="right-modal">
+          <span class="bg" id="toRight" style="background-image: url(../assets/pc/images/d-right.png)"></span>
+        </div>
+        {% endif %}
+      </div>
+      {% if displayStyleMultistage==1 or displayStyleMultistage==2 %}
+      <div class="menu" id="menu">
+        <div class="menu-warp clearfix">
+          <div class="menuTitle" id="menuTitle"></div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% if isShow != true%}
+{% render 'Athena/pc/components/cart_pc.liquid',data:OBJ %}
+{% endif %}
+{% else %}
+<div type-block="block" class="header-warp" topLock="{{notice.topLock}}" id="{{sectionId}}">
+  <div class="header">
+    {% if notice.homeOnly == 1 and htmlName == 'index' %}
+    {% assign homeOnly = 1 %}
+    {% else %}
+    {% assign homeOnly = 0 %}
+    {% endif %}
+    {% if homeOnly == 1 or notice.homeOnly == 0 %}
+    {% if notice.topNotice == 1 %}
+    {% if notice.topLock ==1%}
+    {% if notice.showType==1 %}
+    {% assign arr1 = '#fff' | SplicingString: 'fixed' | split: "," %}
+    {% else %}
+    {% assign arr1 = notice.backgroundColor | SplicingString: 'fixed' | split: "," %}
+    {% endif %}
+    {% else%}
+    {% if notice.showType==1 %}
+    {% assign arr1 = '#fff' | SplicingString: 'relative' | split: "," %}
+    {% else %}
+    {% assign arr1 = notice.backgroundColor | SplicingString: 'relative' | split: "," %}
+    {% endif %}
+    {% endif %}
+    {% assign arr2 = 'background-color,position' | split: "," %}
+    <div class="activedBox" id="top-actived" {% if notice.topLock==1 %} {{ '0.24rem' | stylesheetTag:'height'}} {% endif
+      %}>
+      <div class="actived" {{ arr1 | stylesheetTag:arr2,3}}>
+        <div class="activedContent" onclick="routerJump('{{notice.linkUrl  | LINKURL:notice.linkStatus }}')">
+          {% if notice.showType==1 %}
+          <img class="lazyload"
+            data-original="{{notice.picNoticeWap | IMGURL:'../assets/pc/images/followUs-preloader.png',notice.picNoticePc}}"
+            {% if
+            isLocal==1%}src="{{notice.picNoticeWap | IMGURL:'../assets/pc/images/followUs-preloader.png',notice.picNoticePc}}"
+            {%endif%}>
+          {% else %}
+          {{notice.copywriting }}
+          {% endif %}
+        </div>
+        <div class="actived-close bg" id="actived-close"
+          style="background-image: url(../assets/pc/images/btn_close@2x.png);"></div>
+      </div>
+    </div>
+    {% endif %}
+    {% endif %}
+    <div class="toolbar alginCenter">
+      <div class="toolbar-left" id="toolbar-menu">
+        <div class="toolbar-menu bg" style="background-image: url(../assets/wap/images/home_more_but.png);"></div>
+      </div>
+      <div class="toolbar-center">
+        <a onclick="routerJump('index.html')" class="logo bg" style="background-image:url({{logo}})"></a>
+      </div>
+      <div class="toolbar-right">
+        <a class="homeOrder" onclick="routerJump('search.html')">
+          <img src="../assets/wap/images/home_order_but_wap@2x.png">
+        </a>
+        <a class="homeBag bg" onclick="routerJump('orderSearch.html')">
+          <img src="../assets/wap/images/home_search_but_wap@2x.png">
+        </a>
+        <a class="homeChat bg  home_cart">
+          <i>0</i>
+          <img src="../assets/wap/images/home_cart_but_wap@2x.png">
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="menu " id="menu">
+  <div class="modal" id="modal"></div>
+  <div class="menu-outer" id="menu-outer">
+    <div class="menu-title">
+      <div class="close-outer bg" id="close-outer"
+        style="background-image: url(../assets/wap/images/close_btn@2x.png);">
+      </div>
+      <div class="title">LIST</div>
+    </div>
+    {% comment %}取一级菜单下，分类菜单的图片{% endcomment %}
+    {% for item in categoryData %}
+    {% if item.linkType == 0 %}
+    {% if item.picWap.size>0 %}
+    {% assign pic = item.picWap | IMGURL %}
+    <a href="javascript:;" onclick="routerJump('{{item.linkUrl | LINKURL:item.linkStatus }}')" class="menu-mainImg bg"
+      style="background-image:url({{pic}})"></a>
+    {% break %}
+    {% elsif item.picPc.size>0 %}
+    {% assign pic = item.picPc | IMGURL %}
+    <a href="javascript:;" onclick="routerJump('{{item.linkUrl | LINKURL:item.linkStatus }}')" class="menu-mainImg bg"
+      style="background-image:url({{pic}})"></a>
+    {% break %}
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+
+    <div class="menu-list">
+      {% if categoryData.size>0 %}
+      {% for item in categoryData %}
+      <a {% if item.childList.size>0 %}href="javascript:;" {% else
+        %}onclick="routerJump('{{item.linkUrl | LINKURL:item.linkStatus }}')" {% endif %}
+        class="menu-list-item menuItems" categoryId="{{item.id}}">
+        <div class="menu-list-item-content" {% if item.childList.size> 0 %}{% else %}style="display:flex; align-items:
+          center;" {%endif%}>
+          <p class="overflow_1">{{item.name}}</p>
+          {% if item.childList.size>0 %}
+          {% assign childList = item.childList | get: 2 %}
+          {% assign names = childList | map: "name" %}
+          <p class="overflow_1">{{names | split: ","}}</p>
+          {% else %}
+          <p></p>
+          {% endif %}
+        </div>
+        <div class="menu-list-item-icon bg"></div>
+      </a>
+      {% endfor %}
+      {% endif %}
+
+    </div>
+    <div class="coutriesShow">
+      <div class="coutriesFlag">
+        <img src="" alt="" class="">
+      </div>
+      <div class="coutriesName">Convert Currency</div>
+      <div class="coutriesMoney"></div>
+    </div>
+  </div>
+  <div class="menu-inner" id="menu-inner">
+    <div class="menu-title">
+      <div class="back-inner bg" id="back-inner" style="background-image: url(../assets/wap/images/back_btn@2x.png);">
+      </div>
+      <div class="title overflow_1"></div>
+    </div>
+
+    <a class="menu-mainImg bg menuMainImg-inner"></a>
+    <a class="menu-list-card">
+      <div class="menu-list-card-content">
+        <p class="overflow_1"></p>
+        <!-- <p class="overflow_1"></p> -->
+      </div>
+      <div class="menu-list-card-icon bg"></div>
+    </a>
+    <div class="menu-list-box">
+      <div class="menu-list"></div>
+    </div>
+  </div>
+  <div class="wap_money_list_outer_container">
+    <div class="wap_money_list_container_masker"></div>
+    <div class="wap_money_list_container">
+      <div class="wap_money_list_Title clearfix">
+        <img src="../assets/wap/images/leftarrow.png" alt="" class="leftArrow fl">
+        <div class="fl wap_money_list_Title_text">Change Currency</div>
+      </div>
+      <ul class="coutries_list_container" data-id="{{moneyStatus}}">
+        <li class="coutries_list clearfix actived">
+          <img src="../assets/wap/images/money.png" alt="" class="fl coutries_list_flag">
+          <div class="fl coutries_list_text">USD</div>
+          <img src="../assets/wap/images/gou_icon@2x.png" alt="" class="fr choose_image">
+        </li>
+        <li class="coutries_list clearfix">
+          <img src="../assets/wap/images/money.png" alt="" class="fl coutries_list_flag">
+          <div class="fl coutries_list_text">USD</div>
+          <img src="../assets/wap/images/gou_icon@2x.png" alt="" class="fr choose_image">
+        </li>
+        <li class="coutries_list clearfix">
+          <img src="../assets/wap/images/money.png" alt="" class="fl coutries_list_flag">
+          <div class="fl coutries_list_text">USD</div>
+          <img src="../assets/wap/images/gou_icon@2x.png" alt="" class="fr choose_image">
+        </li>
+        <li class="coutries_list clearfix">
+          <img src="../assets/wap/images/money.png" alt="" class="fl coutries_list_flag">
+          <div class="fl coutries_list_text">USD</div>
+          <img src="../assets/wap/images/gou_icon@2x.png" alt="" class="fr choose_image">
+        </li>
+      </ul>
+    </div>
+  </div>
+  {% comment %}{% render 'cart.liquid',data:data %}{% endcomment %}
+  {% if isShow != true%}
+  {% render 'Athena/wap/components/cart.liquid',data:OBJ %}
+  {% endif %}
+
+</div>
+{% endif %}

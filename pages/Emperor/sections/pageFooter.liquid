@@ -1,0 +1,198 @@
+{% comment %}
+积木名称：pageFooter-页脚;
+{% endcomment %}
+{% comment %}配置数据{% endcomment %}
+{% assign picHolder = prePath | append: 'assets/images/icon-preloader.png' %}
+{% assign followUsHolder = prePath | append: 'assets/images/followUs-preloader.png' %}
+{% assign section = configData.config %}
+{% comment %}服务数据{% endcomment %}
+{% assign serveData = section.shop %}
+{% comment %}备案信息{% endcomment %}
+{% assign recordInfo = section.recordInfo %}
+{% comment %}底部公告{% endcomment %}
+{% assign noticeBottom = section.bottom %}
+
+<div class="footer" {% if noticeBottom.bottomLock==1 and recordInfo.length > 0 and noticeBottom.showBottom == 1 %} style="padding-bottom: 40px" {% endif %} id="homePageFooter">
+	<p class="footer-subscribe_success d-none">{{ 'i18n.newsletter.subscribe_success' | t: lang }}</p>
+	<p class="footer-subscribe_empty d-none">{{ 'i18n.newsletter.empty_address' | t: lang }}</p>
+	{% if serveData.shopInformation == 1 %}
+	<ul class="footer-serve row">
+		<li class="col-6 col-lg-3 text-center">
+			<img class="lazy-img" data-url="{{serveData.logisticsImg | IMGURL: picHolder}}" alt="" />
+			<p class="serve-title">{{serveData.logisticsMsg}}</p>
+		</li>
+		<li class="col-6 col-lg-3 text-center">
+			<img class="lazy-img" data-url="{{serveData.customerServiceImg | IMGURL: picHolder}}" alt="" />
+			<p class="serve-title">{{serveData.customerServiceMsg}}</p>
+		</li>
+		<li class="col-6 col-lg-3 text-center">
+			<img class="lazy-img" data-url="{{serveData.workTimeImg | IMGURL: picHolder}}" alt="" />
+			<p class="serve-title">{{serveData.workTimeMsg}}</p>
+		</li>
+		<li class="col-6 col-lg-3 text-center">
+			<img class="lazy-img" data-url="{{serveData.otherImg | IMGURL: picHolder}}" alt="" />
+			<p class="serve-title">{{serveData.otherMsg}}</p>
+		</li>
+	</ul>
+	{% endif %}
+	<div class="footer-link">
+		{% for item in section.menuList %}
+		{% if item.type == 0 %}
+		<div class="link-item">
+			<ul>
+				<li>{{item.pageClassifyId.name}}</li>
+				{% for page in item.pageClassifyId.pageList %}
+				<li><a href="static.html?pageid={{page.path}}">{{page.name}}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+		{% elsif item.type == 1%}
+		<div class="link-item" style="max-width:25%">
+			<ul>
+				<li>{{item.textTitle}}</li>
+				<li>{{item.textContent}}</li>
+			</ul>
+		</div>
+		{% else %}
+		<div class="link-item">
+			<ul>
+				<li>{{item.mailTitle}}</li>
+				<li class="foot-email clearfix">
+					<input type="text" autocomplete="off" name="footer-subscribe" id="footerSubscribe" placeholder="{{'i18n.newsletter.email_placeholder' | t: lang }}">
+					<button type="submit" id="submitSubscribe""><i class="iconfont icon-youjiantou"></i></button>
+				</li>
+			</ul>
+		</div>
+		{% endif %}
+		{% endfor %}
+		<div class="link-item followus">
+			<ul>
+				{% if section.followUs.size > 0 %}
+				{% for item in section.followUs %}
+				{% if item.status == 1 %}
+				<li>{{'i18n.index.footer_follow_us' | t: lang }}</li>
+				{% break %}
+				{% endif %}
+				{% endfor %}
+				<li>
+					{% for item in section.followUs %}
+					{% if item.status == 1 %}
+					<a href="{{item.link | LINKURL: item.linkStatus | default: 'javascript:void(0)'}}" target="_blank">
+						<img class="lazy-img" data-url="{{item.img | IMGURL: picHolder}}" alt="">
+					</a>
+					{% endif %}
+					{% endfor %}
+				</li>
+				{% endif %}
+				{% if section.isshowPayIcon == 1 %}
+				<li style="color:#fff">{{'i18n.index.footer_payment_methods' | t: lang }}</li>
+				<li class="payImage">
+					<a href="javascript:void(0)">
+						<img class="lazy-img" data-url="{{ section.payImage | IMGURL: followUsHolder}}" alt="">
+					</a>
+				</li>
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+
+
+	<div class="footer-mobile-link">
+		<div class="mobile-link">
+			{% for item in section.menuList %}
+			{% if item.type == 0 %}
+			<div class="mobile-link-item">
+				<p class="mobile-link_item--p"><span>{{item.pageClassifyId.name}}</span><span class="link-icon iconfont icon-add"></span></p>
+				<ul class="menu-extend">
+					{% for page in item.pageClassifyId.pageList %}
+					<li><a href="static.html?pageid={{page.path}}">{{page.name}}</a></li>
+					{% endfor %}
+				</ul>
+			</div>
+			{% elsif item.type == 1%}
+			<div class="mobile-link-item">
+				<p class="mobile-link_item--p"><span>{{item.textTitle}}</span><span class="link-icon iconfont icon-add"></span></p>
+				<ul class="menu-extend">
+					<li>{{item.textContent}}</li>
+				</ul>
+			</div>
+			{% else %}
+			<div class="mobile-link-item foot-emial">
+				<p class="mobile-link_item--p">{{item.mailTitle}}</p>
+				<ul class="email-list">
+					<li class="email-list-subscribe">
+						<input type="text" autocomplete="off" placeholder="{{ 'i18n.newsletter.email_placeholder' | t: lang }}" id="mobileSubscribeInput">
+						<button type="submit" id="mobileSubscribeButton"><i class="iconfont icon-youjiantou"></i></button>
+					</li>
+				</ul>
+			</div>
+			{% endif %}
+			{% endfor %}
+		</div>
+		<div class="mobile-payment">
+			<div class="payment-currency" id="paymentCurrency">
+				<img class="payment-currency-icon bg currency-main-img" src="https://shopvango.com/static-page/currency/USD.svg" />
+				<span class="payment-currency-text currency-main-unit"></span>
+			</div>
+			{% if section.followUs.size >0 %}
+			<div class="payment-fb">
+				{% for item in section.followUs %}
+				{% if item.status == 1 %}
+				<a href="{{item.link}}">
+					<img src="{{item.img | IMGURL: picHolder}}">
+				</a>
+				{% endif %}
+				{% endfor %}
+			</div>
+			{% endif %}
+			{% if section.isshowPayIcon == 1 %}
+			<div class="payment-pay">
+				<a href="javascript:void(0)">
+					<img src="{{section.payImage | IMGURL: followUsHolder}}">
+				</a>
+			</div>
+			{% endif %}
+		</div>
+		<div class="mobile-currency">
+			<div class="currency-head" id="currencyClose">
+				<strong>{{ 'i18n.index.footer_wap_currency' | t: lang }}</strong>
+				<span class="currency-close bg"></span>
+			</div>
+			{%render 'currency-select.liquid',currencyList:section.currency%}
+		</div>
+	</div>
+
+
+	{% if recordInfo.length>0 %}
+	<div class="footer-record">{{recordInfo}}</div>
+	{% endif %}
+	{% comment %}底部公告{% endcomment %}
+	{% if noticeBottom.homeOnly == 1 and htmlName != 'index' %}
+	{% else %}
+	{% if noticeBottom.showBottom == 1 %}
+	{% if noticeBottom.bottomLock == 1%}
+	{% assign arr1 = noticeBottom.backgroundColor | SplicingString: 'fixed' | split: "," %}
+	{% else%}
+	{% assign arr1 = noticeBottom.backgroundColor | SplicingString: 'relative' | split: "," %}
+	{% endif %}
+	{% assign arr2 = 'background-color,position' | split: "," %}
+	<div id="footNotice"
+	{% comment %} {% if noticeBottom.bottomLock==1 and htmlName=='index' %} style="height:40px" {% elsif noticeBottom.bottomLock==1 and htmlName !='index' %}style="height:40px" {% endif %}  {% endcomment %}
+	homeOnly="{{noticeBottom.homeOnly}}"
+		htmlName="{{htmlName}}">
+		<div class="foot-notice" {{ arr1 | stylesheetTag: arr2,3 }} {% if isPreview and isPreview !='' and noticeBottom.bottomLock==1 %}data-id='1' {% endif %}>
+			<a class="foot-notice-img" href="{{noticeBottom.linkUrl  | LINKURL: noticeBottom.linkStatus | default: 'javascript:void(0)' }}">
+				{% if noticeBottom.copywritingBanner == 1 %}
+				<img class="notice-img-pc" src="{{ noticeBottom.bannerPc | IMGURL: followUsHolder, noticeBottom.bannerWap }}" alt="">
+				<img class="notice-img-wap" src="{{ noticeBottom.bannerWap | IMGURL: followUsHolder, noticeBottom.bannerPc }}" alt="">
+				{% else %}
+				{{ noticeBottom.copywriting }}
+				{% endif %}
+			</a>
+			<span class="actived-close iconfont icon-fine-cross" id="footerActivedClose"> </span>
+		</div>
+		<div class="foot-empty"></div>
+	</div>
+	{% endif %}
+	{% endif %}
+</div>

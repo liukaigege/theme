@@ -1,0 +1,47 @@
+{% comment %}
+主题： Athena-雅典娜;
+积木名称：推荐分类样式;
+{% endcomment %}
+{% if item.linkStatus != 0%}
+{% assign href = 'productList_'| SplicingString:item.id,2 %}
+{% endif %}
+{% if isMobilePhone == 0 %}
+{% if item.pic.size>0 %}
+{% assign pic = item.pic %}
+{% elsif item.picPc.size>0%}
+{% assign pic = item.picPc %}
+{% elsif item.picWap.size>0 %}
+{% assign pic = item.picWap %}
+{% else %}
+{% assign pic = item.picGoods %}
+
+
+{% endif %}
+{% else %}
+{% if item.pic.size>0 %}
+{% assign pic = item.pic %}
+{% elsif item.picWap.size>0%}
+{% assign pic = item.picWap %}
+{% elsif item.picPc.size>0 %}
+{% assign pic = item.picPc %}
+{% else %}
+{% assign pic = item.picGoods %}
+
+
+{% endif %}
+{% endif %}
+{% if type == 1 %}
+<div class="itemsStyle2" isLocal="{{isLocal}}">
+  <a class="itemsStyle2-img bg lazyload" data-original="{{pic | IMGURL:'../assets/pc/images/preloader.png' }}"
+    onclick="routerJump('{{ href }}')" {% if
+    isLocal==1%}style="background-image:url({{ pic | IMGURL:'../assets/pc/images/preloader.png' }})" {%endif%}>
+  </a>
+  <div class="itemsStyle2-introduce overflow_1">{{item.name}}</div>
+</div>
+{% elsif type == 2 %}
+<a class="itemsStyle1 bg lazyload" data-original="{{ pic | IMGURL:'../assets/pc/images/preloader.png' }}"
+  onclick="routerJump('{{ href }}')" {% if
+  isLocal==1%}style="background-image:url({{ pic | IMGURL:'../assets/pc/images/preloader.png' }})" {%endif%}>
+  <div class="itemsStyle1-introduce overflow_1">{{item.name}} </div>
+</a>
+{% endif %}

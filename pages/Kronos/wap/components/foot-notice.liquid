@@ -1,0 +1,61 @@
+{% comment %}底部公告{% endcomment %}
+
+{% assign noticeBottom = configData.bottom %}
+{% if noticeBottom.showBottom == 1 %}
+{% if noticeBottom.homeOnly == 1 %}
+{% assign homeOnly = 1 %}
+{% endif %}
+{% if homeOnly == 1 and htmlName != 'index' %}
+{% else %}
+{% if noticeBottom.showBottom == 1 %}
+{% if noticeBottom.bottomLock == 1%}
+{% assign arr1 = noticeBottom.backgroundColor | SplicingString: 'fixed' | split: "," %}
+{% else%}
+{% assign arr1 = noticeBottom.backgroundColor | SplicingString: 'relative' | split: "," %}
+{% endif %}
+{% assign arr2 = 'background-color,position' | split: "," %}
+<style>
+  #foot-notice--paypal {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+  }
+
+  #order-checkbox--btn {
+    bottom: 0.28rem
+  }
+</style>
+<div id="foot-notice--paypal" bottomLock="{{noticeBottom.bottomLock}}" name="{{htmlName}}">
+  <div class="foot-notice" {{ arr1 | stylesheetTag:arr2,3}} {% if noticeBottom.bottomLock==1%}style="height:0.28rem" {%
+    endif %}>
+    <div class="footImgBox" onclick="routerJump('{{ noticeBottom.linkUrl  | LINKURL:noticeBottom.linkStatus }}')">
+      {% if noticeBottom.copywritingBanner == 1 %}
+      <img
+        src="{{ noticeBottom.bannerWap | IMGURL:'../assets/pc/images/followUs-preloader.png',noticeBottom.bannerPc }}">
+      {% else %}
+      {{ noticeBottom.copywriting }}
+      {% endif %}
+
+    </div>
+    <div class="active-close bg" id="active-close"
+      style="background-image: url('../assets/pc/images/btn_close@2x.png')">
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
+
+<script type="">
+  $(function () {
+    $('#active-close').on('click', function (e) {
+      e.stopPropagation()
+      e.preventDefault()
+      $(' #order-checkbox--btn').css('bottom', '0')
+      $('#foot-notice--paypal').hide()
+    })
+  })
+
+</script>

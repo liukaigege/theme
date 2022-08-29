@@ -1,0 +1,164 @@
+{% block content %}
+<link rel="stylesheet" href="../assets/css/cart-modal.css" type="text/css">
+<script>
+	window.i18n = {
+		refresh_tip: `{{ 'i18n.cart.please_refresh_after_updating_the_information' | t: lang }}`,
+		removed_tip: `{{ 'i18n.cart.one_product_has_been_removed_please_select_other_products' | t: lang }}`,
+		no_shopping_tip: `{{'i18n.cart.no_effective_product_is_in_your_shopping_cart' | t: lang}}`,
+		Sorry_invalid_coupon_code: `{{'i18n.cart.sorry_invalid_coupon_code' | t: lang}}`,
+		Enter_a_valid_discount_code: `{{'i18n.cart.enter_a_valid_discount_code' | t: lang}}`,
+		price_zero: `{{'i18n.cart.price_zero' | t: lang}}`,
+		wait_tip: `{{'i18n.cart.wait_tip' | t: lang}}`,
+		cart_top_title: `{{'i18n.cart.cart_top_title' | t: lang}}`,
+		No_Thanks: `{{'i18n.cart.no_thanks' | t: lang}}`,
+		order_tip: `{{'i18n.cart.order_tip' | t: lang}}`,
+		straitened_money: `{{'i18n.cart.straitened_money' | t: lang,difference:"111" }}`,
+		straitened_PSC: `{{'i18n.cart.straitened_PSC' | t: lang,difference:'111' }}`,
+		cart_expired: `{{'i18n.information.cart_expired' | t: lang}}`,
+		product_price: `{{'i18n.payment.product_price' | t: lang}}`,
+		discount: `{{'i18n.cart.discount' | t: lang}}`,
+		shipping_cost: `{{'i18n.cart.shipping_cost' | t: lang}}`,
+		total: `{{'i18n.payment.total' | t: lang}}`
+	}
+</script>
+<div class="cart-modal cart-modal--event">
+	<div class="cart-modal-content">
+		<div class="cart-container">
+			<div class="cart-header">
+				<h5 class="cart-title">{{'i18n.cart.shopping_cart' | t: lang}}</h5>
+				<button type="button" class="close close--event" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="scroll-container list-container list-container--event container">
+				<div class="cart-left">
+					<div class="cart-list--tip hide">
+						<span>{{ 'i18n.cart.cart_top_title' | t: lang, money:'<span
+								class="cart_modal_money--event cart-modal-money">0</span>'
+							}}</span> <a href="productList.html" class="cart_icon--close">{{'i18n.cart.buy_more' | t:
+							lang}}</a>
+					</div>
+					<div class="cart-list--header">
+						<div class="cart-product">{{'i18n.cart.item' | t: lang}}</div>
+						<div class="cart-price">{{'i18n.cart.price' | t: lang}}</div>
+						<div class="cart-quantity">{{'i18n.cart.quantity' | t: lang}}</div>
+						<div class="cart-total">{{'i18n.cart.total' | t: lang}}</div>
+						<div class="cart-delete">{{'i18n.cart.remove' | t: lang}}</div>
+					</div>
+					<ul class="cart-list goods-container--event" id="goods-container">
+
+					</ul>
+					<div class="cart-footer">
+						<div class="cart-coupon-container cart-footer-container">
+							<!-- COUPON -->
+							<div class=" cart-footer-title cart-footer-title--event cart-footer-title">
+								{{'i18n.cart.conpon' | t: lang}}
+							</div>
+							<div class="cart-footer-content cart-coupon-content cart-coupon-content--event">
+								<div class="coupon-list-container">
+									<p class="cart-coupon-title">{{'i18n.cart.select_your_coupon' | t: lang}}</p>
+									<ul class="coupon-list-content coupon-list-content--event">
+										{% comment %} 优惠券列表 {% endcomment %}
+									</ul>
+									<div class="shopcart-or"><span>OR</span></div>
+								</div>
+								<p class="cart-footer-title">{{'i18n.cart.have_a_discount_code' | t: lang}}</p>
+								<div class="cart-flex-container">
+									<div class="cart-flex-list cart-flex-list-input">
+										<input type="text" placeholder="{{'i18n.cart.code' | t: lang}}"
+											class="cart-coupon-code-inps" id="discount_code--input">
+									</div>
+									<div class="cart-flex-list cart-flex-list-button">
+										<button class="apply_btn button-general-font apply-btn--event ">{{'i18n.cart.apply' | t:
+											lang}}</button>
+									</div>
+								</div>
+								<ul class="history_list">
+									{% comment %} 优惠券码列表 code coupon {% endcomment %}
+								</ul>
+							</div>
+							<!-- PROMOTION DISCOUNT -->
+							<div class="promotion-discount promotion-discount--event">
+								<div class="cart-left-right-content cart-left cart-footer-title ">
+									{{'i18n.cart.promotion_discount' | t: lang}}</div>
+								<div class="cart-footer-content cart-discount-content">
+									<ul class="cart-discount-list-container--event">
+										{% comment %} 折扣列表 {% endcomment %}
+									</ul>
+								</div>
+							</div>
+							<!-- SHIPPING METHOD -->
+							<div class="shipping-method">
+								<div class="cart-left-right-content cart-left cart-footer-title">
+									{{'i18n.cart.shipping_method' |
+									t: lang}}</div>
+								<ul class="cart-footer-content cart-coupon-content cart-shipping-container--event">
+									{% comment %} 物流运费列表 {% endcomment %}
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="cart-right summary">
+					<div class="cart-section--title" data-action="toggle-collapsible" disabled="disabled">
+						<span>{{'i18n.cart.summary' | t: lang}}</span> <i></i>
+					</div>
+					<div class="cart-section--content shopcart-box" disabled="">
+						<!-- Order Info -->
+						<ul class="cart-footer-content order-info-container" id="total-list">
+							{% comment %} 购物车信息 {% endcomment %}
+						</ul>
+						<!-- Pay Info -->
+						<div class="dynamic-checkout dynamic-checkout--loading">
+							<div class="dynamic-checkout__skeleton">
+								<div class="placeholder-line placeholder-line--animated"></div>
+								<div class="placeholder-line placeholder-line--animated"></div>
+							</div>
+							<div class="dynamic-checkout__buttons">
+								<div id="paypal-button-container"></div>
+							</div>
+						</div>
+						<div class="shopcart-or"><span>OR</span></div>
+						<div class="check-out-order">
+							<button class="check-out-order--event button-general-font">{{'i18n.cart.checkout' | t: lang}}</button>
+						</div>
+						{% comment %} <div class="to-cart-btn">
+							<a href="./cart.html">{{ 'i18n.cart.to_cart' | t: lang }}</a>
+						</div> {% endcomment %}
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div class="scroll-container cart-empty-default--event">
+			<div class="empty-container">
+				<img src="../assets/images/cart-empty.png" alt="">
+				<p>{{'i18n.cart.your_cart_is_empty' | t: lang}}</p>
+			</div>
+			<div class="check-cart-btn"><a href="./productList.html">{{'i18n.cart.continue_shopping' | t: lang}} </a>
+			</div>
+			{% comment %} {% render 'guess-you-like',lang:lang %} {% endcomment %}
+			<div>
+				{% assign randomProduct = detailData | random %}
+				{% render 'product-guess-you-like',perLineNum:2, detail: randomProduct ,categoryData: categoryData,detailData: detailData,lang: lang, id:'modalId' %}
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+{%- comment -%} 引入购物车弹框模块{%- endcomment -%}
+{% render 'cart-goods',lang:lang %}
+{% render 'cart-coupon',lang:lang %}
+{% render 'cart-total',lang:lang %}
+{% render 'cart-promotion',lang:lang %}
+{% render 'cart-shipping',lang:lang %}
+<script src="../assets/js/jquery.base64.js"></script>
+<script src="../assets/js/message.js"></script>
+<script src="../assets/js/cart.js"></script>
+<script>
+	$('.close--event').on('click', function () {
+		$('.cart-modal--event').hide()
+	})
+</script>
+{% endblock %}

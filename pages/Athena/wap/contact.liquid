@@ -1,0 +1,99 @@
+{% layout 'Athena/components/Athena_theme' name:'contact' %}
+{% block 'content' %}
+{% render 'Athena/components/pageHeader',configData: blockData.first,isMobilePhone: isMobilePhone,OBJ:data %}
+<div class="contact_main">
+  <div class="contact_header">
+    <h1>Contact us</h1>
+    <p>Want to get in touch with us?<br>Just fill in the form below and we'll get back to you as soon as possible.
+    </p>
+  </div>
+  <div class="layout">
+    <div class="layout__section">
+      <form id="contact_form" class="form layui-form">
+        <div class="form__header">
+          <h2 class="heading h3">Leave your message</h2>
+        </div>
+        <div class="form__input-row">
+          <div class="form__input-wrapper form__input-wrapper--labelled layui-form-item">
+            <label for="contact-form-name" class="form__floating-label">Your name</label>
+            <input id="contact-form-name" lay-verify="required" lay-reqtext="Enter your name" value="" type="text"
+              class="form__field form__field--text" name="name">
+          </div>
+          <div class="form__input-wrapper form__input-wrapper--labelled layui-form-item">
+            <input id="contact-form-email" type="email" lay-verify="required|len|newEmail" value=""
+              lay-reqtext="Enter your email address" class="form__field form__field--text" name="email">
+            <label for="contact-form-email" class="form__floating-label">Your email</label>
+          </div>
+        </div>
+        <div class="form__input-wrapper form__input-wrapper--labelled layui-form-item">
+          <input id="contact-form-your-phone-optional" type="text" value="" lay-reqtext="Enter your phone number"
+            class="form__field form__field--text" name="phone">
+          <label for="contact-form-your-phone-optional" class="form__floating-label">Phone Number (optional)</label>
+        </div>
+        <div class="form__input-wrapper form__input-wrapper--labelled layui-form-item form__textarea-wrapper">
+          <textarea id="contact-form-message" value="" lay-verify="required" lay-reqtext="Enter your message"
+            name="message" rows="8" class="form__field form__field--textarea"></textarea>
+          <label for="contact-form-message" class="form__floating-label">Your message</label>
+        </div>
+        <div class="layui-form-item">
+          <button type="button" lay-submit="" lay-filter="commentBtn"
+            class=" button contactBtn button--primary button--min-width">Send message</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script src="../assets/wap/js/layui/layui.js"></script>
+<script>
+  $(function () {
+    layui.config({
+      version: true,
+      base: '/layui'
+    }).use(['jquery', 'layer', 'form'], function () {
+      var $ = layui.jquery,
+        layer = layui.layer,
+        form = layui.form;
+
+      form.verify({
+        len: function (value) {
+          if (value.length > 60) {
+            return 'Mailbox length more than 60';
+          }
+        },
+        newEmail: function (value) {
+          if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9])+$/.test(value)) {
+            return 'Enter a valid email address';
+          }
+        },
+        newPhone: function (value) {
+          if (!/^[0-9\+\-\(\)\#\s]{1,30}$/g.test(value)) {
+            return 'Enter a valid phone number';
+          }
+        },
+      });
+      form.on('submit(commentBtn)', function (data) {
+        var submitIndex = layer.load(2);
+        $.req({
+          url: '/api/v1/user/message',
+          type: 'post',
+          contentType: 'application/json;charset=UTF-8',
+          data: JSON.stringify(data.field),
+          success(res) {
+            layer.close(submitIndex);
+            layer.msg(res.msg, {
+              time: 1000,
+              icon: 6
+            }, function () {
+              $('.successText').removeClass('hide');
+              $('.container--medium').addClass('hide');
+            });
+          }
+        });
+        return false;
+      });
+    });
+  });
+</script>
+<!-- footer -->
+{% render 'Athena/components/pageFooter' ,configData: blockData.last ,isMobilePhone: isMobilePhone,OBJ:data %}
+{% endblock %}

@@ -1,0 +1,62 @@
+{% comment %}
+主题： Athena-雅典娜;
+积木名称：推荐分类样式;
+{% endcomment %}
+{% assign picHolder = '../assets/pc/images/preloader.png' %}
+{% if item.linkStatus != 0%}
+{% assign href = 'productList_'| SplicingString:item.id,2 %}
+{% endif %}
+{% if isMobilePhone == 0 %}
+{% if item.pic.size>0 %}
+{% assign pic = item.pic %}
+{% elsif item.picPc.size>0%}
+{% assign pic = item.picPc %}
+{% elsif item.picWap.size>0 %}
+{% assign pic = item.picWap %}
+{% else %}
+{% assign pic = item.picGoods %}
+
+
+{% endif %}
+{% else %}
+{% if item.pic.size>0 %}
+{% assign pic = item.pic %}
+{% elsif item.picWap.size>0%}
+{% assign pic = item.picWap %}
+{% elsif item.picPc.size>0 %}
+{% assign pic = item.picPc %}
+{% else %}
+{% assign pic = item.picGoods %}
+
+
+{% endif %}
+{% endif %}
+{% if type == 1 %}
+<div class="itemsStyle2" isLocal="{{isLocal}}">
+  <a class="itemsStyle2-img bg" data-original="{{pic | IMGURL:picHolder }}" onclick="routerJump('{{ href }}')"
+    style="background-image:url('{{ pic | IMGURL:picHolder }}')">
+  </a>
+  <div class="itemsStyle2-introduce overflow_1">{{item.name}}</div>
+</div>
+{% elsif type == 2 %}
+<a class="itemsStyle1 bg" data-original="{{ pic | IMGURL:picHolder }}" onclick="routerJump('{{ href }}')"
+  style="background-image:url('{{ pic | IMGURL:picHolder }}')">
+  <div class="itemsStyle1-introduce overflow_1">{{item.name}} </div>
+</a>
+{% elsif type == 3 %}
+{% if isMobilePhone == 0 %}
+<div class="itemsStyle2" isLocal="{{isLocal}}">
+  <a class="itemsStyle2-img bg" data-original="{{ pic | IMGURL:picHolder }}" onclick="routerJump('{{ href }}')"
+    style="background-image:url('{{ pic | IMGURL:picHolder }}')">
+  </a>
+  <div class="itemsStyle3-introduce overflow_1">{{item.name}} </div>
+</div>
+{%else%}
+<div class="itemsStyle2" isLocal="{{isLocal}}">
+  <a class="itemsStyle2-img bg" data-original="{{ pic | IMGURL:picHolder }}" onclick="routerJump('{{ href }}')"
+    style="background-image:url('{{ pic | IMGURL:picHolder }}')">
+  </a>
+  <div class="itemsStyle3-introduce  overflow_1">{{item.name}} </div>
+</div>
+{% endif %}
+{% endif %}

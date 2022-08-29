@@ -1,0 +1,74 @@
+{% comment %}
+* 查询图片预览
+* 在theme引入，全局调用
+* 使用方法1: queryImages(url)
+* 使用方法2: 将点击元素加特定类class和属性 如：<span class="iconfont icon-img cart-icon-img--event" data-src="imagesUrl"></span>
+{% endcomment %}
+<style>
+	.query-images-container {
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		left: 0;
+		top: 0;
+		z-index: 999999;
+		display: none;
+	}
+	.query-images-masker {
+		background-color: rgba(0, 0, 0, 0.6);
+		width: 100%;
+		height: 100%;
+	}
+	.query-images-content {
+		width: 100%;
+		height: 100%;
+		background-color: #fff;
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+	.query-images-content-images {
+		max-width: 100%;
+		max-height: 100%;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+	}
+	.query-images-close{
+		position: absolute;
+		right: 20px;
+		top: 20px;
+		font-size: 24px;
+		text-shadow: 1px 1px 2px black, 0 0 1em black;
+		color: #fff;
+	}
+	.query-images-close:hover{
+		cursor: pointer;
+		opacity: 0.85;
+	}
+</style>
+<script>
+	function queryImages(url){
+		$('body').append(`
+			<div class="query-images-container query-images-container--event">
+				<div class="query-images-masker"></div>
+				<div class="query-images-content">
+					<img class="query-images-content-images query-images-content-images--event"
+						src="${url}"
+						alt="">
+						<span class="iconfont icon-fine-cross query-images-close query-images-close--event"></span>
+				</div>
+			</div>
+		`)
+		$('.query-images-container--event').show(500)
+	}
+	$('body').on('click','.query-images-close--event',function(){
+		$(this).parents('.query-images-container--event').hide(500)
+		let removeTimer = null
+		clearTimeout(removeTimer)
+		removeTimer = setTimeout(()=>$(this).parents('.query-images-container--event').remove(),500)
+	}).on('click', '.cart-icon-img--event', function () {
+		queryImages($(this).data('src'))
+	})
+</script>

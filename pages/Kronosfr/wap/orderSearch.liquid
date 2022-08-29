@@ -1,0 +1,42 @@
+{% layout 'Kronosfr/components/Kronosfr_theme' name:'orderSearch' %}
+{% block 'content' %}
+{% render 'Kronosfr/components/pageHeader',configData: blockData.first,isMobilePhone: isMobilePhone,OBJ:data %}
+<div class="content">
+  <div class="title">
+    Suivre vos commandes
+  </div>
+  <input placeholder="Saisissez le courriel ou l'id de commande à suivre" id="orderEmail">
+  <button class="content_btn">Suivi </button>
+  <div class="content_descrip">Les commandes pour lesquelles le paiement a été confirmé seront expédiées dans un délai
+    de 2 jours ouvrables, tandis que
+    les commandes
+    Ceux qui sont laissés pour le week - end seront expédiés la semaine prochaine. Les délais de livraison peuvent
+    varier
+    selon la destination et le lieu
+    Services de transport de votre choix.</div>
+</div>
+<script>
+  $(function () {
+    layui.config({
+      version: true,
+      base: '/layui'
+    }).use(['jquery', 'layer'], function () {
+      $('.content_btn').on('click', function (event) {
+        event.stopPropagation();
+        var strVal = $('#orderEmail').val().replace(/\s+/g, "");
+        if (($('#orderEmail').val() && !strVal) || !$('#orderEmail').val()) {
+          layer.msg('email or order id is no!', {
+            icon: 5,
+            time: 1500,
+            success() {
+              $('.layui-layer-msg').addClass('coupon_msg');
+            }
+          });
+        } else {
+          window.location.href = './orderDetail.html?orderId=' + encodeURI($('#orderEmail').val());
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}

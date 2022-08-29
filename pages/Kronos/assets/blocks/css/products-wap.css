@@ -1,0 +1,15 @@
+.recommendProducts {
+  margin: 0.2rem 0;
+}
+
+.recommendProducts .vshop-title-wap {
+  margin-bottom: 0.1rem;
+}
+
+.items-warp {
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 0 1.4%;
+  margin-top: 0.2rem;
+}

@@ -1,0 +1,587 @@
+{% assign couponData = data.configData.commomCoupon %}
+{% assign show = false %}
+{% if isShow and couponData.size > 0 %}
+{% for zitem in couponData %}
+{% if forloop.index == 1 %}
+
+{% if isPage == 'index' and zitem.indexDisplay == 1 %}
+{% assign show = true %}
+{% elsif isPage == 'productList' and zitem.categoryDisplay == 1 %}
+{% assign show = true %}
+{% elsif isPage == 'productDetail' and zitem.detailsDisplay == 1 %}
+{% assign show = true %}
+{% else %}
+{% assign show = false %}
+{% endif %}
+
+{% if show %}
+<div id="coupon_html" data-start="{{zitem.start}}" data-end="{{zitem.end}}">
+    <div class='coupon_success'>
+        <div class="coupon_succ_img">
+            <div class="receive_status">{{zitem.title}}</div>
+            <div class="p_items">
+                {% for citem in zitem.list %}
+                {% if citem.activitiesRule == '0' %}
+                {% if citem.ruleResult == '0' %}
+                <div class="items single" data-id="{{citem.id}}" data-start="{{citem.couponStart}}"
+                    data-end="{{citem.couponEnd}}">
+                    <div class="coupon_code_bg">
+                        <div class="c_bg_inner">
+                            <span class="code_discount">
+                                <span class="symbol"></span>
+                                <span class="code_content" data-money="{{citem.ruleResultValue}}"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="items" data-id="{{citem.id}}" data-start="{{citem.couponStart}}"
+                    data-end="{{citem.couponEnd}}">
+                    <div class="coupon_code_bg">
+                        <div class="c_bg_inner">
+                            <span class="code_discount">
+                                <span class="code_content" data-rate="{{citem.ruleResultValue}}"></span>
+                                <span class="code_symbol">
+                                    <span>%</span>
+                                    <span>OFF</span>
+                                </span>
+                            </span>
+                            <span class="discount_count" data-descr="{{citem.ruleDesc}}"></span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% elsif citem.activitiesRule == '1' %}
+                {% if citem.ruleResult == '0' %}
+                <div class="items" data-id="{{citem.id}}" data-start="{{citem.couponStart}}"
+                    data-end="{{citem.couponEnd}}">
+                    <div class="coupon_code_bg">
+                        <div class="c_bg_inner">
+                            <span class="code_discount">
+                                <span class="symbol"></span>
+                                <span class="code_content" data-money="{{citem.ruleResultValue}}"></span>
+                            </span>
+                            <span class="discount_count" data-descr="{{citem.ruleDesc}}"></span>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="items" data-id="{{citem.id}}" data-start="{{citem.couponStart}}"
+                    data-end="{{citem.couponEnd}}">
+                    <div class="coupon_code_bg">
+                        <div class="c_bg_inner">
+                            <span class="code_discount">
+                                <span class="code_content" data-rate="{{citem.ruleResultValue}}"></span>
+                                <span class="code_symbol">
+                                    <span>%</span>
+                                    <span>OFF</span>
+                                </span>
+                            </span>
+                            <span class="discount_count" data-descr="{{citem.ruleDesc}}"></span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% elsif citem.activitiesRule == '2' %}
+                {% if citem.ruleResult == '0' %}
+                <div class="items" data-id="{{citem.id}}" data-start="{{citem.couponStart}}"
+                    data-end="{{citem.couponEnd}}">
+                    <div class="coupon_code_bg">
+                        <div class="c_bg_inner">
+                            <span class="code_discount">
+                                <span class="symbol"></span>
+                                <span class="code_content" data-money="{{citem.ruleResultValue}}"></span>
+                            </span>
+                            <span class="discount_count" data-descr="{{citem.ruleDesc}}"></span>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="items" data-id="{{citem.id}}" data-start="{{citem.couponStart}}"
+                    data-end="{{citem.couponEnd}}">
+                    <div class="coupon_code_bg">
+                        <div class="c_bg_inner">
+                            <span class="code_discount">
+                                <span class="code_content" data-rate="{{citem.ruleResultValue}}"></span>
+                                <span class="code_symbol">
+                                    <span>%</span>
+                                    <span>OFF</span>
+                                </span>
+                            </span>
+                            <span class="discount_count" data-descr="{{citem.ruleDesc}}"></span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="bin_area">
+            <button type="button" class="content_btn">{{zitem.buttonContent}}</button>
+        </div>
+        <div class="c_text">{{zitem.activityDescription}}</div>
+        <div class="img-wrap">
+            <div class="img-wrap-close"></div>
+        </div>
+    </div>
+</div>
+
+<div id="coupon_succ_html">
+    <div class='coupon_success'>
+        <div class="coupon_succ_img">
+            <div class="receive_status">SUCCESSFUL CLAIM</div>
+            <div class="receive_status_descripe"> Received Successfully.Discounts will be added automatically when
+                you checkout.
+            </div>
+        </div>
+        <div class="bin_area">
+            <button type="button" class="content_btn coupon_success_btn">GO SHOPPING</button>
+        </div>
+        <div class="img-wrap">
+            <div class="img-wrap-close"></div>
+        </div>
+    </div>
+</div>
+<style>
+    /* 关闭按钮图片 */
+    #coupon_receive {
+        max-width: 420px;
+        margin: 0 auto;
+    }
+
+    #coupon_html .img-wrap .img-wrap-close {
+        display: inline-block;
+        width: 0.24rem;
+        height: 0.24rem;
+        background: url(../assets/wap/images/cancel_but.png) no-repeat;
+        background-size: cover;
+    }
+
+    #coupon_html .coupon_success .coupon_succ_img {
+        display: inline-block;
+        width: 100%;
+        height: 3.64rem;
+        background: url(../assets/wap/images/bg_off.png) no-repeat;
+        background-size: cover;
+    }
+
+    @media screen and (-webkit-min-device-pixel-ratio: 2) {
+        #coupon_html .coupon_success .coupon_succ_img {
+            background: url(../assets/wap/images/bg_off@2x.png) no-repeat;
+            background-size: cover;
+        }
+
+        #coupon_html .img-wrap .img-wrap-close {
+            background: url(../assets/wap/images/cancel_but@2x.png) no-repeat;
+            background-size: cover;
+        }
+
+        .items .coupon_code_bg {
+            background: url(../assets/wap/images/off_bg@2x.png) no-repeat;
+            background-size: contain;
+        }
+    }
+
+    @media screen and (-webkit-min-device-pixel-ratio: 3),
+    screen and (min--moz-device-pixel-ratio: 3) {
+        #coupon_html .coupon_success .coupon_succ_img {
+            background: url(../assets/wap/images/bg_off@3x.png) no-repeat;
+            background-size: cover;
+        }
+
+        #coupon_html .img-wrap .img-wrap-close {
+            background: url(../assets/wap/images/cancel_but@3x.png) no-repeat;
+            background-size: cover;
+        }
+    }
+
+    #coupon_html {
+        display: none;
+        padding: 0 0.1rem
+    }
+
+    #coupon_html .coupon_success {
+        position: relative;
+        width: 100%;
+        margin: 0 auto;
+        padding-bottom: 0.54rem;
+    }
+
+    #coupon_html .img-wrap {
+        position: absolute;
+        text-align: center;
+        width: 100%;
+        left: 0;
+        bottom: 0;
+    }
+
+    #coupon_html .coupon_success .receive_status {
+        font-size: 0.28rem;
+        font-family: "Aileron-Bold, Aileron";
+        font-weight: bold;
+        color: #FFFFFF;
+        text-align: center;
+        margin-top: 0.15rem;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    #coupon_html .coupon_success .bin_area {
+        background: #fff;
+        box-shadow: 0px 20px 20px 0px rgba(0, 0, 0, 0.08);
+        /* border-radius: 2px; */
+        display: flex;
+        justify-content: center;
+    }
+
+    #coupon_html .c_text {
+        font-size: 0.12rem;
+        background: #fff;
+        color: #9B9B9B;
+        line-height: 1.25;
+        padding: 0 2.5% 0.14rem;
+    }
+
+    #coupon_html .bin_area .content_btn {
+        background: #DF0052;
+        border-radius: 2px;
+        font-size: 0.16rem;
+        font-family: "Aileron-Regular, Aileron";
+        font-weight: 400;
+        color: #FFFFFF;
+        width: 80%;
+        margin: 0.2rem auto;
+        padding: 0.05rem 0;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    /* 优惠券劵码 */
+    #coupon_html .items .coupon_code_bg {
+        display: inline-block;
+        width: 1.56rem;
+        height: 1rem;
+        background: url(../assets/wap/images/off_bg.png) no-repeat;
+        background-size: contain;
+        text-align: center;
+    }
+
+    #coupon_html .items .c_bg_inner {
+        padding-top: 0.23rem;
+    }
+
+    #coupon_html .coupon_code_bg .code_discount {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+    }
+
+    #coupon_html .single .coupon_code_bg .code_discount {
+        position: relative;
+        top: 0.06rem;
+    }
+
+    #coupon_html .coupon_code_bg .symbol {
+        font-size: 0.24rem;
+        font-family: "Aileron-Regular, Aileron";
+        font-weight: 400;
+        color: #DF0052;
+        line-height: 1;
+        position: relative;
+        top: -0.02rem;
+    }
+
+    #coupon_html .coupon_code_bg .code_discount .code_content {
+        font-size: 0.36rem;
+        font-family: "Aileron-Regular, Aileron";
+        font-weight: 400;
+        color: #DF0052;
+        line-height: 1;
+    }
+
+    #coupon_html .coupon_code_bg .code_symbol {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    #coupon_html .coupon_code_bg .code_symbol span:first-child {
+        font-size: 0.18rem;
+        font-family: "Aileron-Regular, Aileron";
+        font-weight: 400;
+        color: #DF0052;
+        line-height: 1;
+    }
+
+    #coupon_html .coupon_code_bg .code_symbol span:nth-child(2) {
+        font-size: 0.12rem;
+        font-family: "Aileron-Regular, Aileron";
+        font-weight: 400;
+        color: #DF0052;
+        line-height: 1.3;
+    }
+
+    #coupon_html .coupon_code_bg .discount_count {
+        font-size: 0.14rem;
+        font-family: "Aileron-Regular, Aileron";
+        font-weight: 400;
+        color: #DF0052;
+        line-height: 1.3;
+        padding-top: 0.05rem;
+    }
+
+    #coupon_html .coupon_success .p_items {
+        padding: 0 0.1rem;
+        margin: 0.1rem 0;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        overflow-y: auto;
+        height: 3rem;
+    }
+
+    #coupon_html .coupon_success .items {
+        margin: 0.20rem 0;
+    }
+
+    /* success */
+    #coupon_succ_html .img-wrap .img-wrap-close {
+        display: inline-block;
+        width: 0.24rem;
+        height: 0.24rem;
+        background: url(../assets/wap/images/cancel_but.png) no-repeat;
+        background-size: cover;
+    }
+
+    @media screen and (-webkit-min-device-pixel-ratio: 2) {
+        #coupon_succ_html .coupon_success .coupon_succ_img {
+            background: url(../assets/wap/images/bg_coupon@2x.png) no-repeat;
+            background-size: cover;
+        }
+
+        #coupon_succ_html .img-wrap .img-wrap-close {
+            background: url(../assets/wap/images/cancel_but@2x.png) no-repeat;
+            background-size: cover;
+        }
+    }
+
+    @media screen and (-webkit-min-device-pixel-ratio: 3),
+    screen and (min--moz-device-pixel-ratio: 3) {
+        #coupon_succ_html .coupon_success .coupon_succ_img {
+            background: url(../assets/wap/images/bg_coupon@3x.png) no-repeat;
+            background-size: cover;
+        }
+
+        #coupon_succ_html .img-wrap .img-wrap-close {
+            background: url(../assets/wap/images/cancel_but@3x.png) no-repeat;
+            background-size: cover;
+        }
+    }
+
+    #coupon_succ_html {
+        display: none;
+    }
+
+    #coupon_succ_html .coupon_success {
+        position: relative;
+        width: 70%;
+        margin: 0 auto;
+        padding-bottom: 0.54rem;
+    }
+
+    #coupon_succ_html .img-wrap {
+        position: absolute;
+        text-align: center;
+        width: 100%;
+        left: 0;
+        bottom: 0;
+    }
+
+    #coupon_succ_html .coupon_success .coupon_succ_img {
+        display: inline-block;
+        width: 100%;
+        height: 1.40rem;
+        background: url(../assets/wap/images/bg_coupon.png) no-repeat;
+        background-size: cover;
+    }
+
+    #coupon_succ_html .coupon_success .receive_status {
+        font-size: 0.16rem;
+        font-family: "Aileron-SemiBold, Aileron";
+        font-weight: 600;
+        color: #FFFFFF;
+        line-height: 1.5;
+        text-align: center;
+        padding-top: 0.22rem;
+    }
+
+    #coupon_succ_html .coupon_success .receive_status_descripe {
+        font-size: 0.12rem;
+        font-family: "Aileron-Regular, Aileron";
+        font-weight: 400;
+        color: #FFFFFF;
+        line-height: 1.3;
+        text-align: left;
+        padding: 0.20rem 0.30rem 0;
+    }
+
+    #coupon_succ_html .coupon_success .bin_area {
+        background: #fff;
+        box-shadow: 0px 20px 20px 0px rgba(0, 0, 0, 0.08);
+        border-radius: 2px;
+        display: flex;
+        justify-content: center;
+    }
+
+    #coupon_succ_html .bin_area .content_btn {
+        background: #DF0052;
+        border-radius: 2px;
+        font-size: 0.16rem;
+        font-family: "Aileron-Regular, Aileron";
+        font-weight: 400;
+        color: #FFFFFF;
+        width: 62%;
+        margin: 0.2rem auto;
+        padding: 0.05rem 0;
+    }
+</style>
+<script>
+    layui.config({
+        version: true,
+        base: '/layui'
+    }).use(['jquery', 'layer'], function () {
+        let $ = layui.jquery,
+            layer = layui.layer,
+            $cArr = '';
+        couponLogic();
+        function couponLogic() {
+            $('#coupon_html .items').each(function (index, el) {
+                let start = $(el).attr('data-start'),
+                    end = $(el).attr('data-end');
+                if (!contrastTime(true, end, start)) {
+                    $(el).remove();
+                } else {
+                    function couponLiquid() {
+                        $('#coupon_html .items').each(function (index, el) {
+                            let start = $(el).attr('data-start'),
+                                end = $(el).attr('data-end'),
+                                money = Number($(el).find('[data-money]').attr('data-money')),
+                                rate = Number($(el).find('[data-rate]').attr('data-rate')),
+                                dDescr = $(el).find('[data-descr]').attr('data-descr');
+                            if (!contrastTime(true, end, start)) {
+                                $(el).remove();
+                            } else {
+                                if (money && money != '' && Object.prototype.toString.call(money).slice(8, -1) != 'Null') {
+                                    let symbol = JSON.parse(getStorage('currentRate')).symbol;
+                                    $(el).find('.symbol').html(symbol);
+                                    $(el).find('[data-money]').html(getCouponMoney(money));
+                                }
+
+                                if (rate && rate != '' && Object.prototype.toString.call(rate).slice(8, -1) != 'Null') {
+                                    $(el).find('[data-rate]').html(rate * 10);
+                                } else {
+                                    $(el).find('[data-rate]').html(0);
+                                }
+
+                                if (dDescr && dDescr != '' && Object.prototype.toString.call(dDescr).slice(8, -1) != 'Null') {
+                                    $(el).find('[data-descr]').html(descr(dDescr));
+                                }
+                            }
+                        });
+                    }
+                    couponLiquid();
+
+                    if (index == 0) {
+                        $cArr = $(el).attr('data-id');
+                    } else {
+                        $cArr = $cArr + ',' + $(el).attr('data-id');
+                    }
+
+                }
+            });
+
+            let couponStart = $('#coupon_html').attr('data-start'),
+                couponEnd = $('#coupon_html').attr('data-end');
+            if (!getSessionStorage('isGetCoupon') && contrastTime(true, couponEnd, couponStart)) {
+                setTimeout(function () {
+                    couponDialog();
+                }, 1000);
+            }
+        }
+
+        function couponDialog() {
+            let $index = layer.open({
+                type: 1,
+                title: false,
+                id: 'coupon_receive',
+                area: $(window).width() + 'px',
+                shade: [0.5, '#000000'],
+                content: $('#coupon_html'),
+                closeBtn: 0,
+                success: function () {
+                    $('#coupon_html .img-wrap').on('click', function (event) {
+                        event.stopPropagation();
+                        layer.close($index);
+                        setSessionStorage('isGetCoupon', true);
+                    });
+
+                    $('#coupon_html .content_btn').on('click', function (event) {
+                        event.stopPropagation();
+                        getToken(function () {
+                            $.req({
+                                url: '/api/v1/goods/coupon',
+                                type: 'get',
+                                data: {
+                                    couponId: $cArr,
+                                    type: '1'
+                                },
+                                success(res) {
+                                    console.log(res)
+                                    layer.close($index);
+                                    if (res.code == 0) {
+                                        //设置已经领取优惠券标识
+                                        setSessionStorage('isGetCoupon', true);
+                                        suCouponDialog();
+                                    } else {
+                                        layer.msg(res.msg, {
+                                            icon: 5,
+                                            time: 1650,
+                                            success() {
+                                                $('.layui-layer-msg').addClass('coupon_msg');
+                                            }
+                                        });
+                                    }
+                                }, error: function () {
+                                    console.log('失败')
+                                }
+                            });
+                        });
+                    });
+
+                    function suCouponDialog() {
+                        let $innerIndex = layer.open({
+                            type: 1,
+                            title: false,
+                            area: $(window).width() + 'px',
+                            shade: [0.5, '#000000'],
+                            content: $('#coupon_succ_html'),
+                            closeBtn: 0,
+                            success: function () {
+                                $('#coupon_succ_html .img-wrap,.coupon_success_btn').on('click', function () {
+                                    layer.close($innerIndex);
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    });
+</script>
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}
